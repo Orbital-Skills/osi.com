@@ -663,7 +663,7 @@
     </section>
 
     <!-- Registration Form Section -->
-    <section id="registration" class="section-padding bg-gray-50">
+    <section id="orbitalForm" class="section-padding bg-gray-50">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">Student Registration</h2>
@@ -682,73 +682,191 @@
                     </div>
                 </div>
                 
-               
-<form id="orbitalForm">
-  <label>Full Name | पूरा नाम *</label>
-  <input type="text" name="FullName" required>
+                <form id="registration-form" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Full Name | पूरा नाम <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="fullname" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter your full name">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Father's/Mother's Name | पिता/माता का नाम <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="parentname" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter parent's name">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Date of Birth | जन्म तिथि <span class="text-red-500">*</span>
+                            </label>
+                            <input type="date" name="dob" required class="w-full px-4 py-3 rounded-lg form-input">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Gender | लिंग <span class="text-red-500">*</span>
+                            </label>
+                            <select name="gender" required class="w-full px-4 py-3 rounded-lg form-input">
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male | पुरुष</option>
+                                <option value="Female">Female | महिला</option>
+                                <option value="Other">Other | अन्य</option>
+                            </select>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Address | पता <span class="text-red-500">*</span>
+                            </label>
+                            <textarea name="address" required rows="3" class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter your complete address"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                District | जिला <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="district" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter district">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                State | राज्य <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="state" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter state">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Email | ईमेल <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" name="email" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="your.email@example.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Mobile Number | मोबाइल नंबर <span class="text-red-500">*</span>
+                            </label>
+                            <input type="tel" name="mobile" required pattern="[0-9]{10}" class="w-full px-4 py-3 rounded-lg form-input" placeholder="10-digit mobile number">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Course Choice | पाठ्यक्रम चयन <span class="text-red-500">*</span>
+                            </label>
+                            <select name="course" required class="w-full px-4 py-3 rounded-lg form-input">
+                                <option value="">Select Course</option>
+                                <option value="Electrician">Electrician | इलेक्ट्रीशियन</option>
+                                <option value="Fireman">Fireman | फायरमैन</option>
+                                <option value="Plumber">Plumber | प्लंबर</option>
+                                <option value="Beautician">Beautician | ब्यूटीशियन</option>
+                                <option value="Boutique">Boutique Design | बुटीक डिजाइन</option>
+                                <option value="Computer">Computer Skills | कंप्यूटर कौशल</option>
+                                <option value="Welder">Welder | वेल्डर</option>
+                                <option value="ECCE">ECCE | प्रारंभिक बाल देखभाल</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Previous Qualification | पिछली योग्यता <span class="text-red-500">*</span>
+                            </label>
+                            <select name="qualification" required class="w-full px-4 py-3 rounded-lg form-input">
+                                <option value="">Select Qualification</option>
+                                <option value="Class 8">Class 8 | कक्षा 8</option>
+                                <option value="Class 10">Class 10 | कक्षा 10</option>
+                                <option value="Class 12">Class 12 | कक्षा 12</option>
+                                <option value="Graduate">Graduate | स्नातक</option>
+                                <option value="Other">Other | अन्य</option>
+                            </select>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Upload Photo | फोटो अपलोड करें <span class="text-red-500">*</span>
+                            </label>
+                            <input type="file" name="photo" accept="image/*" required class="w-full px-4 py-3 rounded-lg form-input">
+                            <p class="text-sm text-gray-500 mt-1">Recent passport size photo (JPG/PNG, max 2MB)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="terms" required class="mt-1">
+                        <label for="terms" class="text-sm text-gray-600">
+                            I agree to the terms and conditions and confirm that all information provided is accurate. | मैं नियमों और शर्तों से सहमत हूं और पुष्टि करता हूं कि प्रदान की गई सभी जानकारी सटीक है।
+                        </label>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <button type="submit" class="btn-primary text-white px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Submit Registration | पंजीकरण जमा करें</span>
+                        </button>
+                        <a href="#" class="btn-outline px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2">
+                            <i class="fas fa-download"></i>
+                            <span>Download Prospectus | प्रोस्पेक्टस डाउनलोड</span>
+                        </a>
+                    </div>
+                </form> 
+                
+<script>
+  // ✅ Apps Script Web App URL (your /exec)
+  const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwqurvxrYA41D5aexnrY0sapf_Md9tdcW4JuUKPPaa1gKG00ED6tmk7ZPeTgXp_FCIt/exec';
 
-  <label>Father's/Mother's Name | पिता/माता का नाम *</label>
-  <input type="text" name="FatherMotherName" required>
+  document.getElementById('orbitalForm').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const form = ev.target;
+    const data = Object.fromEntries(new FormData(form));
 
-  <label>Date of Birth | जन्म तिथि *</label>
-  <input type="date" name="DOB" required>
+    // Optional: client-side quick validation (extra safety)
+    if (!data.FullName || !data.Mobile || !data.Course) {
+      document.getElementById('result').textContent = '⚠️ Full Name, Mobile और Course अनिवार्य हैं।';
+      return;
+    }
 
-  <label>Gender | लिंग *</label>
-  <select name="Gender" required>
-    <option value="">Select Gender</option>
-    <option>Male</option>
-    <option>Female</option>
-    <option>Other</option>
-  </select>
+    // Try normal JSON POST
+    try {
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }, // अगर CORS warning आए तो नीचे fallback देखें
+        body: JSON.stringify(data)
+      });
 
-  <label>Address | पता *</label>
-  <input type="text" name="Address" required>
+      let msg = 'Submitted — check Google Sheet.';
+      // कुछ ब्राउज़र्स में JSON पढ़ने में CORS की समस्या आ सकती है
+      try {
+        const j = await res.json();
+        if (j && j.ok) {
+          msg = `✅ Saved. StudentID: ${j.StudentID}, Marks: ${j.Marks}, IssueDate: ${j.IssueDate}`;
+        } else {
+          msg = `⚠️ Error: ${j && j.error ? j.error : 'Unknown error'}`;
+        }
+      } catch (_) {
+        // no-cors में JSON नहीं मिलेगा; लेकिन एंट्री हो चुकी होगी
+      }
 
-  <label>District | जिला *</label>
-  <input type="text" name="District" required>
+      document.getElementById('result').textContent = msg;
+      form.reset();
+    } catch (err) {
+      // Fallback: no-cors (response पढ़ नहीं पाएँगे, पर एंट्री लिख जाएगी)
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          // mode: 'no-cors', // uncomment if needed
+          body: JSON.stringify(data)
+        });
+        document.getElementById('result').textContent = '✅ Submitted (no-cors) — Google Sheet में एंट्री चेक करें।';
+        form.reset();
+      } catch (e2) {
+        document.getElementById('result').textContent = '❌ Network error: ' + e2.message;
+      }
+    }
+  });
+</script>
 
-  <label>State | राज्य *</label>
-  <input type="text" name="State" required>
-
-  <label>Email | ईमेल *</label>
-  <input type="email" name="Email" required>
-
-  <label>Mobile Number | मोबाइल नंबर *</label>
-  <input type="tel" name="Mobile" required>
-
-  <label>Course Choice | पाठ्यक्रम चयन *</label>
-  <select name="Course" required>
-    <option value="">Select Course</option>
-    <option>Electrician</option>
-    <option>Fireman</option>
-    <option>Plumber</option>
-    <option>Beautician</option>
-    <option>Boutique Design</option>
-    <option>Computer Skills</option>
-    <option>Welder</option>
-    <option>ECCE</option>
-  </select>
-
-  <label>Previous Qualification | पिछली योग्यता *</label>
-  <select name="Qualification" required>
-    <option value="">Select Qualification</option>
-    <option>Class 8</option>
-    <option>Class 10</option>
-    <option>Class 12</option>
-    <option>Graduate</option>
-    <option>Other</option>
-  </select>
-
-  <label>Photo URL (optional) | फोटो लिंक</label>
-  <input type="url" name="PhotoURL" placeholder="https://">
-
-  <label><input type="checkbox" required> I confirm all details are correct.</label>
-
-  <button type="submit">Submit Registration</button>
-</form>
-
-<div id="result"></div>
-
+<div id="result" aria-live="polite"></div>
 
             </div>
         </div>
