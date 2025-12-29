@@ -663,7 +663,7 @@
     </section>
 
     <!-- Registration Form Section -->
-    <section id="orbitalForm" class="section-padding bg-gray-50">
+    <section id="Orbital_Student_Registrations" class="section-padding bg-gray-50">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">Student Registration</h2>
@@ -811,60 +811,88 @@
                     </div>
                 </form> 
                 
-<script>
+
+<script defer>
   // ✅ Apps Script Web App URL (your /exec)
   const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwqurvxrYA41D5aexnrY0sapf_Md9tdcW4JuUKPPaa1gKG00ED6tmk7ZPeTgXp_FCIt/exec';
 
-  document.getElementById('orbitalForm').addEventListener('submit', async (ev) => {
-    ev.preventDefault();
-    const form = ev.target;
-    const data = Object.fromEntries(new FormData(form));
-
-    // Optional: client-side quick validation (extra safety)
-    if (!data.FullName || !data.Mobile || !data.Course) {
-      document.getElementById('result').textContent = '⚠️ Full Name, Mobile और Course अनिवार्य हैं।';
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1) पहले id से ट्राई करें, 2) नहीं मिला तो पेज का पहला <form> पकड़ें
+    const form = document.getElementById('orbitalForm') || document.querySelector('form');
+    if (!form) {
+      console.warn('कोई <form> नहीं मिला—कृपया HTML में फ़ॉर्म मौजूद होना चाहिए।');
       return;
     }
 
-    // Try normal JSON POST
-    try {
-      const res = await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }, // अगर CORS warning आए तो नीचे fallback देखें
-        body: JSON.stringify(data)
-      });
+    // 3) result मैसेज एरिया: अगर नहीं है, तो बना दें
+    let result = document.getElementById('result');
+    if (!result) {
+      result = document.createElement('div');
+      result.id = 'result';
+      result.setAttribute('aria-live', 'polite');
+      result.style.marginTop = '10px';
+      result.style.fontWeight = '700';
+      form.after(result);
+    }
 
-      let msg = 'Submitted — check Google Sheet.';
-      // कुछ ब्राउज़र्स में JSON पढ़ने में CORS की समस्या आ सकती है
-      try {
-        const j = await res.json();
-        if (j && j.ok) {
-          msg = `✅ Saved. StudentID: ${j.StudentID}, Marks: ${j.Marks}, IssueDate: ${j.IssueDate}`;
-        } else {
-          msg = `⚠️ Error: ${j && j.error ? j.error : 'Unknown error'}`;
-        }
-      } catch (_) {
-        // no-cors में JSON नहीं मिलेगा; लेकिन एंट्री हो चुकी होगी
+    form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+
+      // 🔍 यूज़र के असली field names पढ़ें
+      const raw = Object.fromEntries(new FormData(form));
+
+      // 🔁 आपके field names → expected keys में मैप करें
+      const data = {
+        // नीचे में common वैरिएंट्स जो लोग रखते हैं—अपने नाम मिलाएँ
+        FullName: raw.FullName || raw.full_name || raw.name || raw.student_name || '',
+        Mobile:   raw.Mobile   || raw.phone     || raw.mobile || raw.contact || '',
+        Course:   raw.Course   || raw.course    || raw.course_choice || raw.program || '',
+        // बाकी सब भी साथ भेज दें
+        ...raw
+      };
+
+      // ✅ वही वैलिडेशन जो आपके Apps Script को चाहिए
+      if (!data.FullName || !data.Mobile || !data.Course) {
+        result.textContent = '⚠️ Full Name, Mobile और Course अनिवार्य हैं।';
+        return;
       }
 
-      document.getElementById('result').textContent = msg;
-      form.reset();
-    } catch (err) {
-      // Fallback: no-cors (response पढ़ नहीं पाएँगे, पर एंट्री लिख जाएगी)
       try {
-        await fetch(WEBHOOK_URL, {
+        const res = await fetch(WEBHOOK_URL, {
           method: 'POST',
-          // mode: 'no-cors', // uncomment if needed
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-        document.getElementById('result').textContent = '✅ Submitted (no-cors) — Google Sheet में एंट्री चेक करें।';
+
+        let msg = 'Submitted — check Google Sheet.';
+        try {
+          const j = await res.json();
+          msg = (j && j.ok)
+            ? `✅ Saved. StudentID: ${j.StudentID}, Marks: ${j.Marks}, IssueDate: ${j.IssueDate}`
+            : `⚠️ Error: ${j && j.error ? j.error : 'Unknown error'}`;
+        } catch (_) {
+          // no-cors/opaque response — एंट्री likely चली गई होगी
+        }
+
+        result.textContent = msg;
         form.reset();
-      } catch (e2) {
-        document.getElementById('result').textContent = '❌ Network error: ' + e2.message;
+      } catch (err) {
+        // Fallback बिना headers (कुछ CORS केस में helpful)
+        try {
+          await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            body: JSON.stringify(data)
+          });
+          result.textContent = '✅ Submitted (no-cors) — Google Sheet में एंट्री चेक करें।';
+          form.reset();
+        } catch (e2) {
+          result.textContent = '❌ Network error: ' + e2.message;
+        }
       }
-    }
+    });
   });
 </script>
+
 
 <div id="result" aria-live="polite"></div>
 
