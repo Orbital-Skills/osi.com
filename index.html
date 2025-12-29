@@ -749,38 +749,6 @@
 
 <div id="result"></div>
 
-<script>
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwqurvxrYA41D5aexnrY0sapf_Md9tdcW4JuUKPPaa1gKG00ED6tmk7ZPeTgXp_FCIt/exec';
-
-document.getElementById('orbitalForm').addEventListener('submit', async (ev) => {
-  ev.preventDefault();
-  const form = ev.target;
-  const data = Object.fromEntries(new FormData(form));
-
-  try {
-    const res = await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-
-    let msg = 'Submitted!';
-    try {
-      const j = await res.json();
-      if (j.ok) {
-        msg = `✔️ Saved: StudentID=${j.StudentID}, Marks=${j.Marks}, IssueDate=${j.IssueDate}`;
-      } else {
-        msg = '⚠️ Error: ' + j.error;
-      }
-    } catch(err) {}
-
-    document.getElementById('result').textContent = msg;
-    form.reset();
-  } catch (err) {
-    document.getElementById('result').textContent = 'Network Error!';
-  }
-});
-</script>
 
             </div>
         </div>
