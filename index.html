@@ -662,238 +662,141 @@
         </div>
     </section>
 
-    <!-- Registration Form Section -->
-    <section id="Orbital_Student_Registrations" class="section-padding bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">Student Registration</h2>
-                <p class="text-2xl hindi-text text-gray-600 mb-4">छात्र पंजीकरण</p>
-                <p class="text-lg text-gray-600">Fill out the form below to begin your journey with us</p>
-            </div>
-            
-            <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8">
-                <div id="success-message" class="success-message mb-6">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-check-circle text-3xl"></i>
-                        <div>
-                            <h3 class="text-xl font-bold">Registration Successful! | पंजीकरण सफल!</h3>
-                            <p id="student-id-display"></p>
-                        </div>
-                    </div>
-                </div>
-                
-                <form id="registration-form" class="space-y-6">
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Full Name | पूरा नाम <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="fullname" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter your full name">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Father's/Mother's Name | पिता/माता का नाम <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="parentname" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter parent's name">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Date of Birth | जन्म तिथि <span class="text-red-500">*</span>
-                            </label>
-                            <input type="date" name="dob" required class="w-full px-4 py-3 rounded-lg form-input">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Gender | लिंग <span class="text-red-500">*</span>
-                            </label>
-                            <select name="gender" required class="w-full px-4 py-3 rounded-lg form-input">
-                                <option value="">Select Gender</option>
-                                <option value="Male">Male | पुरुष</option>
-                                <option value="Female">Female | महिला</option>
-                                <option value="Other">Other | अन्य</option>
-                            </select>
-                        </div>
-                        
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Address | पता <span class="text-red-500">*</span>
-                            </label>
-                            <textarea name="address" required rows="3" class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter your complete address"></textarea>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                District | जिला <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="district" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter district">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                State | राज्य <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="state" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter state">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Email | ईमेल <span class="text-red-500">*</span>
-                            </label>
-                            <input type="email" name="email" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="your.email@example.com">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Mobile Number | मोबाइल नंबर <span class="text-red-500">*</span>
-                            </label>
-                            <input type="tel" name="mobile" required pattern="[0-9]{10}" class="w-full px-4 py-3 rounded-lg form-input" placeholder="10-digit mobile number">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Course Choice | पाठ्यक्रम चयन <span class="text-red-500">*</span>
-                            </label>
-                            <select name="course" required class="w-full px-4 py-3 rounded-lg form-input">
-                                <option value="">Select Course</option>
-                                <option value="Electrician">Electrician | इलेक्ट्रीशियन</option>
-                                <option value="Fireman">Fireman | फायरमैन</option>
-                                <option value="Plumber">Plumber | प्लंबर</option>
-                                <option value="Beautician">Beautician | ब्यूटीशियन</option>
-                                <option value="Boutique">Boutique Design | बुटीक डिजाइन</option>
-                                <option value="Computer">Computer Skills | कंप्यूटर कौशल</option>
-                                <option value="Welder">Welder | वेल्डर</option>
-                                <option value="ECCE">ECCE | प्रारंभिक बाल देखभाल</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Previous Qualification | पिछली योग्यता <span class="text-red-500">*</span>
-                            </label>
-                            <select name="qualification" required class="w-full px-4 py-3 rounded-lg form-input">
-                                <option value="">Select Qualification</option>
-                                <option value="Class 8">Class 8 | कक्षा 8</option>
-                                <option value="Class 10">Class 10 | कक्षा 10</option>
-                                <option value="Class 12">Class 12 | कक्षा 12</option>
-                                <option value="Graduate">Graduate | स्नातक</option>
-                                <option value="Other">Other | अन्य</option>
-                            </select>
-                        </div>
-                        
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Upload Photo | फोटो अपलोड करें <span class="text-red-500">*</span>
-                            </label>
-                            <input type="file" name="photo" accept="image/*" required class="w-full px-4 py-3 rounded-lg form-input">
-                            <p class="text-sm text-gray-500 mt-1">Recent passport size photo (JPG/PNG, max 2MB)</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-start gap-3">
-                        <input type="checkbox" id="terms" required class="mt-1">
-                        <label for="terms" class="text-sm text-gray-600">
-                            I agree to the terms and conditions and confirm that all information provided is accurate. | मैं नियमों और शर्तों से सहमत हूं और पुष्टि करता हूं कि प्रदान की गई सभी जानकारी सटीक है।
-                        </label>
-                    </div>
-                    
-                    <div class="flex flex-wrap gap-4">
-                        <button type="submit" class="btn-primary text-white px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2">
-                            <i class="fas fa-paper-plane"></i>
-                            <span>Submit Registration | पंजीकरण जमा करें</span>
-                        </button>
-                        <a href="#" class="btn-outline px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2">
-                            <i class="fas fa-download"></i>
-                            <span>Download Prospectus | प्रोस्पेक्टस डाउनलोड</span>
-                        </a>
-                    </div>
-                </form> 
-                
+    <!-- ✅ Student Registration Form -->
+    <section id="registration">
+      <h2>Student Registration | छात्र पंजीकरण</h2>
+      <p class="note">नीचे दिया फॉर्म भरें और सबमिट करें। यह डेटा Google Sheet (Registrations) में सेव होगा।</p>
 
-<script defer>
-  // ✅ Apps Script Web App URL (your /exec)
-  const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwqurvxrYA41D5aexnrY0sapf_Md9tdcW4JuUKPPaa1gKG00ED6tmk7ZPeTgXp_FCIt/exec';
+      <form id="orbitalForm" class="card" autocomplete="on" novalidate>
+        <label for="FullName">Full Name | पूरा नाम *</label>
+        <input type="text" id="FullName" name="FullName" required />
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // 1) पहले id से ट्राई करें, 2) नहीं मिला तो पेज का पहला <form> पकड़ें
-    const form = document.getElementById('orbitalForm') || document.querySelector('form');
-    if (!form) {
-      console.warn('कोई <form> नहीं मिला—कृपया HTML में फ़ॉर्म मौजूद होना चाहिए।');
-      return;
-    }
+        <label for="FatherMotherName">Father/Mother's Name | पिता/माता का नाम *</label>
+        <input type="text" id="FatherMotherName" name="FatherMotherName" required />
 
-    // 3) result मैसेज एरिया: अगर नहीं है, तो बना दें
-    let result = document.getElementById('result');
-    if (!result) {
-      result = document.createElement('div');
-      result.id = 'result';
-      result.setAttribute('aria-live', 'polite');
-      result.style.marginTop = '10px';
-      result.style.fontWeight = '700';
-      form.after(result);
-    }
+        <label for="DOB">Date of Birth | जन्म तिथि *</label>
+        <input type="date" id="DOB" name="DOB" required />
 
-    form.addEventListener('submit', async (ev) => {
-      ev.preventDefault();
+        <label for="Gender">Gender | लिंग *</label>
+        <select id="Gender" name="Gender" required>
+          <option value="">Select Gender | लिंग चुनें</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
 
-      // 🔍 यूज़र के असली field names पढ़ें
-      const raw = Object.fromEntries(new FormData(form));
+        <label for="Address">Address | पता *</label>
+        <textarea id="Address" name="Address" rows="2" required></textarea>
 
-      // 🔁 आपके field names → expected keys में मैप करें
-      const data = {
-        // नीचे में common वैरिएंट्स जो लोग रखते हैं—अपने नाम मिलाएँ
-        FullName: raw.FullName || raw.full_name || raw.name || raw.student_name || '',
-        Mobile:   raw.Mobile   || raw.phone     || raw.mobile || raw.contact || '',
-        Course:   raw.Course   || raw.course    || raw.course_choice || raw.program || '',
-        // बाकी सब भी साथ भेज दें
-        ...raw
-      };
+        <label for="District">District | जिला *</label>
+        <input type="text" id="District" name="District" required />
 
-      // ✅ वही वैलिडेशन जो आपके Apps Script को चाहिए
-      if (!data.FullName || !data.Mobile || !data.Course) {
-        result.textContent = '⚠️ Full Name, Mobile और Course अनिवार्य हैं।';
-        return;
-      }
+        <label for="State">State | राज्य *</label>
+        <input type="text" id="State" name="State" required />
 
-      try {
-        const res = await fetch(WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
+        <label for="Email">Email | ईमेल *</label>
+        <input type="email" id="Email" name="Email" required />
 
-        let msg = 'Submitted — check Google Sheet.';
-        try {
-          const j = await res.json();
-          msg = (j && j.ok)
-            ? `✅ Saved. StudentID: ${j.StudentID}, Marks: ${j.Marks}, IssueDate: ${j.IssueDate}`
-            : `⚠️ Error: ${j && j.error ? j.error : 'Unknown error'}`;
-        } catch (_) {
-          // no-cors/opaque response — एंट्री likely चली गई होगी
+        <label for="Mobile">Mobile Number | मोबाइल नंबर *</label>
+        <input type="tel" id="Mobile" name="Mobile" inputmode="numeric" pattern="[0-9]{10}" placeholder="10-digit number" required />
+
+        <label for="Course">Course Choice | पाठ्यक्रम चयन *</label>
+        <select id="Course" name="Course" required>
+          <option value="">Select Course | पाठ्यक्रम चुनें</option>
+          <option>Electrician</option>
+          <option>Fireman</option>
+          <option>Plumber</option>
+          <option>Beautician</option>
+          <option>Boutique Design</option>
+          <option>Computer Skills</option>
+          <option>Welder</option>
+          <option>ECCE</option>
+        </select>
+
+        <label for="Qualification">Previous Qualification | पिछली योग्यता *</label>
+        <select id="Qualification" name="Qualification" required>
+          <option value="">Select Qualification | योग्यता चुनें</option>
+          <option>Class 8</option>
+          <option>Class 10</option>
+          <option>Class 12</option>
+          <option>Graduate</option>
+          <option>Other</option>
+        </select>
+
+        <label for="PhotoURL">Photo URL | फोटो लिंक (optional)</label>
+        <input type="url" id="PhotoURL" name="PhotoURL" placeholder="https://example.com/photo.jpg" />
+
+        <div style="margin-top:8px;">
+          <label><input type="checkbox" id="Terms" name="Terms" required /> I agree to the terms | मैं नियमों से सहमत हूँ *</label>
+        </div>
+
+        <button type="submit">Submit Registration | पंजीकरण जमा करें</button>
+        <div id="result" class="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <!-- ✅ Webhook integration script (JSON POST with fallback) -->
+  <script>
+    const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwqurvxrYA41D5aexnrY0sapf_Md9tdcW4JuUKPPaa1gKG00ED6tmk7ZPeTgXp_FCIt/exec';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('orbitalForm') || document.querySelector('form');
+      const result = document.getElementById('result') || document.createElement('div');
+      if (!document.getElementById('result')) { result.id='result'; form.after(result); }
+      if (!form) { console.warn('Form not found'); return; }
+
+      form.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const raw = Object.fromEntries(new FormData(form));
+        // Map/ensure required keys (in case builder used different names)
+        const data = {
+          FullName: raw.FullName || raw.full_name || raw.name || raw.student_name || '',
+          Mobile:   raw.Mobile   || raw.mobile   || raw.phone || raw.contact      || '',
+          Course:   raw.Course   || raw.course   || raw.course_choice || raw.program || '',
+          FatherMotherName: raw.FatherMotherName || raw.parent_name || '',
+          DOB: raw.DOB || raw.dob || '',
+          Gender: raw.Gender || raw.gender || '',
+          Address: raw.Address || raw.address || '',
+          District: raw.District || raw.district || '',
+          State: raw.State || raw.state || '',
+          Email: raw.Email || raw.email || '',
+          Qualification: raw.Qualification || raw.qualification || '',
+          PhotoURL: raw.PhotoURL || raw.photo_url || raw.photo || ''
+        };
+
+        if (!data.FullName || !data.Mobile || !data.Course) {
+          result.textContent = '⚠️ Full Name, Mobile और Course अनिवार्य हैं।';
+          return;
         }
 
-        result.textContent = msg;
-        form.reset();
-      } catch (err) {
-        // Fallback बिना headers (कुछ CORS केस में helpful)
         try {
-          await fetch(WEBHOOK_URL, {
+          const res = await fetch(WEBHOOK_URL, {
             method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
           });
-          result.textContent = '✅ Submitted (no-cors) — Google Sheet में एंट्री चेक करें।';
+          let msg = 'Submitted — check Google Sheet.';
+          try {
+            const j = await res.json();
+            msg = (j && j.ok)
+              ? `✅ Saved (timestamp: ${j.timestamp || '—'})`
+              : `⚠️ Error: ${j && j.error ? j.error : 'Unknown error'}`;
+          } catch(_) {}
+          result.textContent = msg;
           form.reset();
-        } catch (e2) {
-          result.textContent = '❌ Network error: ' + e2.message;
+        } catch (err) {
+          try {
+            await fetch(WEBHOOK_URL, { method:'POST', body: JSON.stringify(data) });
+            result.textContent = '✅ Submitted (no-cors) — Google Sheet में एंट्री चेक करें।';
+            form.reset();
+          } catch (e2) {
+            result.textContent = '❌ Network error: ' + e2.message;
+          }
         }
-      }
+      });
     });
-  });
-</script>
-
-
+  </script>
 <div id="result" aria-live="polite"></div>
 
             </div>
