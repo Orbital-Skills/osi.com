@@ -662,143 +662,104 @@
         </div>
     </section>
 
-    <!-- ✅ Student Registration Form -->
-    <section id="registration">
-      <h2>Student Registration | छात्र पंजीकरण</h2>
-      <p class="note">नीचे दिया फॉर्म भरें और सबमिट करें। यह डेटा Google Sheet (Registrations) में सेव होगा।</p>
+   
+<!-- ===========================
+     ORBITAL STUDENT REGISTRATION FORM
+     (Your original form.html corrected + converted to real HTML)
+=========================== -->
 
-      <form id="orbitalForm" class="card" autocomplete="on" novalidate>
-        <label for="FullName">Full Name | पूरा नाम *</label>
-        <input type="text" id="FullName" name="FullName" required />
+<section id="registration">
+  <h2>Student Registration<br>छात्र पंजीकरण</h2>
+  <p>Fill out the form below to begin your journey with us<br>नीचे दिया फॉर्म भरें।</p>
 
-        <label for="FatherMotherName">Father/Mother's Name | पिता/माता का नाम *</label>
-        <input type="text" id="FatherMotherName" name="FatherMotherName" required />
+  <!-- REAL WORKING FORM -->
+  <form id="orbitalForm" autocomplete="on">
 
-        <label for="DOB">Date of Birth | जन्म तिथि *</label>
-        <input type="date" id="DOB" name="DOB" required />
+    <!-- Full Name -->
+    <label>Full Name | पूरा नाम *</label>
+    <input type="text" name="FullName" required>
 
-        <label for="Gender">Gender | लिंग *</label>
-        <select id="Gender" name="Gender" required>
-          <option value="">Select Gender | लिंग चुनें</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </select>
+    <!-- Father/Mother Name -->
+    <label>Father's/Mother's Name | पिता/माता का नाम *</label>
+    <input type="text" name="FatherMotherName" required>
 
-        <label for="Address">Address | पता *</label>
-        <textarea id="Address" name="Address" rows="2" required></textarea>
+    <!-- Date of Birth -->
+    <label>Date of Birth | जन्म तिथि *</label>
+    <input type="date" name="DOB" required>
 
-        <label for="District">District | जिला *</label>
-        <input type="text" id="District" name="District" required />
+    <!-- Gender -->
+    <label>Gender | लिंग *</label>
+    <select name="Gender" required>
+      <option value="">Select Gender</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
 
-        <label for="State">State | राज्य *</label>
-        <input type="text" id="State" name="State" required />
+    <!-- Address -->
+    <label>Address | पता *</label>
+    <textarea name="Address" rows="2" required></textarea>
 
-        <label for="Email">Email | ईमेल *</label>
-        <input type="email" id="Email" name="Email" required />
+    <!-- District -->
+    <label>District | जिला *</label>
+    <input type="text" name="District" required>
 
-        <label for="Mobile">Mobile Number | मोबाइल नंबर *</label>
-        <input type="tel" id="Mobile" name="Mobile" inputmode="numeric" pattern="[0-9]{10}" placeholder="10-digit number" required />
+    <!-- State -->
+    <label>State | राज्य *</label>
+    <input type="text" name="State" required>
 
-        <label for="Course">Course Choice | पाठ्यक्रम चयन *</label>
-        <select id="Course" name="Course" required>
-          <option value="">Select Course | पाठ्यक्रम चुनें</option>
-          <option>Electrician</option>
-          <option>Fireman</option>
-          <option>Plumber</option>
-          <option>Beautician</option>
-          <option>Boutique Design</option>
-          <option>Computer Skills</option>
-          <option>Welder</option>
-          <option>ECCE</option>
-        </select>
+    <!-- Email -->
+    <label>Email | ईमेल *</label>
+    <input type="email" name="Email" required>
 
-        <label for="Qualification">Previous Qualification | पिछली योग्यता *</label>
-        <select id="Qualification" name="Qualification" required>
-          <option value="">Select Qualification | योग्यता चुनें</option>
-          <option>Class 8</option>
-          <option>Class 10</option>
-          <option>Class 12</option>
-          <option>Graduate</option>
-          <option>Other</option>
-        </select>
+    <!-- Mobile -->
+    <label>Mobile Number | मोबाइल नंबर *</label>
+    <input type="tel" name="Mobile" required pattern="[0-9]{10}" placeholder="10-digit number">
 
-        <label for="PhotoURL">Photo URL | फोटो लिंक (optional)</label>
-        <input type="url" id="PhotoURL" name="PhotoURL" placeholder="https://example.com/photo.jpg" />
+    <!-- Course -->
+    <label>Course Choice | पाठ्यक्रम चयन *</label>
+    <select name="Course" required>
+      <option value="">Select Course</option>
+      <option>Electrician</option>
+      <option>Fireman</option>
+      <option>Plumber</option>
+      <option>Beautician</option>
+      <option>Boutique Design</option>
+      <option>Computer Skills</option>
+      <option>Welder</option>
+      <option>ECCE</option>
+    </select>
 
-        <div style="margin-top:8px;">
-          <label><input type="checkbox" id="Terms" name="Terms" required /> I agree to the terms | मैं नियमों से सहमत हूँ *</label>
-        </div>
+    <!-- Qualification -->
+    <label>Previous Qualification | पिछली योग्यता *</label>
+    <select name="Qualification" required>
+      <option value="">Select Qualification</option>
+      <option>Class 8</option>
+      <option>Class 10</option>
+      <option>Class 12</option>
+      <option>Graduate</option>
+      <option>Other</option>
+    </select>
 
-        <button type="submit">Submit Registration | पंजीकरण जमा करें</button>
-        <div id="result" class="status" aria-live="polite"></div>
-      </form>
-    </section>
-  </main>
+    <!-- Photo -->
+    <label>Upload Photo (URL) | फोटो लिंक *</label>
+    <input type="url" name="PhotoURL" placeholder="https://example.com/photo.jpg" required>
 
-  <!-- ✅ Webhook integration script (JSON POST with fallback) -->
-  <script>
-    const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwqurvxrYA41D5aexnrY0sapf_Md9tdcW4JuUKPPaa1gKG00ED6tmk7ZPeTgXp_FCIt/exec';
+    <!-- Terms -->
+    <label style="margin-top:10px;">
+      <input type="checkbox" name="Terms" required>
+      I agree to the terms & confirm information is accurate<br>
+      मैं नियमों और शर्तों से सहमत हूं व सभी जानकारी सही है।
+    </label>
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('orbitalForm') || document.querySelector('form');
-      const result = document.getElementById('result') || document.createElement('div');
-      if (!document.getElementById('result')) { result.id='result'; form.after(result); }
-      if (!form) { console.warn('Form not found'); return; }
+    <!-- Submit -->
+    <button type="submit">Submit Registration | पंजीकरण जमा करें</button>
 
-      form.addEventListener('submit', async (ev) => {
-        ev.preventDefault();
-        const raw = Object.fromEntries(new FormData(form));
-        // Map/ensure required keys (in case builder used different names)
-        const data = {
-          FullName: raw.FullName || raw.full_name || raw.name || raw.student_name || '',
-          Mobile:   raw.Mobile   || raw.mobile   || raw.phone || raw.contact      || '',
-          Course:   raw.Course   || raw.course   || raw.course_choice || raw.program || '',
-          FatherMotherName: raw.FatherMotherName || raw.parent_name || '',
-          DOB: raw.DOB || raw.dob || '',
-          Gender: raw.Gender || raw.gender || '',
-          Address: raw.Address || raw.address || '',
-          District: raw.District || raw.district || '',
-          State: raw.State || raw.state || '',
-          Email: raw.Email || raw.email || '',
-          Qualification: raw.Qualification || raw.qualification || '',
-          PhotoURL: raw.PhotoURL || raw.photo_url || raw.photo || ''
-        };
+    <!-- Result Message -->
+    <div id="result" style="margin-top:10px; font-weight:bold;"></div>
 
-        if (!data.FullName || !data.Mobile || !data.Course) {
-          result.textContent = '⚠️ Full Name, Mobile और Course अनिवार्य हैं।';
-          return;
-        }
-
-        try {
-          const res = await fetch(WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-          let msg = 'Submitted — check Google Sheet.';
-          try {
-            const j = await res.json();
-            msg = (j && j.ok)
-              ? `✅ Saved (timestamp: ${j.timestamp || '—'})`
-              : `⚠️ Error: ${j && j.error ? j.error : 'Unknown error'}`;
-          } catch(_) {}
-          result.textContent = msg;
-          form.reset();
-        } catch (err) {
-          try {
-            await fetch(WEBHOOK_URL, { method:'POST', body: JSON.stringify(data) });
-            result.textContent = '✅ Submitted (no-cors) — Google Sheet में एंट्री चेक करें।';
-            form.reset();
-          } catch (e2) {
-            result.textContent = '❌ Network error: ' + e2.message;
-          }
-        }
-      });
-    });
-  </script>
-<div id="result" aria-live="polite"></div>
-
+  </form>
+</section>
             </div>
         </div>
     </section>
