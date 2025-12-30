@@ -1,45 +1,250 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <title>Electrician Course Details</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<title>Electrician Trade | OSDC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
 
-<div class="max-w-4xl mx-auto p-6 bg-white mt-10 rounded-xl shadow">
-    
-    <h1 class="text-3xl font-bold text-purple-800 mb-4">
-        ⚡ Electrician Course (इलेक्ट्रीशियन)
-    </h1>
+<body class="bg-gray-100 flex flex-col min-h-screen">
 
-    <p class="text-gray-700 mb-4">
-        यह कोर्स छात्रों को घरेलू और औद्योगिक विद्युत कार्यों के लिए तैयार करता है।
-    </p>
+<!-- ================= HEADER ================= -->
+<header class="bg-blue-800 text-white">
+  <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
+    <div>
+      <h1 class="text-xl font-bold">OSDC</h1>
+      <p class="text-sm">Orbital Skill Development Center</p>
+    </div>
+    <nav class="space-x-4 text-sm font-semibold">
+      <a href="index.html" class="hover:underline">Home</a>
+      <a href="#" class="hover:underline">Courses</a>
+      <a href="#footer" class="hover:underline">Contact</a>
+    </nav>
+  </div>
+</header>
 
-    <h2 class="text-xl font-semibold mb-2">कोर्स में क्या सिखाया जाता है?</h2>
-    <ul class="list-disc pl-6 mb-4 text-gray-700">
-        <li>हाउस वायरिंग और इंडस्ट्रियल वायरिंग</li>
-        <li>स्विच, सॉकेट और MCB इंस्टॉलेशन</li>
-        <li>मोटर और ट्रांसफार्मर की जानकारी</li>
-        <li>इलेक्ट्रिकल सेफ्टी नियम</li>
-        <li>प्रैक्टिकल ट्रेनिंग</li>
-    </ul>
+<!-- ================= MAIN CONTENT ================= -->
+<main class="flex-grow">
 
-    <h2 class="text-xl font-semibold mb-2">कोर्स अवधि</h2>
-    <p class="mb-4">6 महीने / 12 महीने</p>
+<div class="max-w-5xl mx-auto bg-white p-6 mt-8 mb-10 rounded-xl shadow-lg">
 
-    <h2 class="text-xl font-semibold mb-2">योग्यता</h2>
-    <p class="mb-4">10वीं पास या 12वीं पास</p>
+<h1 class="text-3xl font-bold text-blue-800 mb-2">
+Electrician Trade Courses
+</h1>
 
-    <h2 class="text-xl font-semibold mb-2">सर्टिफिकेट</h2>
-    <p class="mb-6">कोर्स पूरा करने पर प्रमाण पत्र दिया जाएगा</p>
+<p class="text-gray-700 mb-6">
+OSDC (Orbital Skill Development Center) के अंतर्गत Electrician ट्रेड से जुड़े
+तकनीकी कोर्स कराए जाते हैं, जो छात्रों को इंडस्ट्रियल लेवल स्किल्स प्रदान करते हैं।
+</p>
 
-    <a href="index.html" class="inline-block bg-purple-800 text-white px-6 py-3 rounded-lg">
-        ← वापस जाएँ
-    </a>
+<!-- ================= MECHANICAL FITTER ================= -->
+<button onclick="toggleCourse('fitter')" class="course-btn">
+🔘 मैकेनिकल फिटर (Mechanical Fitter)
+</button>
+
+<div id="fitter" class="course-box hidden">
+<h2 class="course-title">मैकेनिकल फिटर (Mechanical Fitter)</h2>
+<p>
+मैकेनिकल फिटर एक कुशल तकनीकी कारीगर होता है जो मशीनों और उनके पुर्जों को
+असेंबल, फिट, इंस्टॉल और मेंटेन करने का कार्य करता है।
+OSDC में यह कोर्स इंडस्ट्रियल जरूरतों को ध्यान में रखकर डिजाइन किया गया है।
+</p>
+<h3>मुख्य जिम्मेदारियाँ (Job Roles)</h3>
+<ul>
+<li>Engineering Drawing / Blueprints पढ़कर मशीन पार्ट्स को असेंबल करना</li>
+<li>मशीनों की नियमित जांच एवं Maintenance</li>
+<li>Marking, Cutting, Grinding एवं Filing कार्य</li>
+<li>Lathe, Drilling, Grinding Machines एवं Hand Tools का उपयोग</li>
+<li>Industrial Safety Rules का पालन</li>
+</ul>
+<h3>योग्यता (Eligibility)</h3>
+<ul>
+<li>न्यूनतम 10वीं पास</li>
+<li>ITI – Fitter Trade (2 Years)</li>
+<li>NCVT / SCVT Certification को प्राथमिकता</li>
+</ul>
+<h3>करियर एवं वेतन (Career & Salary)</h3>
+<p>
+Railway, ONGC, BHEL, SAIL, Automobile Industry एवं Manufacturing Units में रोजगार।
+फ्रेशर सैलरी ₹15,000 – ₹25,000 प्रति माह।
+</p>
+<h3>NOS</h3>
+<ul>
+<li>Mechanical Sub System</li>
+<li>Coordinate with Others</li>
+<li>Maintain Safe Work Surroundings</li>
+</ul>
+<a href="https://orbital-skills.github.io/osi.com/" target="_blank" class="link">
+OSDC Official Website
+</a>
+<button class="apply-btn">Apply Now</button>
+</div>
+
+<!-- ================= WELDING OPERATOR ================= -->
+<button onclick="toggleCourse('welding')" class="course-btn">
+🔘 वेल्डिंग ऑपरेटर (Welding Operator)
+</button>
+
+<div id="welding" class="course-box hidden">
+<h2 class="course-title">वेल्डिंग ऑपरेटर (Welding Operator)</h2>
+<p>
+वेल्डिंग ऑपरेटर Welding Machine की सहायता से धातु के हिस्सों को जोड़ने का कार्य करता है।
+</p>
+<h3>मुख्य जिम्मेदारियाँ</h3>
+<ul>
+<li>Arc, Gas एवं Electric Welding</li>
+<li>Metal Surface Preparation</li>
+<li>Safety Equipment का उपयोग</li>
+</ul>
+<h3>योग्यता</h3>
+<ul>
+<li>8वीं / 10वीं पास</li>
+<li>ITI – Welder (Preferred)</li>
+</ul>
+<h3>करियर एवं वेतन</h3>
+<p>Fabrication एवं Manufacturing Industry में रोजगार, ₹14,000 – ₹22,000 प्रति माह।</p>
+<a href="https://orbital-skills.github.io/osi.com/" target="_blank" class="link">
+OSDC Official Website
+</a>
+<button class="apply-btn">Apply Now</button>
+</div>
+
+<!-- ================= SOLAR TECHNICIAN ================= -->
+<button onclick="toggleCourse('solar')" class="course-btn">
+🔘 सोलर पैनल इंस्टॉलेशन टेक्नीशियन
+</button>
+
+<div id="solar" class="course-box hidden">
+<h2 class="course-title">सोलर पैनल इंस्टॉलेशन टेक्नीशियन</h2>
+<p>
+यह कोर्स Renewable Energy सेक्टर में Solar Panel Installation एवं Maintenance के लिए तैयार करता है।
+</p>
+<ul>
+<li>Site Survey</li>
+<li>Panel Installation</li>
+<li>Electrical Testing</li>
+</ul>
+<p>Career: Solar Companies | Salary: ₹15,000 – ₹25,000</p>
+<a href="https://orbital-skills.github.io/osi.com/" target="_blank" class="link">
+OSDC Official Website
+</a>
+<button class="apply-btn">Apply Now</button>
+</div>
+
+<!-- ================= WIREMAN ================= -->
+<button onclick="toggleCourse('wireman')" class="course-btn">
+🔘 वायरमैन – कंट्रोल पैनल
+</button>
+
+<div id="wireman" class="course-box hidden">
+<h2 class="course-title">वायरमैन – कंट्रोल पैनल</h2>
+<p>
+Electrical Control Panel की Wiring, Installation एवं Testing।
+</p>
+<ul>
+<li>Panel Wiring</li>
+<li>Diagram Reading</li>
+<li>Safety Compliance</li>
+</ul>
+<p>Career: Electrical Industry | Salary: ₹14,000 – ₹24,000</p>
+<a href="https://orbital-skills.github.io/osi.com/" target="_blank" class="link">
+OSDC Official Website
+</a>
+<button class="apply-btn">Apply Now</button>
+</div>
 
 </div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer id="footer" class="bg-blue-900 text-white mt-10">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 p-6 text-sm">
+
+    <div>
+      <h3 class="font-bold mb-2">OSDC</h3>
+      <p>
+        Orbital Skill Development Center छात्रों को
+        इंडस्ट्री-रेडी स्किल्स प्रदान करने के लिए समर्पित है।
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-bold mb-2">Quick Links</h3>
+      <ul>
+        <li><a href="index.html" class="hover:underline">Home</a></li>
+        <li><a href="#" class="hover:underline">Courses</a></li>
+        <li><a href="https://orbital-skills.github.io/osi.com/" target="_blank" class="hover:underline">Official Website</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="font-bold mb-2">Contact</h3>
+      <p>📍 India</p>
+      <p>🌐 orbital-skills.github.io</p>
+    </div>
+
+  </div>
+
+  <div class="text-center text-xs bg-blue-950 py-2">
+    © 2025 OSDC – Orbital Skill Development Center. All Rights Reserved.
+  </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+function toggleCourse(id){
+document.getElementById(id).classList.toggle("hidden");
+}
+</script>
+
+<style>
+.course-btn{
+width:100%;
+background:#2563eb;
+color:#fff;
+padding:14px;
+border-radius:10px;
+font-weight:600;
+text-align:left;
+margin-bottom:8px;
+}
+.course-box{
+background:#f9fafb;
+border:1px solid #ddd;
+padding:20px;
+border-radius:10px;
+margin-bottom:15px;
+}
+.course-title{
+font-size:20px;
+font-weight:700;
+margin-bottom:10px;
+}
+.course-box h3{
+font-weight:600;
+margin-top:12px;
+}
+.course-box ul{
+list-style:disc;
+padding-left:22px;
+margin-bottom:10px;
+}
+.apply-btn{
+background:#dc2626;
+color:#fff;
+padding:10px 20px;
+border-radius:8px;
+margin-top:15px;
+}
+.link{
+display:block;
+margin-top:10px;
+color:#1d4ed8;
+font-weight:600;
+text-decoration:underline;
+}
+</style>
 
 </body>
 </html>
