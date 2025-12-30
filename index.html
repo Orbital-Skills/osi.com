@@ -837,13 +837,43 @@
                     </div>
                 </form>
 <script>
-  // ✅ अपना नया Deployment URL यहाँ डालें
+  // WEBHOOK_URL
   const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw5uEe9DOr-2XRBr8ep_MWLqaoK1POO5ZoHd6psmvQHA2rSf0XWTwjlDAbdGXIQO80S/exec';
 
   const form = document.getElementById('registration-form');
   const successBox = document.getElementById('success-message');
   const studentIdEl = document.getElementById('student-id-display');
 
+    // Image ko chota (compress) karne wala function
+async function compressImage(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                
+                // Max width 800px rakhenge taaki quality bhi bani rahe aur size bhi kam ho jaye
+                const MAX_WIDTH = 800;
+                const scale = MAX_WIDTH / img.width;
+                canvas.width = MAX_WIDTH;
+                canvas.height = img.height * scale;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                // 0.7 ka matlab hai 70% quality (Best for Google Sheets)
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                resolve({
+                    base64: dataUrl.split(',')[1],
+                    mime: 'image/jpeg'
+                });
+            };
+        };
+    });
+}
   // "Other" योग्यता दिखाने/छुपाने का लॉजिक
   document.getElementsByName('qualification')[0].addEventListener('change', function(e) {
     const wrap = document.getElementById('qual-other-wrapper');
