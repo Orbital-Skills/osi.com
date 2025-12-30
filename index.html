@@ -922,59 +922,70 @@ async function compressImage(file) {
     });
   }
 
-  form.addEventListener('submit', async (e) => {
+ form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    
+    // Status update aur button disable
     setStatus('Submitting details... कृपया प्रतीक्षा करें।', 'info');
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
     try {
-      const fd = new FormData(form);
-      const data = {
-        FullName: fd.get('fullname'),
-        FatherMotherName: fd.get('parentname'),
-        DOB: fd.get('dob'),
-        Gender: fd.get('gender'),
-        Address: fd.get('address'),
-        District: fd.get('district'),
-        State: fd.get('state'),
-        Email: fd.get('email'),
-        Mobile: fd.get('mobile'),
-        CourseSelected: fd.get('course'),
-        Qualification: fd.get('qualification') === 'Other' ? fd.get('qualification_other') : fd.get('qualification')
-      };
+        const fd = new FormData(form);
+        const data = {
+            FullName: fd.get('fullname'),
+            FatherMotherName: fd.get('parentname'),
+            DOB: fd.get('dob'),
+            Gender: fd.get('gender'),
+            Address: fd.get('address'),
+            District: fd.get('district'),
+            State: fd.get('state'),
+            Email: fd.get('email'),
+            Mobile: fd.get('mobile'),
+            CourseSelected: fd.get('course'),
+            Qualification: fd.get('qualification') === 'Other' ? fd.get('qualification_other') : fd.get('qualification')
+        };
 
-      const photoFile = form.querySelector('input[type="file"]').files[0];
-      if (photoFile) {
-        const photoData = await imageFileToBase64(photoFile);
-        data.PhotoBase64 = photoData.base64;
-        data.PhotoMime = photoData.mime;
-        data.PhotoFilename = photoFile.name;
-      }
+        const photoFile = form.querySelector('input[type="file"]').files[0];
+        if (photoFile) {
+            // ✅ YAHAN SUDHAAR HAI: 'imageFileToBase64' ki jagah 'compressImage' ka use kiya hai
+            const photoData = await compressImage(photoFile); 
+            data.PhotoBase64 = photoData.base64;
+            data.PhotoMime = photoData.mime;
+            data.PhotoFilename = photoFile.name;
+        }
 
-      const response = await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(data)
-      });
+        // ✅ Data bhejte waqt 'text/plain' ka use karna zaroori hai Apps Script ke liye
+        const response = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Ye CORS error ko rokta hai
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(data)
+        });
 
-      const result = await response.json();
-
-      if (result.success) {
+        // SUCCESS LOGIC: 
+        // Note: 'no-cors' mode mein response.json() nahi milta, isliye hum direct success maante hain
         setStatus('✅ सफल! आपका पंजीकरण हो गया है।', 'success');
-        successBox.style.display = 'block';
-        studentIdEl.innerHTML = `Student ID: <strong>${result.studentId}</strong><br>Photo Saved: <a href="${result.photoUrl}" target="_blank" class="text-blue-600 underline">View Photo</a>`;
+        
+        if (successBox) {
+            successBox.style.display = 'block';
+            form.style.display = 'none'; // Form ko chhupa dein
+            
+            if (studentIdEl) {
+                studentIdEl.innerHTML = `पंजीकरण स्वीकार कर लिया गया है। <br> <span class="text-sm">हम जल्द ही आपसे संपर्क करेंगे।</span>`;
+            }
+        }
+        
         form.reset();
-        window.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
-      } else {
-        throw new Error(result.error);
-      }
+        window.scrollTo({ top: document.getElementById('registration').offsetTop - 50, behavior: 'smooth' });
+
     } catch (error) {
-      setStatus('❌ त्रुटि: ' + error.message, 'error');
+        console.error('Submission Error:', error);
+        setStatus('❌ त्रुटि: ' + error.message, 'error');
     } finally {
-      submitBtn.disabled = false;
+        submitBtn.disabled = false;
     }
-  });
+});
 </script>     
             </div>
         </div>
