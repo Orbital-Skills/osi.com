@@ -808,6 +808,163 @@
   });
 </script>
 ``
+                            
+<script>
+  // ✅ आपका Google Apps Script Webhook URL
+  const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbx593UZFs4pLJKkPq3ossl2gRh1WhHcXtoH91IIcvK1RqurhX2_PtKuLLoNfYUyCcRF/exec';
+
+  const form = document.getElementById('registration-form');
+  const successBox = document.getElementById('success-message');
+  const studentIdEl = document.getElementById('student-id-display');
+
+  // Inline status (HTML बदले बिना)
+  let inlineStatus = document.getElementById('form-inline-status');
+  if (!inlineStatus) {
+    inlineStatus = document.createElement('div');
+    inlineStatus.id = 'form-inline-status';
+    inlineStatus.className = 'text-sm mt-3';
+    form.appendChild(inlineStatus);
+  }
+
+  if (successBox) successBox.style.display = 'none';
+
+  function setInlineStatus(msg, type = 'info') {
+    inlineStatus.textContent = msg;
+    inlineStatus.style.color = (type === 'error') ? '#b00020' : (type === 'success' ? '#006400' : '#333');
+  }
+
+  // 🗺️ Webhook keys → आपके form के मौजूदा name=""
+  const NAME_MAP = {
+    FullName: 'fullname',
+    FatherMotherName: 'parentname',
+    DOB: 'dob',
+    Gender: 'gender',
+    Address: 'address',
+    District: 'district',
+    State: 'state',
+    Email: 'email',
+    Mobile: 'mobile',
+    CourseSelected: 'course',
+    Qualification: 'qualification',   // ✅ नया mapping
+    // PhotoURL: 'photo'               // अगर आप नीचे दिया URL इनपुट जोड़ते हैं, तो uncomment करें
+  };
+
+  function buildWebhookPayload(raw) {
+    const data = {};
+    for (const [target, source] of Object.entries(NAME_MAP)) {
+      const val = source ? (raw[source] ?? '') : '';
+      data[target] = typeof val === 'string' ? val.trim() : val;
+    }
+
+    // Qualification == Other → qualification_other से लें
+    if (raw.qualification === 'Other') {
+      const other = (raw.qualification_other || '').trim();
+      data.Qualification = other || 'Other';
+    }
+
+    // PhotoURL: अगर आपने <input name="photo"> नहीं जोड़ा, तो default/blank भेजें
+    if (data.PhotoURL === undefined) {
+      // आप चाहें तो 'Not Provided' रखें
+      data.PhotoURL = '';
+    }
+
+    return data;
+  }
+
+  function validate(data) {
+    const requiredWebhook = [
+      'FullName','FatherMotherName','DOB','Gender','Address',
+      'District','State','Email','Mobile','CourseSelected','Qualification'
+    ];
+    const missing = requiredWebhook.filter(k => !data[k]);
+    if (missing.length) return `कृपया ये फ़ील्ड भरें: ${missing.join(', ')}`;
+
+    // India mobile: 10-digit, starts 6-9
+    if (!/^[6-9]\d{9}$/.test(data.Mobile)) return 'सही 10-अंकीय मोबाइल नंबर दर्ज करें (6-9 से शुरुआत).';
+    // Email basic
+    if (data.Email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.Email)) return 'सही ईमेल दर्ज करें.';
+    // DOB not future
+    const dob = new Date(data.DOB);
+    if (isNaN(dob.getTime())) return 'DOB मान्य तिथि नहीं है.';
+    if (dob > new Date()) return 'DOB भविष्य की तारीख नहीं हो सकती.';
+    // Qualification other खाली तो नहीं?
+    if (rawValue('qualification') === 'Other' && !data.Qualification) {
+      return 'कृपया Qualification (Other) में विवरण लिखें.';
+    }
+    return null;
+  }
+
+  function rawValue(name) {
+    const el = form.querySelector(`[name="${name}"]`);
+    return el ? el.value : '';
+  }
+
+  async function postToWebhook(json) {
+    // text/plain → preflight CORS नहीं होगा
+    const resp = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(json),
+    });
+    let payload;
+    try { payload = await resp.json(); } catch { payload = await resp.text(); }
+    return { ok: resp.ok, status: resp.status, payload };
+  }
+
+  function showSuccess(payload, data) {
+    setInlineStatus('✅ Registration successful | पंजीकरण सफल!', 'success');
+    if (successBox) {
+      successBox.style.display = 'block';
+      const id = (payload && (payload.studentId || payload.id || payload.StudentID || payload.regId)) || '';
+      if (studentIdEl) {
+        studentIdEl.textContent = id
+          ? `Student ID: ${id} | आपका ID: ${id}`
+          : `हमने आपका पंजीकरण प्राप्त कर लिया है, ${data.FullName}.`;
+      }
+    }
+  }
+
+  function showError(text, payload) {
+    const extra = (payload && typeof payload !== 'string') ? JSON.stringify(payload) : (payload || '');
+    setInlineStatus(`❌ त्रुटि: ${text}${extra ? ' | ' + extra : ''}`, 'error');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setInlineStatus('Submitting...', 'info');
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+
+    const fd = new FormData(form);
+    const raw = Object.fromEntries(fd.entries());
+    const data = buildWebhookPayload(raw);
+
+    const err = validate(data);
+    if (err) {
+      showError(err);
+      if (submitBtn) submitBtn.disabled = false;
+      return;
+    }
+
+    try {
+      const result = await postToWebhook(data);
+      if (result.ok) {
+        showSuccess(result.payload, data);
+        form.reset();
+        // "Other" इनपुट दुबारा छुपाएँ
+        const wrap = document.getElementById('qual-other-wrapper');
+        if (wrap) wrap.classList.add('hidden');
+      } else {
+        showError(`सबमिट में समस्या (HTTP ${result.status})`, result.payload);
+      }
+    } catch (ex) {
+      showError('नेटवर्क/वेबहुक त्रुटि', ex.message || 'Failed to fetch');
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
+  });
+</script>
                        </div>
                         
                         <div class="md:col-span-2">
