@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Fire & Safety Courses | OSDC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<!-- ================= HEADER ================= -->
+<header class="bg-red-700 text-white">
+  <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
+    <div>
+      <h1 class="text-xl font-bold">OSDC</h1>
+      <p class="text-sm">Orbital Skill Development Center</p>
+    </div>
+    <nav class="space-x-4 text-sm font-semibold">
+      <a href="index.html" class="hover:underline">Home</a>
+      <a href="#" class="hover:underline">Courses</a>
+      <a href="#footer" class="hover:underline">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= MAIN ================= -->
+<div class="max-w-5xl mx-auto bg-white p-6 mt-8 mb-10 rounded-xl shadow-lg">
+
+<h1 class="text-3xl font-bold text-red-700 mb-4">
+Fire & Safety Courses
+</h1>
+
+<p class="text-gray-700 mb-6">
+OSDC (Orbital Skill Development Center) के अंतर्गत Fire & Safety से जुड़े
+प्रोफेशनल कोर्स कराए जाते हैं, जो छात्रों को Fire Prevention, Industrial Safety,
+Emergency Response एवं Disaster Management में दक्ष बनाते हैं।
+</p>
+
+<!-- ================= COURSE TEMPLATE ================= -->
+
+<!-- OSHEMS -->
+<button onclick="toggleCourse('oshems')" class="course-btn">
+🔥 OSHEMS – Occupational Safety Health & Environment Management System
+</button>
+<div id="oshems" class="course-box hidden">
+<p><b>विवरण:</b> यह कोर्स Industrial Safety, Occupational Health एवं Environmental Protection पर आधारित है।</p>
+<h3>मुख्य जिम्मेदारियाँ</h3>
+<ul>
+<li>Workplace Safety Monitoring</li>
+<li>Risk Assessment & Hazard Control</li>
+<li>Environmental Compliance</li>
+</ul>
+<h3>Duration:</h3><p>1 Year</p>
+<h3>Eligibility:</h3><p>12वीं पास</p>
+<h3>Career:</h3><p>Safety Officer, EHS Executive (₹25,000 – ₹45,000)</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- FTIS -->
+<button onclick="toggleCourse('ftis')" class="course-btn">
+🔥 FTIS – Fire Technology & Industrial Safety
+</button>
+<div id="ftis" class="course-box hidden">
+<p><b>विवरण:</b> Fire Prevention, Fire Fighting एवं Industrial Safety Practices पर आधारित।</p>
+<ul>
+<li>Fire Detection Systems</li>
+<li>Fire Extinguishing Techniques</li>
+<li>Industrial Accident Prevention</li>
+</ul>
+<h3>Duration:</h3><p>1 Year</p>
+<h3>Eligibility:</h3><p>12वीं पास</p>
+<h3>Career:</h3><p>Fire Supervisor, Safety Assistant</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- PGFTIS -->
+<button onclick="toggleCourse('pgftis')" class="course-btn">
+🔥 PGFTIS – PG Course in Fire Technology & Industrial Safety
+</button>
+<div id="pgftis" class="course-box hidden">
+<p><b>विवरण:</b> Advanced Fire Safety एवं Industrial Risk Management पर केंद्रित Post Graduate कोर्स।</p>
+<h3>Duration:</h3><p>1 Year</p>
+<h3>Eligibility:</h3><p>Graduation (Any Stream)</p>
+<h3>Career:</h3><p>Fire Safety Manager, HSE Consultant</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- IS -->
+<button onclick="toggleCourse('is1')" class="course-btn">
+🔥 Industrial Safety (IS)
+</button>
+<div id="is1" class="course-box hidden">
+<p>Industries में Safety Standards एवं Accident Prevention पर आधारित।</p>
+<h3>Duration:</h3><p>1 Year</p>
+<h3>Eligibility:</h3><p>12वीं पास</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- CIS -->
+<button onclick="toggleCourse('cis')" class="course-btn">
+🔥 Certificate in Industrial Safety (CIS)
+</button>
+<div id="cis" class="course-box hidden">
+<p>Basic Industrial Safety एवं Worker Protection पर केंद्रित।</p>
+<h3>Duration:</h3><p>6 Months</p>
+<h3>Eligibility:</h3><p>10वीं पास</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- SFO -->
+<button onclick="toggleCourse('sfo')" class="course-btn">
+🔥 Sub Fire Officer (SFO)
+</button>
+<div id="sfo" class="course-box hidden">
+<p>Fire Brigade Operations एवं Command Training।</p>
+<h3>Duration:</h3><p>780 Hrs</p>
+<h3>Eligibility:</h3><p>Graduation</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- FAFF -->
+<button onclick="toggleCourse('faff')" class="course-btn">
+🔥 First Aid Fire Fighting (FAFF)
+</button>
+<div id="faff" class="course-box hidden">
+<p>Basic Fire Fighting एवं Emergency First Aid Training।</p>
+<h3>Duration:</h3><p>3 Months</p>
+<h3>Eligibility:</h3><p>10वीं पास</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- Fireman -->
+<button onclick="toggleCourse('fireman')" class="course-btn">
+🔥 Fireman (CFM)
+</button>
+<div id="fireman" class="course-box hidden">
+<p>Fire Fighting, Rescue एवं Emergency Response।</p>
+<h3>Duration:</h3><p>6 Months</p>
+<h3>Eligibility:</h3><p>10वीं पास</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- DCPO -->
+<button onclick="toggleCourse('dcpo')" class="course-btn">
+🔥 Driver Cum Pump Operator (DCPO)
+</button>
+<div id="dcpo" class="course-box hidden">
+<p>Fire Vehicle Driving एवं Pump Operation Training।</p>
+<h3>Duration:</h3><p>6 Months</p>
+<h3>Eligibility:</h3><p>10वीं पास</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- CFSSM -->
+<button onclick="toggleCourse('cfssm')" class="course-btn">
+🔥 Fire Safety & Security Management (CFSSM)
+</button>
+<div id="cfssm" class="course-box hidden">
+<p>Fire Safety के साथ Security Operations Management।</p>
+<h3>Duration:</h3><p>3 Months</p>
+<h3>Eligibility:</h3><p>10वीं पास</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- HSI -->
+<button onclick="toggleCourse('hsi')" class="course-btn">
+🔥 Health Sanitary Inspector (HSI)
+</button>
+<div id="hsi" class="course-box hidden">
+<p>Public Health, Sanitation एवं Hygiene Inspection।</p>
+<h3>Duration:</h3><p>780 Hrs</p>
+<h3>Eligibility:</h3><p>10वीं पास</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- ECCE -->
+<button onclick="toggleCourse('ecce')" class="course-btn">
+🔥 ECCE
+</button>
+<div id="ecce" class="course-box hidden">
+<p>Early Childhood Care & Education (Supportive Safety Awareness)।</p>
+<h3>Duration:</h3><p>780 Hrs</p>
+<h3>Eligibility:</h3><p>12वीं पास</p>
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer id="footer" class="bg-red-900 text-white text-center p-4">
+© 2025 OSDC – Orbital Skill Development Center | Fire & Safety Division
+</footer>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+function toggleCourse(id){
+  document.getElementById(id).classList.toggle("hidden");
+}
+function applyNow(){
+  window.open("https://orbital-skills.github.io/osi.com/index.html#registration","_blank");
+}
+</script>
+
+<!-- ================= STYLES ================= -->
+<style>
+.course-btn{
+width:100%;
+background:#b91c1c;
+color:#fff;
+padding:14px;
+border-radius:10px;
+font-weight:600;
+text-align:left;
+margin-bottom:8px;
+}
+.course-box{
+background:#fef2f2;
+border:1px solid #fecaca;
+padding:18px;
+border-radius:10px;
+margin-bottom:14px;
+}
+.course-box h3{
+font-weight:600;
+margin-top:10px;
+}
+.course-box ul{
+list-style:disc;
+padding-left:22px;
+}
+.apply-btn{
+background:#dc2626;
+color:#fff;
+padding:10px 20px;
+border-radius:8px;
+margin-top:12px;
+cursor:pointer;
+}
+</style>
+
+</body>
+</html>
