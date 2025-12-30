@@ -807,7 +807,6 @@
     }
   });
 </script>
-``
          </div>
                         
                         <div class="md:col-span-2">
@@ -837,166 +836,117 @@
                         </a>
                     </div>
                 </form>
-
-
-
-
 <script>
-  // ✅ आपका Google Apps Script Webhook URL
+  // ✅ अपना नया Deployment URL यहाँ डालें
   const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyNQN4hsu-lpz6nj83dj1eI13FntF8kHFj3BrcRz7-LcqbqX1BcuaQwx5h2a_4_gesB/exec';
 
   const form = document.getElementById('registration-form');
   const successBox = document.getElementById('success-message');
   const studentIdEl = document.getElementById('student-id-display');
 
-  // Inline status
-  let inlineStatus = document.getElementById('form-inline-status');
-  if (!inlineStatus) {
-    inlineStatus = document.createElement('div');
-    inlineStatus.id = 'form-inline-status';
-    inlineStatus.className = 'text-sm mt-3';
-    form.appendChild(inlineStatus);
-  }
-  if (successBox) successBox.style.display = 'none';
+  // "Other" योग्यता दिखाने/छुपाने का लॉजिक
+  document.getElementsByName('qualification')[0].addEventListener('change', function(e) {
+    const wrap = document.getElementById('qual-other-wrapper');
+    if (e.target.value === 'Other') {
+      wrap.classList.remove('hidden');
+    } else {
+      wrap.classList.add('hidden');
+    }
+  });
+
   const setStatus = (m, t='info') => {
-    inlineStatus.textContent = m;
-    inlineStatus.style.color = t==='error' ? '#b00020' : (t==='success' ? '#006400' : '#333');
+    let statusEl = document.getElementById('form-status');
+    if(!statusEl) {
+       statusEl = document.createElement('div');
+       statusEl.id = 'form-status';
+       statusEl.className = 'mt-4 text-center font-bold';
+       form.appendChild(statusEl);
+    }
+    statusEl.textContent = m;
+    statusEl.style.color = t==='error' ? '#b00020' : (t==='success' ? '#006400' : '#4F0A5A');
   };
 
-  // 🔎 आपके मौजूदा name="" → webhook keys
-  const NAME_MAP = {
-    FullName: 'fullname',
-    FatherMotherName: 'parentname',
-    DOB: 'dob',
-    Gender: 'gender',
-    Address: 'address',
-    District: 'district',
-    State: 'state',
-    Email: 'email',
-    Mobile: 'mobile',
-    CourseSelected: 'course',
-    Qualification: 'qualification'
-  };
-  const buildPayload = raw => {
-    const d = {};
-    for (const [k, n] of Object.entries(NAME_MAP)) d[k] = (raw[n] || '').trim();
-    if (raw.qualification === 'Other') d.Qualification = (raw.qualification_other || 'Other').trim();
-    return d;
-  };
-
-  function basicValidate(d) {
-    const req = ['FullName','FatherMotherName','DOB','Gender','Address','District','State','Email','Mobile','CourseSelected','Qualification'];
-    const miss = req.filter(k => !d[k]);
-    if (miss.length) return `कृपया ये फ़ील्ड भरें: ${miss.join(', ')}`;
-    if (!/^[6-9]\d{9}$/.test(d.Mobile)) return 'सही 10-अंकीय मोबाइल नंबर दर्ज करें (6-9 से शुरुआत).';
-    if (d.Email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.Email)) return 'सही ईमेल दर्ज करें.';
-    const dob = new Date(d.DOB);
-    if (isNaN(dob.getTime())) return 'DOB मान्य तिथि नहीं है.';
-    if (dob > new Date()) return 'DOB भविष्य की तारीख नहीं हो सकती.';
-    return null;
-  }
-
-  // 📷 फ़ोटो को base64 में compress (maxWidth 800px, JPEG quality 0.7)
-  async function imageFileToBase64(file, opts = {maxWidth:800, quality:0.7}) {
-    if (!file || !file.type.startsWith('image/')) throw new Error('कृपया JPG/PNG इमेज चुनें.');
-    const img = await new Promise((resolve, reject) => {
-      const fr = new FileReader();
-      fr.onload = () => {
-        const i = new Image();
-        i.onload = () => resolve(i);
-        i.onerror = () => reject(new Error('यह इमेज ब्राउज़र में लोड नहीं हो पाई (HEIC/unsupported). कृपया JPG/PNG चुनें.'));
-        i.src = fr.result;
+  // इमेज को बेस64 में बदलना और कम्प्रेस करना
+  async function imageFileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const max_width = 800;
+          const scale = Math.min(max_width / img.width, 1);
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve({
+            base64: canvas.toDataURL('image/jpeg', 0.7),
+            mime: 'image/jpeg'
+          });
+        };
       };
-      fr.onerror = reject;
-      fr.readAsDataURL(file);
+      reader.onerror = error => reject(error);
     });
-
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const scale = Math.min(1, opts.maxWidth / img.width);
-    const w = Math.round(img.width * scale);
-    const h = Math.round(img.height * scale);
-    canvas.width = w; canvas.height = h;
-    ctx.drawImage(img, 0, 0, w, h);
-
-    const mime = file.type.includes('png') ? 'image/png' : 'image/jpeg';
-    const base64 = canvas.toDataURL(mime, mime === 'image/jpeg' ? opts.quality : undefined);
-    console.log('PhotoBase64 length:', base64.length);
-
-    // Payload size guard (~10MB)
-    if (base64.length > 10 * 1024 * 1024) throw new Error('फ़ोटो बहुत बड़ी है; कृपया छोटी/कम्प्रेस्ड इमेज चुनें (~ ≤10MB payload).');
-    return { base64, mime };
-  }
-
-  async function postToWebhook(json) {
-    console.log('➡️ POST payload keys:', Object.keys(json));
-    const resp = await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // no preflight
-      body: JSON.stringify(json),
-    });
-    let payload;
-    try { payload = await resp.json(); } catch { payload = await resp.text(); }
-    console.log('⬅️ Webhook response:', payload);
-    return { ok: resp.ok, status: resp.status, payload };
   }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    setStatus('Submitting...', 'info');
-
+    setStatus('Submitting details... कृपया प्रतीक्षा करें।', 'info');
     const submitBtn = form.querySelector('button[type="submit"]');
-    if (submitBtn) submitBtn.disabled = true;
+    submitBtn.disabled = true;
 
     try {
-      // Gather text fields
-      const fd  = new FormData(form);
-      const raw = Object.fromEntries(fd.entries());
-      const data = buildPayload(raw);
+      const fd = new FormData(form);
+      const data = {
+        FullName: fd.get('fullname'),
+        FatherMotherName: fd.get('parentname'),
+        DOB: fd.get('dob'),
+        Gender: fd.get('gender'),
+        Address: fd.get('address'),
+        District: fd.get('district'),
+        State: fd.get('state'),
+        Email: fd.get('email'),
+        Mobile: fd.get('mobile'),
+        CourseSelected: fd.get('course'),
+        Qualification: fd.get('qualification') === 'Other' ? fd.get('qualification_other') : fd.get('qualification')
+      };
 
-      // Validate text fields
-      const err = basicValidate(data);
-      if (err) throw new Error(err);
-
-      // Photo file (inside form): <input type="file" name="photo">
-      const file = form.querySelector('input[type="file"][name="photo"]')?.files?.[0];
-      if (!file) throw new Error('कृपया फोटो फ़ाइल चुनें.');
-
-      // Convert to base64
-      setStatus('Processing photo...', 'info');
-      const { base64, mime } = await imageFileToBase64(file);
-      data.PhotoBase64   = base64;           // data:image/jpeg;base64,....
-      data.PhotoMime     = mime;             // image/jpeg or image/png
-      data.PhotoFilename = file.name || 'photo.jpg';
-
-      // POST to webhook
-      setStatus('Uploading to server...', 'info');
-      const result = await postToWebhook(data);
-
-      const ok = result.ok && result.payload && typeof result.payload === 'object' && result.payload.success === true;
-      if (!ok) {
-        throw new Error(`वेबहुक में समस्या (HTTP ${result.status}) | ${typeof result.payload === 'string' ? result.payload : JSON.stringify(result.payload)}`);
+      const photoFile = form.querySelector('input[type="file"]').files[0];
+      if (photoFile) {
+        const photoData = await imageFileToBase64(photoFile);
+        data.PhotoBase64 = photoData.base64;
+        data.PhotoMime = photoData.mime;
+        data.PhotoFilename = photoFile.name;
       }
 
-      // Success
-      setStatus('✅ पंजीकरण सफल!', 'success');
-      if (successBox) {
+      const response = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStatus('✅ सफल! आपका पंजीकरण हो गया है।', 'success');
         successBox.style.display = 'block';
-        const id  = result.payload.studentId || 'N/A';
-        const pUrl = result.payload.photoUrl || '';
-        studentIdEl.innerHTML = `Student ID: ${id}` + (pUrl ? ` | Photo: ${pUrl}View</a>` : '');
+        studentIdEl.innerHTML = `Student ID: <strong>${result.studentId}</strong><br>Photo Saved: <a href="${result.photoUrl}" target="_blank" class="text-blue-600 underline">View Photo</a>`;
+        form.reset();
+        window.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
+      } else {
+        throw new Error(result.error);
       }
-      form.reset();
-    } catch (ex) {
-      console.error(ex);
-      setStatus(`❌ त्रुटि: ${ex.message}`, 'error');
+    } catch (error) {
+      setStatus('❌ त्रुटि: ' + error.message, 'error');
     } finally {
-      if (submitBtn) submitBtn.disabled = false;
+      submitBtn.disabled = false;
     }
   });
-</script>
-
-           </div>
+</script>     
+            </div>
         </div>
     </section>
 
