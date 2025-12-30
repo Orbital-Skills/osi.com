@@ -810,16 +810,15 @@
                         </a>
                     </div>
                 </form>
-                
+
 <script>
-  // ✅ आपके Google Apps Script Webhook का URL
   const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwqurvxrYA41D5aexnrY0sapf_Md9tdcW4JuUKPPaa1gKG00ED6tmk7ZPeTgXp_FCIt/exec';
 
   const form = document.getElementById('registration-form');
   const successBox = document.getElementById('success-message');
   const studentIdEl = document.getElementById('student-id-display');
 
-  // Inline status div अगर न हो तो जोड़ दें (HTML बदले बिना)
+  // Status element (HTML बदले बिना)
   let inlineStatus = document.getElementById('form-inline-status');
   if (!inlineStatus) {
     inlineStatus = document.createElement('div');
@@ -828,7 +827,6 @@
     form.appendChild(inlineStatus);
   }
 
-  // Success UI को पहले छुपाएँ
   if (successBox) successBox.style.display = 'none';
 
   function setInlineStatus(msg, type = 'info') {
@@ -836,7 +834,6 @@
     inlineStatus.style.color = (type === 'error') ? '#b00020' : (type === 'success' ? '#006400' : '#333');
   }
 
-  // 🗺️ Mapping: Webhook keys → आपके form के मौजूदा name=""
   const NAME_MAP = {
     FullName: 'fullname',
     FatherMotherName: 'parentname',
@@ -848,15 +845,14 @@
     Email: 'email',
     Mobile: 'mobile',
     CourseSelected: 'course',
-    // ये आपके फॉर्म में नहीं हैं — optional/blank भेजेंगे
-    Qualification: null,
-    PhotoURL: null
+    Qualification: null, // not in form → blank
+    PhotoURL: null       // not in form → blank
   };
 
   function buildWebhookPayload(raw) {
     const data = {};
     for (const [target, source] of Object.entries(NAME_MAP)) {
-      const val = source ? (raw[source] ?? '') : ''; // absent → blank
+      const val = source ? (raw[source] ?? '') : '';
       data[target] = typeof val === 'string' ? val.trim() : val;
     }
     return data;
@@ -867,36 +863,27 @@
       'FullName','FatherMotherName','DOB','Gender','Address',
       'District','State','Email','Mobile','CourseSelected'
     ];
-
     const missing = requiredWebhook.filter(k => !data[k]);
     if (missing.length) return `कृपया ये फ़ील्ड भरें: ${missing.join(', ')}`;
 
-    // Mobile: India 10-digit, starts 6-9
     if (!/^[6-9]\d{9}$/.test(data.Mobile)) {
       return 'सही 10-अंकीय मोबाइल नंबर दर्ज करें (6-9 से शुरुआत).';
     }
-
-    // Email basic validation
     if (data.Email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.Email)) {
       return 'सही ईमेल दर्ज करें.';
     }
-
-    // DOB should not be future
-    const today = new Date();
     const dob = new Date(data.DOB);
     if (isNaN(dob.getTime())) return 'DOB मान्य तिथि नहीं है.';
-    if (dob > today) return 'DOB भविष्य की तारीख नहीं हो सकती.';
-
-    return null; // valid
+    if (dob > new Date()) return 'DOB भविष्य की तारीख नहीं हो सकती.';
+    return null;
   }
 
   async function postToWebhook(json) {
+    // ⚠️ Content-Type: text/plain → no preflight CORS
     const resp = await fetch(WEBHOOK_URL, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(json),
-      // ⚠️ अगर CORS error आए तो mode:'no-cors' आज़मा सकते हैं, पर फिर response पढ़ नहीं पाएँगे
-      // mode: 'cors'
     });
     let payload;
     try { payload = await resp.json(); } catch { payload = await resp.text(); }
@@ -907,9 +894,7 @@
     setInlineStatus('✅ Registration successful | पंजीकरण सफल!', 'success');
     if (successBox) {
       successBox.style.display = 'block';
-      // Payload से कोई ID मिल जाए तो दिखाएँ
-      const id =
-        (payload && (payload.studentId || payload.id || payload.StudentID || payload.regId)) || '';
+      const id = (payload && (payload.studentId || payload.id || payload.StudentID || payload.regId)) || '';
       if (studentIdEl) {
         studentIdEl.textContent = id
           ? `Student ID: ${id} | आपका ID: ${id}`
@@ -920,39 +905,25 @@
 
   function showError(text, payload) {
     const extra = (payload && typeof payload !== 'string') ? JSON.stringify(payload) : (payload || '');
-    setInlineStatus(`❌ त्रुटि: ${text} ${extra ? ' | ' + extra : ''}`, 'error');
+    setInlineStatus(`❌ त्रुटि: ${text}${extra ? ' | ' + extra : ''}`, 'error');
   }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     setInlineStatus('Submitting...', 'info');
-
     const submitBtn = form.querySelector('button[type="submit"]');
     if (submitBtn) submitBtn.disabled = true;
 
-    // Read raw form values by your original names
     const fd = new FormData(form);
     const raw = Object.fromEntries(fd.entries());
-
-    // Build webhook payload with mapping
     const data = buildWebhookPayload(raw);
-
-    // Optional defaults (आप चाहें तो यहाँ edit कर सकते हैं)
     data.Qualification = data.Qualification || '';
     data.PhotoURL = data.PhotoURL || '';
 
-    // Validate
     const err = validate(data);
-    if (err) {
-      showError(err);
-      if (submitBtn) submitBtn.disabled = false;
-      return;
-    }
+    if (err) { showError(err); if (submitBtn) submitBtn.disabled = false; return; }
 
     try {
-      // Debug: Network payload देखना हो तो enable करें
-      // console.log('POSTing JSON to webhook:', data);
-
       const result = await postToWebhook(data);
       if (result.ok) {
         showSuccess(result.payload, data);
@@ -961,7 +932,8 @@
         showError(`सबमिट में समस्या (HTTP ${result.status})`, result.payload);
       }
     } catch (ex) {
-      showError('नेटवर्क/वेबहुक त्रुटि', ex.message);
+      // इस केस में ब्राउज़र general "Failed to fetch" देता है
+      showError('नेटवर्क/वेबहुक त्रुटि', ex.message || 'Failed to fetch');
     } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
