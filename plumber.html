@@ -1,300 +1,694 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Plumbing Courses | OSDC</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Development Center - Plumbing Courses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .filter-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-btn.active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        
+        .hero-pattern {
+            background-color: #f9fafb;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .level-3 {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+        
+        .level-4 {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .level-5 {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .course-card {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .course-card:nth-child(1) { animation-delay: 0.1s; }
+        .course-card:nth-child(2) { animation-delay: 0.2s; }
+        .course-card:nth-child(3) { animation-delay: 0.3s; }
+        .course-card:nth-child(4) { animation-delay: 0.4s; }
+        .course-card:nth-child(5) { animation-delay: 0.5s; }
+        .course-card:nth-child(6) { animation-delay: 0.6s; }
+        .course-card:nth-child(7) { animation-delay: 0.7s; }
+    </style>
 </head>
+<body class="bg-gray-50 scroll-smooth">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white"></i>
+                    </div>
+                    <h1 class="text-xl md:text-2xl font-bold text-gray-800">Orbital Skill Development Center</h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-600 hover:text-indigo-600 transition">Home</a>
+                    <a href="#courses" class="text-gray-600 hover:text-indigo-600 transition">Courses</a>
+                    <a href="#about" class="text-gray-600 hover:text-indigo-600 transition">About</a>
+                    <a href="#contact" class="text-gray-600 hover:text-indigo-600 transition">Contact</a>
+                </nav>
+                <button id="mobile-menu-button" class="md:hidden text-gray-600 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <a href="index.html" class="block py-2 text-gray-600 hover:text-indigo-600 transition">Home</a>
+                <a href="#courses" class="block py-2 text-gray-600 hover:text-indigo-600 transition">Courses</a>
+                <a href="#about" class="block py-2 text-gray-600 hover:text-indigo-600 transition">About</a>
+                <a href="#contact" class="block py-2 text-gray-600 hover:text-indigo-600 transition">Contact</a>
+            </nav>
+        </div>
+    </header>
 
-<body class="bg-gray-100">
+    <!-- Hero Section -->
+    <section id="home" class="hero-pattern py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Professional Plumbing Courses</h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8">Enhance your skills with our NSQF certified plumbing courses. From beginner to advanced levels, we have the right program for you.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#courses" class="px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition shadow-lg">
+                        Explore Courses
+                    </a>
+                    <a href="#contact" class="px-8 py-3 bg-white text-indigo-600 font-medium rounded-lg border border-indigo-600 hover:bg-indigo-50 transition">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- ================= HEADER ================= -->
-<header class="bg-blue-700 text-white">
-  <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
-    <div>
-      <h1 class="text-xl font-bold">OSDC</h1>
-      <p class="text-sm">Orbital Skill Development Center</p>
-    </div>
-    <nav class="space-x-4 text-sm font-semibold">
-      <a href="index.html" class="hover:underline">Home</a>
-      <a href="#" class="hover:underline">Courses</a>
-      <a href="#footer" class="hover:underline">Contact</a>
-    </nav>
-  </div>
-</header>
+    <!-- Courses Section -->
+    <section id="courses" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Plumbing Sector Courses</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We offer a comprehensive range of plumbing courses designed to meet industry standards and enhance your career prospects.</p>
+            </div>
 
-<!-- ================= MAIN ================= -->
-<div class="max-w-5xl mx-auto bg-white p-6 mt-8 mb-10 rounded-xl shadow-lg">
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button class="filter-btn active px-4 py-2 rounded-full border border-gray-300 text-gray-700 font-medium" data-filter="all">
+                    All Courses
+                </button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-700 font-medium" data-filter="level-3">
+                    Level 3
+                </button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-700 font-medium" data-filter="level-4">
+                    Level 4
+                </button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-700 font-medium" data-filter="level-5">
+                    Level 5
+                </button>
+            </div>
 
-<h1 class="text-3xl font-bold text-blue-700 mb-4">
-Plumbing Courses (NSQF Aligned)
-</h1>
+            <!-- Courses Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Course 1: Assistant Plumber - General -->
+                <div class="course-card bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-level="level-3">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Assistant Plumber - General</h3>
+                            <span class="level-badge level-3">Level 3</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <i class="fas fa-user-graduate text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Experience Required</p>
+                                    <p class="text-gray-700">5th Pass</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Duration</p>
+                                    <p class="text-gray-700">232 Hrs (6 Months)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-money-bill-wave text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Assessment Fee</p>
+                                    <p class="text-gray-700">₹1000</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="mt-6 w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                            Enquire Now
+                        </button>
+                    </div>
+                </div>
 
-<p class="text-gray-700 mb-6">
-OSDC के अंतर्गत Plumbing Sector के NSQF आधारित कोर्स कराए जाते हैं,
-जो छात्रों को Residential, Commercial एवं Industrial Plumbing
-Projects के लिए तैयार करते हैं।
-</p>
+                <!-- Course 2: Jal Mitra -->
+                <div class="course-card bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-level="level-4">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Jal Mitra</h3>
+                            <span class="level-badge level-4">Level 4</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <i class="fas fa-user-graduate text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Experience Required</p>
+                                    <p class="text-gray-700">10th + ITI with 3 years experience or equivalent</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Duration</p>
+                                    <p class="text-gray-700">510 Hrs (1 Year)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-money-bill-wave text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Assessment Fee</p>
+                                    <p class="text-gray-700">₹1000</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="mt-6 w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                            Enquire Now
+                        </button>
+                    </div>
+                </div>
 
-<!-- ================= ASSISTANT PLUMBER ================= -->
-<button onclick="toggleCourse('apg')" class="course-btn">
-🔧 Assistant Plumber – General (NSQF Level 3)
-</button>
-<div id="apg" class="course-box hidden">
-<p>
-यह Plumbing Sector का foundation course है जिसमें basic plumbing,
-pipe fitting, leakage repair एवं sanitation system सिखाया जाता है।
-</p>
+                <!-- Course 3: Plumber - General -->
+                <div class="course-card bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-level="level-4">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Plumber - General</h3>
+                            <span class="level-badge level-4">Level 4</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <i class="fas fa-user-graduate text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Experience Required</p>
+                                    <p class="text-gray-700">5th Standard + 2 years experience or ITI</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Duration</p>
+                                    <p class="text-gray-700">432 Hrs (1 Year)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-money-bill-wave text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Assessment Fee</p>
+                                    <p class="text-gray-700">₹1000</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="mt-6 w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                            Enquire Now
+                        </button>
+                    </div>
+                </div>
 
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Water supply एवं drainage pipeline fitting</li>
-<li>Leakage detection और repair</li>
-<li>Basic sanitary fittings installation</li>
-<li>Tools एवं safety practices</li>
-</ul>
+                <!-- Course 4: Plumbing Supervisor -->
+                <div class="course-card bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-level="level-5">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Plumbing Supervisor</h3>
+                            <span class="level-badge level-5">Level 5</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <i class="fas fa-user-graduate text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Experience Required</p>
+                                    <p class="text-gray-700">10th + ITI with 4 years experience or equivalent</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Duration</p>
+                                    <p class="text-gray-700">690 Hrs (1 Year)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-money-bill-wave text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Assessment Fee</p>
+                                    <p class="text-gray-700">₹1300</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="mt-6 w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                            Enquire Now
+                        </button>
+                    </div>
+                </div>
 
-<h3>Duration</h3><p>232 Hours (6 Months)</p>
-<h3>Eligibility</h3><p>5वीं पास</p>
+                <!-- Course 5: Storekeeper - Plumbing Projects -->
+                <div class="course-card bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-level="level-4">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Storekeeper - Plumbing Projects</h3>
+                            <span class="level-badge level-4">Level 4</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <i class="fas fa-user-graduate text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Experience Required</p>
+                                    <p class="text-gray-700">8th Class + 2 years ITI with 2 years experience</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Duration</p>
+                                    <p class="text-gray-700">510 Hrs (1 Year)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-money-bill-wave text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Assessment Fee</p>
+                                    <p class="text-gray-700">₹1000</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="mt-6 w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                            Enquire Now
+                        </button>
+                    </div>
+                </div>
 
-<h3>Job Sectors</h3>
-<p>Residential Buildings, Maintenance Services, Construction Sites</p>
+                <!-- Course 6: Water Pump Operator -->
+                <div class="course-card bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-level="level-4">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Water Pump Operator</h3>
+                            <span class="level-badge level-4">Level 4</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <i class="fas fa-user-graduate text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Experience Required</p>
+                                    <p class="text-gray-700">8th Class + ITI with 2 years experience</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Duration</p>
+                                    <p class="text-gray-700">420 Hrs (1 Year)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-money-bill-wave text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Assessment Fee</p>
+                                    <p class="text-gray-700">₹1000</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="mt-6 w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                            Enquire Now
+                        </button>
+                    </div>
+                </div>
 
-<h3>Salary</h3>
-<p>₹10,000 – ₹15,000 प्रति माह</p>
+                <!-- Course 7: Pump Operator -->
+                <div class="course-card bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-level="level-4">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Pump Operator</h3>
+                            <span class="level-badge level-4">Level 4</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <i class="fas fa-user-graduate text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Experience Required</p>
+                                    <p class="text-gray-700">12th Class</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Duration</p>
+                                    <p class="text-gray-700">420 Hrs (1 Year)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-money-bill-wave text-indigo-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-500">Assessment Fee</p>
+                                    <p class="text-gray-700">₹1000</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="mt-6 w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                            Enquire Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">About Orbital Skill Development Center</h2>
+                    <p class="text-gray-600">Empowering individuals with industry-relevant skills for a brighter future.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                        <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-award text-indigo-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">NSQF Certified</h3>
+                        <p class="text-gray-600">All our courses are aligned with National Skill Qualification Framework standards.</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                        <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-indigo-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Expert Trainers</h3>
+                        <p class="text-gray-600">Learn from industry experts with years of practical experience in plumbing.</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                        <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-briefcase text-indigo-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Placement Assistance</h3>
+                        <p class="text-gray-600">We provide placement support to help you start your career after course completion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- ================= JAL MITRA ================= -->
-<button onclick="toggleCourse('jal')" class="course-btn">
-🚰 Jal Mitra (NSQF Level 4)
-</button>
-<div id="jal" class="course-box hidden">
-<p>
-Jal Mitra कोर्स Government एवं Urban Water Supply Projects के लिए
-डिज़ाइन किया गया है।
-</p>
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Contact Us</h2>
+                    <p class="text-gray-600">Have questions? Get in touch with our team.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <form class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Your name">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Your email">
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-gray-700 font-medium mb-2">Phone</label>
+                                <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Your phone number">
+                            </div>
+                            <div>
+                                <label for="course" class="block text-gray-700 font-medium mb-2">Course of Interest</label>
+                                <select id="course" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">Select a course</option>
+                                    <option value="assistant-plumber">Assistant Plumber - General</option>
+                                    <option value="jal-mitra">Jal Mitra</option>
+                                    <option value="plumber-general">Plumber - General</option>
+                                    <option value="plumbing-supervisor">Plumbing Supervisor</option>
+                                    <option value="storekeeper">Storekeeper - Plumbing Projects</option>
+                                    <option value="water-pump-operator">Water Pump Operator</option>
+                                    <option value="pump-operator">Pump Operator</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Your message"></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div>
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">Contact Information</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <i class="fas fa-map-marker-alt text-indigo-600 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="text-gray-700 font-medium">Address</p>
+                                        <p class="text-gray-600">Orbital Skill Development Center, 123 Skill Street, Education City, EC 560001</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-phone text-indigo-600 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="text-gray-700 font-medium">Phone</p>
+                                        <p class="text-gray-600">+91 98765 43210</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-envelope text-indigo-600 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="text-gray-700 font-medium">Email</p>
+                                        <p class="text-gray-600">info@orbitalskills.edu</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-clock text-indigo-600 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="text-gray-700 font-medium">Working Hours</p>
+                                        <p class="text-gray-600">Monday - Saturday: 9:00 AM - 6:00 PM</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8">
+                                <h4 class="text-lg font-bold text-gray-800 mb-3">Follow Us</h4>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 hover:bg-indigo-200 transition">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 hover:bg-indigo-200 transition">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 hover:bg-indigo-200 transition">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 hover:bg-indigo-200 transition">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Water distribution network monitoring</li>
-<li>Water meter installation एवं maintenance</li>
-<li>Public grievance handling</li>
-<li>Leakage control एवं reporting</li>
-</ul>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-indigo-600"></i>
+                        </div>
+                        <h2 class="text-xl font-bold">Orbital Skill Development Center</h2>
+                    </div>
+                    <p class="text-gray-400 mt-2">© 2023 All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="index.html" class="text-gray-400 hover:text-white transition">Home</a>
+                    <a href="#courses" class="text-gray-400 hover:text-white transition">Courses</a>
+                    <a href="#about" class="text-gray-400 hover:text-white transition">About</a>
+                    <a href="#contact" class="text-gray-400 hover:text-white transition">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-<h3>Duration</h3><p>510 Hours (1 Year)</p>
-<h3>Eligibility</h3>
-<p>
-10th + ITI with experience / 12th with experience / Diploma holders
-</p>
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
 
-<h3>Job Sectors</h3>
-<p>Municipal Corporations, Jal Nigam, Smart City Projects</p>
+        // Course filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const courseCards = document.querySelectorAll('.course-card');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const filter = button.getAttribute('data-filter');
+                
+                // Show/hide courses based on filter
+                courseCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-level') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
 
-<h3>Salary</h3>
-<p>₹18,000 – ₹25,000 प्रति माह</p>
+        // Form submission
+        const contactForm = document.querySelector('form');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const course = document.getElementById('course').value;
+            const message = document.getElementById('message').value;
+            
+            // Simple validation
+            if (!name || !email || !phone) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            successMessage.textContent = 'Your message has been sent successfully!';
+            document.body.appendChild(successMessage);
+            
+            // Reset form
+            contactForm.reset();
+            
+            // Remove success message after 3 seconds
+            setTimeout(() => {
+                successMessage.remove();
+            }, 3000);
+        });
 
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
 
-<!-- ================= PLUMBER GENERAL ================= -->
-<button onclick="toggleCourse('pg')" class="course-btn">
-🔩 Plumber – General (NSQF Level 4)
-</button>
-<div id="pg" class="course-box hidden">
-<p>
-यह skilled plumber course है जिसमें advanced pipe systems,
-bathroom fittings एवं maintenance सिखाया जाता है।
-</p>
+        // Add animation to elements when they come into view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
 
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Advanced plumbing installation</li>
-<li>Bathroom एवं kitchen fittings</li>
-<li>Maintenance एवं troubleshooting</li>
-</ul>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
 
-<h3>Duration</h3><p>432 Hours (1 Year)</p>
-<h3>Eligibility</h3><p>5वीं पास + अनुभव / ITI Plumbing</p>
-
-<h3>Job Sectors</h3>
-<p>Construction Companies, Facility Management, Hotels</p>
-
-<h3>Salary</h3>
-<p>₹15,000 – ₹25,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- ================= PLUMBING SUPERVISOR ================= -->
-<button onclick="toggleCourse('ps')" class="course-btn">
-🧰 Plumbing Supervisor (NSQF Level 5)
-</button>
-<div id="ps" class="course-box hidden">
-<p>
-यह supervisory level course है जिसमें plumbing project management,
-quality control एवं team handling सिखाया जाता है।
-</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Plumbing workforce supervision</li>
-<li>Project execution & quality control</li>
-<li>Material planning एवं reporting</li>
-</ul>
-
-<h3>Duration</h3><p>690 Hours (1 Year)</p>
-<h3>Eligibility</h3><p>10th + ITI / Diploma / Experience</p>
-
-<h3>Job Sectors</h3>
-<p>Infrastructure Projects, Real Estate Developers</p>
-
-<h3>Salary</h3>
-<p>₹25,000 – ₹40,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- ================= STOREKEEPER ================= -->
-<button onclick="toggleCourse('store')" class="course-btn">
-📦 Storekeeper – Plumbing Projects (NSQF Level 4)
-</button>
-<div id="store" class="course-box hidden">
-<p>
-यह कोर्स plumbing materials, inventory एवं site store management पर आधारित है।
-</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Plumbing materials inventory</li>
-<li>Stock records एवं issue control</li>
-<li>Site coordination</li>
-</ul>
-
-<h3>Duration</h3><p>510 Hours (1 Year)</p>
-<h3>Eligibility</h3><p>8वीं / 10वीं / 12वीं</p>
-
-<h3>Job Sectors</h3>
-<p>Construction Sites, Warehouses</p>
-
-<h3>Salary</h3>
-<p>₹18,000 – ₹25,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- ================= WATER PUMP OPERATOR ================= -->
-<button onclick="toggleCourse('wpo')" class="course-btn">
-💧 Water Pump Operator (NSQF Level 4)
-</button>
-<div id="wpo" class="course-box hidden">
-<p>
-यह कोर्स water pumping stations, motor operations एवं maintenance सिखाता है।
-</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Pump operation एवं monitoring</li>
-<li>Motor maintenance</li>
-<li>Water supply regulation</li>
-</ul>
-
-<h3>Duration</h3><p>420 Hours (1 Year)</p>
-<h3>Eligibility</h3><p>8वीं / 10वीं / 12वीं</p>
-
-<h3>Job Sectors</h3>
-<p>Water Treatment Plants, Municipal Bodies</p>
-
-<h3>Salary</h3>
-<p>₹15,000 – ₹22,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- ================= PUMP OPERATOR ================= -->
-<button onclick="toggleCourse('po')" class="course-btn">
-⚙️ Pump Operator (NSQF Level 4)
-</button>
-<div id="po" class="course-box hidden">
-<p>
-Pump Operator course industrial एवं water supply pump systems पर केंद्रित है।
-</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Pump systems operation</li>
-<li>Routine inspection</li>
-<li>Safety compliance</li>
-</ul>
-
-<h3>Duration</h3><p>420 Hours (1 Year)</p>
-<h3>Eligibility</h3><p>12वीं पास</p>
-
-<h3>Job Sectors</h3>
-<p>Industries, Water Supply Departments</p>
-
-<h3>Salary</h3>
-<p>₹18,000 – ₹28,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-</div>
-
-<!-- ================= FOOTER ================= -->
-<footer id="footer" class="bg-blue-900 text-white text-center p-4">
-© 2025 OSDC – Orbital Skill Development Center | Plumbing Division
-</footer>
-
-<!-- ================= SCRIPT ================= -->
-<script>
-function toggleCourse(id){
-  document.getElementById(id).classList.toggle("hidden");
-}
-function applyNow(){
-  window.open("https://orbital-skills.github.io/osi.com/index.html#registration","_blank");
-}
-</script>
-
-<!-- ================= STYLES ================= -->
-<style>
-.course-btn{
-width:100%;
-background:#1d4ed8;
-color:#fff;
-padding:14px;
-border-radius:10px;
-font-weight:600;
-text-align:left;
-margin-bottom:8px;
-}
-.course-box{
-background:#eff6ff;
-border:1px solid #bfdbfe;
-padding:18px;
-border-radius:10px;
-margin-bottom:14px;
-}
-.course-box h3{
-font-weight:600;
-margin-top:10px;
-}
-.course-box ul{
-list-style:disc;
-padding-left:22px;
-}
-.apply-btn{
-background:#2563eb;
-color:#fff;
-padding:10px 20px;
-border-radius:8px;
-margin-top:12px;
-cursor:pointer;
-}
-</style>
-
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>
