@@ -1,250 +1,322 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Electrician Trade | OSDC</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Development Center | Course Catalog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f8fafc;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top right, #4f46e5 0%, #1e1b4b 100%);
+        }
+
+        .course-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .badge-nsqf {
+            background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+    </style>
 </head>
+<body class="text-slate-900">
 
-<body class="bg-gray-100 flex flex-col min-h-screen">
-
-<!-- ================= HEADER ================= -->
-<header class="bg-blue-800 text-white">
-  <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
-    <div>
-      <h1 class="text-xl font-bold">OSDC</h1>
-      <p class="text-sm">Orbital Skill Development Center</p>
-    </div>
-    <nav class="space-x-4 text-sm font-semibold">
-      <a href="index.html" class="hover:underline">Home</a>
-      <a href="#" class="hover:underline">Courses</a>
-      <a href="#footer" class="hover:underline">Contact</a>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
+                        <i class="fas fa-orbit text-xl"></i>
+                    </div>
+                    <span class="text-xl font-extrabold tracking-tight text-indigo-950 uppercase">Orbital <span class="text-indigo-600">Skills</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 font-medium text-slate-600">
+                    <a href="index.html" class="hover:text-indigo-600 transition-colors">Home</a>
+                    <a href="#courses" class="hover:text-indigo-600 transition-colors">Courses</a>
+                    <a href="#about" class="hover:text-indigo-600 transition-colors">About OSDC</a>
+                    <a href="#" class="bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200">Contact Us</a>
+                </div>
+            </div>
+        </div>
     </nav>
-  </div>
-</header>
 
-<!-- ================= MAIN CONTENT ================= -->
-<main class="flex-grow">
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 overflow-hidden hero-gradient text-white">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <div class="absolute top-20 left-10 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-indigo-400 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight animate-fade-in">
+                Elevate Your Career with <br><span class="text-indigo-300">Orbital Skill Development</span>
+            </h1>
+            <p class="text-lg md:text-xl text-indigo-100 max-w-2xl mx-auto mb-10 opacity-90 animate-fade-in" style="animation-delay: 0.1s">
+                Empowering the youth through industry-aligned vocational training. Get certified under OSDC and open doors to global opportunities.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style="animation-delay: 0.2s">
+                <a href="#courses" class="px-8 py-4 bg-white text-indigo-900 font-bold rounded-xl hover:bg-indigo-50 transition-all text-center">Explore Courses</a>
+                <a href="#" class="px-8 py-4 bg-indigo-500 bg-opacity-30 border border-indigo-400 border-opacity-50 text-white font-bold rounded-xl hover:bg-opacity-40 transition-all text-center">Learn More</a>
+            </div>
+        </div>
+    </header>
 
-<div class="max-w-5xl mx-auto bg-white p-6 mt-8 mb-10 rounded-xl shadow-lg">
+    <!-- Search & Filter Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20">
+        <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div class="relative w-full md:w-1/2">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="courseSearch" placeholder="Search for courses (e.g. Electrician, CCTV...)" class="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                </div>
+                <div class="flex gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+                    <button onclick="filterCourses('all')" class="filter-btn active whitespace-nowrap px-6 py-2 rounded-full bg-indigo-600 text-white font-medium">All Courses</button>
+                    <button onclick="filterCourses('3')" class="filter-btn whitespace-nowrap px-6 py-2 rounded-full bg-slate-100 text-slate-600 font-medium hover:bg-slate-200">Level 3</button>
+                    <button onclick="filterCourses('4')" class="filter-btn whitespace-nowrap px-6 py-2 rounded-full bg-slate-100 text-slate-600 font-medium hover:bg-slate-200">Level 4</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<h1 class="text-3xl font-bold text-blue-800 mb-2">
-Electrician Trade Courses
-</h1>
+    <!-- Courses Grid -->
+    <section id="courses" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="flex items-center justify-between mb-12">
+            <div>
+                <h2 class="text-3xl font-bold text-slate-900">Available Training Programs</h2>
+                <p class="text-slate-500 mt-2">Find the right path for your professional growth</p>
+            </div>
+            <div class="hidden sm:block">
+                <span class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-lg font-semibold border border-indigo-100">
+                    <span id="courseCount">15</span> Courses Found
+                </span>
+            </div>
+        </div>
 
-<p class="text-gray-700 mb-6">
-OSDC (Orbital Skill Development Center) के अंतर्गत Electrician ट्रेड से जुड़े
-तकनीकी कोर्स कराए जाते हैं, जो छात्रों को इंडस्ट्रियल लेवल स्किल्स प्रदान करते हैं।
-</p>
+        <div id="courseContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Courses will be injected here by JS -->
+        </div>
+    </section>
 
-<!-- ================= MECHANICAL FITTER ================= -->
-<button onclick="toggleCourse('fitter')" class="course-btn">
-🔘 मैकेनिकल फिटर (Mechanical Fitter)
-</button>
+    <!-- Assessment Info -->
+    <section id="about" class="bg-slate-900 text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-3xl font-extrabold mb-6">About OSDC Certification</h2>
+                    <p class="text-slate-400 mb-6 leading-relaxed">
+                        All our courses are recognized by the Orbital Skill Development Center(OSDC). We focus on providing hands-on experience and theoretical knowledge that meets the current demands of the manufacturing and service sectors.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-indigo-400 mt-1"></i>
+                            <span>Industry recognized NSQF level certifications</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-indigo-400 mt-1"></i>
+                            <span>Comprehensive assessment protocols</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-indigo-400 mt-1"></i>
+                            <span>Affordable fee structure with modern labs</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-indigo-600 rounded-3xl p-8 relative">
+                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-indigo-400 rounded-full blur-2xl opacity-50"></div>
+                    <h3 class="text-2xl font-bold mb-4">Quick Stats</h3>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-indigo-700 p-4 rounded-xl">
+                            <div class="text-3xl font-bold">100%</div>
+                            <div class="text-indigo-200 text-sm">OSDC Approved</div>
+                        </div>
+                        <div class="bg-indigo-700 p-4 rounded-xl">
+                            <div class="text-3xl font-bold">400+</div>
+                            <div class="text-indigo-200 text-sm">Training Hours</div>
+                        </div>
+                        <div class="bg-indigo-700 p-4 rounded-xl">
+                            <div class="text-3xl font-bold">6-12</div>
+                            <div class="text-indigo-200 text-sm">Month Duration</div>
+                        </div>
+                        <div class="bg-indigo-700 p-4 rounded-xl">
+                            <div class="text-3xl font-bold">₹1000+</div>
+                            <div class="text-indigo-200 text-sm">Value Focused</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div id="fitter" class="course-box hidden">
-<h2 class="course-title">मैकेनिकल फिटर (Mechanical Fitter)</h2>
-<p>
-मैकेनिकल फिटर एक कुशल तकनीकी कारीगर होता है जो मशीनों और उनके पुर्जों को
-असेंबल, फिट, इंस्टॉल और मेंटेन करने का कार्य करता है।
-OSDC में यह कोर्स इंडस्ट्रियल जरूरतों को ध्यान में रखकर डिजाइन किया गया है।
-</p>
-<h3>मुख्य जिम्मेदारियाँ (Job Roles)</h3>
-<ul>
-<li>Engineering Drawing / Blueprints पढ़कर मशीन पार्ट्स को असेंबल करना</li>
-<li>मशीनों की नियमित जांच एवं Maintenance</li>
-<li>Marking, Cutting, Grinding एवं Filing कार्य</li>
-<li>Lathe, Drilling, Grinding Machines एवं Hand Tools का उपयोग</li>
-<li>Industrial Safety Rules का पालन</li>
-</ul>
-<h3>योग्यता (Eligibility)</h3>
-<ul>
-<li>न्यूनतम 10वीं पास</li>
-<li>ITI – Fitter Trade (2 Years)</li>
-<li>NCVT / SCVT Certification को प्राथमिकता</li>
-</ul>
-<h3>करियर एवं वेतन (Career & Salary)</h3>
-<p>
-Railway, ONGC, BHEL, SAIL, Automobile Industry एवं Manufacturing Units में रोजगार।
-फ्रेशर सैलरी ₹15,000 – ₹25,000 प्रति माह।
-</p>
-<h3>NOS</h3>
-<ul>
-<li>Mechanical Sub System</li>
-<li>Coordinate with Others</li>
-<li>Maintain Safe Work Surroundings</li>
-</ul>
-<a href="https://orbital-skills.github.io/osi.com/" target="_blank" class="link">
-OSDC Official Website
-</a>
-<div class="mt-4">   <button    onclick="window.open('https://orbital-skills.github.io/osi.com/index.html#registration','_blank')"    class="apply-btn">   Apply Now </button> </div>
-</div>
+    <!-- Footer -->
+    <footer class="bg-white pt-16 pb-8 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
+                            <i class="fas fa-orbit text-xl"></i>
+                        </div>
+                        <span class="text-xl font-extrabold tracking-tight text-indigo-950 uppercase">Orbital <span class="text-indigo-600">Skills</span></span>
+                    </div>
+                    <p class="text-slate-500 max-w-sm mb-6">
+                        Leading skill development center dedicated to providing high-quality vocational training and professional certification for the future workforce.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-600 hover:text-white transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-600 hover:text-white transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-600 hover:text-white transition-all"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-6">Quick Links</h4>
+                    <ul class="space-y-4 text-slate-500">
+                        <li><a href="index.html" class="hover:text-indigo-600">Home</a></li>
+                        <li><a href="#courses" class="hover:text-indigo-600">All Courses</a></li>
+                        <li><a href="#about" class="hover:text-indigo-600">OSDC Info</a></li>
+                        <li><a href="#" class="hover:text-indigo-600">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-6">Contact</h4>
+                    <ul class="space-y-4 text-slate-500">
+                        <li class="flex gap-3"><i class="fas fa-map-marker-alt text-indigo-600"></i> Ahmedabad, Gujarat</li>
+                        <li class="flex gap-3"><i class="fas fa-envelope text-indigo-600"></i> info@orbitalskills.com</li>
+                        <li class="flex gap-3"><i class="fas fa-phone text-indigo-600"></i> +91 98765 43210</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-slate-100 text-center text-slate-400 text-sm">
+                &copy; 2023 Orbital Skill Development Center. All rights reserved.
+            </div>
+        </div>
+    </footer>
 
-<!-- ================= WELDING OPERATOR ================= -->
-<button onclick="toggleCourse('welding')" class="course-btn">
-🔘 वेल्डिंग ऑपरेटर (Welding Operator)
-</button>
+    <script>
+        const courses = [
+            { id: 1, level: 3, name: "Assembly Line Operator", exp: "8th Class with 2 Years of experience relevant OR Certificate-NSQF (Level-2 in the domain of Electronics / Electrical / Mechanical) with 2 Years of experience relevant OR 10th Class with 6 Months of experience relevant OR I.T.I (after 8th)", hours: "420 Hrs", duration: "6 Months", fee: 1000 },
+            { id: 2, level: 3, name: "Assistant Installation Computing And Peripherals", exp: "8th Class with 2 Years of experience relevant OR Certificate-NSQF (Level-2 in the domain of Repair and Maintenance of computing & peripherals) with 2 Years of experience relevant OR 10th Class with 6 Months of experience relevant OR I.T.I (after 8th)", hours: "420 Hrs", duration: "6 Months", fee: 1000 },
+            { id: 3, level: 3, name: "Electrical Assembly Operator - Control Panel", exp: "8th Class with 2 Years of experience relevant OR Certificate-NSQF (Level-2 in the domain of Electronics / Electrical / Mechanical) with 2 Years of experience relevant OR 10th Class with 6 Months of experience relevant OR I.T.I (after 8th)", hours: "420 Hrs", duration: "6 Months", fee: 1000 },
+            { id: 4, level: 3, name: "Electrical Technician", exp: "18 Years, 8th Class with 2 years of relevant Experience OR 10th Class with 06 months of relevant Experience OR I.T.I (after 8th) OR Certificate of NSQF Level-2 in the domain of (Electronics / Electrical / Mechanical) with 2 years of relevant Experience", hours: "400 Hrs", duration: "6 Months", fee: 1000 },
+            { id: 5, level: 3, name: "In-Store Demonstrator", exp: "8th Class with 2 years of relevant Experience OR 10th Class with 06 months of relevant Experience OR I.T.I (after 8th) OR Certificate of NSQF Level-2 in the domain of (Electronics / Electrical / Mechanical) with 2 years of relevant Experience", hours: "420 Hrs", duration: "6 Months", fee: 1000 },
+            { id: 6, level: 3, name: "Maintenance Technician", exp: "8th Class with 2 Years of experience relevant OR Certificate-NSQF (Level-2 in the domain of Electronics / Electrical / Mechanical Maintenance) with 2 Years of experience relevant OR 10th Class with 6 Months of experience relevant OR I.T.I (after 8th)", hours: "420 Hrs", duration: "6 Months", fee: 1000 },
+            { id: 7, level: 3, name: "Remote Helpdesk Technician", exp: "8th Class with 2 years of relevant Experience OR 10th Class with 06 months of relevant Experience OR I.T.I (after 8th) OR Certificate of NSQF Level-2 in the domain of (Electronics / Electrical / Mechanical) with 2 years of relevant Experience", hours: "400 Hrs", duration: "6 Months", fee: 1000 },
+            { id: 8, level: 3, name: "TV Repair Technician", exp: "8th Class with 2 years of relevant Experience OR 10th Class with 06 months of relevant Experience OR I.T.I (after 8th) OR Certificate of NSQF Level-2 in the domain of (Electronics / Electrical / Mechanical) with 2 years of relevant Experience", hours: "400 Hrs", duration: "1 Year", fee: 1300 },
+            { id: 9, level: 3, name: "Welding Operator Electronics", exp: "8th Class with 2 years of relevant Experience OR 10th Class with 06 months of relevant Experience OR I.T.I (after 8th) OR Certificate of NSQF Level-2 in the domain of (Electronics / Electrical / Mechanical) with 2 years of relevant Experience", hours: "400 Hrs", duration: "1 Year", fee: 1300 },
+            { id: 10, level: 3, name: "Wireman Control Panel Electronics", exp: "8th Class with 2 years of relevant Experience OR 10th Class with 6 months of relevant experience OR I.T.I (after 8th) OR Certificate of NSQF Level-2 in the domain of (Electronics / Electrical / Mechanical) with 1 year of relevant Experience", hours: "390 Hrs", duration: "6 Months", fee: 1000 },
+            { id: 11, level: 3, name: "Solar Panel Installer", exp: "8th Class with 2 years of relevant Experience OR 10th Class with 6 months of relevant experience OR I.T.I (after 8th) OR Certificate of NSQF Level-2 in the domain of (Electronics / Electrical / Mechanical) with 1 year of relevant Experience", hours: "390 Hrs", duration: "6 Months", fee: 1000 },
+            { id: 12, level: 4, name: "Assembly Operator - RAC", exp: "8th Class (+ ITI (2 years after 8th) with 2 years of relevant Experience) OR 10th Class with 2 Years of experience relevant OR Certificate-NSQF (Level-3 in Wiring Harness assembly operator) with 2 Years of experience relevant OR 12th Class with 6 Months of experience relevant", hours: "570 Hrs", duration: "1 Year", fee: 1000 },
+            { id: 13, level: 4, name: "Battery System Assembly Operator", exp: "I.T.I (After 10th) with 1 Year of experience in the relevant field OR Diploma (Electrical or Electronics Engineering) OR Certificate-NSQF (Level-3 in the domain of EV / Electrical / Mechanical / Automobile (Electric Vehicle Assembly Operator))", hours: "400 Hrs", duration: "1 Year", fee: 1000 },
+            { id: 14, level: 4, name: "Battery System Repair Technician", exp: "I.T.I (After 10th) with 1 Year of experience in the relevant field OR Diploma (Electrical or Electronics Engineering) OR Certificate-NSQF (Level-3 in the domain of EV / Electrical / Mechanical / Automobile (Automotive Service Technician))", hours: "400 Hrs", duration: "1 Year", fee: 1000 },
+            { id: 15, level: 4, name: "CCTV Installation Technician", exp: "8th Class pass + ITI (2 years after 8th) with 2 years of relevant Experience OR 10th Class with 2 years of relevant Experience OR 2 year I.T.I (after 10th) OR 12th Class with 6 months of relevant experience OR Certificate of NSQF Level-3 in the domain of (Electronics / Electrical / Mechanical) with 2 years of relevant Experience", hours: "540 Hrs", duration: "1 Year", fee: 1300 }
+        ];
 
-<div id="welding" class="course-box hidden">
-<h2 class="course-title">वेल्डिंग ऑपरेटर (Welding Operator)</h2>
-<p>
-वेल्डिंग ऑपरेटर Welding Machine की सहायता से धातु के हिस्सों को जोड़ने का कार्य करता है।
-</p>
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Arc, Gas एवं Electric Welding</li>
-<li>Metal Surface Preparation</li>
-<li>Safety Equipment का उपयोग</li>
-</ul>
-<h3>योग्यता</h3>
-<ul>
-<li>8वीं / 10वीं पास</li>
-<li>ITI – Welder (Preferred)</li>
-</ul>
-<h3>करियर एवं वेतन</h3>
-<p>Fabrication एवं Manufacturing Industry में रोजगार, ₹14,000 – ₹22,000 प्रति माह।</p>
-<a href="https://orbital-skills.github.io/osi.com/" target="_blank" class="link">
-OSDC Official Website
-</a>
-<div class="mt-4">   <button    onclick="window.open('https://orbital-skills.github.io/osi.com/index.html#registration','_blank')"    class="apply-btn">   Apply Now </button> </div>
-</div>
+        function renderCourses(courseList) {
+            const container = document.getElementById('courseContainer');
+            const countDisplay = document.getElementById('courseCount');
+            countDisplay.innerText = courseList.length;
+            
+            container.innerHTML = courseList.map((course, index) => `
+                <div class="course-card bg-white rounded-2xl border border-slate-100 p-6 flex flex-col h-full animate-fade-in" style="animation-delay: ${index * 0.05}s">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="badge-nsqf text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">NSQF LEVEL ${course.level}</span>
+                        <div class="text-indigo-600 font-bold text-lg">₹${course.fee}</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 leading-tight">${course.name}</h3>
+                    
+                    <div class="space-y-3 mb-6 flex-grow">
+                        <div class="flex items-center gap-2 text-slate-500 text-sm">
+                            <i class="far fa-clock w-5 text-indigo-500"></i>
+                            <span>${course.hours} | ${course.duration}</span>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Eligibility & Exp.</h4>
+                            <div class="text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg max-h-32 overflow-y-auto custom-scrollbar">
+                                ${course.exp}
+                            </div>
+                        </div>
+                    </div>
 
-<!-- ================= SOLAR TECHNICIAN ================= -->
-<button onclick="toggleCourse('solar')" class="course-btn">
-🔘 सोलर पैनल इंस्टॉलेशन टेक्नीशियन
-</button>
+                    <button class="w-full py-3 rounded-xl bg-indigo-50 text-indigo-700 font-bold hover:bg-indigo-600 hover:text-white transition-all">
+                        Apply Now
+                    </button>
+                </div>
+            `).join('');
+        }
 
-<div id="solar" class="course-box hidden">
-<h2 class="course-title">सोलर पैनल इंस्टॉलेशन टेक्नीशियन</h2>
-<p>
-यह कोर्स Renewable Energy सेक्टर में Solar Panel Installation एवं Maintenance के लिए तैयार करता है।
-</p>
-<ul>
-<li>Site Survey</li>
-<li>Panel Installation</li>
-<li>Electrical Testing</li>
-</ul>
-<p>Career: Solar Companies | Salary: ₹15,000 – ₹25,000</p>
-<a href="https://orbital-skills.github.io/osi.com/" target="_blank" class="link">
-OSDC Official Website
-</a>
-<div class="mt-4">   <button    onclick="window.open('https://orbital-skills.github.io/osi.com/index.html#registration','_blank')"    class="apply-btn">   Apply Now </button> </div>
-</div>
+        function filterCourses(level) {
+            // Update UI buttons
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-600');
+            });
+            event.target.classList.remove('bg-slate-100', 'text-slate-600');
+            event.target.classList.add('bg-indigo-600', 'text-white');
 
-<!-- ================= WIREMAN ================= -->
-<button onclick="toggleCourse('wireman')" class="course-btn">
-🔘 वायरमैन – कंट्रोल पैनल
-</button>
+            if (level === 'all') {
+                renderCourses(courses);
+            } else {
+                const filtered = courses.filter(c => c.level.toString() === level);
+                renderCourses(filtered);
+            }
+        }
 
-<div id="wireman" class="course-box hidden">
-<h2 class="course-title">वायरमैन – कंट्रोल पैनल</h2>
-<p>
-Electrical Control Panel की Wiring, Installation एवं Testing।
-</p>
-<ul>
-<li>Panel Wiring</li>
-<li>Diagram Reading</li>
-<li>Safety Compliance</li>
-</ul>
-<p>Career: Electrical Industry | Salary: ₹14,000 – ₹24,000</p>
-<a href="https://orbital-skills.github.io/osi.com/" target="_blank" class="link">
-OSDC Official Website
-</a>
-<div class="mt-4">   <button    onclick="window.open('https://orbital-skills.github.io/osi.com/index.html#registration','_blank')"    class="apply-btn">   Apply Now </button> </div>
-</div>
+        // Search logic
+        document.getElementById('courseSearch').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = courses.filter(course => 
+                course.name.toLowerCase().includes(query) || 
+                course.exp.toLowerCase().includes(query)
+            );
+            renderCourses(filtered);
+        });
 
-</div>
-</main>
-
-<!-- ================= FOOTER ================= -->
-<footer id="footer" class="bg-blue-900 text-white mt-10">
-  <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 p-6 text-sm">
-
-    <div>
-      <h3 class="font-bold mb-2">OSDC</h3>
-      <p>
-        Orbital Skill Development Center छात्रों को
-        इंडस्ट्री-रेडी स्किल्स प्रदान करने के लिए समर्पित है।
-      </p>
-    </div>
-
-    <div>
-      <h3 class="font-bold mb-2">Quick Links</h3>
-      <ul>
-        <li><a href="index.html" class="hover:underline">Home</a></li>
-        <li><a href="#" class="hover:underline">Courses</a></li>
-        <li><a href="https://orbital-skills.github.io/osi.com/" target="_blank" class="hover:underline">Official Website</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <h3 class="font-bold mb-2">Contact</h3>
-      <p>📍 India</p>
-      <p>🌐 orbital-skills.github.io</p>
-    </div>
-
-  </div>
-
-  <div class="text-center text-xs bg-blue-950 py-2">
-    © 2025 OSDC – Orbital Skill Development Center. All Rights Reserved.
-  </div>
-</footer>
-
-<!-- ================= SCRIPTS ================= -->
-<script>
-function toggleCourse(id){
-document.getElementById(id).classList.toggle("hidden");
-}
-</script>
-
-<style>
-.course-btn{
-width:100%;
-background:#2563eb;
-color:#fff;
-padding:14px;
-border-radius:10px;
-font-weight:600;
-text-align:left;
-margin-bottom:8px;
-}
-.course-box{
-background:#f9fafb;
-border:1px solid #ddd;
-padding:20px;
-border-radius:10px;
-margin-bottom:15px;
-}
-.course-title{
-font-size:20px;
-font-weight:700;
-margin-bottom:10px;
-}
-.course-box h3{
-font-weight:600;
-margin-top:12px;
-}
-.course-box ul{
-list-style:disc;
-padding-left:22px;
-margin-bottom:10px;
-}
-.apply-btn{
-background:#dc2626;
-color:#fff;
-padding:10px 20px;
-border-radius:8px;
-margin-top:15px;
-}
-.link{
-display:block;
-margin-top:10px;
-color:#1d4ed8;
-font-weight:600;
-text-decoration:underline;
-}
-</style>
-
+        // Initial render
+        renderCourses(courses);
+    </script>
 </body>
-</html>
+</html></html>
