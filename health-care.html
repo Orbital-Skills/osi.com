@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Development Center - Course List</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar for eligibility text if needed */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <i data-lucide="activity" class="h-8 w-8 text-brand-600"></i>
+                        <span class="font-bold text-xl text-slate-900 tracking-tight">Orbital Skill <span class="text-brand-600">Development Center</span></span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-slate-600 hover:text-brand-600 font-medium">Home</a>
+                    <a href="#" class="text-brand-600 font-medium">Courses</a>
+                    <a href="index.html#registration" class="text-slate-600 hover:text-brand-600 font-medium">Admissions</a>
+                    <a href="index.html" class="text-slate-600 hover:text-brand-600 font-medium">Contact</a>
+                    <button class="bg-brand-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-brand-700 transition-colors shadow-md shadow-brand-500/30">
+                        Enquire Now
+                    </button>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <button class="text-slate-500 hover:text-slate-700">
+                        <i data-lucide="menu" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-r from-brand-900 to-slate-900 text-white py-20 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Healthcare Skill Development Courses</h1>
+            <p class="text-xl text-brand-100 max-w-2xl mx-auto mb-8">
+                Empowering careers with industry-relevant training. Explore our comprehensive list of NSQF certified healthcare courses designed for your success.
+            </p>
+            
+            <!-- Search and Filter Section -->
+            <div class="max-w-4xl mx-auto bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-2xl flex flex-col md:flex-row gap-4">
+                <div class="relative flex-grow">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Search course name (e.g., Yoga, EMT)..." 
+                        class="block w-full pl-10 pr-3 py-3 border-none rounded-xl leading-5 bg-white text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 sm:text-sm shadow-lg">
+                </div>
+                <div class="relative min-w-[200px]">
+                    <select id="levelFilter" class="block w-full py-3 pl-3 pr-10 border-none rounded-xl leading-5 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500 sm:text-sm shadow-lg cursor-pointer appearance-none">
+                        <option value="all">All Levels</option>
+                        <option value="3">Level 3 (Entry Level)</option>
+                        <option value="4">Level 4 (Intermediate)</option>
+                        <option value="5">Level 5 (Specialist)</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-700">
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Course Grid Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900">Available Courses</h2>
+                <p class="text-slate-500 text-sm mt-1">Showing <span id="count" class="font-semibold text-brand-600">0</span> courses</p>
+            </div>
+            <div class="hidden md:block">
+                <span class="text-xs font-medium px-3 py-1 bg-brand-50 text-brand-700 rounded-full border border-brand-100">
+                    Updated: 2023
+                </span>
+            </div>
+        </div>
+
+        <!-- Grid Container -->
+        <div id="courseGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Course cards will be injected here via JS -->
+        </div>
+
+        <!-- No Results State -->
+        <div id="noResults" class="hidden text-center py-20">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+                <i data-lucide="search" class="h-8 w-8 text-slate-400"></i>
+            </div>
+            <h3 class="text-lg font-medium text-slate-900">No courses found</h3>
+            <p class="text-slate-500">Try adjusting your search or filter criteria.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4 text-white">
+                        <i data-lucide="activity" class="h-6 w-6 text-brand-500"></i>
+                        <span class="font-bold text-lg">Orbital SDC</span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Empowering the next generation of healthcare professionals with world-class training and recognized certifications.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="hover:text-brand-500 transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Our Courses</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">Placement Partners</a></li>
+                        <li><a href="index.html#registration" class="hover:text-brand-500 transition">Student Portal</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2"><i data-lucide="map-pin" class="h-4 w-4 text-brand-500"></i> Orbital Center, Sector 12</li>
+                        <li class="flex items-center gap-2"><i data-lucide="phone" class="h-4 w-4 text-brand-500"></i> +91 98765 43210</li>
+                        <li class="flex items-center gap-2"><i data-lucide="mail" class="h-4 w-4 text-brand-500"></i> info@orbitalsdc.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold mb-4">Newsletter</h3>
+                    <form class="flex flex-col gap-2">
+                        <input type="email" placeholder="Enter email" class="px-4 py-2 rounded bg-slate-800 border border-slate-700 text-sm focus:outline-none focus:border-brand-500 text-white">
+                        <button class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium py-2 rounded transition-colors">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-12 pt-8 text-center text-xs text-slate-500">
+                &copy; 2023 Orbital Skill Development Center. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Course Data
+        const courses = [
+            {
+                id: 1,
+                title: "Assistant Yoga Instructor",
+                level: 3,
+                eligibility: "8th Class OR (ASHA and Anganwadi worker) with 2 Years of experience",
+                durationHours: "203 Hrs",
+                durationTime: "3 Months",
+                fee: "5500"
+            },
+            {
+                id: 2,
+                title: "Ayurveda Masseur",
+                level: 3,
+                eligibility: "8th class pass with 1 year of experience OR 8th pass with 1 year ITI OR 10th class pass with no experience OR NSQF level 2 with 1 year experience",
+                durationHours: "300 Hrs",
+                durationTime: "6 Months",
+                fee: "5500"
+            },
+            {
+                id: 3,
+                title: "Dietetic Aide",
+                level: 3,
+                eligibility: "10th Pass",
+                durationHours: "1000 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 4,
+                title: "Home Health Aide",
+                level: 3,
+                eligibility: "10th Standard",
+                durationHours: "1000 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 5,
+                title: "Garbhini Rakshaka",
+                level: 3,
+                eligibility: "8th class pass with 1 year of experience OR 8th pass with 1 year ITI OR 10th class pass with no experience OR NSQF level 2 with 1 year experience",
+                durationHours: "300 Hrs",
+                durationTime: "6 Months",
+                fee: "5500"
+            },
+            {
+                id: 6,
+                title: "Panchakarma Assistant",
+                level: 3,
+                eligibility: "8th class pass with 1 year of experience or 8th pass with 1 year ITI or 10th class pass with no experience or NSQF level 2 with 1 year experience",
+                durationHours: "480 Hrs",
+                durationTime: "6 Months",
+                fee: "5500"
+            },
+            {
+                id: 7,
+                title: "Medical Equipment Assistant (Basic Clinical Equipment)",
+                level: 3,
+                eligibility: "12th class pass OR 10th Class Pass + ITI (2 years after Class 10th)",
+                durationHours: "600 Hrs",
+                durationTime: "6 Months",
+                fee: "5500"
+            },
+            {
+                id: 8,
+                title: "Geriatric Caregiver (Institutional & Home Care)",
+                level: 3,
+                eligibility: "12th class pass OR 10th Class Pass + ITI (2 years after Class 10th)",
+                durationHours: "450 Hrs",
+                durationTime: "6 Months",
+                fee: "5500"
+            },
+            {
+                id: 9,
+                title: "Ayurveda Ahara & Poshana Sahayak",
+                level: 4,
+                eligibility: "10th Pass",
+                durationHours: "600 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 10,
+                title: "Cupping Therapy Assistant",
+                level: 4,
+                eligibility: "10th Pass",
+                durationHours: "750 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 11,
+                title: "Diabetes Assistant",
+                level: 4,
+                eligibility: "12th Pass",
+                durationHours: "5500 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 12,
+                title: "Emergency Care Assistant",
+                level: 4,
+                eligibility: "12th class pass OR 10th Class Pass + ITI (2 years after Class 10th) OR NSQF Level 3: Dresser (Medical) with 2 years of relevant experience",
+                durationHours: "5500 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 13,
+                title: "Emergency Medical Technician (EMT) - Basic",
+                level: 4,
+                eligibility: "12th Class Pass",
+                durationHours: "360 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 14,
+                title: "General Duty Assistant",
+                level: 4,
+                eligibility: "10th Pass",
+                durationHours: "1000 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 15,
+                title: "Phlebotomist",
+                level: 4,
+                eligibility: "Class XII with science",
+                durationHours: "1000 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 16,
+                title: "Geriatric Care Assistant",
+                level: 4,
+                eligibility: "12th Class Pass OR ANM (Auxiliary Nursing Midwifery) OR 10th Class Pass with 2 years of relevant experience OR NSQF level 3 certified Home Health Aide or Geriatric Care giver",
+                durationHours: "5500 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 17,
+                title: "Hospital Front Desk Coordinator",
+                level: 4,
+                eligibility: "12th Class Pass OR 10th Class Pass with 2 years of relevant experience OR Previous relevant Qualification of NSQF Level 3 with 2 years of relevant experience",
+                durationHours: "1000 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 18,
+                title: "Yoga Therapy Assistant",
+                level: 4,
+                eligibility: "12th Class Pass OR 10th Class Pass with 2 years of relevant experience OR Previous relevant Qualification of NSQF Level 3 with 2 years of relevant experience",
+                durationHours: "700 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 19,
+                title: "Transplant Coordinator",
+                level: 4,
+                eligibility: "Post-Graduate (Social work, Psychiatry, Sociology, Social Science, Public Health) OR Medical Graduate (MBBS/ BHMS/ BAMS/ BUMS) OR Graduate (Nursing/ Allied Health Professionals/ life sciences)",
+                durationHours: "520 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 20,
+                title: "Telehealth Services Coordinator",
+                level: 4,
+                eligibility: "12th Class Pass OR 10th Class Pass with 2 years of experience OR 1 year of relevant experience after 1 year ITI OR 2-year ITI OR 8th Class Pass + 2-year ITI with 2 years of relevant experience",
+                durationHours: "5500 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 21,
+                title: "Kshara Karma Technician",
+                level: 4,
+                eligibility: "12th Pass",
+                durationHours: "1200 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 22,
+                title: "Ayurveda Dietician",
+                level: 5,
+                eligibility: "BAMS",
+                durationHours: "540 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 23,
+                title: "Patient Relations Associate",
+                level: 5,
+                eligibility: "Graduate in relevant field OR Graduate in any field with 1 year relevant experience OR 1 year diploma after 12th with 2 year’s relevant experience OR 12th class with 4 years relevant experience",
+                durationHours: "500 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 24,
+                title: "Yoga Wellness Trainer",
+                level: 5,
+                eligibility: "Certificate (Assistant Yoga Instructor) with 2 Years of Experience OR I.T.I (Certificate in Cosmetology) OR 12th Class with 1 year of experience",
+                durationHours: "405 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 25,
+                title: "Prakriti Evaluator",
+                level: 5,
+                eligibility: "Graduate in Health science/life science OR BAMS",
+                durationHours: "210 Hrs",
+                durationTime: "6 Months",
+                fee: "5500"
+            },
+            {
+                id: 26,
+                title: "Genetic Counselor",
+                level: 5,
+                eligibility: "Master’s in public health (MPH) or Graduates (life sciences/ MBBS/ B.Sc. nursing/ clinical psychology/ biotechnology/ pharmacy/ BDS/ B. Tech Biotechnology or genetics)",
+                durationHours: "5500 Hrs",
+                durationTime: "1 Year",
+                fee: "5500"
+            },
+            {
+                id: 27,
+                title: "Panchkarma Technician",
+                level: 4,
+                eligibility: "12th Class Pass OR 10th Class Pass with 2 years of relevant experience OR NSQF Level 3 Panchakarma Assistant OR Previous relevant Qualification of NSQF Level 3 with 2 years of relevant experience",
+                durationHours: "5500 Hrs",
+                durationTime: "1 Year",
+                fee: "7500"
+            }
+        ];
+
+        // Utility to determine badge color based on level
+        const getLevelColor = (level) => {
+            switch(level) {
+                case 3: return 'bg-green-100 text-green-700 border-green-200';
+                case 4: return 'bg-blue-100 text-blue-700 border-blue-200';
+                case 5: return 'bg-purple-100 text-purple-700 border-purple-200';
+                default: return 'bg-slate-100 text-slate-700 border-slate-200';
+            }
+        };
+
+        // Render Function
+        const renderCourses = (data) => {
+            const container = document.getElementById('courseGrid');
+            const noResults = document.getElementById('noResults');
+            const countLabel = document.getElementById('count');
+            
+            container.innerHTML = '';
+            countLabel.innerText = data.length;
+
+            if (data.length === 0) {
+                container.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            noResults.classList.add('hidden');
+
+            data.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200 overflow-hidden flex flex-col h-full group';
+                
+                card.innerHTML = `
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getLevelColor(course.level)}">
+                                Level ${course.level}
+                            </span>
+                            <span class="text-slate-400 text-xs font-medium bg-slate-50 px-2 py-1 rounded">
+                                NSQF Certified
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-slate-900 mb-2 leading-tight group-hover:text-brand-600 transition-colors">
+                            ${course.title}
+                        </h3>
+
+                        <div class="space-y-3 mt-4">
+                            <div class="flex items-center text-sm text-slate-600">
+                                <i data-lucide="clock" class="w-4 h-4 mr-2 text-brand-500"></i>
+                                <span>${course.durationHours} (${course.durationTime})</span>
+                            </div>
+                            <div class="flex items-start text-sm text-slate-600">
+                                <i data-lucide="award" class="w-4 h-4 mr-2 mt-0.5 text-brand-500 flex-shrink-0"></i>
+                                <div class="line-clamp-3" title="${course.eligibility}">
+                                    ${course.eligibility}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+                        <div>
+                            <span class="block text-xs text-slate-500 font-medium">Course Fee</span>
+                            <span class="text-lg font-bold text-slate-900">₹${course.fee}</span>
+                        </div>
+                        <button onclick="alert('Enquiry started for: ${course.title}')" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors">
+                            Apply Now
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            
+            // Re-initialize icons for new content
+            lucide.createIcons();
+        };
+
+        // Filter Functionality
+        const searchInput = document.getElementById('searchInput');
+        const levelFilter = document.getElementById('levelFilter');
+
+        const filterCourses = () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedLevel = levelFilter.value;
+
+            const filtered = courses.filter(course => {
+                const matchesSearch = course.title.toLowerCase().includes(searchTerm) || 
+                                      course.eligibility.toLowerCase().includes(searchTerm);
+                const matchesLevel = selectedLevel === 'all' || course.level.toString() === selectedLevel;
+                
+                return matchesSearch && matchesLevel;
+            });
+
+            renderCourses(filtered);
+        };
+
+        // Event Listeners
+        searchInput.addEventListener('input', filterCourses);
+        levelFilter.addEventListener('change', filterCourses);
+
+        // Initial Render
+        renderCourses(courses);
+
+    </script>
+</body>
+</html>
+```
