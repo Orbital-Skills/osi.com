@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Beauty & Wellness Courses | OSDC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<!-- ================= HEADER ================= -->
+<header class="bg-pink-700 text-white">
+  <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
+    <div>
+      <h1 class="text-xl font-bold">OSDC</h1>
+      <p class="text-sm">Orbital Skill Development Center</p>
+    </div>
+    <nav class="space-x-4 text-sm font-semibold">
+      <a href="index.html">Home</a>
+      <a href="#">Courses</a>
+      <a href="#footer">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= MAIN ================= -->
+<div class="max-w-6xl mx-auto bg-white p-6 mt-8 mb-10 rounded-xl shadow-lg">
+
+<h1 class="text-3xl font-bold text-pink-700 mb-4">
+Beauty & Wellness Courses (NSQF Aligned)
+</h1>
+
+<p class="text-gray-700 mb-8">
+Beauty & Wellness Sector के अंतर्गत OSDC द्वारा NSQF आधारित प्रोफेशनल कोर्स
+कराए जाते हैं, जो छात्रों को Salon, Spa, Wellness Center, Fitness एवं
+Self-Employment के लिए तैयार करते हैं।
+</p>
+
+<!-- ================================================= -->
+<!-- ========== SECTION 1 : FOUNDATION (LEVEL 3) ===== -->
+<!-- ================================================= -->
+<h2 class="section-title">🔹 Section 1: Foundation Courses (NSQF Level 3)</h2>
+
+<button onclick="toggleCourse('abt')" class="course-btn">💄 Assistant Beauty Therapist</button>
+<div id="abt" class="course-box hidden">
+<p>यह कोर्स beauty industry का foundation है, जिसमें skin care, basic makeup,
+client handling और hygiene practices सिखाई जाती हैं।</p>
+
+<h3>मुख्य जिम्मेदारियाँ</h3>
+<ul>
+<li>Facial एवं basic skincare services</li>
+<li>Client consultation</li>
+<li>Hygiene एवं safety standards</li>
+</ul>
+
+<h3>Duration</h3><p>390 Hours (6 Months)</p>
+<h3>Eligibility</h3><p>Class VIII</p>
+
+<h3>Career</h3>
+<p>Beauty Assistant, Salon Helper</p>
+
+<h3>Salary</h3>
+<p>₹10,000 – ₹15,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<button onclick="toggleCourse('pm')" class="course-btn">💅 Pedicurist & Manicurist</button>
+<div id="pm" class="course-box hidden">
+<p>यह कोर्स nail care एवं hand-foot grooming पर केंद्रित है।</p>
+
+<h3>मुख्य जिम्मेदारियाँ</h3>
+<ul>
+<li>Pedicure & Manicure services</li>
+<li>Nail shaping एवं care</li>
+<li>Client hygiene</li>
+</ul>
+
+<h3>Duration</h3><p>270 Hours (6 Months)</p>
+<h3>Eligibility</h3><p>Class VIII</p>
+
+<h3>Career</h3>
+<p>Salon Pedicurist / Manicurist</p>
+
+<h3>Salary</h3>
+<p>₹12,000 – ₹18,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<button onclick="toggleCourse('ant')" class="course-btn">💅 Assistant Nail Technician</button>
+<div id="ant" class="course-box hidden">
+<p>Nail art, nail extension एवं basic nail treatment की training।</p>
+
+<h3>Duration</h3><p>270 Hours (6 Months)</p>
+<h3>Eligibility</h3><p>Class VIII + 6 months experience</p>
+
+<h3>Career</h3>
+<p>Nail Assistant, Nail Artist (Junior)</p>
+
+<h3>Salary</h3>
+<p>₹12,000 – ₹20,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<button onclick="toggleCourse('ahds')" class="course-btn">💇 Assistant Hair Dresser & Stylist</button>
+<div id="ahds" class="course-box hidden">
+<p>Hair cutting, shampooing एवं styling assistance की training।</p>
+
+<h3>Duration</h3><p>330 Hours (6 Months)</p>
+<h3>Eligibility</h3><p>Class VIII</p>
+
+<h3>Career</h3>
+<p>Salon Assistant</p>
+
+<h3>Salary</h3>
+<p>₹10,000 – ₹15,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<!-- ================================================= -->
+<!-- ========== SECTION 2 : PROFESSIONAL (LEVEL 4) ==== -->
+<!-- ================================================= -->
+<h2 class="section-title">🔹 Section 2: Professional Courses (NSQF Level 4)</h2>
+
+<button onclick="toggleCourse('bt')" class="course-btn">💆 Beauty Therapist</button>
+<div id="bt" class="course-box hidden">
+<p>Advanced skincare, makeup एवं client management पर आधारित।</p>
+
+<h3>Duration</h3><p>450 Hours (1 Year)</p>
+<h3>Eligibility</h3><p>Class X + Experience</p>
+
+<h3>Career</h3>
+<p>Beauty Therapist, Freelance Artist</p>
+
+<h3>Salary</h3>
+<p>₹18,000 – ₹30,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<button onclick="toggleCourse('pma')" class="course-btn">💄 Professional Makeup Artist</button>
+<div id="pma" class="course-box hidden">
+<p>Bridal, fashion एवं event makeup training।</p>
+
+<h3>Duration</h3><p>480 Hours (1 Year)</p>
+<h3>Eligibility</h3><p>Class X + Experience</p>
+
+<h3>Career</h3>
+<p>Makeup Artist, Bridal Artist</p>
+
+<h3>Salary</h3>
+<p>₹25,000 – ₹60,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<button onclick="toggleCourse('nt')" class="course-btn">💅 Nail Technician</button>
+<div id="nt" class="course-box hidden">
+<p>Advanced nail art एवं extensions।</p>
+
+<h3>Duration</h3><p>330 Hours (1 Year)</p>
+<h3>Eligibility</h3><p>Level 3 + Experience</p>
+
+<h3>Career</h3>
+<p>Nail Specialist</p>
+
+<h3>Salary</h3>
+<p>₹20,000 – ₹35,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+<button onclick="toggleCourse('spa')" class="course-btn">💆 Spa Therapist</button>
+<div id="spa" class="course-box hidden">
+<p>
+Spa Therapist कोर्स में body massage, aromatherapy, hydro therapy,
+spa hygiene और client relaxation techniques सिखाई जाती हैं।
+</p>
+
+<h3>मुख्य जिम्मेदारियाँ</h3>
+<ul>
+<li>Full body massage therapies</li>
+<li>Aroma & oil based treatments</li>
+<li>Spa hygiene एवं client care</li>
+</ul>
+
+<h3>Duration</h3><p>390 Hours (1 Year)</p>
+<h3>Eligibility</h3>
+<p>Class X + Assistant Spa Therapist experience</p>
+
+<h3>Career</h3>
+<p>Spa Therapist, Resort & Wellness Centers</p>
+
+<h3>Salary</h3>
+<p>₹18,000 – ₹35,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+
+<button onclick="toggleCourse('yoga4')" class="course-btn">🧘 Yoga Instructor (B&W)</button>
+<div id="yoga4" class="course-box hidden">
+<p>
+यह कोर्स Yoga training, posture correction, breathing techniques
+और basic wellness coaching पर आधारित है।
+</p>
+
+<h3>मुख्य जिम्मेदारियाँ</h3>
+<ul>
+<li>Yoga sessions conduct करना</li>
+<li>Pranayama एवं meditation</li>
+<li>Fitness एवं lifestyle guidance</li>
+</ul>
+
+<h3>Duration</h3><p>270 Hours (1 Year)</p>
+<h3>Eligibility</h3>
+<p>Class X / Yoga Certificate / Level 3 Assistant Yoga</p>
+
+<h3>Career</h3>
+<p>Yoga Instructor, Fitness Center</p>
+
+<h3>Salary</h3>
+<p>₹20,000 – ₹40,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+
+<button onclick="toggleCourse('gym')" class="course-btn">🏋️ Gym Assistant (B&W)</button>
+<div id="gym" class="course-box hidden">
+<p>
+Gym Assistant कोर्स में fitness equipment handling, workout support
+और client safety सिखाई जाती है।
+</p>
+
+<h3>Duration</h3><p>330 Hours (6 Months)</p>
+<h3>Eligibility</h3>
+<p>Class X + 6 months gym experience</p>
+
+<h3>Career</h3>
+<p>Gym Assistant, Fitness Clubs</p>
+
+<h3>Salary</h3>
+<p>₹12,000 – ₹20,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+
+<button onclick="toggleCourse('dipcos')" class="course-btn">🎓 Diploma in Cosmetology</button>
+<div id="dipcos" class="course-box hidden">
+<p>
+इस diploma course में skin science, hair treatments,
+makeup एवं cosmetic procedures सिखाए जाते हैं।
+</p>
+
+<h3>Duration</h3><p>420 Hours (1 Year)</p>
+<h3>Eligibility</h3>
+<p>12th Pass</p>
+
+<h3>Career</h3>
+<p>Cosmetic Clinics, Beauty Academies</p>
+
+<h3>Salary</h3>
+<p>₹25,000 – ₹50,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+
+<!-- ================================================= -->
+<!-- ========== SECTION 3 : SENIOR / MASTER =========== -->
+<!-- ================================================= -->
+<h2 class="section-title">🔹 Section 3: Senior & Master Level (Level 5–6)</h2>
+
+<button onclick="toggleCourse('sbt')" class="course-btn">👑 Senior Beauty Therapist</button>
+<div id="sbt" class="course-box hidden">
+<p>Team handling, advanced treatments एवं salon management।</p>
+
+<h3>Duration</h3><p>540 Hours (1 Year)</p>
+<h3>Eligibility</h3><p>Experience Required</p>
+
+<h3>Career</h3>
+<p>Senior Therapist, Salon Manager</p>
+
+<h3>Salary</h3>
+<p>₹30,000 – ₹50,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+<button onclick="toggleCourse('cos')" class="course-btn">👑 Cosmetologist</button>
+<div id="cos" class="course-box hidden">
+<p>Medical beauty, advanced skin & cosmetic procedures।</p>
+
+<h3>Duration</h3><p>810 Hours (1 Year)</p>
+<h3>Eligibility</h3><p>Experience Required</p>
+
+<h3>Career</h3>
+<p>Cosmetic Clinics, Aesthetic Centers</p>
+
+<h3>Salary</h3>
+<p>₹40,000 – ₹80,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+<button onclick="toggleCourse('tattoo')" class="course-btn">🖋️ Tattoo Artist</button>
+<div id="tattoo" class="course-box hidden">
+<p>
+Tattoo Artist कोर्स में tattoo designing, skin safety,
+equipment handling एवं hygiene सिखाई जाती है।
+</p>
+
+<h3>Duration</h3><p>354 Hours (1 Year)</p>
+<h3>Eligibility</h3>
+<p>12th Pass</p>
+
+<h3>Career</h3>
+<p>Tattoo Studios, Freelance Artist</p>
+
+<h3>Salary</h3>
+<p>₹30,000 – ₹80,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+
+<button onclick="toggleCourse('bridal')" class="course-btn">👰 Bridal Makeup Artist</button>
+<div id="bridal" class="course-box hidden">
+<p>
+Bridal Makeup course में advanced makeup, hairstyling,
+portfolio development और client branding सिखाई जाती है।
+</p>
+
+<h3>Duration</h3><p>510 Hours (1 Year)</p>
+<h3>Eligibility</h3>
+<p>Experience in Makeup / Beauty Trade</p>
+
+<h3>Career</h3>
+<p>Bridal Artist, Fashion Industry</p>
+
+<h3>Salary</h3>
+<p>₹50,000 – ₹1,50,000 per project</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+
+<button onclick="toggleCourse('yoga6')" class="course-btn">🧘 Senior Yoga Trainer (Level 6)</button>
+<div id="yoga6" class="course-box hidden">
+<p>
+यह highest level yoga course है जिसमें therapy,
+advanced training एवं instructor management सिखाया जाता है।
+</p>
+
+<h3>Duration</h3><p>570 Hours (1 Year)</p>
+<h3>Eligibility</h3>
+<p>Graduate + Level 5 Yoga Trainer</p>
+
+<h3>Career</h3>
+<p>Yoga Institutes, Wellness Director</p>
+
+<h3>Salary</h3>
+<p>₹40,000 – ₹90,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+
+<button onclick="toggleCourse('masterneuro')" class="course-btn">🧠 Master Wellness Neurotherapist</button>
+<div id="masterneuro" class="course-box hidden">
+<p>
+यह course advanced neurotherapy techniques,
+healing science एवं wellness counseling पर आधारित है।
+</p>
+
+<h3>Duration</h3><p>540 Hours (1 Year)</p>
+<h3>Eligibility</h3>
+<p>Senior Wellness Neurotherapist + 2 Years Experience</p>
+
+<h3>Career</h3>
+<p>Wellness Clinics, Therapy Centers</p>
+
+<h3>Salary</h3>
+<p>₹35,000 – ₹70,000 / month</p>
+
+<button onclick="applyNow()" class="apply-btn">Apply Now</button>
+</div>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer id="footer" class="bg-pink-900 text-white text-center p-4">
+© 2025 OSDC – Orbital Skill Development Center | Beauty & Wellness Division
+</footer>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+function toggleCourse(id){
+  document.getElementById(id).classList.toggle("hidden");
+}
+function applyNow(){
+  window.open(
+    "https://orbital-skills.github.io/osi.com/index.html#registration",
+    "_blank"
+  );
+}
+</script>
+
+<!-- ================= STYLES ================= -->
+<style>
+.course-btn{
+width:100%;
+background:#db2777;
+color:#fff;
+padding:14px;
+border-radius:10px;
+font-weight:600;
+text-align:left;
+margin-bottom:8px;
+}
+.course-box{
+background:#fdf2f8;
+border:1px solid #fbcfe8;
+padding:18px;
+border-radius:10px;
+margin-bottom:14px;
+}
+.course-box h3{
+font-weight:600;
+margin-top:10px;
+}
+.course-box ul{
+list-style:disc;
+padding-left:22px;
+}
+.apply-btn{
+background:#ec4899;
+color:#fff;
+padding:10px 20px;
+border-radius:8px;
+margin-top:12px;
+cursor:pointer;
+}
+.section-title{
+font-size:1.5rem;
+font-weight:700;
+margin:30px 0 15px;
+color:#9d174d;
+}
+</style>
+
+</body>
+</html>
