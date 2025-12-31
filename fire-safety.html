@@ -1,331 +1,526 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<title>Fire & Safety Courses | OSDC</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Development Center - Fire & Safety Courses</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            card: '#1e293b',
+                            rose: '#e11d48',
+                            orange: '#f97316',
+                            fire: '#ef4444'
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #e11d48, #f97316); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ea580c; 
+        }
+
+        .glass-effect {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .text-gradient-fire {
+            background: linear-gradient(to right, #f97316, #e11d48, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-hover-effect {
+            transition: all 0.3s ease;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.3);
+            border-color: rgba(249, 115, 22, 0.5);
+        }
+    </style>
 </head>
+<body class="bg-brand-dark text-slate-200 antialiased overflow-x-hidden selection:bg-rose-500 selection:text-white">
 
-<body class="bg-gray-100">
-
-<!-- ================= HEADER ================= -->
-<header class="bg-red-700 text-white">
-  <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
-    <div>
-      <h1 class="text-xl font-bold">OSDC</h1>
-      <p class="text-sm">Orbital Skill Development Center</p>
+    <!-- Background Ambience -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-rose-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-orange-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-red-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
     </div>
-    <nav class="space-x-4 text-sm font-semibold">
-      <a href="index.html" class="hover:underline">Home</a>
-      <a href="#" class="hover:underline">Courses</a>
-      <a href="#footer" class="hover:underline">Contact</a>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-effect border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-rose-500/20">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl tracking-tight text-white leading-none">Orbital</h1>
+                        <span class="text-xs text-slate-400 font-medium tracking-wide">Skill Development Center</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-white font-medium hover:text-orange-400 transition">Home</a>
+                        <a href="#courses" class="text-slate-300 hover:text-orange-400 transition">Courses</a>
+                        <a href="#about" class="text-slate-300 hover:text-orange-400 transition">About</a>
+                        <a href="https://orbital-skills.github.io/osi.com/index.html#registrationcontact" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-rose-600 to-orange-500 text-white font-semibold shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transition transform hover:scale-105">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-white/10 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </nav>
-  </div>
-</header>
 
-<!-- ================= MAIN ================= -->
-<div class="max-w-5xl mx-auto bg-white p-6 mt-8 mb-10 rounded-xl shadow-lg">
+    <!-- Hero Section -->
+    <div class="relative z-10 pt-32 pb-20 lg:pt-48 lg:pb-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-semibold mb-6 animate-fade-in-up">
+                <i class="fa-solid fa-shield-halved mr-2"></i> ISO Certified Training
+            </span>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+                Master the Art of <br>
+                <span class="text-gradient-fire">Fire & Safety</span>
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-slate-400 mb-10 animate-fade-in-up" style="animation-delay: 0.2s;">
+                Secure your future with our industry-leading courses. Expert training in Industrial Safety, Fire Fighting, and Disaster Management.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up" style="animation-delay: 0.3s;">
+                <a href="#courses" class="px-8 py-4 rounded-full bg-white text-brand-dark font-bold text-lg hover:bg-gray-100 transition shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                    Browse Courses
+                </a>
+                <a href="#contact" class="px-8 py-4 rounded-full border border-slate-600 hover:border-orange-500 hover:text-orange-400 text-slate-300 font-bold text-lg transition bg-brand-card/50 backdrop-blur-sm">
+                    Download Brochure
+                </a>
+            </div>
 
-<h1 class="text-3xl font-bold text-red-700 mb-6">
-🔥 Fire & Safety Professional Courses (OSDC)
-</h1>
+            <!-- Stats -->
+            <div class="mt-20 grid grid-cols-2 gap-8 md:grid-cols-4 border-t border-white/10 pt-10 animate-fade-in-up" style="animation-delay: 0.4s;">
+                <div>
+                    <div class="text-3xl font-bold text-white">12+</div>
+                    <div class="text-sm text-slate-500 mt-1">Professional Courses</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-white">100%</div>
+                    <div class="text-sm text-slate-500 mt-1">Placement Assist</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-white">500+</div>
+                    <div class="text-sm text-slate-500 mt-1">Students Trained</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-white">ISO</div>
+                    <div class="text-sm text-slate-500 mt-1">Certified Center</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<p class="text-gray-700 mb-8">
-OSDC (Orbital Skill Development Center) के अंतर्गत Fire & Safety से जुड़े
-प्रोफेशनल कोर्स कराए जाते हैं, जो छात्रों को Fire Prevention, Industrial Safety,
-Emergency Response एवं Disaster Management में दक्ष बनाते हैं।
-</p>
+    <!-- Course Section -->
+    <section id="courses" class="relative z-10 py-20 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Our Programs</h2>
+                    <div class="h-1 w-20 bg-gradient-to-r from-rose-500 to-orange-500 rounded-full"></div>
+                </div>
+                
+                <!-- Search Filter -->
+                <div class="relative w-full md:w-96 group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass text-slate-500 group-focus-within:text-orange-500 transition-colors"></i>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Search for courses, codes..." 
+                        class="block w-full pl-10 pr-3 py-3 border border-slate-700 rounded-xl leading-5 bg-slate-800 text-slate-300 placeholder-slate-500 focus:outline-none focus:bg-slate-900 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition shadow-lg">
+                </div>
+            </div>
 
-<!-- ================= COURSE START ================= -->
+            <!-- Course Grid -->
+            <div id="courseGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Courses will be injected here via JS -->
+            </div>
+            
+            <!-- No Results State -->
+            <div id="noResults" class="hidden text-center py-20">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-800 mb-4">
+                    <i class="fa-solid fa-file-circle-xmark text-2xl text-slate-500"></i>
+                </div>
+                <h3 class="text-xl font-medium text-white">No courses found</h3>
+                <p class="text-slate-500 mt-2">Try adjusting your search terms.</p>
+            </div>
+        </div>
+    </section>
 
-<!-- OSHEMS -->
-<button onclick="toggleCourse('oshems')" class="course-btn">
-🔥 OSHEMS – Occupational Safety Health & Environment Management System
-</button>
-<div id="oshems" class="course-box hidden">
-<p><b>विवरण:</b> यह कोर्स Industrial Safety, Occupational Health एवं Environmental
-Protection पर आधारित है। यह Industries में Safety Policy लागू करने हेतु
-तैयार करता है।</p>
+    <!-- Features Section -->
+    <section class="py-20 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-r from-rose-900/40 to-orange-900/40 border border-white/10 rounded-3xl p-8 md:p-16 overflow-hidden relative">
+                <!-- Decoration -->
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-orange-500 rounded-full mix-blend-overlay filter blur-3xl opacity-30"></div>
+                
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-6">Why Choose Orbital?</h2>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 mt-1">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold text-white">Industry Expert Trainers</h4>
+                                    <p class="text-slate-400 text-sm">Learn from veterans with real-world experience in fire safety.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400 mt-1">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold text-white">Practical Training Grounds</h4>
+                                    <p class="text-slate-400 text-sm">Hands-on experience with modern fire-fighting equipment.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400 mt-1">
+                                    <i class="fa-solid fa-briefcase"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold text-white">Career Guidance</h4>
+                                    <p class="text-slate-400 text-sm">Resume building, interview preparation, and placement support.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="relative">
+                        <!-- Abstract representation of a certificate/badge -->
+                        <div class="aspect-video rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 flex items-center justify-center shadow-2xl">
+                             <div class="text-center">
+                                 <i class="fa-solid fa-certificate text-6xl text-gradient-fire mb-4 block"></i>
+                                 <span class="text-2xl font-bold text-white">Authorized<br>Training Center</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Workplace Safety Monitoring</li>
-<li>Risk Assessment एवं Hazard Control</li>
-<li>Environmental Compliance</li>
-<li>Safety Audit एवं Documentation</li>
-</ul>
+    <!-- Footer -->
+    <footer id="contact" class="bg-slate-900 border-t border-white/5 pt-16 pb-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                         <div class="w-8 h-8 rounded bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white text-sm">
+                            <i class="fa-solid fa-fire"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Orbital SDC</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Dedicated to creating a safer world through comprehensive education in fire safety, industrial security, and environmental health.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-rose-600 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-rose-600 hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-rose-600 hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li><a href="index.html" class="hover:text-orange-400 transition">Home</a></li>
+                        <li><a href="#courses" class="hover:text-orange-400 transition">All Courses</a></li>
+                        <li><a href="#" class="hover:text-orange-400 transition">Admissions</a></li>
+                        <li><a href="https://orbital-skills.github.io/osi.com/index.html#registration" class="hover:text-orange-400 transition">Student Portal</a></li>
+                        <li><a href="#" class="hover:text-orange-400 transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
 
-<h3>Duration:</h3><p>1 Year</p>
-<h3>Eligibility:</h3><p>12वीं पास</p>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-6">Contact Us</h4>
+                    <ul class="space-y-4 text-sm text-slate-400">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-location-dot mt-1 mr-3 text-rose-500"></i>
+                            <span>Orbital Skill Development Center,<br>Main Road, City Center.</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-phone mr-3 text-rose-500"></i>
+                            <span>+91 98765 43210</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-envelope mr-3 text-rose-500"></i>
+                            <span>admissions@orbitalsdc.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-slate-500 text-sm">© 2023 Orbital Skill Development Center. All rights reserved.</p>
+                <p class="text-slate-600 text-xs mt-2 md:mt-0">Designed for Excellence.</p>
+            </div>
+        </div>
+    </footer>
 
-<h3>Job Sectors:</h3>
-<p>Industries, Refineries, Construction, Manufacturing Units</p>
+    <!-- Course Data and Rendering Script -->
+    <script>
+        const courses = [
+            {
+                sector: "Fire & Safety",
+                name: "Occupational Safety Health & Environment Management System",
+                code: "OSHEMS",
+                duration: "1 Year",
+                eligibility: "12th",
+                fee: 15000
+            },
+            {
+                sector: "Fire & Safety",
+                name: "Fire Technology & Industrial Safety",
+                code: "FTIS",
+                duration: "1 Year",
+                eligibility: "12th",
+                fee: 15000
+            },
+            {
+                sector: "Fire & Safety",
+                name: "PG Course in Fire Technology & Industrial Safety",
+                code: "PGFTIS",
+                duration: "1 Year",
+                eligibility: "Graduation Any Stream",
+                fee: 15000
+            },
+            {
+                sector: "Fire & Safety",
+                name: "Industrial Safety",
+                code: "IS",
+                duration: "1 Year",
+                eligibility: "12th",
+                fee: 15000
+            },
+            {
+                sector: "Fire & Safety",
+                name: "Industrial Safety",
+                code: "CIS",
+                duration: "6 Month",
+                eligibility: "10th",
+                fee: 12000
+            },
+            {
+                sector: "Fire & Safety",
+                name: "Sub Fire Officer",
+                code: "SFO",
+                duration: "780 Hrs",
+                eligibility: "Graduation",
+                fee: 15000
+            },
+            {
+                sector: "Fire & Safety",
+                name: "First Aid Fire Fighting",
+                code: "FAFF",
+                duration: "3 Months",
+                eligibility: "10th",
+                fee: 10250
+            },
+            {
+                sector: "Fire & Safety",
+                name: "Fireman",
+                code: "CFM",
+                duration: "6 Months",
+                eligibility: "10th",
+                fee: 12000
+            },
+            {
+                sector: "Fire & Safety",
+                name: "Driver Cum Pump Operator",
+                code: "DCPO",
+                duration: "6 Months",
+                eligibility: "10th",
+                fee: 12000
+            },
+            {
+                sector: "Fire & Safety",
+                name: "Fire Safety & Security Management",
+                code: "CFSSM",
+                duration: "3 months",
+                eligibility: "10th",
+                fee: 10250
+            },
+            {
+                sector: "Fire & Safety",
+                name: "Health Sanitary Inspector",
+                code: "HSI",
+                duration: "780 hrs",
+                eligibility: "10th",
+                fee: 15000
+            },
+            {
+                sector: "Fire & Safety",
+                name: "ECCE",
+                code: "ECCE",
+                duration: "780 hrs",
+                eligibility: "12th",
+                fee: 9000
+            }
+        ];
 
-<h3>Career & Salary:</h3>
-<p>Safety Officer / EHS Executive – ₹25,000 से ₹45,000 प्रति माह</p>
+        const courseGrid = document.getElementById('courseGrid');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
 
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
+        // Function to format currency
+        const formatCurrency = (value) => {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumSignificantDigits: 3
+            }).format(value);
+        };
 
-<!-- FTIS -->
-<button onclick="toggleCourse('ftis')" class="course-btn">
-🔥 FTIS – Fire Technology & Industrial Safety
-</button>
-<div id="ftis" class="course-box hidden">
-<p><b>विवरण:</b> यह कोर्स Fire Prevention, Fire Fighting Techniques एवं Industrial
-Accident Control पर केंद्रित है।</p>
+        // Render Function
+        const renderCourses = (filterText = '') => {
+            courseGrid.innerHTML = '';
+            
+            const filteredCourses = courses.filter(course => 
+                course.name.toLowerCase().includes(filterText.toLowerCase()) || 
+                course.code.toLowerCase().includes(filterText.toLowerCase()) ||
+                course.eligibility.toLowerCase().includes(filterText.toLowerCase())
+            );
 
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Fire Detection एवं Suppression System Handling</li>
-<li>Fire Risk Assessment</li>
-<li>Emergency Evacuation Planning</li>
-</ul>
+            if (filteredCourses.length === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                
+                filteredCourses.forEach((course, index) => {
+                    // Stagger animation delay
+                    const delay = index * 100;
+                    
+                    const card = document.createElement('div');
+                    card.className = `glass-effect rounded-2xl p-6 relative overflow-hidden group border-t-4 border-t-rose-500 card-hover-effect animate-fade-in-up`;
+                    card.style.animationDelay = `${delay}ms`;
+                    
+                    card.innerHTML = `
+                        <!-- Hover Gradient overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-rose-600/10 to-orange-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                        
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <div>
+                                <div class="flex justify-between items-start mb-4">
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                        ${course.code}
+                                    </span>
+                                    <div class="flex items-center text-orange-400">
+                                        <i class="fa-regular fa-clock text-xs mr-1"></i>
+                                        <span class="text-xs font-medium">${course.duration}</span>
+                                    </div>
+                                </div>
+                                
+                                <h3 class="text-xl font-bold text-white mb-2 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-rose-400 group-hover:to-orange-400 transition-colors">
+                                    ${course.name}
+                                </h3>
+                                
+                                <div class="w-full h-px bg-slate-700/50 my-4"></div>
+                                
+                                <div class="space-y-2 mb-6">
+                                    <div class="flex items-center text-slate-400 text-sm">
+                                        <i class="fa-solid fa-user-graduate w-6 text-rose-500"></i>
+                                        <span>Eligibility: <span class="text-slate-200">${course.eligibility}</span></span>
+                                    </div>
+                                    <div class="flex items-center text-slate-400 text-sm">
+                                        <i class="fa-solid fa-layer-group w-6 text-rose-500"></i>
+                                        <span>Sector: <span class="text-slate-200">${course.sector}</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center pt-2">
+                                <div>
+                                    <span class="text-xs text-slate-500 block">Course Fee</span>
+                                    <span class="text-2xl font-bold text-white">${formatCurrency(course.fee)}</span>
+                                </div>
+                                <button class="w-10 h-10 rounded-full bg-gradient-to-r from-rose-600 to-orange-500 flex items-center justify-center text-white shadow-lg hover:shadow-orange-500/40 transition transform group-hover:rotate-45">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    courseGrid.appendChild(card);
+                });
+            }
+        };
 
-<h3>Duration:</h3><p>1 Year</p>
-<h3>Eligibility:</h3><p>12वीं पास</p>
+        // Initial Render
+        renderCourses();
 
-<h3>Job Sectors:</h3>
-<p>Industries, Airports, Power Plants, PSU</p>
-
-<h3>Career & Salary:</h3>
-<p>Fire Supervisor / Safety Officer – ₹22,000 से ₹40,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- PGFTIS -->
-<button onclick="toggleCourse('pgftis')" class="course-btn">
-🔥 PGFTIS – PG Course in Fire Technology & Industrial Safety
-</button>
-<div id="pgftis" class="course-box hidden">
-<p><b>विवरण:</b> यह Advanced Post Graduate Course है, जो High Level Fire Safety
-Management एवं Industrial Risk Control पर केंद्रित है।</p>
-
-<h3>Duration:</h3><p>1 Year</p>
-<h3>Eligibility:</h3><p>Graduation (Any Stream)</p>
-
-<h3>Job Sectors:</h3>
-<p>Corporate, Large Industries, International Projects</p>
-
-<h3>Career & Salary:</h3>
-<p>Fire Safety Manager / HSE Consultant – ₹40,000 से ₹70,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- IS -->
-<button onclick="toggleCourse('is1')" class="course-btn">
-🔥 Industrial Safety (IS)
-</button>
-<div id="is1" class="course-box hidden">
-<p><b>विवरण:</b> Industrial Safety Standards, Accident Prevention एवं Worker
-Protection पर आधारित कोर्स।</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Safety Procedures लागू कराना</li>
-<li>Accident Prevention Measures</li>
-<li>Safety Training देना</li>
-</ul>
-
-<h3>Duration:</h3><p>1 Year</p>
-<h3>Eligibility:</h3><p>12वीं पास</p>
-
-<h3>Career & Salary:</h3>
-<p>Safety Supervisor – ₹20,000 से ₹35,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- CIS -->
-<button onclick="toggleCourse('cis')" class="course-btn">
-🔥 Certificate in Industrial Safety (CIS)
-</button>
-<div id="cis" class="course-box hidden">
-<p><b>विवरण:</b> Basic Industrial Safety एवं Worker Protection पर केंद्रित
-प्रमाणपत्र कोर्स।</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>PPE उपयोग सुनिश्चित करना</li>
-<li>Minor Hazard Identification</li>
-<li>Safety Awareness</li>
-</ul>
-
-<h3>Duration:</h3><p>6 Months</p>
-<h3>Eligibility:</h3><p>10वीं पास</p>
-
-<h3>Career & Salary:</h3>
-<p>Safety Assistant – ₹12,000 से ₹20,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- SFO -->
-<button onclick="toggleCourse('sfo')" class="course-btn">
-🔥 Sub Fire Officer (SFO)
-</button>
-<div id="sfo" class="course-box hidden">
-<p><b>विवरण:</b> Sub Fire Officer Fire Brigade Operations, Command एवं Disaster
-Response का नेतृत्व करता है।</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Fire Crew Management</li>
-<li>Emergency Command & Control</li>
-<li>Fire Inspection एवं Reporting</li>
-</ul>
-
-<h3>Duration:</h3><p>780 Hours</p>
-<h3>Eligibility:</h3><p>Graduation</p>
-
-<h3>Career & Salary:</h3>
-<p>Sub Fire Officer – ₹30,000 से ₹55,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- FAFF -->
-<button onclick="toggleCourse('faff')" class="course-btn">
-🔥 First Aid Fire Fighting (FAFF)
-</button>
-<div id="faff" class="course-box hidden">
-<p><b>विवरण:</b> Emergency Fire Control एवं First Aid Training।</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Fire Extinguisher Handling</li>
-<li>Emergency First Aid</li>
-<li>Evacuation Support</li>
-</ul>
-
-<h3>Duration:</h3><p>3 Months</p>
-<h3>Eligibility:</h3><p>10वीं पास</p>
-
-<h3>Career & Salary:</h3>
-<p>Fire Safety Assistant – ₹12,000 से ₹18,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- Fireman -->
-<button onclick="toggleCourse('fireman')" class="course-btn">
-🔥 Fireman (CFM)
-</button>
-<div id="fireman" class="course-box hidden">
-<p><b>विवरण:</b> Fire Fighting, Rescue एवं Emergency Response Training।</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Fire Extinguishing</li>
-<li>Rescue Operations</li>
-<li>Equipment Handling</li>
-</ul>
-
-<h3>Duration:</h3><p>6 Months</p>
-<h3>Eligibility:</h3><p>10वीं पास</p>
-
-<h3>Career & Salary:</h3>
-<p>Fireman – ₹18,000 से ₹30,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- DCPO -->
-<button onclick="toggleCourse('dcpo')" class="course-btn">
-🔥 Driver Cum Pump Operator (DCPO)
-</button>
-<div id="dcpo" class="course-box hidden">
-<p><b>विवरण:</b> Fire Vehicle Driving एवं Pump Operation Training।</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Fire Tender Driving</li>
-<li>Pump Operation</li>
-<li>Equipment Maintenance</li>
-</ul>
-
-<h3>Duration:</h3><p>6 Months</p>
-<h3>Eligibility:</h3><p>10वीं पास + Driving License</p>
-
-<h3>Career & Salary:</h3>
-<p>DCPO – ₹20,000 से ₹35,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- CFSSM -->
-<button onclick="toggleCourse('cfssm')" class="course-btn">
-🔥 Fire Safety & Security Management (CFSSM)
-</button>
-<div id="cfssm" class="course-box hidden">
-<p><b>विवरण:</b> Fire Safety एवं Security Operations Management पर आधारित।</p>
-
-<h3>Duration:</h3><p>3 Months</p>
-<h3>Eligibility:</h3><p>10वीं पास</p>
-
-<h3>Career & Salary:</h3>
-<p>Fire & Security Supervisor – ₹18,000 से ₹28,000 प्रति माह</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-
-</div>
-
-<!-- ================= FOOTER ================= -->
-<footer id="footer" class="bg-red-900 text-white text-center p-4">
-© 2025 OSDC – Orbital Skill Development Center | Fire & Safety Division
-</footer>
-
-<!-- ================= SCRIPT ================= -->
-<script>
-function toggleCourse(id){
-  document.getElementById(id).classList.toggle("hidden");
-}
-function applyNow(){
-  window.open("https://orbital-skills.github.io/osi.com/index.html#registration","_blank");
-}
-</script>
-
-<!-- ================= STYLES ================= -->
-<style>
-.course-btn{
-width:100%;
-background:#b91c1c;
-color:#fff;
-padding:14px;
-border-radius:10px;
-font-weight:600;
-text-align:left;
-margin-bottom:8px;
-}
-.course-box{
-background:#fef2f2;
-border:1px solid #fecaca;
-padding:18px;
-border-radius:10px;
-margin-bottom:14px;
-}
-.course-box h3{
-font-weight:600;
-margin-top:10px;
-}
-.course-box ul{
-list-style:disc;
-padding-left:22px;
-}
-.apply-btn{
-background:#dc2626;
-color:#fff;
-padding:10px 20px;
-border-radius:8px;
-margin-top:12px;
-cursor:pointer;
-}
-</style>
-
+        // Search Listener
+        searchInput.addEventListener('input', (e) => {
+            renderCourses(e.target.value);
+        });
+    </script>
 </body>
 </html>
