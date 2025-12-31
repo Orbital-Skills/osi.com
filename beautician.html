@@ -1,457 +1,496 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Beauty & Wellness Courses | OSDC</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Development Center - Beauty & Wellness Courses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .course-card {
+            transition: all 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid #667eea;
+            color: #667eea;
+        }
+        
+        .filter-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-btn:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+        
+        .filter-btn.active {
+            background-color: #667eea;
+            color: white;
+        }
+    </style>
 </head>
-
-<body class="bg-gray-100">
-
-<!-- ================= HEADER ================= -->
-<header class="bg-pink-700 text-white">
-  <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
-    <div>
-      <h1 class="text-xl font-bold">OSDC</h1>
-      <p class="text-sm">Orbital Skill Development Center</p>
-    </div>
-    <nav class="space-x-4 text-sm font-semibold">
-      <a href="index.html">Home</a>
-      <a href="#">Courses</a>
-      <a href="#footer">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<!-- ================= MAIN ================= -->
-<div class="max-w-6xl mx-auto bg-white p-6 mt-8 mb-10 rounded-xl shadow-lg">
-
-<h1 class="text-3xl font-bold text-pink-700 mb-4">
-Beauty & Wellness Courses (NSQF Aligned)
-</h1>
-
-<p class="text-gray-700 mb-8">
-Beauty & Wellness Sector के अंतर्गत OSDC द्वारा NSQF आधारित प्रोफेशनल कोर्स
-कराए जाते हैं, जो छात्रों को Salon, Spa, Wellness Center, Fitness एवं
-Self-Employment के लिए तैयार करते हैं।
-</p>
-
-<!-- ================================================= -->
-<!-- ========== SECTION 1 : FOUNDATION (LEVEL 3) ===== -->
-<!-- ================================================= -->
-<h2 class="section-title">🔹 Section 1: Foundation Courses (NSQF Level 3)</h2>
-
-<button onclick="toggleCourse('abt')" class="course-btn">💄 Assistant Beauty Therapist</button>
-<div id="abt" class="course-box hidden">
-<p>यह कोर्स beauty industry का foundation है, जिसमें skin care, basic makeup,
-client handling और hygiene practices सिखाई जाती हैं।</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Facial एवं basic skincare services</li>
-<li>Client consultation</li>
-<li>Hygiene एवं safety standards</li>
-</ul>
-
-<h3>Duration</h3><p>390 Hours (6 Months)</p>
-<h3>Eligibility</h3><p>Class VIII</p>
-
-<h3>Career</h3>
-<p>Beauty Assistant, Salon Helper</p>
-
-<h3>Salary</h3>
-<p>₹10,000 – ₹15,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<button onclick="toggleCourse('pm')" class="course-btn">💅 Pedicurist & Manicurist</button>
-<div id="pm" class="course-box hidden">
-<p>यह कोर्स nail care एवं hand-foot grooming पर केंद्रित है।</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Pedicure & Manicure services</li>
-<li>Nail shaping एवं care</li>
-<li>Client hygiene</li>
-</ul>
-
-<h3>Duration</h3><p>270 Hours (6 Months)</p>
-<h3>Eligibility</h3><p>Class VIII</p>
-
-<h3>Career</h3>
-<p>Salon Pedicurist / Manicurist</p>
-
-<h3>Salary</h3>
-<p>₹12,000 – ₹18,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<button onclick="toggleCourse('ant')" class="course-btn">💅 Assistant Nail Technician</button>
-<div id="ant" class="course-box hidden">
-<p>Nail art, nail extension एवं basic nail treatment की training।</p>
-
-<h3>Duration</h3><p>270 Hours (6 Months)</p>
-<h3>Eligibility</h3><p>Class VIII + 6 months experience</p>
-
-<h3>Career</h3>
-<p>Nail Assistant, Nail Artist (Junior)</p>
-
-<h3>Salary</h3>
-<p>₹12,000 – ₹20,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<button onclick="toggleCourse('ahds')" class="course-btn">💇 Assistant Hair Dresser & Stylist</button>
-<div id="ahds" class="course-box hidden">
-<p>Hair cutting, shampooing एवं styling assistance की training।</p>
-
-<h3>Duration</h3><p>330 Hours (6 Months)</p>
-<h3>Eligibility</h3><p>Class VIII</p>
-
-<h3>Career</h3>
-<p>Salon Assistant</p>
-
-<h3>Salary</h3>
-<p>₹10,000 – ₹15,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<!-- ================================================= -->
-<!-- ========== SECTION 2 : PROFESSIONAL (LEVEL 4) ==== -->
-<!-- ================================================= -->
-<h2 class="section-title">🔹 Section 2: Professional Courses (NSQF Level 4)</h2>
-
-<button onclick="toggleCourse('bt')" class="course-btn">💆 Beauty Therapist</button>
-<div id="bt" class="course-box hidden">
-<p>Advanced skincare, makeup एवं client management पर आधारित।</p>
-
-<h3>Duration</h3><p>450 Hours (1 Year)</p>
-<h3>Eligibility</h3><p>Class X + Experience</p>
-
-<h3>Career</h3>
-<p>Beauty Therapist, Freelance Artist</p>
-
-<h3>Salary</h3>
-<p>₹18,000 – ₹30,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<button onclick="toggleCourse('pma')" class="course-btn">💄 Professional Makeup Artist</button>
-<div id="pma" class="course-box hidden">
-<p>Bridal, fashion एवं event makeup training।</p>
-
-<h3>Duration</h3><p>480 Hours (1 Year)</p>
-<h3>Eligibility</h3><p>Class X + Experience</p>
-
-<h3>Career</h3>
-<p>Makeup Artist, Bridal Artist</p>
-
-<h3>Salary</h3>
-<p>₹25,000 – ₹60,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<button onclick="toggleCourse('nt')" class="course-btn">💅 Nail Technician</button>
-<div id="nt" class="course-box hidden">
-<p>Advanced nail art एवं extensions।</p>
-
-<h3>Duration</h3><p>330 Hours (1 Year)</p>
-<h3>Eligibility</h3><p>Level 3 + Experience</p>
-
-<h3>Career</h3>
-<p>Nail Specialist</p>
-
-<h3>Salary</h3>
-<p>₹20,000 – ₹35,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-<button onclick="toggleCourse('spa')" class="course-btn">💆 Spa Therapist</button>
-<div id="spa" class="course-box hidden">
-<p>
-Spa Therapist कोर्स में body massage, aromatherapy, hydro therapy,
-spa hygiene और client relaxation techniques सिखाई जाती हैं।
-</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Full body massage therapies</li>
-<li>Aroma & oil based treatments</li>
-<li>Spa hygiene एवं client care</li>
-</ul>
-
-<h3>Duration</h3><p>390 Hours (1 Year)</p>
-<h3>Eligibility</h3>
-<p>Class X + Assistant Spa Therapist experience</p>
-
-<h3>Career</h3>
-<p>Spa Therapist, Resort & Wellness Centers</p>
-
-<h3>Salary</h3>
-<p>₹18,000 – ₹35,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-
-<button onclick="toggleCourse('yoga4')" class="course-btn">🧘 Yoga Instructor (B&W)</button>
-<div id="yoga4" class="course-box hidden">
-<p>
-यह कोर्स Yoga training, posture correction, breathing techniques
-और basic wellness coaching पर आधारित है।
-</p>
-
-<h3>मुख्य जिम्मेदारियाँ</h3>
-<ul>
-<li>Yoga sessions conduct करना</li>
-<li>Pranayama एवं meditation</li>
-<li>Fitness एवं lifestyle guidance</li>
-</ul>
-
-<h3>Duration</h3><p>270 Hours (1 Year)</p>
-<h3>Eligibility</h3>
-<p>Class X / Yoga Certificate / Level 3 Assistant Yoga</p>
-
-<h3>Career</h3>
-<p>Yoga Instructor, Fitness Center</p>
-
-<h3>Salary</h3>
-<p>₹20,000 – ₹40,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-
-<button onclick="toggleCourse('gym')" class="course-btn">🏋️ Gym Assistant (B&W)</button>
-<div id="gym" class="course-box hidden">
-<p>
-Gym Assistant कोर्स में fitness equipment handling, workout support
-और client safety सिखाई जाती है।
-</p>
-
-<h3>Duration</h3><p>330 Hours (6 Months)</p>
-<h3>Eligibility</h3>
-<p>Class X + 6 months gym experience</p>
-
-<h3>Career</h3>
-<p>Gym Assistant, Fitness Clubs</p>
-
-<h3>Salary</h3>
-<p>₹12,000 – ₹20,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-
-<button onclick="toggleCourse('dipcos')" class="course-btn">🎓 Diploma in Cosmetology</button>
-<div id="dipcos" class="course-box hidden">
-<p>
-इस diploma course में skin science, hair treatments,
-makeup एवं cosmetic procedures सिखाए जाते हैं।
-</p>
-
-<h3>Duration</h3><p>420 Hours (1 Year)</p>
-<h3>Eligibility</h3>
-<p>12th Pass</p>
-
-<h3>Career</h3>
-<p>Cosmetic Clinics, Beauty Academies</p>
-
-<h3>Salary</h3>
-<p>₹25,000 – ₹50,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-
-<!-- ================================================= -->
-<!-- ========== SECTION 3 : SENIOR / MASTER =========== -->
-<!-- ================================================= -->
-<h2 class="section-title">🔹 Section 3: Senior & Master Level (Level 5–6)</h2>
-
-<button onclick="toggleCourse('sbt')" class="course-btn">👑 Senior Beauty Therapist</button>
-<div id="sbt" class="course-box hidden">
-<p>Team handling, advanced treatments एवं salon management।</p>
-
-<h3>Duration</h3><p>540 Hours (1 Year)</p>
-<h3>Eligibility</h3><p>Experience Required</p>
-
-<h3>Career</h3>
-<p>Senior Therapist, Salon Manager</p>
-
-<h3>Salary</h3>
-<p>₹30,000 – ₹50,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-<button onclick="toggleCourse('cos')" class="course-btn">👑 Cosmetologist</button>
-<div id="cos" class="course-box hidden">
-<p>Medical beauty, advanced skin & cosmetic procedures।</p>
-
-<h3>Duration</h3><p>810 Hours (1 Year)</p>
-<h3>Eligibility</h3><p>Experience Required</p>
-
-<h3>Career</h3>
-<p>Cosmetic Clinics, Aesthetic Centers</p>
-
-<h3>Salary</h3>
-<p>₹40,000 – ₹80,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-<button onclick="toggleCourse('tattoo')" class="course-btn">🖋️ Tattoo Artist</button>
-<div id="tattoo" class="course-box hidden">
-<p>
-Tattoo Artist कोर्स में tattoo designing, skin safety,
-equipment handling एवं hygiene सिखाई जाती है।
-</p>
-
-<h3>Duration</h3><p>354 Hours (1 Year)</p>
-<h3>Eligibility</h3>
-<p>12th Pass</p>
-
-<h3>Career</h3>
-<p>Tattoo Studios, Freelance Artist</p>
-
-<h3>Salary</h3>
-<p>₹30,000 – ₹80,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-
-<button onclick="toggleCourse('bridal')" class="course-btn">👰 Bridal Makeup Artist</button>
-<div id="bridal" class="course-box hidden">
-<p>
-Bridal Makeup course में advanced makeup, hairstyling,
-portfolio development और client branding सिखाई जाती है।
-</p>
-
-<h3>Duration</h3><p>510 Hours (1 Year)</p>
-<h3>Eligibility</h3>
-<p>Experience in Makeup / Beauty Trade</p>
-
-<h3>Career</h3>
-<p>Bridal Artist, Fashion Industry</p>
-
-<h3>Salary</h3>
-<p>₹50,000 – ₹1,50,000 per project</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-
-<button onclick="toggleCourse('yoga6')" class="course-btn">🧘 Senior Yoga Trainer (Level 6)</button>
-<div id="yoga6" class="course-box hidden">
-<p>
-यह highest level yoga course है जिसमें therapy,
-advanced training एवं instructor management सिखाया जाता है।
-</p>
-
-<h3>Duration</h3><p>570 Hours (1 Year)</p>
-<h3>Eligibility</h3>
-<p>Graduate + Level 5 Yoga Trainer</p>
-
-<h3>Career</h3>
-<p>Yoga Institutes, Wellness Director</p>
-
-<h3>Salary</h3>
-<p>₹40,000 – ₹90,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-
-<button onclick="toggleCourse('masterneuro')" class="course-btn">🧠 Master Wellness Neurotherapist</button>
-<div id="masterneuro" class="course-box hidden">
-<p>
-यह course advanced neurotherapy techniques,
-healing science एवं wellness counseling पर आधारित है।
-</p>
-
-<h3>Duration</h3><p>540 Hours (1 Year)</p>
-<h3>Eligibility</h3>
-<p>Senior Wellness Neurotherapist + 2 Years Experience</p>
-
-<h3>Career</h3>
-<p>Wellness Clinics, Therapy Centers</p>
-
-<h3>Salary</h3>
-<p>₹35,000 – ₹70,000 / month</p>
-
-<button onclick="applyNow()" class="apply-btn">Apply Now</button>
-</div>
-
-</div>
-
-<!-- ================= FOOTER ================= -->
-<footer id="footer" class="bg-pink-900 text-white text-center p-4">
-© 2025 OSDC – Orbital Skill Development Center | Beauty & Wellness Division
-</footer>
-
-<!-- ================= SCRIPT ================= -->
-<script>
-function toggleCourse(id){
-  document.getElementById(id).classList.toggle("hidden");
-}
-function applyNow(){
-  window.open(
-    "https://orbital-skills.github.io/osi.com/index.html#registration",
-    "_blank"
-  );
-}
-</script>
-
-<!-- ================= STYLES ================= -->
-<style>
-.course-btn{
-width:100%;
-background:#db2777;
-color:#fff;
-padding:14px;
-border-radius:10px;
-font-weight:600;
-text-align:left;
-margin-bottom:8px;
-}
-.course-box{
-background:#fdf2f8;
-border:1px solid #fbcfe8;
-padding:18px;
-border-radius:10px;
-margin-bottom:14px;
-}
-.course-box h3{
-font-weight:600;
-margin-top:10px;
-}
-.course-box ul{
-list-style:disc;
-padding-left:22px;
-}
-.apply-btn{
-background:#ec4899;
-color:#fff;
-padding:10px 20px;
-border-radius:8px;
-margin-top:12px;
-cursor:pointer;
-}
-.section-title{
-font-size:1.5rem;
-font-weight:700;
-margin:30px 0 15px;
-color:#9d174d;
-}
-</style>
-
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
+                        <i class="fas fa-rocket text-white"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gradient">Orbital Skill Development Center</h1>
+                </div>
+                <nav>
+                    <ul class="hidden md:flex space-x-8">
+                        <li><a href="#home" class="text-gray-700 hover:text-purple-600 transition">Home</a></li>
+                        <li><a href="#courses" class="text-gray-700 hover:text-purple-600 transition">Courses</a></li>
+                        <li><a href="#about" class="text-gray-700 hover:text-purple-600 transition">About</a></li>
+                        <li><a href="#contact" class="text-gray-700 hover:text-purple-600 transition">Contact</a></li>
+                    </ul>
+                    <button class="md:hidden text-gray-700" id="mobile-menu-btn">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </nav>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <ul class="py-4">
+                <li class="px-4 py-2"><a href="#home" class="text-gray-700 hover:text-purple-600 block">Home</a></li>
+                <li class="px-4 py-2"><a href="#courses" class="text-gray-700 hover:text-purple-600 block">Courses</a></li>
+                <li class="px-4 py-2"><a href="#about" class="text-gray-700 hover:text-purple-600 block">About</a></li>
+                <li class="px-4 py-2"><a href="#contact" class="text-gray-700 hover:text-purple-600 block">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-4 text-center fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Beauty & Wellness Courses</h1>
+            <p class="text-xl mb-10 max-w-2xl mx-auto">Empower your career with our professional skill development programs in the Beauty & Wellness sector</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#courses" class="bg-white text-purple-700 font-semibold py-3 px-8 rounded-full hover:bg-gray-100 transition transform hover:scale-105">Explore Courses</a>
+                <a href="#contact" class="border-2 border-white text-white font-semibold py-3 px-8 rounded-full hover:bg-white hover:text-purple-700 transition">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold mb-6 text-gradient">About Our Programs</h2>
+                    <p class="text-gray-700 mb-4">Our Beauty & Wellness courses are designed to provide industry-relevant skills that prepare you for a successful career in the beauty and wellness industry. All courses are aligned with NSQF standards and include practical training.</p>
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-graduation-cap text-purple-700"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">NSQF Aligned</h3>
+                                <p class="text-gray-600">Courses designed as per National Skill Qualification Framework</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-briefcase text-purple-700"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Industry Ready</h3>
+                                <p class="text-gray-600">Practical training with industry exposure</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-award text-purple-700"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Certification</h3>
+                                <p class="text-gray-600">Government recognized certification upon completion</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-users text-purple-700"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Expert Trainers</h3>
+                                <p class="text-gray-600">Learn from industry professionals with years of experience</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="w-64 h-64 rounded-full bg-purple-200 flex items-center justify-center">
+                            <i class="fas fa-spa text-purple-700 text-6xl"></i>
+                        </div>
+                        <div class="absolute top-0 -right-10 w-32 h-32 rounded-full bg-yellow-200 flex items-center justify-center">
+                            <i class="fas fa-cut text-yellow-700 text-4xl"></i>
+                        </div>
+                        <div class="absolute bottom-0 -left-10 w-32 h-32 rounded-full bg-blue-200 flex items-center justify-center">
+                            <i class="fas fa-hand-holding-heart text-blue-700 text-4xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4 text-gradient">Our Courses</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Explore our comprehensive range of Beauty & Wellness courses designed to meet industry standards and career aspirations</p>
+            </div>
+            
+            <!-- Search and Filter -->
+            <div class="mb-10 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="relative w-full md:w-1/3">
+                    <input type="text" id="search-input" placeholder="Search courses..." 
+                           class="w-full py-3 px-4 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-btn active px-4 py-2 rounded-lg font-medium" data-filter="all">All Courses</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg font-medium" data-filter="beginner">Beginner</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg font-medium" data-filter="intermediate">Intermediate</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg font-medium" data-filter="advanced">Advanced</button>
+                </div>
+            </div>
+            
+            <!-- Courses Grid -->
+            <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Course cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="fade-in">
+                    <div class="text-4xl font-bold text-gradient mb-2">21+</div>
+                    <div class="text-gray-600">Courses</div>
+                </div>
+                <div class="fade-in">
+                    <div class="text-4xl font-bold text-gradient mb-2">5000+</div>
+                    <div class="text-gray-600">Students Trained</div>
+                </div>
+                <div class="fade-in">
+                    <div class="text-4xl font-bold text-gradient mb-2">95%</div>
+                    <div class="text-gray-600">Placement Rate</div>
+                </div>
+                <div class="fade-in">
+                    <div class="text-4xl font-bold text-gradient mb-2">15+</div>
+                    <div class="text-gray-600">Years Experience</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-8 text-center text-gradient">Contact Us</h2>
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-6">Get in Touch</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <i class="fas fa-map-marker-alt text-purple-600 mt-1 mr-4"></i>
+                                    <div>
+                                        <h4 class="font-medium">Address</h4>
+                                        <p class="text-gray-600">123 Beauty Street, Wellness City, WC 12345</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-phone-alt text-purple-600 mt-1 mr-4"></i>
+                                    <div>
+                                        <h4 class="font-medium">Phone</h4>
+                                        <p class="text-gray-600">+91 98765 43210</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-envelope text-purple-600 mt-1 mr-4"></i>
+                                    <div>
+                                        <h4 class="font-medium">Email</h4>
+                                        <p class="text-gray-600">info@orbitalskill.com</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-clock text-purple-600 mt-1 mr-4"></i>
+                                    <div>
+                                        <h4 class="font-medium">Office Hours</h4>
+                                        <p class="text-gray-600">Mon-Fri: 9:00 AM - 6:00 PM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-6">Send a Message</h3>
+                            <form>
+                                <div class="mb-4">
+                                    <input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                <div class="mb-4">
+                                    <input type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                <div class="mb-4">
+                                    <input type="text" placeholder="Subject" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                <div class="mb-4">
+                                    <textarea placeholder="Your Message" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-3 rounded-lg hover:opacity-90 transition">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center">
+                            <i class="fas fa-rocket text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Orbital Skill</h3>
+                    </div>
+                    <p class="text-gray-400">Empowering careers through skill development and industry-aligned training programs.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#courses" class="text-gray-400 hover:text-white transition">Courses</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Courses</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Beauty Therapy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Hair Styling</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Makeup Artistry</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Wellness Programs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-600 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-600 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-600 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-600 transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-400">Subscribe to our newsletter for updates</p>
+                    <div class="mt-2 flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg text-gray-900 w-full focus:outline-none">
+                        <button class="bg-purple-600 px-4 py-2 rounded-r-lg hover:bg-purple-700 transition">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Orbital Skill Development Center. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Course data
+        const courses = [
+            {id: 1, name: "Assistant Nail Technician", level: "Level 3", experience: "Class VIII with 6 months experience in Nailcare", hours: "270 Hrs", duration: "6 Months", fee: "1000", category: "beginner"},
+            {id: 2, name: "Pedicurist and Manicurist", level: "Level 3", experience: "Class VIII", hours: "270 Hrs", duration: "6 Months", fee: "1000", category: "beginner"},
+            {id: 3, name: "Yoga Instructor (B&W)", level: "Level 4", experience: "Class X OR Certificate course in Yoga OR Level 3 Assistant Yoga Instructor", hours: "270 Hrs", duration: "1 Year", fee: "1000", category: "intermediate"},
+            {id: 4, name: "Assistant Beauty & Wellness Consultant", level: "Level 3", experience: "NSQF Level-3 course OR Class X with 1 year program", hours: "300 Hrs", duration: "6 Months", fee: "1000", category: "beginner"},
+            {id: 5, name: "Assistant Hair Dresser & Stylist", level: "Level 3", experience: "Class VIII", hours: "330 Hrs", duration: "6 Months", fee: "1000", category: "beginner"},
+            {id: 6, name: "Nail Technician", level: "Level 4", experience: "Class VIII with 2 years experience OR NSQF Level-3 course", hours: "330 Hrs", duration: "1 Year", fee: "1000", category: "intermediate"},
+            {id: 7, name: "Tattoo Artist", level: "Level 5", experience: "12th pass", hours: "354 hrs", duration: "1 Year", fee: "1000", category: "advanced"},
+            {id: 8, name: "Assistant Beauty Therapist", level: "Level 3", experience: "Class VIII", hours: "390 Hrs", duration: "6 Months", fee: "1000", category: "beginner"},
+            {id: 9, name: "Spa Therapist", level: "Level 4", experience: "Class X with 1 year experience OR NSQF Level-3 course", hours: "390 Hrs", duration: "1 Year", fee: "1000", category: "intermediate"},
+            {id: 10, name: "Wellness Neurotherapist", level: "Level 3", experience: "Class X", hours: "390 Hrs", duration: "1 Year", fee: "1000", category: "intermediate"},
+            {id: 11, name: "Wellness Acupuncturist", level: "Level 3", experience: "10th pass", hours: "390 Hrs", duration: "3 Months", fee: "1000", category: "intermediate"},
+            {id: 12, name: "Diploma in Hair Designing", level: "Level 4", experience: "12th Class", hours: "420 Hrs", duration: "1 Year", fee: "1000", category: "intermediate"},
+            {id: 13, name: "Diploma In Cosmetology", level: "Level 4", experience: "12th Class", hours: "420 Hrs", duration: "1 Year", fee: "1000", category: "intermediate"},
+            {id: 14, name: "Yoga Trainer (B&W)", level: "Level 5", experience: "Class X with Diploma course OR Level 4 Yoga Instructor", hours: "420 Hrs", duration: "1 Year", fee: "1000", category: "advanced"},
+            {id: 15, name: "Professional Makeup Artist", level: "Level 4", experience: "Class X with 2 years experience OR ITI experience", hours: "480 Hrs", duration: "1 Year", fee: "1000", category: "intermediate"},
+            {id: 16, name: "Senior Wellness Neurotherapist", level: "Level 4", experience: "NSQF Level-3 course with 1 year experience OR Class XII", hours: "480 Hrs", duration: "1 Year", fee: "1000", category: "advanced"},
+            {id: 17, name: "Professional Hair Chemical", level: "Level 4", experience: "12th pass", hours: "480 Hrs", duration: "1 Year", fee: "1000", category: "intermediate"},
+            {id: 18, name: "Senior Beauty Therapist", level: "Level 5", experience: "Class X with 2 years experience OR NSQF Level-4 course", hours: "540 Hrs", duration: "1 Year", fee: "1000", category: "advanced"},
+            {id: 19, name: "Senior Yoga Trainer (B&W)", level: "Level 6", experience: "Graduate with Diploma course OR Level 5 Yoga Trainer", hours: "570 Hrs", duration: "1 Year", fee: "1000", category: "advanced"},
+            {id: 20, name: "Aesthetic Skin Technician", level: "Level 4", experience: "Class X with 2 years experience OR ITI experience", hours: "630 Hrs", duration: "1 Year", fee: "1000", category: "advanced"},
+            {id: 21, name: "Cosmetologist", level: "Level 4", experience: "Class X with 2 years experience OR NSQF Level-3 course", hours: "810 Hrs", duration: "1 Year", fee: "1000", category: "advanced"}
+        ];
+
+        // Render courses
+        function renderCourses(coursesToRender) {
+            const coursesGrid = document.getElementById('courses-grid');
+            coursesGrid.innerHTML = '';
+            
+            coursesToRender.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card bg-white rounded-xl shadow-lg overflow-hidden card-hover';
+                courseCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1">${course.name}</h3>
+                                <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">${course.level}</span>
+                            </div>
+                            <span class="text-lg font-bold text-gradient">₹${course.fee}</span>
+                        </div>
+                        
+                        <div class="space-y-3 text-gray-600">
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-purple-600 mt-1 mr-3"></i>
+                                <div>
+                                    <span class="font-medium">Duration:</span> ${course.duration}
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-hourglass-half text-purple-600 mt-1 mr-3"></i>
+                                <div>
+                                    <span class="font-medium">Hours:</span> ${course.hours}
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-user-graduate text-purple-600 mt-1 mr-3"></i>
+                                <div>
+                                    <span class="font-medium">Experience:</span> ${course.experience}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="mt-6 w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium py-2 rounded-lg hover:opacity-90 transition">
+                            Enroll Now
+                        </button>
+                    </div>
+                `;
+                coursesGrid.appendChild(courseCard);
+            });
+        }
+
+        // Initial render
+        renderCourses(courses);
+
+        // Search functionality
+        document.getElementById('search-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredCourses = courses.filter(course => 
+                course.name.toLowerCase().includes(searchTerm) ||
+                course.level.toLowerCase().includes(searchTerm) ||
+                course.experience.toLowerCase().includes(searchTerm)
+            );
+            renderCourses(filteredCourses);
+        });
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                if (filter === 'all') {
+                    renderCourses(courses);
+                } else {
+                    const filteredCourses = courses.filter(course => course.category === filter);
+                    renderCourses(filteredCourses);
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Simple form submission handling
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+    </script>
 </body>
 </html>
