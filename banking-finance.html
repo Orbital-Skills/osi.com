@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Development Center - Banking Sector Courses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-btn:hover {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .filter-btn.active {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .course-card {
+            transition: all 0.3s ease;
+        }
+        
+        .course-card.hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-graduation-cap text-white text-xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-800">Orbital Skill Development Center</h1>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li><a href="index.html" class="hover:text-orange-400 transition">Home</a></li>
+                        <li><a href="#courses" class="hover:text-orange-400 transition">All Courses</a></li>
+                        <li><a href="#" class="hover:text-orange-400 transition">Admissions</a></li>
+                        <li><a href="https://orbital-skills.github.io/osi.com/index.html#registration" class="hover:text-orange-400 transition">Student Portal</a></li>
+                         </ul>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="hero-title text-4xl md:text-5xl font-bold mb-6">Banking Sector Skill Courses</h2>
+                <p class="text-xl mb-8">Enhance your career with industry-recognized banking qualifications</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <div class="bg-white bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
+                        <div class="text-3xl font-bold">17+</div>
+                        <div class="text-sm">Specialized Courses</div>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
+                        <div class="text-3xl font-bold">3-5</div>
+                        <div class="text-sm">NSQF Levels</div>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
+                        <div class="text-3xl font-bold">6M-1Y</div>
+                        <div class="text-sm">Duration</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="py-8 bg-white shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-center gap-3">
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-700 font-medium" data-filter="all">All Courses</button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-700 font-medium" data-filter="level-3">Level 3</button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-700 font-medium" data-filter="level-4">Level 4</button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-700 font-medium" data-filter="level-5">Level 5</button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-700 font-medium" data-filter="6-months">6 Months</button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-700 font-medium" data-filter="1-year">1 Year</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Course cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-8">Get in Touch</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-phone-alt text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Call Us</h3>
+                        <p>+919416711671</p>
+                        
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-envelope text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Email Us</h3>
+                        <p>osi@ftbh.onmicrosoft.com</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-clock text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Working Hours</h3>
+                        <p>Mon-Sat: 9:00 AM - 6:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-graduation-cap text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Orbital Skill Development Center</h3>
+                    </div>
+                </div>
+                <div class="text-gray-400">
+                    <p>&copy; 2023 Orbital Skill Development Center. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Course data
+        const courses = [
+            {
+                code: "10",
+                sector: "Banking",
+                name: "Mutual Fund Distributor",
+                level: "Level 3",
+                eligibility: "12th class in any stream or 3 yrs Govt. Recognized diploma after class 10th",
+                duration: "404 Hrs",
+                period: "6 Months",
+                fees: "5000"
+            },
+            {
+                code: "11",
+                sector: "Banking Sector",
+                name: "Accounts Executive",
+                level: "Level 4",
+                eligibility: "10+2 with Commerce OR Graduation with 2 years of experience in the Financial Sector OR B.Com/BBA/Graduation with Economics",
+                duration: "350 Hrs",
+                period: "6 Months",
+                fees: "5000"
+            },
+            {
+                code: "12",
+                sector: "Banking Sector",
+                name: "Insurance Sales Associate (MES)",
+                level: "Level 4",
+                eligibility: "Graduation or equivalent",
+                duration: "480 Hrs",
+                period: "1 Year",
+                fees: "5000"
+            },
+            {
+                code: "13",
+                sector: "Banking Sector",
+                name: "Marketing Associate (MES)",
+                level: "Level 4",
+                eligibility: "Graduation or equivalent",
+                duration: "480 Hrs",
+                period: "1 Year",
+                fees: "5000"
+            },
+            {
+                code: "14",
+                sector: "Banking Sector",
+                name: "MIS Data Analyst - Financial Services",
+                level: "Level 4",
+                eligibility: "Class 12th Pass + 6 months relevant work experience OR Class 10th Pass + ITI (2 years after Class 10th) OR Class 10th Pass and pursuing continuous regular schooling OR 3 year Diploma (after 10th) OR Previous relevant Qualification of NSQF level 3 + 2 years relevant work experience",
+                duration: "480 Hrs",
+                period: "1 Year",
+                fees: "6500"
+            },
+            {
+                code: "15",
+                sector: "Banking Sector",
+                name: "Mutual Fund Agent",
+                level: "Level 4",
+                eligibility: "12th pass",
+                duration: "320 Hrs",
+                period: "6 Months",
+                fees: "5000"
+            },
+            {
+                code: "16",
+                sector: "Banking Sector",
+                name: "Customer Service Associate - Financial Services",
+                level: "Level 4",
+                eligibility: "Class 12th Pass + 6 months relevant work experience OR Class 10th Pass + ITI (2 years after Class 10th) OR Class 10th Pass and pursuing continuous regular schooling OR 3 year Diploma (after 10th) OR Previous relevant Qualification of NSQF level 3 + 2 years relevant work experience",
+                duration: "480 Hrs",
+                period: "1 Year",
+                fees: "5000"
+            },
+            {
+                code: "18",
+                sector: "Banking Sector",
+                name: "GST Assistant",
+                level: "Level 4",
+                eligibility: "Class 12th Pass + 6 months relevant work experience OR Class 10th Pass + ITI (2 years after Class 10th) OR Class 10th Pass and pursuing continuous regular schooling OR 3 year Diploma (after 10th) OR Previous relevant Qualification of NSQF level 3 + 2 years relevant work experience",
+                duration: "480 Hrs",
+                period: "1 Year",
+                fees: "5000"
+            },
+            {
+                code: "19",
+                sector: "Banking Sector",
+                name: "Accounts Assistant",
+                level: "Level 4",
+                eligibility: "Class 12th Pass + 6 months relevant work experience OR Class 10th Pass + ITI (2 years after Class 10th) OR Class 10th Pass and pursuing continuous regular schooling OR 3 year Diploma (after 10th) OR Previous relevant Qualification of NSQF level 3 + 2 years relevant work experience",
+                duration: "480 Hrs",
+                period: "1 Year",
+                fees: "5000"
+            },
+            {
+                code: "20",
+                sector: "Banking Sector",
+                name: "Banking Associate (MES)",
+                level: "Level 4",
+                eligibility: "12th Pass + MES Course of Accounting",
+                duration: "300 Hrs",
+                period: "6 Months",
+                fees: "5000"
+            },
+            {
+                code: "22",
+                sector: "Banking",
+                name: "Business Correspondent/Facilitator",
+                level: "Level 4",
+                eligibility: "12th class in any stream or 3 yrs Govt. recognized diploma after class 10th",
+                duration: "404 Hrs",
+                period: "1 Year",
+                fees: "5000"
+            },
+            {
+                code: "23",
+                sector: "Banking",
+                name: "Credit Processing Officer",
+                level: "Level 4",
+                eligibility: "Graduate in any Stream with min. 6 months of experience in BFSI Cos. Or has completed certificate on any BFSI Qualification of level 3",
+                duration: "460 Hrs",
+                period: "1 Year",
+                fees: "5000"
+            },
+            {
+                code: "24",
+                sector: "Banking",
+                name: "Debt Recovery Agent",
+                level: "Level 4",
+                eligibility: "12th in any stream or 3 yrs Govt. recognized diploma after class 10th",
+                duration: "404 Hrs",
+                period: "1 Year",
+                fees: "5000"
+            },
+            {
+                code: "25",
+                sector: "Banking Sector",
+                name: "Consultant (Chartered Tax Practitioner)",
+                level: "Level 5",
+                eligibility: "Graduation in Commerce/Business Management/Administration/Accounting/Finance or Graduation in any field with 1 year of experience OR Previous relevant Qualification of NSQF Level 4 with 2 years of experience",
+                duration: "570 Hrs",
+                period: "1 Year",
+                fees: "5000"
+            },
+            {
+                code: "26",
+                sector: "Banking Sector",
+                name: "Loan Processing Officer",
+                level: "Level 5",
+                eligibility: "12th pass",
+                duration: "250 Hrs",
+                period: "6 Months",
+                fees: "5000"
+            },
+            {
+                code: "27",
+                sector: "Banking Sector",
+                name: "Insolvency & Bankruptcy Associate",
+                level: "Level 5",
+                eligibility: "Graduation in commerce, economics, law, management or Intermediate or equivalent of C.A, CMA, CS",
+                duration: "250 Hrs",
+                period: "6 Months",
+                fees: "5000"
+            }
+        ];
+
+        // Render courses
+        function renderCourses(coursesToRender) {
+            const container = document.getElementById('courses-container');
+            container.innerHTML = '';
+            
+            coursesToRender.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card bg-white rounded-xl shadow-lg overflow-hidden card-hover';
+                courseCard.dataset.level = course.level.toLowerCase().replace(' ', '-');
+                courseCard.dataset.period = course.period.toLowerCase().replace(' ', '-');
+                
+                courseCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full font-semibold">
+                                    Code: ${course.code}
+                                </span>
+                                <h3 class="text-xl font-bold text-gray-800 mt-2">${course.name}</h3>
+                            </div>
+                            <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full font-semibold">
+                                ${course.level}
+                            </span>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-start">
+                                <i class="fas fa-briefcase text-indigo-600 mt-1 mr-3"></i>
+                                <p class="text-gray-600 text-sm">${course.sector}</p>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fas fa-user-graduate text-indigo-600 mt-1 mr-3"></i>
+                                <p class="text-gray-600 text-sm">${course.eligibility}</p>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-indigo-600 mr-3"></i>
+                                <p class="text-gray-600 text-sm">${course.duration} (${course.period})</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                            <div>
+                                <p class="text-gray-500 text-sm">Course Fee</p>
+                                <p class="text-2xl font-bold text-indigo-700">₹${course.fees}</p>
+                            </div>
+                            <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition duration-300">
+                                Enquire Now
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(courseCard);
+            });
+        }
+
+        // Filter functionality
+        function setupFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active state
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    const filter = button.dataset.filter;
+                    const courseCards = document.querySelectorAll('.course-card');
+                    
+                    if (filter === 'all') {
+                        courseCards.forEach(card => card.classList.remove('hidden'));
+                    } else {
+                        courseCards.forEach(card => {
+                            if (card.dataset.level === filter || card.dataset.period === filter) {
+                                card.classList.remove('hidden');
+                            } else {
+                                card.classList.add('hidden');
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCourses(courses);
+            setupFilters();
+            
+            // Set "All Courses" as active by default
+            document.querySelector('[data-filter="all"]').classList.add('active');
+        });
+    </script>
+</body>
+</html>
