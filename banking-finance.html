@@ -54,7 +54,20 @@
             }
         }
     </style>
-<div class="hidden md:flex items-center space-x-8">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <i data-lucide="activity" class="h-8 w-8 text-brand-600"></i>
+                        <span class="font-bold text-xl text-slate-900 tracking-tight">Orbital Skill <span class="text-brand-600">Development Center</span></span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
                     <a href="index.html" class="text-slate-600 hover:text-brand-600 font-medium">Home</a>
                     <a href="#" class="text-brand-600 font-medium">Courses</a>
                     <a href="index.html#registration" class="text-slate-600 hover:text-brand-600 font-medium">Admissions</a>
@@ -69,6 +82,42 @@
                         <i data-lucide="menu" class="h-6 w-6"></i>
                     </button>
                 </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-r from-brand-900 to-slate-900 text-white py-20 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Healthcare Skill Development Courses</h1>
+            <p class="text-xl text-brand-100 max-w-2xl mx-auto mb-8">
+                Empowering careers with industry-relevant training. Explore our comprehensive list of NSQF certified healthcare courses designed for your success.
+            </p>
+            
+            <!-- Search and Filter Section -->
+            <div class="max-w-4xl mx-auto bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-2xl flex flex-col md:flex-row gap-4">
+                <div class="relative flex-grow">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Search course name (e.g., Yoga, EMT)..." 
+                        class="block w-full pl-10 pr-3 py-3 border-none rounded-xl leading-5 bg-white text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 sm:text-sm shadow-lg">
+                </div>
+                <div class="relative min-w-[200px]">
+                    <select id="levelFilter" class="block w-full py-3 pl-3 pr-10 border-none rounded-xl leading-5 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500 sm:text-sm shadow-lg cursor-pointer appearance-none">
+                        <option value="all">All Levels</option>
+                        <option value="3">Level 3 (Entry Level)</option>
+                        <option value="4">Level 4 (Intermediate)</option>
+                        <option value="5">Level 5 (Specialist)</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-700">
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
     <!-- Filter Section -->
     <section class="py-8 bg-white shadow-sm">
         <div class="container mx-auto px-4">
