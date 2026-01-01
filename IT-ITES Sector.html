@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Develpoment Center Skill Develpoment Center Skill Develpoment Center | Future-Ready IT-ITES Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --accent: #10b981;
+            --dark: #0f172a;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f8fafc;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at top right, #e0f2fe, transparent),
+                        radial-gradient(circle at bottom left, #f0f9ff, transparent);
+        }
+        .course-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .orb-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .search-input:focus {
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .tag-pill {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Navigation -->
+    <nav class="glass-nav fixed w-full z-50 top-0 left-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-200">
+                        <i class="fas fa-globe text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-800 tracking-tighter text-slate-900">Orbital Skill Develpoment Center</span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="#" class="text-blue-600">Home</a>
+                    <a href="#courses" class="text-slate-600 hover:text-blue-600 transition">Courses</a>
+                    <a href="#about" class="text-slate-600 hover:text-blue-600 transition">About</a>
+                    <a href="#contact" class="text-slate-600 hover:text-blue-600 transition">Contact</a>
+                </div>
+                <div>
+                    <a href="#courses" class="bg-slate-900 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-slate-800 transition shadow-md">
+                        Prospectus
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 overflow-hidden hero-gradient">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-6">
+                    Launch Your Career <span class="text-blue-600">Into Orbit</span>
+                </h1>
+                <p class="text-lg text-slate-600 mb-10 leading-relaxed">
+                    Elevate your skills with Orbital Skill Develpoment Center's specialized IT-ITES training programs. 
+                    Industry-aligned courses designed for the next generation of digital professionals.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <div class="flex items-center gap-2 px-6 py-3 bg-white rounded-2xl shadow-sm border border-slate-100">
+                        <i class="fas fa-certificate text-blue-500"></i>
+                        <span class="text-sm font-bold">NSQF Aligned</span>
+                    </div>
+                    <div class="flex items-center gap-2 px-6 py-3 bg-white rounded-2xl shadow-sm border border-slate-100">
+                        <i class="fas fa-award text-emerald-500"></i>
+                        <span class="text-sm font-bold">OSDC Assessment</span>
+                    </div>
+                    <div class="flex items-center gap-2 px-6 py-3 bg-white rounded-2xl shadow-sm border border-slate-100">
+                        <i class="fas fa-laptop-code text-indigo-500"></i>
+                        <span class="text-sm font-bold">IT-ITES Focused</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Decorative Elements -->
+        <div class="absolute top-20 left-10 w-32 h-32 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 orb-animation"></div>
+        <div class="absolute bottom-10 right-10 w-48 h-48 bg-emerald-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 orb-animation" style="animation-delay: 2s"></div>
+    </section>
+
+    <!-- Course Search & Filter -->
+    <section id="courses" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">Program Catalog</h2>
+                    <p class="text-slate-500">Discover 33 specialized certifications to boost your employability.</p>
+                </div>
+                <div class="relative w-full md:w-96">
+                    <input type="text" id="courseSearch" placeholder="Search by course name or tech..." 
+                        class="search-input w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Course Grid -->
+            <div id="courseGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards will be injected here by JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="noResults" class="hidden text-center py-20">
+                <div class="bg-slate-50 rounded-3xl p-10 inline-block">
+                    <i class="fas fa-search-minus text-4xl text-slate-300 mb-4"></i>
+                    <p class="text-slate-500 font-medium">No courses found matching your criteria.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="about" class="py-20 bg-slate-900 text-white overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 items-center gap-12">
+                <div>
+                    <h2 class="text-4xl font-bold mb-6">Why Train with <span class="text-blue-400">Orbital Skill Develpoment Center</span>?</h2>
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 shrink-0 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400 border border-blue-500/30">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Fast-Track Learning</h4>
+                                <p class="text-slate-400 text-sm">Our courses range from 60 to 450 hours, optimized for rapid skill acquisition and professional readiness.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 shrink-0 bg-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400 border border-emerald-500/30">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Recognized Certification</h4>
+                                <p class="text-slate-400 text-sm">Courses are NSQF Level 3 & 4 certified, recognized by major industries across the IT-ITES sector.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 shrink-0 bg-amber-500/20 rounded-xl flex items-center justify-center text-amber-400 border border-amber-500/30">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Low Entry Barrier</h4>
+                                <p class="text-slate-400 text-sm">Programs available for candidates from 8th Pass to Post-Graduates, ensuring inclusivity.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-3xl border border-white/10 shadow-2xl">
+                    <h3 class="text-2xl font-bold mb-6">Ready to start?</h3>
+                    <form id="contact" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Full Name</label>
+                            <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 focus:outline-none focus:border-blue-500 text-white" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Interested Course</label>
+                            <select class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 focus:outline-none focus:border-blue-500 text-white">
+                                <option>Select a course</option>
+                                <option>Python (Basic + Adv)</option>
+                                <option>Digital Marketing</option>
+                                <option>Web Designing</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Email Address</label>
+                            <input type="email" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 focus:outline-none focus:border-blue-500 text-white" placeholder="john@example.com">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-lg transition-all shadow-lg shadow-blue-600/20">
+                            Apply for Admission
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px]"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-globe text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-800 tracking-tighter text-slate-900 uppercase">Orbital Skill Develpoment Center</span>
+                </div>
+                <div class="text-slate-500 text-sm">
+                    © 2023 Orbital Skill Develpoment Center IT-ITES Sector Skills. All rights reserved.
+                </div>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-blue-50 hover:text-blue-500 transition"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-blue-50 hover:text-blue-500 transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-blue-50 hover:text-blue-500 transition"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const courses = [
+            { id: 1, name: "Customer Care Executive-Domestic- Non- Voice", level: "Level 3", exp: "12th Class OR 10th Class + ITI", hours: "400 Hrs", duration: "6 Months", fee: "₹5000", cat: "Support" },
+            { id: 2, name: "Customer Care Executive-Domestic- Voice", level: "Level 3", exp: "12th Class OR 10th Class + ITI", hours: "400 Hrs", duration: "6 Months", fee: "₹5000", cat: "Support" },
+            { id: 3, name: "Domestic Biometric Data Operator", level: "Level 3", exp: "12th Class OR 10th Class + ITI", hours: "400 Hrs", duration: "6 Months", fee: "₹5000", cat: "Operations" },
+            { id: 4, name: "Accounting", level: "Level 3", exp: "10th Standard", hours: "450 Hrs", duration: "6 Months", fee: "₹5000", cat: "Finance" },
+            { id: 5, name: "Domestic IT Helpdesk Attendant", level: "Level 3", exp: "12th Class OR 10th Class + ITI", hours: "400 Hrs", duration: "6 Months", fee: "₹5000", cat: "Support" },
+            { id: 6, name: "Junior Software Developer", level: "Level 3", exp: "12th Class + 6 months exp OR 10th + ITI", hours: "400 Hrs", duration: "6 Months", fee: "₹5000", cat: "Development" },
+            { id: 7, name: "Digital Marketing Assistant", level: "Level 3", exp: "12th pass", hours: "144 hrs.", duration: "3 Months", fee: "₹5000", cat: "Marketing" },
+            { id: 8, name: "Computer Basics and Accounting", level: "Level 3", exp: "12th pass", hours: "288 hrs.", duration: "3 Months", fee: "₹5000", cat: "Finance" },
+            { id: 9, name: "Advanced Accounting with Tally ERP", level: "Level 4", exp: "12th Pass", hours: "120 Hrs", duration: "3 Months", fee: "₹5000", cat: "Finance" },
+            { id: 10, name: "Financial Accounting with Tally ERP", level: "Level 3", exp: "12th Pass, Hindi/English", hours: "120 Hrs", duration: "3 Months", fee: "₹5000", cat: "Finance" },
+            { id: 11, name: "Graphic Designing with Video Editing", level: "Level 3", exp: "12th Class", hours: "120 Hrs", duration: "3 Month", fee: "₹5000", cat: "Design" },
+            { id: 12, name: "Tally With GST", level: "Level 3", exp: "12th Class", hours: "120 Hrs", duration: "3 Month", fee: "₹5000", cat: "Finance" },
+            { id: 13, name: "Web Designing", level: "Level 3", exp: "12th Class", hours: "85 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 14, name: "ORACLE", level: "Level 3", exp: "12th Class", hours: "80 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 15, name: "DTP & GRAPHICS", level: "Level 3", exp: "12th Class", hours: "75 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Design" },
+            { id: 16, name: "Digital Marketing", level: "Level 3", exp: "Graduation", hours: "95 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Marketing" },
+            { id: 17, name: "C Programming", level: "Level 3", exp: "10th", hours: "75 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 18, name: "C++", level: "Level 3", exp: "12th Class + C", hours: "80 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 19, name: "Core Java", level: "Level 3", exp: "12th Class", hours: "80 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 20, name: "Advanced Java", level: "Level 3", exp: "12th Class", hours: "85 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 21, name: "Python (Basic + Adv)", level: "Level 3", exp: "12th Class", hours: "120 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 22, name: "C#.NET", level: "Level 3", exp: "10th", hours: "85 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 23, name: "ASP.NET", level: "Level 3", exp: "12th", hours: "85 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 24, name: "MySQL", level: "Level 3", exp: "12th Class", hours: "80 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 25, name: "SQL Server", level: "Level 3", exp: "12th pass", hours: "80 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 26, name: "PL/SQL", level: "Level 3", exp: "12th pass", hours: "75 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 27, name: "MS Office", level: "Level 3", exp: "8th pass", hours: "75 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Basic" },
+            { id: 28, name: "Basic Excel", level: "Level 3", exp: "8th pass", hours: "65 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Basic" },
+            { id: 29, name: "Advance Excel", level: "Level 3", exp: "8th pass", hours: "75 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Basic" },
+            { id: 30, name: "Tally Prime", level: "Level 3", exp: "12th pass", hours: "70 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Finance" },
+            { id: 31, name: "Typing - English", level: "Level 3", exp: "10th pass", hours: "60 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Skills" },
+            { id: 32, name: "Typing - Hindi", level: "Level 3", exp: "10th pass", hours: "60 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Skills" },
+            { id: 33, name: "Typing - Marathi", level: "Level 3", exp: "10th pass", hours: "60 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Skills" }
+        ];
+
+        const courseGrid = document.getElementById('courseGrid');
+        const courseSearch = document.getElementById('courseSearch');
+        const noResults = document.getElementById('noResults');
+
+        function renderCourses(data) {
+            courseGrid.innerHTML = '';
+            if (data.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            }
+            noResults.classList.add('hidden');
+
+            data.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'course-card group bg-white border border-slate-200 p-6 rounded-3xl flex flex-col h-full';
+                
+                // Set category color
+                let catColor = 'bg-blue-100 text-blue-600';
+                if (course.cat === 'Finance') catColor = 'bg-emerald-100 text-emerald-600';
+                if (course.cat === 'Development') catColor = 'bg-indigo-100 text-indigo-600';
+                if (course.cat === 'Marketing') catColor = 'bg-rose-100 text-rose-600';
+                if (course.cat === 'Database') catColor = 'bg-amber-100 text-amber-600';
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="tag-pill px-2.5 py-1 rounded-md ${catColor}">${course.cat}</span>
+                        <span class="text-xs font-bold text-slate-400">${course.level}</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-3">${course.name}</h3>
+                    <div class="space-y-3 mb-6 flex-grow">
+                        <div class="flex items-center gap-2 text-sm text-slate-600">
+                            <i class="far fa-clock w-4"></i>
+                            <span>${course.hours} (${course.duration})</span>
+                        </div>
+                        <div class="flex items-start gap-2 text-sm text-slate-600">
+                            <i class="fas fa-graduation-cap w-4 mt-1"></i>
+                            <span class="line-clamp-2">${course.exp}</span>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-slate-50 flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Assessment Fee</p>
+                            <p class="text-lg font-extrabold text-slate-900">${course.fee}</p>
+                        </div>
+                      <a href="https://wa.me/message/NP5YOJV63ILWD1" target="_blank" rel="noopener noreferrer">
+                      <button class="bg-slate-100 text-slate-900 px-4 py-2 rounded-xl text-sm font-bold group-hover:bg-blue-600 group-hover:text-white transition-all">
+                            Apply Now
+                        </button>
+                        </a>
+                    </div>
+                `;
+                courseGrid.appendChild(card);
+            });
+        }
+
+        courseSearch.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = courses.filter(c => 
+                c.name.toLowerCase().includes(term) || 
+                c.cat.toLowerCase().includes(term) ||
+                c.exp.toLowerCase().includes(term)
+            );
+            renderCourses(filtered);
+        });
+
+        // Initial render
+        renderCourses(courses);
+
+        // Simple smooth scroll for nav
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html></html>
