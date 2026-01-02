@@ -869,6 +869,24 @@ Transplant Coordinator, Telehealth Services Coordinator, "Kshara Karma Technicia
          class="w-full px-4 py-3 rounded-lg form-input"
          placeholder="e.g., ITI / Polytechnic / Vocational">
 </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
+    authDomain: "orbital4u.firebaseapp.com",
+    projectId: "orbital4u",
+    storageBucket: "orbital4u.firebasestorage.app",
+    messagingSenderId: "88284726348",
+    appId: "1:88284726348:web:0d43de2919b592509b60e9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.auth = auth;
+</script>
 
 <script>
   // "Other" चुनने पर इनपुट दिखाएँ/छुपाएँ
