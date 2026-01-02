@@ -164,50 +164,44 @@
 
         // Authentication functions
         async function registerStudent(formData) {
-            try {
-                // Create user account
-                const userCredential = await auth.createUserWithEmailAndPassword(
-                    formData.email,
-                    formData.password
-                );
+  try {
+    const userCredential = await auth.createUserWithEmailAndPassword(
+      formData.email,
+      formData.password
+    );
 
-                // Update display name
-                await userCredential.user.updateProfile({
-                    displayName: formData.fullName
-                });
-
-                // Save additional user data to Firestore
-                await db.collection('students').doc(userCredential.user.uid).set({
-                    fullName: formData.fullName,
-                    email: formData.email,
-                    mobile: formData.mobile,
-                    course: formData.course,
-                    enrolledAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    status: 'active'
-                });
-
-                showToast('Registration successful! Welcome to Orbital Skill Development Center.');
-                renderDashboard();
-            } catch (error) {
-                showToast(error.message, 'error');
-                throw error;
-            }
-        }
-
-        async function loginStudent(email, password) {
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      alert("Login successful");
-      window.location.href = "https://orbital-skills.github.io/osi.com/#courses";
-    })
-    .catch((error) => {
-      alert(error.message);
+    await userCredential.user.updateProfile({
+      displayName: formData.fullName
     });
+
+    await db.collection('students').doc(userCredential.user.uid).set({
+      fullName: formData.fullName,
+      email: formData.email,
+      mobile: formData.mobile,
+      course: formData.course,
+      enrolledAt: firebase.firestore.FieldValue.serverTimestamp(),
+      status: 'active'
+    });
+
+    showToast('Registration successful!');
+    
+
+  } catch (error) {
+    showToast(error.message, 'error');
+    throw error;
+  }
+}
+async function loginStudent(email, password) {
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    showToast("Login successful");
+  } catch (error) {
+    showToast(error.message, "error");
+    throw error;
+  }
 }
 
-        
-
-        async function logout() {
+         async function logout() {
             try {
                 await auth.signOut();
                 showToast('Logged out successfully');
@@ -579,9 +573,7 @@
             }
         });
 
-        // Initial render
-        renderLogin();
-    </script>
+      </script>
 </body>
 </html>
 ```
