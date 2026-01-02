@@ -1427,6 +1427,7 @@ try {
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
       window.auth = auth;
+         window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
     </script>
 
     <!-- App JS -->
