@@ -759,7 +759,7 @@ Transplant Coordinator, Telehealth Services Coordinator, "Kshara Karma Technicia
                     </div>
                 </div>
                 
-                <form id="registration-form" class="space-y-6">
+                <form id="registration-form" class="space-y-6" onsubmit="handleRegister(event)">
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
@@ -1023,7 +1023,18 @@ async function compressImage(file) {
 
  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+    const email = form.querySelector('input[name="email"]').value;
+const password = "OSD@" + form.querySelector('input[name="mobile"]').value;
+
+try {
+  await createUserWithEmailAndPassword(auth, email, password);
+} catch (err) {
+  if (err.code !== "auth/email-already-in-use") {
+    alert(err.message);
+    return;
+  }
+}
+
     // Status update aur button disable
     setStatus('Submitting details... कृपया प्रतीक्षा करें।', 'info');
     const submitBtn = form.querySelector('button[type="submit"]');
@@ -1042,7 +1053,9 @@ async function compressImage(file) {
             Email: fd.get('email'),
             Mobile: fd.get('mobile'),
             CourseSelected: fd.get('course'),
-            Qualification: fd.get('qualification') === 'Other' ? fd.get('qualification_other') : fd.get('qualification')
+            Qualification: fd.get('qualification') === 'Other' 
+                ? fd.get('qualification_other') 
+                : fd.get('qualification')
         };
 
         const photoFile = form.querySelector('input[type="file"]').files[0];
@@ -1081,7 +1094,9 @@ async function compressImage(file) {
     } catch (error) {
         console.error('Submission Error:', error);
         setStatus('❌ त्रुटि: ' + error.message, 'error');
-    } finally {
+    } finally 
+    
+    {
         submitBtn.disabled = false;
     }
 });
@@ -1385,3 +1400,55 @@ async function compressImage(file) {
                                 <i class="fas fa-briefcase text-2xl text-[#4F0A5A]"></i>
                             </div>
                             <h4 class="font-bold text-[#4F0A5A]
+
+
+                                    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6 text-center">
+        <p class="text-sm">&copy; 2026 Orbital Skill Development Center</p>
+    </footer
+
+    <!-- Firebase -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
+        authDomain: "orbital4u.firebaseapp.com",
+        projectId: "orbital4u",
+        storageBucket: "orbital4u.firebasestorage.app",
+        messagingSenderId: "88284726348",
+        appId: "1:88284726348:web:0d43de2919b592509b60e9"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      window.auth = auth;
+    </script>
+
+    <!-- App JS -->
+    <script type="module">
+  import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  window.handleRegister = function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    createUserWithEmailAndPassword(window.auth, email, password)
+      .then((userCredential) => {
+        alert("Registration Successful");
+        console.log(userCredential.user);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  }
+</script>
+
+</body>
+</html>
