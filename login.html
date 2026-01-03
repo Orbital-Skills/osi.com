@@ -191,6 +191,7 @@ const coursePages = {
       email: formData.email,
       mobile: formData.mobile,
       course: formData.course,
+      profileCompleted: false,
       enrolledAt: firebase.firestore.FieldValue.serverTimestamp(),
       status: 'active'
     });
@@ -464,6 +465,7 @@ async function loginStudent(email, password) {
             if (currentUser) {
                 const doc = await db.collection('students').doc(currentUser.uid).get();
                 studentData = doc.data();
+                window.studentData = studentData;
             }
             
             const app = document.getElementById('app');
@@ -520,28 +522,52 @@ async function loginStudent(email, password) {
                                 </div>
                             </div>
                         </div>
-                        
+                        ${studentData?.profileCompleted !== true ? `
+  <div class="mb-6 bg-yellow-100 border border-yellow-300 p-4 rounded-lg">
+    <p class="text-yellow-800 font-semibold mb-2">
+      ⚠️ Please complete your profile to access course materials
+    </p>
+    <button onclick="renderProfileForm()"
+      class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">
+      Complete Profile
+    </button>
+  </div>
+` : ``}
+
                         <!-- Quick Actions -->
                         <div class="mt-8">
                             <h3 class="text-xl font-semibold mb-4 text-gray-800">Quick Actions</h3>
                             <div class="grid md:grid-cols-3 gap-4">
-                             <button onclick="openCourses()"
-  class="inline-flex items-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
-  
-  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5
-         S4.168 5.477 3 6.253v13
-         C4.168 18.477 5.754 18 7.5 18
-         s3.332.477 4.5 1.253m0-13
-         C13.168 5.477 14.754 5 16.5 5
-         c1.747 0 3.332.477 4.5 1.253v13
-         C19.832 18.477 18.247 18 16.5 18
-         c-1.746 0-3.332.477-4.5 1.253"/>
-  </svg>
+                             ${studentData.profileStep1Completed === true ? `    
+    <button onclick="openCourses()"
+      class="inline-flex items-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+      
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5
+             S4.168 5.477 3 6.253v13
+             C4.168 18.477 5.754 18 7.5 18
+             s3.332.477 4.5 1.253m0-13
+             C13.168 5.477 14.754 5 16.5 5
+             c1.747 0 3.332.477 4.5 1.253v13
+             C19.832 18.477 18.247 18 16.5 18
+             c-1.746 0-3.332.477-4.5 1.253"/>
+      </svg>
 
-  Course Materials
-</button>
+      Course Materials
+    </button>
+
+  ` : `
+    
+    <button onclick="renderProfileForm()"
+      class="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition-colors">
+      Complete Profile
+    </button>
+
+  `}
+
+</div>
+
                                 <button class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors">
                                     <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
@@ -608,14 +634,22 @@ async function loginStudent(email, password) {
         return;
       }
 
-      const studentCourse = doc.data().course;
+      const studentData = doc.data();
+
+      // 🔒 PROFILE MUST BE COMPLETE
+      if (studentData.profileCompleted !== true) {
+        showToast("❗ पहले अपनी पूरी प्रोफाइल complete करें", "error");
+        return;
+      }
+
+      const studentCourse = studentData.course;
 
       if (!coursePages[studentCourse]) {
         showToast("Course page not linked", "error");
         return;
       }
 
-      // 👉 GitHub repo ke andar wali HTML file open hogi
+      // ✅ FINAL REDIRECT (only once)
       window.location.href =
         "https://orbital-skills.github.io/osi.com/" +
         coursePages[studentCourse];
@@ -624,6 +658,71 @@ async function loginStudent(email, password) {
       showToast(error.message, "error");
     });
 }
+function renderProfileForm() {
+  const app = document.getElementById("app");
+
+  app.innerHTML = `
+    <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-lg fade-in">
+      <h2 class="text-2xl font-bold mb-6 text-gray-800">Complete Your Profile</h2>
+
+      <form id="profileForm" class="space-y-4">
+
+        <input type="text" id="fatherName" required
+          placeholder="Father Name"
+          class="w-full border p-3 rounded-lg"/>
+
+        <input type="text" id="motherName" required
+          placeholder="Mother Name"
+          class="w-full border p-3 rounded-lg"/>
+
+        <input type="date" id="dob" required
+          class="w-full border p-3 rounded-lg"/>
+
+        <select id="gender" required
+          class="w-full border p-3 rounded-lg">
+          <option value="">Select Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+
+        <input type="text" id="qualification" required
+          placeholder="Highest Qualification"
+          class="w-full border p-3 rounded-lg"/>
+
+        <button type="submit"
+          class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700">
+          Save Profile
+        </button>
+      </form>
+    </div>
+  `;
+
+  document.getElementById("profileForm").addEventListener("submit", saveProfile);
+}
+async function saveProfile(e) {
+  e.preventDefault();
+
+  try {
+    await db.collection("students").doc(currentUser.uid).update({
+      fatherName: document.getElementById("fatherName").value,
+      motherName: document.getElementById("motherName").value,
+      dob: document.getElementById("dob").value,
+      gender: document.getElementById("gender").value,
+      qualification: document.getElementById("qualification").value,
+
+      // 🔒 IMPORTANT
+      profileStep1Completed: true,
+    });
+
+    showToast("✅ Profile completed successfully");
+    renderDashboard();
+
+  } catch (error) {
+    showToast(error.message, "error");
+  }
+}
+
       </script>
 </body>
 </html>
