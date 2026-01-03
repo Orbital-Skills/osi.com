@@ -124,7 +124,19 @@
             "Welder",
             "Cyber Security"
         ];
-
+const coursePages = {
+  "Health Care Skills": "health-care.html",
+  "Banking-Finance Skills": "banking-finance.html",
+  "IT-ITS Sector": "IT-ITES Sector.html",
+  "Fireman": "fire-safety.html",
+  "Electrician": "electrician.html",
+  "Plumber": "plumber.html",
+  "Boutique Design": "beautician.html",
+  "ECCE/ NTT": "ecce-ntt.html",
+  "Welder": "welder.html",
+  "Cyber Security": "cyber-security.html"
+};
+       
         // Utility functions
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
@@ -584,10 +596,34 @@ async function loginStudent(email, password) {
             }
         });
         function openCourses() {
-  window.location.href = "https://orbital-skills.github.io/osi.com/#courses";
+  if (!currentUser) {
+    showToast("Please login first", "error");
+    return;
+  }
+
+  db.collection("students").doc(currentUser.uid).get()
+    .then((doc) => {
+      if (!doc.exists) {
+        showToast("Student data not found", "error");
+        return;
+      }
+
+      const studentCourse = doc.data().course;
+
+      if (!coursePages[studentCourse]) {
+        showToast("Course page not linked", "error");
+        return;
+      }
+
+      // 👉 GitHub repo ke andar wali HTML file open hogi
+      window.location.href =
+        "https://orbital-skills.github.io/osi.com/" +
+        coursePages[studentCourse];
+    })
+    .catch((error) => {
+      showToast(error.message, "error");
+    });
 }
-
-
       </script>
 </body>
 </html>
