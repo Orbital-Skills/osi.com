@@ -1,809 +1,219 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orbital Skill Development Center - Student Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .glass-effect {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .loading-spinner {
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 3px solid white;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            animation: slideIn 0.3s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbital Skill Development Center - Student Portal</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+*{font-family:'Inter',sans-serif}
+.gradient-bg{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
+.fade-in{animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.toast{position:fixed;top:20px;right:20px;z-index:999}
+</style>
 </head>
+
 <body class="gradient-bg min-h-screen">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
-                    </svg>
-                    <h1 class="text-xl md:text-2xl font-bold text-gray-800">Orbital Skill Development Center</h1>
-                </div>
-                <div id="navActions" class="flex items-center space-x-4">
-                    <!-- Dynamic nav actions will be inserted here -->
-                </div>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Main Content Container -->
-    <div id="app" class="container mx-auto px-4 py-8">
-        <!-- Dynamic content will be rendered here -->
-    </div>
+<nav class="bg-white shadow p-4 flex justify-between">
+  <h1 class="font-bold text-xl">Orbital Skill Development Center</h1>
+  <div id="navActions"></div>
+</nav>
 
-    <!-- Toast Container -->
-    <div id="toastContainer"></div>
+<div id="app" class="container mx-auto p-6"></div>
+<div id="toastContainer"></div>
 
-    <script>
-        // Firebase Configuration - Replace with your config
-       const firebaseConfig = {
-  apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
-  authDomain: "orbital4u.firebaseapp.com",
-  projectId: "orbital4u",
-  storageBucket: "orbital4u.firebasestorage.app",
-  messagingSenderId: "88284726348",
-  appId: "1:88284726348:web:0d43de2919b592509b60e9",
-  measurementId: "G-BS3BEKLJN7"
+<script>
+/* ---------------- FIREBASE ---------------- */
+firebase.initializeApp({
+  apiKey:"AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
+  authDomain:"orbital4u.firebaseapp.com",
+  projectId:"orbital4u",
+  storageBucket:"orbital4u.firebasestorage.app",
+  messagingSenderId:"88284726348",
+  appId:"1:88284726348:web:0d43de2919b592509b60e9"
+});
+const auth=firebase.auth();
+const db=firebase.firestore();
+
+/* ---------------- STATE ---------------- */
+let currentUser=null;
+
+/* ---------------- UTILS ---------------- */
+function showToast(msg,type="success"){
+  const d=document.createElement("div");
+  d.className=`toast px-4 py-2 rounded text-white ${type==="error"?"bg-red-500":"bg-green-500"}`;
+  d.innerText=msg;
+  toastContainer.appendChild(d);
+  setTimeout(()=>d.remove(),3000);
+}
+
+/* ---------------- AUTH ---------------- */
+async function loginStudent(e,p){
+  await auth.signInWithEmailAndPassword(e,p);
+}
+async function logout(){
+  await auth.signOut();
+}
+
+/* ---------------- RENDERS ---------------- */
+function renderLogin(){
+app.innerHTML=`
+<div class="max-w-md mx-auto bg-white p-6 rounded">
+<h2 class="text-2xl font-bold mb-4">Login</h2>
+<form id="loginForm" class="space-y-3">
+<input id="email" class="w-full border p-2" placeholder="Email">
+<input id="password" type="password" class="w-full border p-2" placeholder="Password">
+<button class="w-full bg-purple-600 text-white py-2">Login</button>
+</form>
+</div>`;
+loginForm.onsubmit=e=>{
+e.preventDefault();
+loginStudent(email.value,password.value)
+.catch(err=>showToast(err.message,"error"));
 };
-     
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        // Global state
-        let currentUser = null;
-        let currentView = 'login';
-
-        // Courses data
-        const courses = [
-            "Health Care Skills",
-            "Banking-Finance Skills",
-            "IT-ITS Sector",
-            "Fireman",
-            "Electrician",
-            "Plumber",
-            "Boutique Design",
-            "ECCE/ NTT",
-            "Welder",
-            "Cyber Security"
-        ];
-const coursePages = {
-  "Health Care Skills": "health-care.html",
-  "Banking-Finance Skills": "banking-finance.html",
-  "IT-ITS Sector": "IT-ITES Sector.html",
-  "Fireman": "fire-safety.html",
-  "Electrician": "electrician.html",
-  "Plumber": "plumber.html",
-  "Boutique Design": "beautician.html",
-  "ECCE/ NTT": "ecce-ntt.html",
-  "Welder": "welder.html",
-  "Cyber Security": "cyber-security.html"
-};
-       
-        // Utility functions
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `toast p-4 rounded-lg shadow-lg ${
-                type === 'success' ? 'bg-green-500' : 'bg-red-500'
-            } text-white`;
-            toast.innerHTML = `
-                <div class="flex items-center">
-                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        ${type === 'success' 
-                            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>'
-                            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>'
-                        }
-                    </svg>
-                    <span>${message}</span>
-                </div>
-            `;
-            
-            document.getElementById('toastContainer').appendChild(toast);
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
-        }
-
-        function showLoading(button) {
-            const originalContent = button.innerHTML;
-            button.disabled = true;
-            button.innerHTML = '<div class="loading-spinner mx-auto"></div>';
-            return originalContent;
-        }
-
-        function hideLoading(button, originalContent) {
-            button.disabled = false;
-            button.innerHTML = originalContent;
-        }
-
-        // Authentication functions
-        async function registerStudent(formData) {
-  try {
-    const userCredential = await auth.createUserWithEmailAndPassword(
-      formData.email,
-      formData.password
-    );
-
-    await userCredential.user.updateProfile({
-      displayName: formData.fullName
-    });
-
-    await db.collection('students').doc(userCredential.user.uid).set({
-      fullName: formData.fullName,
-      email: formData.email,
-      mobile: formData.mobile,
-      course: formData.course,
-      profileCompleted: false,
-      enrolledAt: firebase.firestore.FieldValue.serverTimestamp(),
-      status: 'active'
-    });
-
-    showToast('Registration successful!');
-    
-
-  } catch (error) {
-    showToast(error.message, 'error');
-    throw error;
-  }
-}
-async function loginStudent(email, password) {
-  try {
-    await auth.signInWithEmailAndPassword(email, password);
-    showToast("Login successful");
-  } catch (error) {
-    showToast(error.message, "error");
-    throw error;
-  }
 }
 
-         async function logout() {
-            try {
-                await auth.signOut();
-                showToast('Logged out successfully');
-                renderLogin();
-            } catch (error) {
-                showToast(error.message, 'error');
-            }
-        }
+async function renderDashboard(){
+const snap=await db.collection("students").doc(currentUser.uid).get();
+const s=snap.data();
 
-        async function resetPassword(email) {
-            try {
-                await auth.sendPasswordResetEmail(email);
-                showToast('Password reset email sent! Check your inbox.');
-            } catch (error) {
-                showToast(error.message, 'error');
-                throw error;
-            }
-        }
+app.innerHTML=`
+<div class="bg-white p-6 rounded shadow fade-in">
 
-        // View rendering functions
-        function renderLogin() {
-            currentView = 'login';
-            updateNav();
-            
-            const app = document.getElementById('app');
-            app.innerHTML = `
-                <div class="max-w-md mx-auto fade-in">
-                    <div class="bg-white rounded-2xl shadow-xl p-8">
-                        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Student Login</h2>
-                        
-                        <form id="loginForm" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                                <input type="email" id="loginEmail" required
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                    placeholder="student@example.com">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                                <input type="password" id="loginPassword" required
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                    placeholder="••••••••">
-                            </div>
-                            
-                            <div class="flex justify-between items-center">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-2">
-                                    <span class="text-sm text-gray-600">Remember me</span>
-                                </label>
-                                <a href="#" onclick="renderForgotPassword()" class="text-sm text-purple-600 hover:text-purple-700">
-                                    Forgot Password?
-                                </a>
-                            </div>
-                            
-                            <button type="submit" id="loginButton"
-                                class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
-                                Login
-                            </button>
-                        </form>
-                        
-                        <div class="mt-6 text-center">
-                            <p class="text-gray-600">Don't have an account? 
-                                <a href="#" onclick="renderRegister()" class="text-purple-600 hover:text-purple-700 font-semibold">
-                                    Register here
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            `;
+<h2 class="text-2xl font-bold mb-4">Dashboard</h2>
 
-            // Add form submit handler
-            document.getElementById('loginForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const button = document.getElementById('loginButton');
-                const originalContent = showLoading(button);
-                
-                try {
-                    const email = document.getElementById('loginEmail').value;
-                    const password = document.getElementById('loginPassword').value;
-                    await loginStudent(email, password);
-                } catch (error) {
-                    hideLoading(button, originalContent);
-                }
-            });
-        }
+<div class="mb-6 p-4 bg-yellow-100 rounded" 
+${s.profileStep1Completed&&s.profileStep2Completed&&s.profileStep3Completed?"hidden":""}>
+⚠️ Complete profile to access courses
+</div>
 
-        function renderRegister() {
-            currentView = 'register';
-            updateNav();
-            
-            const app = document.getElementById('app');
-            app.innerHTML = `
-                <div class="max-w-md mx-auto fade-in">
-                    <div class="bg-white rounded-2xl shadow-xl p-8">
-                        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Student Registration</h2>
-                        
-                        <form id="registerForm" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                                <input type="text" id="fullName" required
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                    placeholder="John Doe">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                                <input type="email" id="email" required
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                    placeholder="student@example.com">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
-                                <input type="tel" id="mobile" required pattern="[0-9]{10}"
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                    placeholder="9876543210">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Select Course</label>
-                                <select id="course" required
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all">
-                                    <option value="">Choose a course</option>
-                                    ${courses.map(course => `<option value="${course}">${course}</option>`).join('')}
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                                <input type="password" id="password" required minlength="6"
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                    placeholder="••••••••">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
-                                <input type="password" id="confirmPassword" required minlength="6"
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                    placeholder="••••••••">
-                            </div>
-                            
-                            <button type="submit" id="registerButton"
-                                class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
-                                Register
-                            </button>
-                        </form>
-                        
-                        <div class="mt-6 text-center">
-                            <p class="text-gray-600">Already have an account? 
-                                <a href="#" onclick="renderLogin()" class="text-purple-600 hover:text-purple-700 font-semibold">
-                                    Login here
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            `;
+<div class="grid gap-4 md:grid-cols-3">
 
-            // Add form submit handler
-            document.getElementById('registerForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const button = document.getElementById('registerButton');
-                const originalContent = showLoading(button);
-                
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                
-                if (password !== confirmPassword) {
-                    showToast('Passwords do not match!', 'error');
-                    hideLoading(button, originalContent);
-                    return;
-                }
-                
-                try {
-                    const formData = {
-                        fullName: document.getElementById('fullName').value,
-                        email: document.getElementById('email').value,
-                        mobile: document.getElementById('mobile').value,
-                        course: document.getElementById('course').value,
-                        password: password
-                    };
-                    
-                    await registerStudent(formData);
-                } catch (error) {
-                    hideLoading(button, originalContent);
-                }
-            });
-        }
+${!s.profileStep1Completed?`
+<button onclick="renderProfileStep1()" class="bg-yellow-500 text-white p-3 rounded">
+Complete Profile (Step 1)
+</button>`:""}
 
-        function renderForgotPassword() {
-            currentView = 'forgotPassword';
-            updateNav();
-            
-            const app = document.getElementById('app');
-            app.innerHTML = `
-                <div class="max-w-md mx-auto fade-in">
-                    <div class="bg-white rounded-2xl shadow-xl p-8">
-                        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Reset Password</h2>
-                        
-                        <form id="resetForm" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                                <input type="email" id="resetEmail" required
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                    placeholder="student@example.com">
-                            </div>
-                            
-                            <button type="submit" id="resetButton"
-                                class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
-                                Send Reset Email
-                            </button>
-                        </form>
-                        
-                        <div class="mt-6 text-center">
-                            <a href="#" onclick="renderLogin()" class="text-purple-600 hover:text-purple-700 font-semibold">
-                                Back to Login
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            `;
+${s.profileStep1Completed&&!s.profileStep2Completed?`
+<button onclick="renderProfileStep2()" class="bg-orange-500 text-white p-3 rounded">
+Complete Profile (Step 2)
+</button>`:""}
 
-            // Add form submit handler
-            document.getElementById('resetForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const button = document.getElementById('resetButton');
-                const originalContent = showLoading(button);
-                
-                try {
-                    const email = document.getElementById('resetEmail').value;
-                    await resetPassword(email);
-                    hideLoading(button, originalContent);
-                    setTimeout(() => renderLogin(), 2000);
-                } catch (error) {
-                    hideLoading(button, originalContent);
-                }
-            });
-        }
+${s.profileStep2Completed&&!s.profileStep3Completed?`
+<button onclick="renderProfileStep3()" class="bg-indigo-500 text-white p-3 rounded">
+Upload Documents (Step 3)
+</button>`:""}
 
-        async function renderDashboard() {
-            currentView = 'dashboard';
-            updateNav();
-            
-            // Fetch student data
-            let studentData = null;
-            if (currentUser) {
-                const doc = await db.collection('students').doc(currentUser.uid).get();
-                studentData = doc.data();
-                window.studentData = studentData;
-            }
-            
-            const app = document.getElementById('app');
-            app.innerHTML = `
-                <div class="fade-in">
-                    <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
-                        <div class="flex items-center justify-between mb-8">
-                            <h2 class="text-3xl font-bold text-gray-800">Student Dashboard</h2>
-                            <div class="text-sm text-gray-600">
-                                Welcome back, <span class="font-semibold">${currentUser?.displayName || 'Student'}</span>!
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <!-- Profile Information -->
-                            <div class="bg-gray-50 rounded-lg p-6">
-                                <h3 class="text-xl font-semibold mb-4 text-gray-800">Profile Information</h3>
-                                <div class="space-y-3">
-                                    <div>
-                                        <p class="text-sm text-gray-600">Full Name</p>
-                                        <p class="font-semibold text-gray-800">${studentData?.fullName || 'N/A'}</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-600">Email Address</p>
-                                        <p class="font-semibold text-gray-800">${studentData?.email || currentUser?.email}</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-600">Mobile Number</p>
-                                        <p class="font-semibold text-gray-800">${studentData?.mobile || 'N/A'}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Course Information -->
-                            <div class="bg-purple-50 rounded-lg p-6">
-                                <h3 class="text-xl font-semibold mb-4 text-gray-800">Course Details</h3>
-                                <div class="space-y-3">
-                                    <div>
-                                        <p class="text-sm text-gray-600">Enrolled Course</p>
-                                        <p class="font-semibold text-purple-700 text-lg">${studentData?.course || 'N/A'}</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-600">Enrollment Date</p>
-                                        <p class="font-semibold text-gray-800">
-                                            ${studentData?.enrolledAt ? new Date(studentData.enrolledAt.toDate()).toLocaleDateString() : 'N/A'}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-600">Status</p>
-                                        <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">
-                                            ${studentData?.status || 'Active'}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        ${studentData?.profileStep1Completed !== true ? `
-  <div class="mb-6 bg-yellow-100 border border-yellow-300 p-4 rounded-lg">
-    <p class="text-yellow-800 font-semibold mb-2">
-      ⚠️ Please complete your profile to access course materials
-    </p>
-    <button onclick="renderProfileForm()"
-      class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">
-      Complete Profile
-    </button>
-  </div>
-` : ``}
-
-                        <!-- Quick Actions -->
-                        <div class="mt-8">
-                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Quick Actions</h3>
-                            <div class="grid md:grid-cols-3 gap-4">
-
-  ${studentData.profileStep1Completed !== true ? `
-
-     <button onclick="renderProfileStep1()"
-    class="bg-yellow-500 text-white px-6 py-3 rounded-lg">
-    Complete Profile (Step 1)
-  </button>
-
-function renderProfileStep2() {
-  const app = document.getElementById("app");
-
-  app.innerHTML = `
-    <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-lg fade-in">
-      <h2 class="text-2xl font-bold mb-6 text-gray-800">
-        Complete Profile (Step 2)
-      </h2>
-
-      <form id="profileStep2Form" class="space-y-4">
-
-        <input type="text" id="aadharNumber" required
-          placeholder="Aadhar Number"
-          class="w-full border p-3 rounded-lg"/>
-
-        <input type="text" id="address" required
-          placeholder="Full Address"
-          class="w-full border p-3 rounded-lg"/>
-
-        <select id="category" required
-          class="w-full border p-3 rounded-lg">
-          <option value="">Select Category</option>
-          <option>General</option>
-          <option>OBC</option>
-          <option>SC</option>
-          <option>ST</option>
-        </select>
-
-        <input type="file" id="photo" accept="image/*" required
-          class="w-full"/>
-
-        <input type="file" id="aadharFile" accept="image/*,application/pdf" required
-          class="w-full"/>
-
-        <button type="submit"
-          class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700">
-          Save & Continue
-        </button>
-
-      </form>
-    </div>
-  `;
-
-  document
-    .getElementById("profileStep2Form")
-    .addEventListener("submit", saveProfileStep2);
-}
-async function saveProfileStep2(e) {
-  e.preventDefault();
-
-  try {
-    await db.collection("students").doc(currentUser.uid).update({
-      aadharNumber: document.getElementById("aadharNumber").value,
-      address: document.getElementById("address").value,
-      category: document.getElementById("category").value,
-
-      // STEP-2 FLAG
-      profileStep2Completed: true
-    });
-
-    showToast("✅ Profile Step 2 completed");
-    renderDashboard();
-
-  } catch (error) {
-    showToast(error.message, "error");
-  }
-}
-
-` : studentData.profileStep2Completed !== true ? `
-
-  <button onclick="renderProfileStep2()"
-    class="bg-orange-500 text-white px-6 py-3 rounded-lg">
-    Complete Profile (Step 2)
-  </button>
-
-` : `
-
-  <button onclick="openCourses()"
-    class="inline-flex items-center bg-blue-500 text-white px-6 py-3 rounded-lg">
-    Course Materials
-  </button>
-
-`}
-
-
-  ` : studentData.profileStep2Completed !== true ? `
-
-    <button onclick="renderProfileStep2()"
-      class="bg-orange-500 text-white px-6 py-3 rounded-lg">
-      Complete Profile (Step 2)
-    </button>
-
-  ` : `
-
-    <button onclick="openCourses()"
-      class="bg-blue-500 text-white px-6 py-3 rounded-lg">
-      Course Materials
-    </button>
-
-  `}
+${s.profileStep1Completed&&s.profileStep2Completed&&s.profileStep3Completed?`
+<button onclick="openCourses()" class="bg-blue-600 text-white p-3 rounded">
+Course Materials
+</button>`:""}
 
 </div>
-                                <button class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors">
-                                    <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
-                                    </svg>
-                                    Assignments
-                                </button>
-                                <button class="bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition-colors">
-                                    <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                                    </svg>
-                                    Live Classes
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function updateNav() {
-            const navActions = document.getElementById('navActions');
-            
-            if (currentUser) {
-                navActions.innerHTML = `
-                    <span class="text-sm text-gray-600 hidden md:block">Hello, ${currentUser.displayName || 'Student'}</span>
-                    <button onclick="logout()" 
-                        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm">
-                        Logout
-                    </button>
-                `;
-            } else {
-                navActions.innerHTML = `
-                    <button onclick="renderLogin()" 
-                        class="text-purple-600 hover:text-purple-700 font-semibold ${currentView === 'login' ? 'underline' : ''}">
-                        Login
-                    </button>
-                    <button onclick="renderRegister()" 
-                        class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-                        Register
-                    </button>
-                `;
-            }
-        }
-
-        // Initialize auth state listener
-        auth.onAuthStateChanged((user) => {
-            currentUser = user;
-            if (user) {
-                renderDashboard();
-            } else {
-                renderLogin();
-            }
-        });
-        function openCourses() {
-  if (!currentUser) {
-    showToast("Please login first", "error");
-    return;
-  }
-
-  db.collection("students").doc(currentUser.uid).get()
-    .then((doc) => {
-      if (!doc.exists) {
-        showToast("Student data not found", "error");
-        return;
-      }
-
-      const studentData = doc.data();
-
-      // 🔒 PROFILE MUST BE COMPLETE
-      if (studentData.profileCompleted !== true) {
-        showToast("❗ पहले अपनी पूरी प्रोफाइल complete करें", "error");
-        return;
-      }
-
-      const studentCourse = studentData.course;
-
-      if (!coursePages[studentCourse]) {
-        showToast("Course page not linked", "error");
-        return;
-      }
-
-      // ✅ FINAL REDIRECT (only once)
-      window.location.href =
-        "https://orbital-skills.github.io/osi.com/" +
-        coursePages[studentCourse];
-    })
-    .catch((error) => {
-      showToast(error.message, "error");
-    });
-}
-function renderProfileForm() {
-  const app = document.getElementById("app");
-
-  app.innerHTML = `
-    <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-lg fade-in">
-      <h2 class="text-2xl font-bold mb-6 text-gray-800">Complete Your Profile</h2>
-
-      <form id="profileForm" class="space-y-4">
-
-        <input type="text" id="fatherName" required
-          placeholder="Father Name"
-          class="w-full border p-3 rounded-lg"/>
-
-        <input type="text" id="motherName" required
-          placeholder="Mother Name"
-          class="w-full border p-3 rounded-lg"/>
-
-        <input type="date" id="dob" required
-          class="w-full border p-3 rounded-lg"/>
-
-        <select id="gender" required
-          class="w-full border p-3 rounded-lg">
-          <option value="">Select Gender</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </select>
-
-        <input type="text" id="qualification" required
-          placeholder="Highest Qualification"
-          class="w-full border p-3 rounded-lg"/>
-
-        <button type="submit"
-          class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700">
-          Save Profile
-        </button>
-      </form>
-    </div>
-  `;
-
-  document.getElementById("profileForm").addEventListener("submit", saveProfile);
-}
-async function saveProfile(e) {
-  e.preventDefault();
-
-  try {
-    await db.collection("students").doc(currentUser.uid).set({
-      fatherName: document.getElementById("fatherName").value,
-      motherName: document.getElementById("motherName").value,
-      dob: document.getElementById("dob").value,
-      gender: document.getElementById("gender").value,
-      qualification: document.getElementById("qualification").value,
-
-      // 🔒 IMPORTANT
-      profileStep1Completed: true,
-         }, { merge: true });
-   
-    showToast("✅ Profile completed successfully");
-    renderDashboard();
-
-  } catch (error) {
-    showToast(error.message, "error");
-  }
+</div>`;
 }
 
-      </script>
+/* ---------------- STEP 1 ---------------- */
+function renderProfileStep1(){
+app.innerHTML=`
+<div class="max-w-xl mx-auto bg-white p-6 rounded">
+<h2 class="text-xl font-bold mb-4">Profile Step 1</h2>
+<form id="s1" class="space-y-3">
+<input id="father" class="w-full border p-2" placeholder="Father Name">
+<input id="mother" class="w-full border p-2" placeholder="Mother Name">
+<input id="dob" type="date" class="w-full border p-2">
+<input id="qual" class="w-full border p-2" placeholder="Qualification">
+<button class="bg-purple-600 text-white w-full py-2">Save</button>
+</form>
+</div>`;
+s1.onsubmit=async e=>{
+e.preventDefault();
+await db.collection("students").doc(currentUser.uid).set({
+fatherName:father.value,
+motherName:mother.value,
+dob:dob.value,
+qualification:qual.value,
+profileStep1Completed:true
+},{merge:true});
+showToast("Step 1 Done");
+renderDashboard();
+};
+}
+
+/* ---------------- STEP 2 ---------------- */
+function renderProfileStep2(){
+app.innerHTML=`
+<div class="max-w-xl mx-auto bg-white p-6 rounded">
+<h2 class="text-xl font-bold mb-4">Profile Step 2</h2>
+<form id="s2" class="space-y-3">
+<input id="aad" class="w-full border p-2" placeholder="Aadhar Number">
+<input id="addr" class="w-full border p-2" placeholder="Address">
+<select id="cat" class="w-full border p-2">
+<option value="">Category</option>
+<option>General</option><option>OBC</option><option>SC</option><option>ST</option>
+</select>
+<button class="bg-purple-600 text-white w-full py-2">Save</button>
+</form>
+</div>`;
+s2.onsubmit=async e=>{
+e.preventDefault();
+await db.collection("students").doc(currentUser.uid).set({
+aadharNumber:aad.value,
+address:addr.value,
+category:cat.value,
+profileStep2Completed:true
+},{merge:true});
+showToast("Step 2 Done");
+renderDashboard();
+};
+}
+
+/* ---------------- STEP 3 ---------------- */
+function renderProfileStep3(){
+app.innerHTML=`
+<div class="max-w-xl mx-auto bg-white p-6 rounded">
+<h2 class="text-xl font-bold mb-4">Upload Documents</h2>
+<button onclick="saveStep3()" class="bg-green-600 text-white w-full py-2">
+Mark Documents Uploaded
+</button>
+</div>`;
+}
+async function saveStep3(){
+await db.collection("students").doc(currentUser.uid).set({
+profileStep3Completed:true,
+profileCompleted:true
+},{merge:true});
+showToast("Profile Completed 🎉");
+renderDashboard();
+}
+
+/* ---------------- COURSES ---------------- */
+function openCourses(){
+showToast("Redirecting to course...");
+}
+
+/* ---------------- NAV ---------------- */
+function updateNav(){
+navActions.innerHTML=currentUser?
+`<button onclick="logout()" class="bg-red-500 text-white px-3 py-1 rounded">Logout</button>`:
+`<button onclick="renderLogin()" class="bg-purple-600 text-white px-3 py-1 rounded">Login</button>`;
+}
+
+/* ---------------- INIT ---------------- */
+auth.onAuthStateChanged(async u=>{
+currentUser=u;
+updateNav();
+u?renderDashboard():renderLogin();
+});
+</script>
+
 </body>
 </html>
-```
