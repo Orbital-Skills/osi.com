@@ -1,260 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orbital Skill Development Center - Student Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        * { font-family: 'Inter', sans-serif; transition: all 0.2s ease; }
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); background-attachment: fixed; }
-        .glass-effect { backdrop-filter: blur(12px); background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Official Form Styles */
-        .form-label { display: block; font-weight: 700; color: #374151; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 4px; }
-        .form-input { width: 100%; border: 1px solid #cbd5e1; padding: 10px; font-size: 0.9rem; border-radius: 4px; outline: none; background: #f8fafc; }
-        .form-input:focus { border-color: #2563eb; background: #fff; ring: 2px; ring-color: #bfdbfe; }
-        .section-banner { background: #f1f5f9; padding: 10px; border-left: 5px solid #1e40af; font-weight: 800; color: #1e3a8a; font-size: 0.8rem; text-transform: uppercase; margin: 20px 0 15px 0; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Orbital Skill Development Center Portal</title>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <style>
+    body{margin:0;font-family:Arial, sans-serif;background:#f5f7fb}
+    header{background:#0d1b2a;color:#fff;padding:16px;text-align:center}
+    header .brand{font-size:20px;font-weight:700}
+    header .orbital{font-size:22px;font-weight:800;color:#ffcc00;text-shadow:0 0 8px #ff6600}
+    .note{background:#fff7ed;color:#7c2d12;padding:10px;text-align:center;font-weight:600}
+    .container{max-width:1100px;margin:20px auto;padding:0 16px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    @media(max-width:768px){.grid{grid-template-columns:1fr}}
+    .card{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+    label{display:block;margin-top:10px;font-weight:600}
+    input,select{width:100%;padding:10px;margin-top:5px;border:1px solid #ccc;border-radius:6px}
+    .btn{margin-top:15px;padding:10px 14px;border:none;border-radius:6px;background:#2f6fed;color:#fff;font-weight:700;cursor:pointer}
+    .btn.secondary{background:#ccc;color:#000}
+    .message{margin-top:10px;font-size:14px}
+    /* Dashboard */
+    .dashboard{display:flex;height:100vh}
+    .sidebar{width:250px;background:#1f2937;color:#fff;padding:20px}
+    .sidebar h3{margin-top:0}
+    .sidebar ul{list-style:none;padding:0}
+    .sidebar ul li{margin:12px 0;cursor:pointer}
+    .sidebar ul li:hover{color:#ffcc00}
+    .content{flex:1;padding:20px;background:#f9fafb;overflow:auto}
+    .hidden{display:none}
+    footer{text-align:center;padding:20px;color:#666}
+  </style>
 </head>
-<body class="gradient-bg min-h-screen">
+<body>
+  <header>
+    <div class="brand">Online Examination Application & Fee Portal</div>
+    <span class="orbital">Orbital Skill Development Center 🚀</span>
+  </header>
+  <div class="note">Note: Portal is currently non-operational (Demo UI)</div>
 
-    <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="bg-purple-600 p-2 rounded-lg text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"/></svg>
-                </div>
-                <h1 class="text-xl font-black text-gray-800 tracking-tighter">OSDC PORTAL</h1>
-            </div>
-            <div id="navActions"></div>
+  <!-- Login/Register Container -->
+  <main class="container" id="authSection">
+    <div class="grid">
+      <!-- Registration -->
+      <section class="card">
+        <h2>Private Student New Registration</h2>
+        <label>Student's Name *</label>
+        <input type="text" id="regName" />
+        <label>Date Of Birth *</label>
+        <input type="date" id="regDob" />
+        <label>Father's Name *</label>
+        <input type="text" id="regFather" />
+        <label>Mother's Name *</label>
+        <input type="text" id="regMother" />
+        <label>Gender *</label>
+        <select id="regGender"><option value="">Select</option><option>Female</option><option>Male</option></select>
+        <label>Mobile No *</label>
+        <input type="text" id="regMobile" />
+        <label>Email *</label>
+        <input type="email" id="regEmail" />
+        <label>Capacity *</label>
+        <select id="regCapacity"><option value="">Select</option><option>Regular</option><option>Private</option></select>
+        <div>
+          <input type="checkbox" id="regAgree" /> I agree to Terms & Conditions <a href="#">Read</a>
         </div>
-    </nav>
+        <button class="btn" onclick="register()">Register</button>
+        <button class="btn secondary" type="reset">Cancel</button>
+        <div class="message" id="regMsg"></div>
+      </section>
 
-    <div id="app" class="container mx-auto px-4 py-10">
+      <!-- Login -->
+      <section class="card">
+        <h2>Already Registered Private Students</h2>
+        <label>Email ID *</label>
+        <input type="email" id="loginEmail" />
+        <label>Password *</label>
+        <input type="password" id="loginPassword" />
+        <label>Enter Captcha *</label>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <input type="text" id="loginCaptchaInput" />
+          <div id="loginCaptcha" style="padding:10px;background:#111827;color:#fff;font-weight:700;border-radius:6px">00000</div>
+          <button class="btn secondary" type="button" onclick="generateCaptcha()">Refresh</button>
         </div>
+        <button class="btn" onclick="login()">Login</button>
+        <a href="#">Forgot UserID / Password ?</a>
+        <div class="message" id="loginMsg"></div>
+      </section>
+    </div>
+  </main>
 
-    <script>
-        // Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
-            authDomain: "orbital4u.firebaseapp.com",
-            projectId: "orbital4u",
-            storageBucket: "orbital4u.firebasestorage.app",
-            messagingSenderId: "88284726348",
-            appId: "1:88284726348:web:0d43de2919b592509b60e9"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+  <!-- Dashboard -->
+  <div class="dashboard hidden" id="dashboard">
+    <div class="sidebar">
+      <h3>Menu</h3>
+      <ul>
+        <li onclick="showSection('personal')">Student's Personal Details</li>
+        <li onclick="showSection('exam')">Examination Details</li>
+        <li onclick="showSection('status')">Application Status</li>
+        <li onclick="showSection('upload')">Upload DMC File</li>
+        <li onclick="showSection('password')">Change Password</li>
+        <li onclick="logout()">Sign Out</li>
+      </ul>
+    </div>
+    <div class="content">
+      <!-- Personal Details -->
+      <div id="personal" class="section">
+        <h2>Admission Form</h2>
+        <label>Full Name</label><input type="text" id="name" />
+        <label>Father's Name</label><input type="text" id="father" />
+        <label>Mother's Name</label><input type="text" id="mother" />
+        <label>Date of Birth</label><input type="date" id="dob" />
+        <label>Gender</label><select id="gender"><option>Female</option><option>Male</option></select>
+        <label>Address</label><input type="text" id="address" />
+        <label>Upload Photo</label><input type="file" id="photo" />
+        <label>Upload Signature</label><input type="file" id="signature" />
+        <label>Upload Thumb Impression</label><input type="file" id="thumb" />
+        <button class="btn" onclick="saveDetails()">Save Details</button>
+        <div class="message" id="formMsg"></div>
+      </div>
+      <div id="exam" class="section hidden"><h2>Examination Details</h2></div>
+      <div id="status" class="section hidden"><h2>Application Status</h2></div>
+      <div id="upload" class="section hidden"><h2>Upload DMC File</h2></div>
+      <div id="password" class="section hidden"><h2>Change Password</h2></div>
+    </div>
+  </div>
 
-        let currentUser = null;
+  <footer>© Orbital Skill Development Center — Gurugram, Haryana</footer>
 
-        // कोर्सेज की लिस्ट
-        const coursePages = {
-            "Health Care Skills": "health-care.html",
-            "IT-ITS Sector": "IT-ITES Sector.html",
-            "Electrician": "electrician.html",
-            "Cyber Security": "cyber-security.html",
-            "Banking-Finance Skills": "banking-finance.html"
-        };
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
+      authDomain: "orbital4u.firebaseapp.com",
+      projectId: "orbital4u",
+      storageBucket: "orbital4u.firebasestorage.app",
+      messagingSenderId: "88284726348",
+      appId: "1:88284726348:web:0d43de2919b592509b60e9"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-        // --- VIEWS ---
+    let currentUser = null;
 
-        function renderLogin() {
-            document.getElementById('app').innerHTML = `
-            <div class="max-w-md mx-auto bg-white p-10 rounded-3xl shadow-2xl fade-in border border-gray-100">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-extrabold text-gray-900">Sign In</h2>
-                    <p class="text-gray-500 mt-2">Enter your credentials to access portal</p>
-                </div>
-                <form id="loginForm" class="space-y-5">
-                    <div>
-                        <label class="form-label">Email Address</label>
-                        <input type="email" id="email" class="form-input" required placeholder="name@email.com">
-                    </div>
-                    <div>
-                        <label class="form-label">Password</label>
-                        <input type="password" id="password" class="form-input" required placeholder="••••••••">
-                    </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 shadow-lg">Login</button>
-                </form>
-                <p class="mt-8 text-center text-gray-600">Don't have an account? <button onclick="renderRegister()" class="text-blue-600 font-bold underline">Create Account</button></p>
-            </div>`;
+    // Captcha
+    function generateCaptcha(){
+      const val = Math.floor(10000 + Math.random()*90000);
+      document.getElementById('loginCaptcha').textContent = val;
+    }
+    generateCaptcha();
 
-            document.getElementById('loginForm').onsubmit = async (e) => {
-                e.preventDefault();
-                try {
-                    await auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value);
-                } catch (err) { alert(err.message); }
-            };
-        }
-
-        function renderRegister() {
-            document.getElementById('app').innerHTML = `
-            <div class="max-w-md mx-auto bg-white p-10 rounded-3xl shadow-2xl fade-in">
-                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">New Registration</h2>
-                <form id="regForm" class="space-y-4">
-                    <input type="text" id="rName" placeholder="Student Full Name" class="form-input" required>
-                    <input type="email" id="rEmail" placeholder="Email Address" class="form-input" required>
-                    <select id="rCourse" class="form-input" required>
-                        <option value="">-- SELECT COURSE --</option>
-                        ${Object.keys(coursePages).map(c => `<option value="${c}">${c}</option>`).join('')}
-                    </select>
-                    <input type="password" id="rPass" placeholder="Create Password" class="form-input" required>
-                    <button type="submit" class="w-full bg-purple-600 text-white py-4 rounded-xl font-bold">Register Student</button>
-                </form>
-                <p class="mt-6 text-center"><button onclick="renderLogin()" class="text-gray-500 underline">Back to Login</button></p>
-            </div>`;
-
-            document.getElementById('regForm').onsubmit = async (e) => {
-                e.preventDefault();
-                try {
-                    const res = await auth.createUserWithEmailAndPassword(document.getElementById('rEmail').value, document.getElementById('rPass').value);
-                    await db.collection('students').doc(res.user.uid).set({
-                        fullName: document.getElementById('rName').value,
-                        email: document.getElementById('rEmail').value,
-                        course: document.getElementById('rCourse').value,
-                        profileStep1Completed: false,
-                        profileStep2Completed: false,
-                        profileCompleted: false
-                    });
-                } catch (err) { alert(err.message); }
-            };
-        }
-
-        async function renderDashboard() {
-            const doc = await db.collection('students').doc(currentUser.uid).get();
-            const data = doc.data();
-
-            let actionHtml = "";
-
-            if (!data.profileStep1Completed) {
-                actionHtml = `
-                <div class="bg-blue-50 border-l-8 border-blue-600 p-8 rounded-xl shadow-inner">
-                    <h3 class="text-xl font-bold text-blue-900 mb-2">Step 1: Application Form Pending</h3>
-                    <p class="text-blue-700 mb-6 font-medium">Please complete your personal and family details to proceed.</p>
-                    <button onclick="renderProfileStep1()" class="bg-blue-600 text-white px-10 py-3 rounded-lg font-bold hover:bg-blue-700 uppercase tracking-widest">Open Step 1</button>
-                </div>`;
-            } else if (!data.profileStep2Completed) {
-                actionHtml = `
-                <div class="bg-orange-50 border-l-8 border-orange-500 p-8 rounded-xl shadow-inner">
-                    <h3 class="text-xl font-bold text-orange-900 mb-2">Step 2: Address & Identity Verification</h3>
-                    <p class="text-orange-700 mb-6 font-medium">Almost there! Complete your address details to unlock course material.</p>
-                    <button onclick="renderProfileStep2()" class="bg-orange-600 text-white px-10 py-3 rounded-lg font-bold hover:bg-orange-700 uppercase tracking-widest">Open Step 2</button>
-                </div>`;
-            } else {
-                actionHtml = `
-                <div class="bg-white border-2 border-green-500 p-10 rounded-2xl shadow-xl text-center">
-                    <div class="mb-4 inline-block bg-green-100 p-4 rounded-full text-green-600">
-                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" d="M5 13l4 4L19 7"/></svg>
-                    </div>
-                    <h3 class="text-2xl font-black text-gray-800 mb-4 uppercase">Profile Fully Verified ✅</h3>
-                    <button onclick="window.location.href='https://orbital-skills.github.io/osi.com/${coursePages[data.course]}'" class="bg-green-600 text-white px-12 py-5 rounded-2xl font-black text-xl hover:bg-green-700 shadow-2xl transition transform hover:scale-105">GO TO COURSE DASHBOARD</button>
-                </div>`;
-            }
-
-            document.getElementById('app').innerHTML = `
-            <div class="max-w-5xl mx-auto space-y-8 fade-in">
-                <div class="bg-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div>
-                        <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Active Student Portal</span>
-                        <h2 class="text-4xl font-black text-gray-900">${data.fullName}</h2>
-                        <p class="text-gray-500 font-bold mt-1">Course Enrolled: ${data.course}</p>
-                    </div>
-                </div>
-                ${actionHtml}
-            </div>`;
-        }
-
-        // --- STEP 1 FORM (Professional Grid) ---
-        function renderProfileStep1() {
-            document.getElementById('app').innerHTML = `
-            <div class="max-w-5xl mx-auto bg-white shadow-2xl rounded-xl overflow-hidden fade-in border-t-8 border-blue-800">
-                <div class="bg-gray-50 p-6 border-b flex justify-between">
-                    <h2 class="text-blue-900 font-black uppercase text-lg tracking-tighter">1. Student Personal Details</h2>
-                    <span class="text-red-500 font-bold text-xs uppercase">* Mandatory Fields</span>
-                </div>
-                <form id="form1" class="p-8">
-                    <div class="section-banner">A. Basic Information</div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div><label class="form-label">1. Student Name</label><input type="text" id="f1_name" class="form-input uppercase" required></div>
-                        <div><label class="form-label">2. Father's Name</label><input type="text" id="f1_father" class="form-input uppercase" required></div>
-                        <div><label class="form-label">3. Mother's Name</label><input type="text" id="f1_mother" class="form-input uppercase" required></div>
-                        <div><label class="form-label">4. Date of Birth</label><input type="date" id="f1_dob" class="form-input" required></div>
-                        <div><label class="form-label">5. Gender</label><select id="f1_gender" class="form-input" required><option value="">--SELECT--</option><option>MALE</option><option>FEMALE</option></select></div>
-                        <div><label class="form-label">6. Religion</label><select id="f1_religion" class="form-input" required><option>HINDU</option><option>MUSLIM</option><option>SIKH</option><option>OTHER</option></select></div>
-                    </div>
-                    <button type="submit" class="mt-10 w-full bg-blue-800 text-white font-black py-5 rounded-lg uppercase tracking-widest hover:bg-blue-900">Save & Next: Address Details</button>
-                </form>
-            </div>`;
-
-            document.getElementById('form1').onsubmit = async (e) => {
-                e.preventDefault();
-                await db.collection('students').doc(currentUser.uid).update({
-                    fullName: document.getElementById('f1_name').value,
-                    fatherName: document.getElementById('f1_father').value,
-                    motherName: document.getElementById('f1_mother').value,
-                    dob: document.getElementById('f1_dob').value,
-                    gender: document.getElementById('f1_gender').value,
-                    profileStep1Completed: true
-                });
-                renderDashboard();
-            };
-        }
-
-        // --- STEP 2 FORM ---
-        function renderProfileStep2() {
-            document.getElementById('app').innerHTML = `
-            <div class="max-w-5xl mx-auto bg-white shadow-2xl rounded-xl overflow-hidden fade-in border-t-8 border-orange-600">
-                <div class="bg-gray-50 p-6 border-b">
-                    <h2 class="text-orange-900 font-black uppercase text-lg tracking-tighter">2. Address & Identity Verification</h2>
-                </div>
-                <form id="form2" class="p-8">
-                    <div class="section-banner">B. Contact Information</div>
-                    <div class="grid grid-cols-1 gap-6">
-                        <div><label class="form-label">Full Address (with PIN)</label><textarea id="f2_addr" class="form-input h-24 uppercase" required></textarea></div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                        <div><label class="form-label">District</label><input type="text" id="f2_dist" class="form-input uppercase" required></div>
-                        <div><label class="form-label">Aadhaar Number (12 Digit)</label><input type="text" id="f2_aadhar" class="form-input" pattern="[0-9]{12}" required></div>
-                    </div>
-                    <button type="submit" class="mt-10 w-full bg-orange-600 text-white font-black py-5 rounded-lg uppercase tracking-widest hover:bg-orange-700">Complete Admission Form</button>
-                </form>
-            </div>`;
-
-            document.getElementById('form2').onsubmit = async (e) => {
-                e.preventDefault();
-                await db.collection('students').doc(currentUser.uid).update({
-                    address: document.getElementById('f2_addr').value,
-                    district: document.getElementById('f2_dist').value,
-                    aadhar: document.getElementById('f2_aadhar').value,
-                    profileStep2Completed: true,
-                    profileCompleted: true
-                });
-                renderDashboard();
-            };
-        }
-
-        // --- AUTH LISTENER ---
-        auth.onAuthStateChanged(user => {
-            currentUser = user;
-            const nav = document.getElementById('navActions');
-            if (user) {
-                nav.innerHTML = `<button onclick="auth.signOut()" class="bg-red-50 text-red-600 px-6 py-2 rounded-xl font-bold border border-red-100">Log Out</button>`;
-                renderDashboard();
-            } else {
-                nav.innerHTML = `<button onclick="renderLogin()" class="text-blue-600 font-bold px-4 py-2">Sign In</button>`;
-                renderLogin();
-            }
-        });
-
-    </script>
-</body>
-</html>
+    // Register
