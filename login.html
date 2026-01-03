@@ -522,7 +522,7 @@ async function loginStudent(email, password) {
                                 </div>
                             </div>
                         </div>
-                        ${studentData?.profileCompleted !== true ? `
+                        ${studentData?.profileStep1Completed !== true ? `
   <div class="mb-6 bg-yellow-100 border border-yellow-300 p-4 rounded-lg">
     <p class="text-yellow-800 font-semibold mb-2">
       ⚠️ Please complete your profile to access course materials
@@ -538,36 +538,116 @@ async function loginStudent(email, password) {
                         <div class="mt-8">
                             <h3 class="text-xl font-semibold mb-4 text-gray-800">Quick Actions</h3>
                             <div class="grid md:grid-cols-3 gap-4">
-                             ${studentData.profileStep1Completed === true ? `    
-    <button onclick="openCourses()"
-      class="inline-flex items-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
-      
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5
-             S4.168 5.477 3 6.253v13
-             C4.168 18.477 5.754 18 7.5 18
-             s3.332.477 4.5 1.253m0-13
-             C13.168 5.477 14.754 5 16.5 5
-             c1.747 0 3.332.477 4.5 1.253v13
-             C19.832 18.477 18.247 18 16.5 18
-             c-1.746 0-3.332.477-4.5 1.253"/>
-      </svg>
 
-      Course Materials
+  ${studentData.profileStep1Completed !== true ? `
+
+     <button onclick="renderProfileStep1()"
+    class="bg-yellow-500 text-white px-6 py-3 rounded-lg">
+    Complete Profile (Step 1)
+  </button>
+
+function renderProfileStep2() {
+  const app = document.getElementById("app");
+
+  app.innerHTML = `
+    <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-lg fade-in">
+      <h2 class="text-2xl font-bold mb-6 text-gray-800">
+        Complete Profile (Step 2)
+      </h2>
+
+      <form id="profileStep2Form" class="space-y-4">
+
+        <input type="text" id="aadharNumber" required
+          placeholder="Aadhar Number"
+          class="w-full border p-3 rounded-lg"/>
+
+        <input type="text" id="address" required
+          placeholder="Full Address"
+          class="w-full border p-3 rounded-lg"/>
+
+        <select id="category" required
+          class="w-full border p-3 rounded-lg">
+          <option value="">Select Category</option>
+          <option>General</option>
+          <option>OBC</option>
+          <option>SC</option>
+          <option>ST</option>
+        </select>
+
+        <input type="file" id="photo" accept="image/*" required
+          class="w-full"/>
+
+        <input type="file" id="aadharFile" accept="image/*,application/pdf" required
+          class="w-full"/>
+
+        <button type="submit"
+          class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700">
+          Save & Continue
+        </button>
+
+      </form>
+    </div>
+  `;
+
+  document
+    .getElementById("profileStep2Form")
+    .addEventListener("submit", saveProfileStep2);
+}
+async function saveProfileStep2(e) {
+  e.preventDefault();
+
+  try {
+    await db.collection("students").doc(currentUser.uid).update({
+      aadharNumber: document.getElementById("aadharNumber").value,
+      address: document.getElementById("address").value,
+      category: document.getElementById("category").value,
+
+      // STEP-2 FLAG
+      profileStep2Completed: true
+    });
+
+    showToast("✅ Profile Step 2 completed");
+    renderDashboard();
+
+  } catch (error) {
+    showToast(error.message, "error");
+  }
+}
+
+` : studentData.profileStep2Completed !== true ? `
+
+  <button onclick="renderProfileStep2()"
+    class="bg-orange-500 text-white px-6 py-3 rounded-lg">
+    Complete Profile (Step 2)
+  </button>
+
+` : `
+
+  <button onclick="openCourses()"
+    class="inline-flex items-center bg-blue-500 text-white px-6 py-3 rounded-lg">
+    Course Materials
+  </button>
+
+`}
+
+
+  ` : studentData.profileStep2Completed !== true ? `
+
+    <button onclick="renderProfileStep2()"
+      class="bg-orange-500 text-white px-6 py-3 rounded-lg">
+      Complete Profile (Step 2)
     </button>
 
   ` : `
-    
-    <button onclick="renderProfileForm()"
-      class="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition-colors">
-      Complete Profile
+
+    <button onclick="openCourses()"
+      class="bg-blue-500 text-white px-6 py-3 rounded-lg">
+      Course Materials
     </button>
 
   `}
 
 </div>
-
                                 <button class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors">
                                     <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
@@ -704,7 +784,7 @@ async function saveProfile(e) {
   e.preventDefault();
 
   try {
-    await db.collection("students").doc(currentUser.uid).update({
+    await db.collection("students").doc(currentUser.uid).set({
       fatherName: document.getElementById("fatherName").value,
       motherName: document.getElementById("motherName").value,
       dob: document.getElementById("dob").value,
@@ -713,8 +793,8 @@ async function saveProfile(e) {
 
       // 🔒 IMPORTANT
       profileStep1Completed: true,
-    });
-
+         }, { merge: true });
+   
     showToast("✅ Profile completed successfully");
     renderDashboard();
 
