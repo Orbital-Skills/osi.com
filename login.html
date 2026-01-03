@@ -1,219 +1,312 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Orbital Skill Development Center - Student Portal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Development Center - Student Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <style>
+        /* आपकी 800+ लाइन्स वाली CSS और स्टाइल्स यहाँ से शुरू होती हैं */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * { font-family: 'Inter', sans-serif; transition: all 0.3s ease; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(16px) saturate(180%);
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(209, 213, 219, 0.3);
+        }
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+        .custom-shadow { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-*{font-family:'Inter',sans-serif}
-.gradient-bg{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
-.fade-in{animation:fadeIn .4s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
-.toast{position:fixed;top:20px;right:20px;z-index:999}
-</style>
+        /* Loading Admission */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #764ba2;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* डैशबोर्ड कार्ड्स के लिए एक्स्ट्रा स्टाइल्स */
+        .step-card { border-left: 5px solid #667eea; }
+        .completed-card { border-left: 5px solid #10b981; }
+    </style>
 </head>
-
 <body class="gradient-bg min-h-screen">
 
-<nav class="bg-white shadow p-4 flex justify-between">
-  <h1 class="font-bold text-xl">Orbital Skill Development Center</h1>
-  <div id="navActions"></div>
-</nav>
+    <nav class="glass-effect shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-purple-600 rounded-lg">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-extrabold text-gray-800 tracking-tight">OSDC <span class="text-purple-600">Portal</span></h1>
+            </div>
+            <div id="navActions" class="flex items-center space-x-4">
+                </div>
+        </div>
+    </nav>
 
-<div id="app" class="container mx-auto p-6"></div>
-<div id="toastContainer"></div>
+    <div id="app" class="container mx-auto px-4 py-12">
+        </div>
 
-<script>
-/* ---------------- FIREBASE ---------------- */
-firebase.initializeApp({
-  apiKey:"AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
-  authDomain:"orbital4u.firebaseapp.com",
-  projectId:"orbital4u",
-  storageBucket:"orbital4u.firebasestorage.app",
-  messagingSenderId:"88284726348",
-  appId:"1:88284726348:web:0d43de2919b592509b60e9"
-});
-const auth=firebase.auth();
-const db=firebase.firestore();
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-[100]"></div>
 
-/* ---------------- STATE ---------------- */
-let currentUser=null;
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
+            authDomain: "orbital4u.firebaseapp.com",
+            projectId: "orbital4u",
+            storageBucket: "orbital4u.firebasestorage.app",
+            messagingSenderId: "88284726348",
+            appId: "1:88284726348:web:0d43de2919b592509b60e9"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-/* ---------------- UTILS ---------------- */
-function showToast(msg,type="success"){
-  const d=document.createElement("div");
-  d.className=`toast px-4 py-2 rounded text-white ${type==="error"?"bg-red-500":"bg-green-500"}`;
-  d.innerText=msg;
-  toastContainer.appendChild(d);
-  setTimeout(()=>d.remove(),3000);
-}
+        let currentUser = null;
 
-/* ---------------- AUTH ---------------- */
-async function loginStudent(e,p){
-  await auth.signInWithEmailAndPassword(e,p);
-}
-async function logout(){
-  await auth.signOut();
-}
+        const coursePages = {
+            "Health Care Skills": "health-care.html",
+            "Banking-Finance Skills": "banking-finance.html",
+            "IT-ITS Sector": "IT-ITES Sector.html",
+            "Fireman": "fire-safety.html",
+            "Electrician": "electrician.html",
+            "Plumber": "plumber.html",
+            "Boutique Design": "beautician.html",
+            "ECCE/ NTT": "ecce-ntt.html",
+            "Welder": "welder.html",
+            "Cyber Security": "cyber-security.html"
+        };
 
-/* ---------------- RENDERS ---------------- */
-function renderLogin(){
-app.innerHTML=`
-<div class="max-w-md mx-auto bg-white p-6 rounded">
-<h2 class="text-2xl font-bold mb-4">Login</h2>
-<form id="loginForm" class="space-y-3">
-<input id="email" class="w-full border p-2" placeholder="Email">
-<input id="password" type="password" class="w-full border p-2" placeholder="Password">
-<button class="w-full bg-purple-600 text-white py-2">Login</button>
-</form>
-</div>`;
-loginForm.onsubmit=e=>{
-e.preventDefault();
-loginStudent(email.value,password.value)
-.catch(err=>showToast(err.message,"error"));
-};
-}
+        // --- Utility Functions ---
+        function showToast(msg, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `p-4 mb-3 rounded-lg text-white font-medium custom-shadow fade-in ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+            toast.innerText = msg;
+            document.getElementById('toastContainer').appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
 
-async function renderDashboard(){
-const snap=await db.collection("students").doc(currentUser.uid).get();
-const s=snap.data();
+        // --- View Handlers ---
 
-app.innerHTML=`
-<div class="bg-white p-6 rounded shadow fade-in">
+        function renderLogin() {
+            document.getElementById('app').innerHTML = `
+            <div class="max-w-md mx-auto glass-effect p-10 rounded-3xl custom-shadow fade-in border border-white">
+                <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Student's Portal</h2>
+                <form id="loginForm" class="space-y-6">
+                    <input type="email" id="email" placeholder="Email Address" class="w-full p-4 rounded-xl border focus:ring-2 focus:ring-purple-400 outline-none" required>
+                    <input type="password" id="password" placeholder="Password" class="w-full p-4 rounded-xl border focus:ring-2 focus:ring-purple-400 outline-none" required>
+                    <button type="submit" class="w-full bg-purple-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-purple-700 transition">Log in</button>
+                </form>
+                <div class="mt-8 text-center text-gray-600">
+                    No Account? <button onclick="renderRegister()" class="text-purple-600 font-bold hover:underline">New Registration</button>
+                </div>
+            </div>`;
+            
+            document.getElementById('loginForm').onsubmit = async (e) => {
+                e.preventDefault();
+                try {
+                    await auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value);
+                    showToast("Login Success");
+                } catch (err) { showToast(err.message, 'error'); }
+            };
+        }
 
-<h2 class="text-2xl font-bold mb-4">Dashboard</h2>
+        function renderRegister() {
+            document.getElementById('app').innerHTML = `
+            <div class="max-w-md mx-auto glass-effect p-10 rounded-3xl custom-shadow fade-in border border-white">
+                <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">New Registration</h2>
+                <form id="regForm" class="space-y-5">
+                    <input type="text" id="regName" placeholder="Full Name" class="w-full p-4 rounded-xl border" required>
+                    <input type="email" id="regEmail" placeholder="E-Mail" class="w-full p-4 rounded-xl border" required>
+                    <select id="regCourse" class="w-full p-4 rounded-xl border" required>
+                        <option value="">Choose Course</option>
+                        ${Object.keys(coursePages).map(c => `<option value="${c}">${c}</option>`).join('')}
+                    </select>
+                    <input type="password" id="regPass" placeholder="Creat Password" class="w-full p-4 rounded-xl border" required>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700">Register</button>
+                </form>
+                <div class="mt-6 text-center">
+                    Account alreadyexist<button onclick="renderLogin()" class="text-blue-600 font-bold hover:underline">Lonin</button>
+                </div>
+            </div>`;
+            
+            document.getElementById('regForm').onsubmit = async (e) => {
+                e.preventDefault();
+                try {
+                    const res = await auth.createUserWithEmailAndPassword(document.getElementById('regEmail').value, document.getElementById('regPass').value);
+                    await db.collection('students').doc(res.user.uid).set({
+                        fullName: document.getElementById('regName').value,
+                        email: document.getElementById('regEmail').value,
+                        course: document.getElementById('regCourse').value,
+                        profileStep1Completed: false,
+                        profileStep2Completed: false,
+                        profileCompleted: false,
+                        createdAt: new Date()
+                    });
+                    showToast("Registration Success!");
+                } catch (err) { showToast(err.message, 'error'); }
+            };
+        }
 
-<div class="mb-6 p-4 bg-yellow-100 rounded" 
-${s.profileStep1Completed&&s.profileStep2Completed&&s.profileStep3Completed?"hidden":""}>
-⚠️ Complete profile to access courses
-</div>
+        async function renderDashboard() {
+            const doc = await db.collection('students').doc(currentUser.uid).get();
+            const data = doc.data();
 
-<div class="grid gap-4 md:grid-cols-3">
+            let mainContent = "";
 
-${!s.profileStep1Completed?`
-<button onclick="renderProfileStep1()" class="bg-yellow-500 text-white p-3 rounded">
-Complete Profile (Step 1)
-</button>`:""}
+            if (!data.profileStep1Completed) {
+                mainContent = `
+                <div class="bg-yellow-50 step-card p-8 rounded-2xl shadow-sm mb-6">
+                    <h3 class="text-xl font-bold text-yellow-800 mb-2">Profile Incompleted (Step 1)</h3>
+                    <p class="text-yellow-700 mb-6">For Courses Complete your basic Details. </p>
+                    <button onclick="renderStep1()" class="bg-yellow-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-yellow-700">Fill Now</button>
+                </div>`;
+            } else if (!data.profileStep2Completed) {
+                mainContent = `
+                <div class="bg-orange-50 step-card p-8 rounded-2xl shadow-sm mb-6">
+                    <h3 class="text-xl font-bold text-orange-800 mb-2">Step 2: Verification Required</h3>
+                    <p class="text-orange-700 mb-6">Almost Complete. Now fil your address and aadhar details.</p>
+                    <button onclick="renderStep2()" class="bg-orange-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-orange-700">Plese Complete Step 2</button>
+                </div>`;
+            } else {
+                mainContent = `
+                <div class="bg-white completed-card p-8 rounded-2xl shadow-sm mb-6 border border-green-100">
+                    <h3 class="text-xl font-bold text-green-700 mb-2">Profile completed ! ✅</h3>
+                    <p class="text-gray-600 mb-6">You can now access all your course resources.</p>
+                    <button onclick="openCourse('${data.course}')" class="bg-green-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-green-700 shadow-lg">Open Courses Portal</button>
+                </div>`;
+            }
 
-${s.profileStep1Completed&&!s.profileStep2Completed?`
-<button onclick="renderProfileStep2()" class="bg-orange-500 text-white p-3 rounded">
-Complete Profile (Step 2)
-</button>`:""}
+            document.getElementById('app').innerHTML = `
+            <div class="max-w-4xl mx-auto space-y-8 fade-in">
+                <div class="bg-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-center gap-6 border border-gray-100">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800">Hi, ${data.fullName}!</h2>
+                        <p class="text-gray-500 font-medium mt-1">Course: ${data.course}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-bold text-sm">Status: Student</span>
+                    </div>
+                </div>
+                ${mainContent}
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white/80 p-6 rounded-2xl border border-white">
+                        <h4 class="font-bold text-gray-700 mb-2">Support Helpdesk</h4>
+                        <p class="text-sm text-gray-500">किसी भी समस्या के लिए osi@ftbh.onmicrosoft.com पर ईमेल करें।</p>
+                    </div>
+                    <div class="bg-white/80 p-6 rounded-2xl border border-white">
+                        <h4 class="font-bold text-gray-700 mb-2">Notice Board</h4>
+                        <p class="text-sm text-gray-500">Exam Form Coming Soon</p>
+                    </div>
+                </div>
+            </div>`;
+        }
 
-${s.profileStep2Completed&&!s.profileStep3Completed?`
-<button onclick="renderProfileStep3()" class="bg-indigo-500 text-white p-3 rounded">
-Upload Documents (Step 3)
-</button>`:""}
+        // --- Profile Steps Logic ---
 
-${s.profileStep1Completed&&s.profileStep2Completed&&s.profileStep3Completed?`
-<button onclick="openCourses()" class="bg-blue-600 text-white p-3 rounded">
-Course Materials
-</button>`:""}
+        function renderStep1() {
+            document.getElementById('app').innerHTML = `
+            <div class="max-w-xl mx-auto glass-effect p-10 rounded-3xl custom-shadow fade-in">
+                <h2 class="text-2xl font-bold mb-6">Stepप 1: Personal Details</h2>
+                <form id="step1Form" class="space-y-4">
+                    <input type="text" id="father" placeholder="Father's Name" class="w-full p-4 border rounded-xl" required>
+                    <input type="text" id="mother" placeholder="Mother's Name" class="w-full p-4 border rounded-xl" required>
+                    <input type="date" id="dob" class="w-full p-4 border rounded-xl" required title="Date of Birth">
+                    <select id="gender" class="w-full p-4 border rounded-xl" required>
+                        <option value="">Gender</option><option>Male</option><option>Female</option><option>Other</option>
+                    </select>
+                    <button type="submit" class="w-full bg-purple-600 text-white py-4 rounded-xl font-bold">Next Step</button>
+                </form>
+            </div>`;
+            
+            document.getElementById('step1Form').onsubmit = async (e) => {
+                e.preventDefault();
+                await db.collection('students').doc(currentUser.uid).update({
+                    fatherName: document.getElementById('father').value,
+                    motherName: document.getElementById('mother').value,
+                    dob: document.getElementById('dob').value,
+                    gender: document.getElementById('gender').value,
+                    profileStep1Completed: true
+                });
+                renderDashboard();
+            };
+        }
 
-</div>
-</div>`;
-}
+        function renderStep2() {
+            document.getElementById('app').innerHTML = `
+            <div class="max-w-xl mx-auto glass-effect p-10 rounded-3xl custom-shadow fade-in">
+                <h2 class="text-2xl font-bold mb-6">Step 2: Aadhar & Address/h2>
+                <form id="step2Form" class="space-y-4">
+                    <input type="text" id="aadhar" placeholder="Aadhar Number (12 अंक)" class="w-full p-4 border rounded-xl" pattern="[0-9]{12}" required>
+                    <textarea id="address" placeholder="Complete Address" class="w-full p-4 border rounded-xl h-32" required></textarea>
+                    <input type="text" id="pin" placeholder="Pin Code" class="w-full p-4 border rounded-xl" required>
+                    <button type="submit" class="w-full bg-green-600 text-white py-4 rounded-xl font-bold">Complete your Profile</button>
+                </form>
+            </div>`;
+            
+            document.getElementById('step2Form').onsubmit = async (e) => {
+                e.preventDefault();
+                await db.collection('students').doc(currentUser.uid).update({
+                    aadhar: document.getElementById('aadhar').value,
+                    address: document.getElementById('address').value,
+                    pincode: document.getElementById('pin').value,
+                    profileStep2Completed: true,
+                    profileCompleted: true
+                });
+                showToast("Profile Updates!");
+                renderDashboard();
+            };
+        }
 
-/* ---------------- STEP 1 ---------------- */
-function renderProfileStep1(){
-app.innerHTML=`
-<div class="max-w-xl mx-auto bg-white p-6 rounded">
-<h2 class="text-xl font-bold mb-4">Profile Step 1</h2>
-<form id="s1" class="space-y-3">
-<input id="father" class="w-full border p-2" placeholder="Father Name">
-<input id="mother" class="w-full border p-2" placeholder="Mother Name">
-<input id="dob" type="date" class="w-full border p-2">
-<input id="qual" class="w-full border p-2" placeholder="Qualification">
-<button class="bg-purple-600 text-white w-full py-2">Save</button>
-</form>
-</div>`;
-s1.onsubmit=async e=>{
-e.preventDefault();
-await db.collection("students").doc(currentUser.uid).set({
-fatherName:father.value,
-motherName:mother.value,
-dob:dob.value,
-qualification:qual.value,
-profileStep1Completed:true
-},{merge:true});
-showToast("Step 1 Done");
-renderDashboard();
-};
-}
+        function openCourse(courseName) {
+            const page = coursePages[courseName];
+            if (page) {
+                window.location.href = "https://orbital-skills.github.io/osi.com/" + page;
+            } else {
+                showToast("No Course Available", "error");
+            }
+        }
 
-/* ---------------- STEP 2 ---------------- */
-function renderProfileStep2(){
-app.innerHTML=`
-<div class="max-w-xl mx-auto bg-white p-6 rounded">
-<h2 class="text-xl font-bold mb-4">Profile Step 2</h2>
-<form id="s2" class="space-y-3">
-<input id="aad" class="w-full border p-2" placeholder="Aadhar Number">
-<input id="addr" class="w-full border p-2" placeholder="Address">
-<select id="cat" class="w-full border p-2">
-<option value="">Category</option>
-<option>General</option><option>OBC</option><option>SC</option><option>ST</option>
-</select>
-<button class="bg-purple-600 text-white w-full py-2">Save</button>
-</form>
-</div>`;
-s2.onsubmit=async e=>{
-e.preventDefault();
-await db.collection("students").doc(currentUser.uid).set({
-aadharNumber:aad.value,
-address:addr.value,
-category:cat.value,
-profileStep2Completed:true
-},{merge:true});
-showToast("Step 2 Done");
-renderDashboard();
-};
-}
+        // --- Auth Listener ---
+        auth.onAuthStateChanged(user => {
+            currentUser = user;
+            const nav = document.getElementById('navActions');
+            if (user) {
+                nav.innerHTML = `
+                    <button onclick="auth.signOut()" class="bg-red-50 text-red-600 px-6 py-2 rounded-xl font-bold border border-red-100 hover:bg-red-600 hover:text-white transition">Log Out</button>
+                `;
+                renderDashboard();
+            } else {
+                nav.innerHTML = `
+                    <button onclick="renderLogin()" class="text-purple-600 font-bold hover:bg-purple-50 px-4 py-2 rounded-lg">Sign In</button>
+                `;
+                renderLogin();
+            }
+        });
 
-/* ---------------- STEP 3 ---------------- */
-function renderProfileStep3(){
-app.innerHTML=`
-<div class="max-w-xl mx-auto bg-white p-6 rounded">
-<h2 class="text-xl font-bold mb-4">Upload Documents</h2>
-<button onclick="saveStep3()" class="bg-green-600 text-white w-full py-2">
-Mark Documents Uploaded
-</button>
-</div>`;
-}
-async function saveStep3(){
-await db.collection("students").doc(currentUser.uid).set({
-profileStep3Completed:true,
-profileCompleted:true
-},{merge:true});
-showToast("Profile Completed 🎉");
-renderDashboard();
-}
-
-/* ---------------- COURSES ---------------- */
-function openCourses(){
-showToast("Redirecting to course...");
-}
-
-/* ---------------- NAV ---------------- */
-function updateNav(){
-navActions.innerHTML=currentUser?
-`<button onclick="logout()" class="bg-red-500 text-white px-3 py-1 rounded">Logout</button>`:
-`<button onclick="renderLogin()" class="bg-purple-600 text-white px-3 py-1 rounded">Login</button>`;
-}
-
-/* ---------------- INIT ---------------- */
-auth.onAuthStateChanged(async u=>{
-currentUser=u;
-updateNav();
-u?renderDashboard():renderLogin();
-});
-</script>
-
+    </script>
 </body>
 </html>
