@@ -3,193 +3,428 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Orbital Skill Development Center Portal</title>
+  <title>Student Exam Portal - Demo</title>
 
-  <!-- Firebase SDK (v8) -->
+  <!-- Firebase v8 SDKs -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
   <style>
-    body{margin:0;font-family:Arial, sans-serif;background:#f5f7fb}
-    header{background:#0d1b2a;color:#fff;padding:16px;text-align:center}
-    header .brand{font-size:20px;font-weight:700}
-    header .orbital{font-size:18px;font-weight:700;color:#ffcc00}
-    .container{max-width:1100px;margin:18px auto;padding:0 16px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    @media(max-width:768px){.grid{grid-template-columns:1fr}}
-    .card{background:#fff;padding:18px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08)}
-    h2{margin:0 0 10px 0}
-    label{display:block;margin-top:10px;font-weight:600}
-    input,select{width:100%;padding:10px;margin-top:6px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box}
+    :root{--primary:#0b5cff;--muted:#6b7280}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:#f3f4f6;color:#111}
+    header{background:var(--primary);color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+    header .title{font-weight:700}
+    .wrap{max-width:1200px;margin:18px auto;padding:0 16px}
+    .auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:900px){.auth-grid{grid-template-columns:1fr}}
+    .card{background:#fff;border-radius:10px;padding:16px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+    h2{margin:0 0 10px 0;font-size:18px}
+    label{display:block;margin-top:10px;font-weight:600;font-size:14px}
+    input[type="text"],input[type="email"],input[type="password"],input[type="date"],select,textarea{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;margin-top:6px}
+    textarea{min-height:80px;resize:vertical}
     .row{display:flex;gap:10px}
-    .btn{margin-top:14px;padding:10px 14px;border:none;border-radius:6px;background:#2f6fed;color:#fff;font-weight:700;cursor:pointer}
-    .btn.secondary{background:#e5e7eb;color:#111}
+    .row .col{flex:1}
+    .btn{background:var(--primary);color:#fff;padding:10px 14px;border:none;border-radius:8px;font-weight:700;cursor:pointer}
+    .btn.ghost{background:#e5e7eb;color:#111}
     .message{margin-top:10px;font-size:14px}
-    .dashboard{display:flex;height:calc(100vh - 80px)}
-    .sidebar{width:250px;background:#1f2937;color:#fff;padding:18px;box-sizing:border-box}
-    .sidebar h3{margin-top:0}
-    .sidebar ul{list-style:none;padding:0;margin:10px 0 0 0}
-    .sidebar ul li{margin:12px 0;cursor:pointer}
-    .sidebar ul li:hover{color:#ffcc00}
-    .content{flex:1;padding:20px;background:#f9fafb;overflow:auto}
+    /* Dashboard layout */
+    .dashboard{display:flex;min-height:70vh}
+    .sidebar{width:260px;background:#0f1724;color:#fff;padding:18px;border-radius:10px 0 0 10px}
+    .sidebar h3{margin:0 0 12px 0;font-size:16px}
+    .menu{list-style:none;padding:0;margin:0}
+    .menu li{padding:10px 8px;border-radius:6px;cursor:pointer;margin-bottom:6px}
+    .menu li.active, .menu li:hover{background:#0b1220;color:#ffd54a}
+    .content{flex:1;padding:18px;background:transparent}
+    .section{display:block}
     .hidden{display:none}
-    footer{text-align:center;padding:14px;color:#666}
-    .small-note{font-size:13px;color:#6b7280;margin-top:8px}
-    .captcha-box{padding:10px;background:#111827;color:#fff;font-weight:700;border-radius:6px;min-width:90px;text-align:center}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .profile{display:flex;align-items:center;gap:12px}
+    .profile img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid #fff}
+    .small{font-size:13px;color:var(--muted)}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    table th, table td{border:1px solid #e5e7eb;padding:8px;text-align:left;font-size:14px}
+    .note-red{color:#b91c1c;font-weight:700}
+    .flex-between{display:flex;justify-content:space-between;align-items:center}
+    .file-input{padding:6px}
+    @media(max-width:900px){
+      .sidebar{width:100%;border-radius:10px;margin-bottom:12px}
+      .dashboard{flex-direction:column}
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">Online Examination Application & Fee Portal</div>
-    <div class="orbital">Orbital Skill Development Center</div>
+    <div class="title">Student Exam Portal</div>
+    <div class="small">Orbital Skill Development Center</div>
   </header>
 
-  <main class="container" id="authSection">
-    <div class="grid">
-      <!-- Registration Card -->
-      <section class="card" id="registerCard">
+  <div class="wrap" id="authSection">
+    <!-- Registration + Login -->
+    <div class="auth-grid">
+      <!-- Registration -->
+      <section class="card">
         <h2>Private Student New Registration</h2>
-        <label>Student's Name *</label>
-        <input type="text" id="regName" />
+        <label>Student's Full Name *</label>
+        <input id="regName" type="text" />
 
-        <label>Date Of Birth *</label>
-        <input type="date" id="regDob" />
+        <div class="row">
+          <div class="col">
+            <label>Date Of Birth *</label>
+            <input id="regDob" type="date" />
+          </div>
+          <div class="col">
+            <label>Gender *</label>
+            <select id="regGender"><option value="">Select</option><option>Female</option><option>Male</option><option>Other</option></select>
+          </div>
+        </div>
 
         <label>Father's Name *</label>
-        <input type="text" id="regFather" />
+        <input id="regFather" type="text" />
 
         <label>Mother's Name *</label>
-        <input type="text" id="regMother" />
-
-        <label>Gender *</label>
-        <select id="regGender">
-          <option value="">Select</option>
-          <option>Female</option>
-          <option>Male</option>
-          <option>Other</option>
-        </select>
+        <input id="regMother" type="text" />
 
         <label>Mobile No *</label>
-        <input type="text" id="regMobile" />
+        <input id="regMobile" type="text" />
 
-        <label>Email *</label>
-        <input type="email" id="regEmail" />
+        <label>Email ID *</label>
+        <input id="regEmail" type="email" />
 
         <label>Password *</label>
-        <input type="password" id="regPassword" />
+        <input id="regPassword" type="password" />
 
-        <label>Capacity *</label>
-        <select id="regCapacity">
-          <option value="">Select</option>
-          <option>Regular</option>
-          <option>Private</option>
-        </select>
+        <label>Capacity in which you are appearing *</label>
+        <select id="regCapacity"><option value="">Select</option><option>Private</option><option>Regular</option></select>
 
         <div style="margin-top:10px">
-          <input type="checkbox" id="regAgree" /> I agree to Terms & Conditions <a href="#" onclick="return false">Read</a>
+          <input id="regAgree" type="checkbox" /> I agree to Terms & Conditions <a href="#" onclick="return false">Read</a>
         </div>
 
         <div style="display:flex;gap:10px;margin-top:12px">
           <button class="btn" onclick="register()">Register</button>
-          <button class="btn secondary" onclick="resetRegister()">Cancel</button>
+          <button class="btn ghost" onclick="resetRegister()">Cancel</button>
         </div>
-
         <div class="message" id="regMsg"></div>
       </section>
 
-      <!-- Login Card -->
-      <section class="card" id="loginCard">
+      <!-- Login -->
+      <section class="card">
         <h2>Already Registered Private Students</h2>
-
         <label>Email ID *</label>
-        <input type="email" id="loginEmail" />
+        <input id="loginEmail" type="email" />
 
         <label>Password *</label>
-        <input type="password" id="loginPassword" />
+        <input id="loginPassword" type="password" />
 
         <label>Enter Captcha *</label>
         <div style="display:flex;gap:10px;align-items:center;margin-top:6px">
-          <input type="text" id="loginCaptchaInput" placeholder="Enter code" />
-          <div id="loginCaptcha" class="captcha-box">00000</div>
-          <button class="btn secondary" type="button" onclick="generateCaptcha()">Refresh</button>
+          <input id="loginCaptchaInput" type="text" placeholder="Enter code" />
+          <div id="loginCaptcha" style="background:#111827;color:#fff;padding:8px 12px;border-radius:8px;font-weight:700">00000</div>
+          <button class="btn ghost" onclick="generateCaptcha()">Refresh</button>
         </div>
 
         <div style="display:flex;gap:10px;margin-top:12px">
           <button class="btn" onclick="login()">Login</button>
-          <button class="btn secondary" onclick="resetLogin()">Clear</button>
+          <button class="btn ghost" onclick="resetLogin()">Clear</button>
         </div>
 
-        <div class="small-note"><a href="#" onclick="return false">Forgot UserID / Password ?</a></div>
+        <div style="margin-top:8px"><a href="#" onclick="return false">Forgot UserID / Password ?</a></div>
         <div class="message" id="loginMsg"></div>
       </section>
     </div>
-  </main>
+  </div>
 
-  <!-- Dashboard -->
-  <div class="dashboard hidden" id="dashboard">
-    <div class="sidebar">
-      <h3>Menu</h3>
-      <ul>
-        <li onclick="showSection('personal')">Student's Personal Details</li>
-        <li onclick="showSection('exam')">Examination Details</li>
-        <li onclick="showSection('status')">Application Status</li>
-        <li onclick="showSection('upload')">Upload DMC File</li>
-        <li onclick="showSection('password')">Change Password</li>
-        <li onclick="logout()">Sign Out</li>
-      </ul>
-    </div>
+  <!-- Dashboard (hidden until login) -->
+  <div class="wrap hidden" id="dashboard">
+    <div class="dashboard">
+      <aside class="sidebar card">
+        <h3>Student Exam Menu</h3>
+        <ul class="menu" id="menuList">
+          <li class="active" data-section="personal" onclick="menuClick(event)">Student's Personal Details</li>
+          <li data-section="exam" onclick="menuClick(event)">Examination Details</li>
+          <li data-section="status" onclick="menuClick(event)">Application Status</li>
+          <li data-section="upload" onclick="menuClick(event)">Upload DMC File</li>
+          <li data-section="password" onclick="menuClick(event)">Change Password</li>
+          <li data-section="signout" onclick="menuClick(event)">Sign Out</li>
+        </ul>
+      </aside>
 
-    <div class="content">
-      <div id="personal" class="section">
-        <h2>Admission Form</h2>
-        <label>Full Name</label>
-        <input type="text" id="name" />
-
-        <label>Father's Name</label>
-        <input type="text" id="father" />
-
-        <label>Mother's Name</label>
-        <input type="text" id="mother" />
-
-        <label>Date of Birth</label>
-        <input type="date" id="dob" />
-
-        <label>Gender</label>
-        <select id="gender"><option>Female</option><option>Male</option><option>Other</option></select>
-
-        <label>Address</label>
-        <input type="text" id="address" />
-
-        <label>Upload Photo (jpg/png)</label>
-        <input type="file" id="photo" accept="image/*" />
-
-        <label>Upload Signature (jpg/png)</label>
-        <input type="file" id="signature" accept="image/*" />
-
-        <label>Upload Thumb Impression (jpg/png)</label>
-        <input type="file" id="thumb" accept="image/*" />
-
-        <div style="display:flex;gap:10px;margin-top:12px">
-          <button class="btn" onclick="saveDetails()">Save Details</button>
-          <button class="btn secondary" onclick="clearAdmissionForm()">Clear</button>
+      <main class="content card">
+        <div class="topbar">
+          <div>
+            <strong id="studentName">Student</strong>
+            <div class="small">IP: <span id="ipAddr">-</span> &nbsp; | &nbsp; Expire In: <span id="expire">--:--</span></div>
+          </div>
+          <div class="profile">
+            <img id="profilePic" src="" alt="profile" onerror="this.style.display='none'"/>
+            <div class="small">Student Type: <span id="studentType">Private</span></div>
+          </div>
         </div>
 
-        <div class="message" id="formMsg"></div>
-      </div>
+        <!-- Personal Details Section -->
+        <section id="personal" class="section">
+          <h2>STUDENT PERSONAL DETAILS</h2>
+          <div class="row">
+            <div class="col">
+              <label>Student's Full Name *</label>
+              <input id="p_name" type="text" />
+            </div>
+            <div class="col">
+              <label>Father's Name *</label>
+              <input id="p_father" type="text" />
+            </div>
+          </div>
 
-      <div id="exam" class="section hidden"><h2>Examination Details</h2></div>
-      <div id="status" class="section hidden"><h2>Application Status</h2></div>
-      <div id="upload" class="section hidden"><h2>Upload DMC File</h2></div>
-      <div id="password" class="section hidden"><h2>Change Password</h2></div>
+          <div class="row">
+            <div class="col">
+              <label>Mother's Name *</label>
+              <input id="p_mother" type="text" />
+            </div>
+            <div class="col">
+              <label>Spouse Name</label>
+              <input id="p_spouse" type="text" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label>Date of Birth *</label>
+              <input id="p_dob" type="date" />
+            </div>
+            <div class="col">
+              <label>Gender *</label>
+              <select id="p_gender"><option>Female</option><option>Male</option><option>Other</option></select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label>Marital Status *</label>
+              <select id="p_marital"><option>Single</option><option>Married</option></select>
+            </div>
+            <div class="col">
+              <label>Email ID *</label>
+              <input id="p_email" type="email" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label>Caste *</label>
+              <input id="p_caste" type="text" />
+            </div>
+            <div class="col">
+              <label>Residence Area Type *</label>
+              <select id="p_area"><option>Urban</option><option>Rural</option></select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label>Mobile No *</label>
+              <input id="p_mobile" type="text" />
+            </div>
+            <div class="col">
+              <label>Aadhaar No</label>
+              <input id="p_aadhaar" type="text" />
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <h3>CORRESPONDENCE ADDRESS</h3>
+            <label>Full Address *</label>
+            <textarea id="c_address"></textarea>
+
+            <div class="row">
+              <div class="col">
+                <label>State *</label>
+                <input id="c_state" type="text" />
+              </div>
+              <div class="col">
+                <label>District *</label>
+                <input id="c_district" type="text" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label>City/Tehsil</label>
+                <input id="c_city" type="text" />
+              </div>
+              <div class="col">
+                <label>Pin Code *</label>
+                <input id="c_pin" type="text" />
+              </div>
+            </div>
+
+            <label>Mobile No</label>
+            <input id="c_mobile" type="text" />
+          </div>
+
+          <div style="margin-top:10px">
+            <input id="sameAddress" type="checkbox" onchange="copyAddress(this.checked)" /> PERMANENT ADDRESS IS SAME AS CORRESPONDENCE ADDRESS
+          </div>
+
+          <div style="margin-top:12px">
+            <h3>PERMANENT ADDRESS</h3>
+            <label>Full Address *</label>
+            <textarea id="p_address"></textarea>
+
+            <div class="row">
+              <div class="col">
+                <label>State *</label>
+                <input id="p_state" type="text" />
+              </div>
+              <div class="col">
+                <label>District *</label>
+                <input id="p_district" type="text" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label>City/Tehsil</label>
+                <input id="p_city" type="text" />
+              </div>
+              <div class="col">
+                <label>Pin Code *</label>
+                <input id="p_pin" type="text" />
+              </div>
+            </div>
+
+            <label>Mobile No</label>
+            <input id="p_mobile2" type="text" />
+          </div>
+
+          <div style="margin-top:12px">
+            <h3>PHOTO, SIGNATURE AND THUMBS</h3>
+            <div class="small">Upload JPEG/JPG only. File size recommended 10-20 KB (demo).</div>
+            <label>Photo</label>
+            <input id="p_photo" type="file" accept="image/jpeg,image/jpg" class="file-input" />
+            <label>Signature</label>
+            <input id="p_signature" type="file" accept="image/jpeg,image/jpg" class="file-input" />
+            <label>Thumb Impression</label>
+            <input id="p_thumb" type="file" accept="image/jpeg,image/jpg" class="file-input" />
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:12px">
+            <button class="btn" onclick="savePersonal()">Save Personal Details</button>
+            <button class="btn ghost" onclick="clearPersonal()">Clear</button>
+          </div>
+          <div class="message" id="personalMsg"></div>
+        </section>
+
+        <!-- Examination Details -->
+        <section id="exam" class="section hidden">
+          <h2>EXAMINATION DETAILS</h2>
+          <div class="row">
+            <div class="col">
+              <label>State to which you belong</label>
+              <input id="e_state" type="text" />
+            </div>
+            <div class="col">
+              <label>Student Type</label>
+              <input id="e_type" type="text" value="Private" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label>Domicile No.</label>
+              <input id="e_domicile" type="text" />
+            </div>
+            <div class="col">
+              <label>Capacity for appearing</label>
+              <input id="e_capacity" type="text" />
+            </div>
+          </div>
+
+          <div style="margin-top:10px">
+            <label>Session</label>
+            <input id="e_session" type="text" placeholder="e.g. DEC.21-MAR.22" />
+          </div>
+
+          <div style="margin-top:12px">
+            <h3>Subject Details</h3>
+            <table id="subjectsTable">
+              <thead>
+                <tr><th>S. No</th><th>Subject Code</th><th>Subject Name</th><th>Select</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td><input type="text" class="subCode" /></td>
+                  <td><input type="text" class="subName" /></td>
+                  <td><select class="subOpt"><option>--</option><option>Compulsory</option><option>Elective</option></select></td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="margin-top:8px">
+              <button class="btn ghost" onclick="addSubjectRow()">Add Subject</button>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:12px">
+            <button class="btn" onclick="saveExam()">Save Examination Details</button>
+            <button class="btn ghost" onclick="clearExam()">Clear</button>
+          </div>
+          <div class="message" id="examMsg"></div>
+        </section>
+
+        <!-- Application Status -->
+        <section id="status" class="section hidden">
+          <h2>APPLICATION STATUS</h2>
+          <div class="small">Below is the application/payment status</div>
+          <table>
+            <thead><tr><th>Pay Fee</th><th>Class Name</th><th>Sem/Year</th><th>Session</th><th>Exam Type</th><th>Entry date</th><th>Payment Status</th></tr></thead>
+            <tbody id="statusBody">
+              <tr><td colspan="7" class="note-red">Application Not Found...!</td></tr>
+            </tbody>
+          </table>
+          <div class="note-red" style="margin-top:10px">
+            NOTE: Eligibility will change to 'Eligible' only after document verification. Admit cards issued to 'Eligible' candidates only.
+          </div>
+        </section>
+
+        <!-- Upload DMC File -->
+        <section id="upload" class="section hidden">
+          <h2>UPLOAD DMC FILE</h2>
+          <div class="small">Upload DMC (Detailed Marks Certificate) if applicable. File size recommended 10-20 KB (demo).</div>
+          <label>Choose DMC File (PDF/JPG)</label>
+          <input id="dmcFile" type="file" accept=".pdf,image/*" />
+          <div style="display:flex;gap:10px;margin-top:12px">
+            <button class="btn" onclick="uploadDMC()">Upload DMC</button>
+            <button class="btn ghost" onclick="clearDMC()">Clear</button>
+          </div>
+          <div class="message" id="dmcMsg"></div>
+        </section>
+
+        <!-- Change Password -->
+        <section id="password" class="section hidden">
+          <h2>Change Password</h2>
+          <label>Old Password</label>
+          <input id="oldPass" type="password" />
+          <label>New Password</label>
+          <input id="newPass" type="password" />
+          <label>Re-Enter New Password</label>
+          <input id="reNewPass" type="password" />
+          <div style="display:flex;gap:10px;margin-top:12px">
+            <button class="btn" onclick="changePassword()">Change Password</button>
+            <button class="btn ghost" onclick="clearPassword()">Clear</button>
+          </div>
+          <div class="message" id="passMsg"></div>
+        </section>
+      </main>
     </div>
   </div>
 
-  <footer>© Orbital Skill Development Center — Gurugram, Haryana</footer>
+  <footer style="text-align:center;padding:12px 0;color:var(--muted)">© Orbital Skill Development Center — Demo</footer>
 
   <script>
-    // Firebase Config - replace with your own if needed
+    // ---------- Firebase Config ----------
     const firebaseConfig = {
       apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
       authDomain: "orbital4u.firebaseapp.com",
@@ -208,251 +443,399 @@
     // Captcha
     function generateCaptcha(){
       const val = Math.floor(10000 + Math.random()*90000);
-      const el = document.getElementById('loginCaptcha');
-      if(el) el.textContent = val;
+      document.getElementById('loginCaptcha').textContent = val;
     }
     generateCaptcha();
-    // auto refresh every 45 seconds (optional)
-    setInterval(generateCaptcha, 45000);
 
-    // Utility: show message
-    function showMsg(id, text, color='green'){
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.style.color = color;
-      el.innerText = text;
-    }
+    // ---------- Auth: Register / Login ----------
+    function showMsg(id, text, color='green'){ const el=document.getElementById(id); if(el){ el.style.color=color; el.innerText=text; } }
 
-    // Reset register form
     function resetRegister(){
-      document.getElementById('regName').value = '';
-      document.getElementById('regDob').value = '';
-      document.getElementById('regFather').value = '';
-      document.getElementById('regMother').value = '';
-      document.getElementById('regGender').value = '';
-      document.getElementById('regMobile').value = '';
-      document.getElementById('regEmail').value = '';
-      document.getElementById('regPassword').value = '';
-      document.getElementById('regCapacity').value = '';
-      document.getElementById('regAgree').checked = false;
+      ['regName','regDob','regFather','regMother','regGender','regMobile','regEmail','regPassword','regCapacity'].forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
+      document.getElementById('regAgree').checked=false;
       showMsg('regMsg','');
     }
 
-    // Reset login form
-    function resetLogin(){
-      document.getElementById('loginEmail').value = '';
-      document.getElementById('loginPassword').value = '';
-      document.getElementById('loginCaptchaInput').value = '';
-      showMsg('loginMsg','');
-      generateCaptcha();
-    }
-
-    // Register function (complete)
     async function register(){
       showMsg('regMsg','Processing...', 'black');
+      const name=document.getElementById('regName').value.trim();
+      const dob=document.getElementById('regDob').value;
+      const father=document.getElementById('regFather').value.trim();
+      const mother=document.getElementById('regMother').value.trim();
+      const gender=document.getElementById('regGender').value;
+      const mobile=document.getElementById('regMobile').value.trim();
+      const email=document.getElementById('regEmail').value.trim();
+      const password=document.getElementById('regPassword').value;
+      const capacity=document.getElementById('regCapacity').value;
+      const agree=document.getElementById('regAgree').checked;
 
-      const name = document.getElementById('regName').value.trim();
-      const dob = document.getElementById('regDob').value;
-      const father = document.getElementById('regFather').value.trim();
-      const mother = document.getElementById('regMother').value.trim();
-      const gender = document.getElementById('regGender').value;
-      const mobile = document.getElementById('regMobile').value.trim();
-      const email = document.getElementById('regEmail').value.trim();
-      const password = document.getElementById('regPassword').value;
-      const capacity = document.getElementById('regCapacity').value;
-      const agree = document.getElementById('regAgree').checked;
-
-      if(!name || !dob || !father || !mother || !gender || !mobile || !email || !password || !capacity){
-        showMsg('regMsg','Please fill all required fields.', 'red');
-        return;
+      if(!name||!dob||!father||!mother||!gender||!mobile||!email||!password||!capacity){
+        showMsg('regMsg','कृपया सभी आवश्यक फ़ील्ड भरें।','red'); return;
       }
-      if(!agree){
-        showMsg('regMsg','Please accept Terms & Conditions.', 'red');
-        return;
-      }
+      if(!agree){ showMsg('regMsg','कृपया Terms & Conditions स्वीकार करें।','red'); return; }
 
       try{
-        // create user in Firebase Auth
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        currentUser = userCredential.user;
-
-        // save student data in Firestore
+        const uc = await auth.createUserWithEmailAndPassword(email,password);
+        currentUser = uc.user;
         await db.collection('students').doc(currentUser.uid).set({
-          name, dob, father, mother, gender, mobile, email, capacity,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          name,dob,father,mother,gender,mobile,email,capacity,createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-
         showMsg('regMsg','Registration successful! Please login.', 'green');
         resetRegister();
-      } catch(err){
+      }catch(err){
         showMsg('regMsg', err.message || 'Registration failed', 'red');
       }
     }
 
-    // Login function (complete with captcha)
+    function resetLogin(){
+      ['loginEmail','loginPassword','loginCaptchaInput'].forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
+      showMsg('loginMsg','');
+      generateCaptcha();
+    }
+
     async function login(){
       showMsg('loginMsg','Processing...', 'black');
+      const email=document.getElementById('loginEmail').value.trim();
+      const password=document.getElementById('loginPassword').value;
+      const captchaInput=document.getElementById('loginCaptchaInput').value.trim();
+      const captchaVal=document.getElementById('loginCaptcha').textContent.trim();
 
-      const email = document.getElementById('loginEmail').value.trim();
-      const password = document.getElementById('loginPassword').value;
-      const captchaInput = document.getElementById('loginCaptchaInput').value.trim();
-      const captchaVal = document.getElementById('loginCaptcha').textContent.trim();
-
-      if(!email || !password || !captchaInput){
-        showMsg('loginMsg','Please fill all fields.', 'red');
-        return;
-      }
-      if(captchaInput !== captchaVal){
-        showMsg('loginMsg','Invalid captcha. Please try again.', 'red');
-        generateCaptcha();
-        return;
-      }
+      if(!email||!password||!captchaInput){ showMsg('loginMsg','कृपया सभी फ़ील्ड भरें।','red'); return; }
+      if(captchaInput !== captchaVal){ showMsg('loginMsg','Invalid captcha.','red'); generateCaptcha(); return; }
 
       try{
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        currentUser = userCredential.user;
+        const uc = await auth.signInWithEmailAndPassword(email,password);
+        currentUser = uc.user;
         showMsg('loginMsg','Login successful!', 'green');
-
         // show dashboard
         document.getElementById('authSection').classList.add('hidden');
         document.getElementById('dashboard').classList.remove('hidden');
-
-        // load existing student data into admission form if exists
-        loadStudentData();
-      } catch(err){
+        document.getElementById('studentName').innerText = currentUser.email || 'Student';
+        loadAllData();
+      }catch(err){
         showMsg('loginMsg', err.message || 'Login failed', 'red');
       }
     }
 
-    // Auth state listener (keeps currentUser updated)
-    auth.onAuthStateChanged(async user => {
+    // Auth state listener
+    auth.onAuthStateChanged(user=>{
       currentUser = user;
       if(user){
-        // if user is logged in, show dashboard
         document.getElementById('authSection').classList.add('hidden');
         document.getElementById('dashboard').classList.remove('hidden');
-        loadStudentData();
+        document.getElementById('studentName').innerText = user.email || 'Student';
+        loadAllData();
       } else {
-        // show auth section
         document.getElementById('dashboard').classList.add('hidden');
         document.getElementById('authSection').classList.remove('hidden');
       }
     });
 
-    // Logout
-    function logout(){
-      auth.signOut();
-      currentUser = null;
-      resetLogin();
-      resetRegister();
-      // show auth section
-      document.getElementById('dashboard').classList.add('hidden');
-      document.getElementById('authSection').classList.remove('hidden');
-    }
-
-    // Show section in dashboard
-    function showSection(id){
-      document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-      const el = document.getElementById(id);
+    // ---------- Menu handling ----------
+    function menuClick(e){
+      const li = e.currentTarget;
+      const section = li.getAttribute('data-section');
+      if(section === 'signout'){ logout(); return; }
+      document.querySelectorAll('.menu li').forEach(x=>x.classList.remove('active'));
+      li.classList.add('active');
+      document.querySelectorAll('.section').forEach(s=>s.classList.add('hidden'));
+      const el = document.getElementById(section);
       if(el) el.classList.remove('hidden');
     }
 
-    // Load student data into admission form (if exists)
-    async function loadStudentData(){
+    function logout(){
+      auth.signOut();
+      currentUser = null;
+      document.getElementById('dashboard').classList.add('hidden');
+      document.getElementById('authSection').classList.remove('hidden');
+      resetLogin(); resetRegister();
+    }
+
+    // ---------- Personal details functions ----------
+    function copyAddress(checked){
+      if(checked){
+        document.getElementById('p_address').value = document.getElementById('c_address').value;
+        document.getElementById('p_state').value = document.getElementById('c_state').value;
+        document.getElementById('p_district').value = document.getElementById('c_district').value;
+        document.getElementById('p_city').value = document.getElementById('c_city').value;
+        document.getElementById('p_pin').value = document.getElementById('c_pin').value;
+        document.getElementById('p_mobile2').value = document.getElementById('c_mobile').value;
+      } else {
+        // do nothing or clear
+      }
+    }
+
+    function clearPersonal(){
+      ['p_name','p_father','p_mother','p_spouse','p_dob','p_gender','p_marital','p_email','p_caste','p_area','p_mobile','p_aadhaar','c_address','c_state','c_district','c_city','c_pin','c_mobile','p_address','p_state','p_district','p_city','p_pin','p_mobile2'].forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
+      ['p_photo','p_signature','p_thumb'].forEach(id=>{ const f=document.getElementById(id); if(f) f.value=''; });
+      showMsg('personalMsg','');
+    }
+
+    async function savePersonal(){
+      showMsg('personalMsg','Saving...', 'black');
+      if(!currentUser){ showMsg('personalMsg','Please login first.', 'red'); return; }
+
+      const data = {
+        name: document.getElementById('p_name').value.trim(),
+        father: document.getElementById('p_father').value.trim(),
+        mother: document.getElementById('p_mother').value.trim(),
+        spouse: document.getElementById('p_spouse').value.trim(),
+        dob: document.getElementById('p_dob').value,
+        gender: document.getElementById('p_gender').value,
+        marital: document.getElementById('p_marital').value,
+        email: document.getElementById('p_email').value.trim(),
+        caste: document.getElementById('p_caste').value.trim(),
+        area: document.getElementById('p_area').value,
+        mobile: document.getElementById('p_mobile').value.trim(),
+        aadhaar: document.getElementById('p_aadhaar').value.trim(),
+        correspondence: {
+          address: document.getElementById('c_address').value.trim(),
+          state: document.getElementById('c_state').value.trim(),
+          district: document.getElementById('c_district').value.trim(),
+          city: document.getElementById('c_city').value.trim(),
+          pin: document.getElementById('c_pin').value.trim(),
+          mobile: document.getElementById('c_mobile').value.trim()
+        },
+        permanent: {
+          address: document.getElementById('p_address').value.trim(),
+          state: document.getElementById('p_state').value.trim(),
+          district: document.getElementById('p_district').value.trim(),
+          city: document.getElementById('p_city').value.trim(),
+          pin: document.getElementById('p_pin').value.trim(),
+          mobile: document.getElementById('p_mobile2').value.trim()
+        },
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      // basic validation
+      if(!data.name || !data.father || !data.mother || !data.dob || !data.gender || !data.email){
+        showMsg('personalMsg','कृपया आवश्यक फ़ील्ड भरें।','red'); return;
+      }
+
+      try{
+        const ref = db.collection('students').doc(currentUser.uid);
+        await ref.set(data, { merge: true });
+
+        // upload files if present
+        const photo = document.getElementById('p_photo').files[0];
+        const signature = document.getElementById('p_signature').files[0];
+        const thumb = document.getElementById('p_thumb').files[0];
+        const uploads = {};
+
+        if(photo){
+          const r = storage.ref().child(`students/${currentUser.uid}/photo_${Date.now()}`);
+          const snap = await r.put(photo);
+          uploads.photoURL = await snap.ref.getDownloadURL();
+        }
+        if(signature){
+          const r = storage.ref().child(`students/${currentUser.uid}/signature_${Date.now()}`);
+          const snap = await r.put(signature);
+          uploads.signatureURL = await snap.ref.getDownloadURL();
+        }
+        if(thumb){
+          const r = storage.ref().child(`students/${currentUser.uid}/thumb_${Date.now()}`);
+          const snap = await r.put(thumb);
+          uploads.thumbURL = await snap.ref.getDownloadURL();
+        }
+        if(Object.keys(uploads).length){
+          await ref.set(uploads, { merge: true });
+        }
+
+        showMsg('personalMsg','Personal details saved successfully!', 'green');
+      }catch(err){
+        showMsg('personalMsg', err.message || 'Failed to save', 'red');
+      }
+    }
+
+    // ---------- Examination functions ----------
+    function addSubjectRow(){
+      const tbody = document.querySelector('#subjectsTable tbody');
+      const idx = tbody.children.length + 1;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${idx}</td>
+        <td><input type="text" class="subCode" /></td>
+        <td><input type="text" class="subName" /></td>
+        <td><select class="subOpt"><option>--</option><option>Compulsory</option><option>Elective</option></select></td>`;
+      tbody.appendChild(tr);
+    }
+
+    function clearExam(){
+      ['e_state','e_type','e_domicile','e_capacity','e_session'].forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
+      const tbody = document.querySelector('#subjectsTable tbody');
+      tbody.innerHTML = `<tr>
+        <td>1</td>
+        <td><input type="text" class="subCode" /></td>
+        <td><input type="text" class="subName" /></td>
+        <td><select class="subOpt"><option>--</option><option>Compulsory</option><option>Elective</option></select></td>
+      </tr>`;
+      showMsg('examMsg','');
+    }
+
+    async function saveExam(){
+      showMsg('examMsg','Saving...', 'black');
+      if(!currentUser){ showMsg('examMsg','Please login first.', 'red'); return; }
+
+      const exam = {
+        state: document.getElementById('e_state').value.trim(),
+        studentType: document.getElementById('e_type').value.trim(),
+        domicile: document.getElementById('e_domicile').value.trim(),
+        capacity: document.getElementById('e_capacity').value.trim(),
+        session: document.getElementById('e_session').value.trim(),
+        subjects: []
+      };
+
+      document.querySelectorAll('#subjectsTable tbody tr').forEach(tr=>{
+        const code = tr.querySelector('.subCode').value.trim();
+        const name = tr.querySelector('.subName').value.trim();
+        const opt = tr.querySelector('.subOpt').value;
+        if(code || name) exam.subjects.push({ code, name, opt });
+      });
+
+      try{
+        await db.collection('students').doc(currentUser.uid).set({ examination: exam, examUpdatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+        showMsg('examMsg','Examination details saved!', 'green');
+      }catch(err){
+        showMsg('examMsg', err.message || 'Failed to save', 'red');
+      }
+    }
+
+    // ---------- Application Status ----------
+    // For demo: load status from Firestore if exists
+    async function loadStatus(){
+      const tbody = document.getElementById('statusBody');
+      tbody.innerHTML = '<tr><td colspan="7">Loading...</td></tr>';
+      if(!currentUser){ tbody.innerHTML = '<tr><td colspan="7" class="note-red">Application Not Found...!</td></tr>'; return; }
+      try{
+        const doc = await db.collection('students').doc(currentUser.uid).get();
+        if(!doc.exists || !doc.data().applications){
+          tbody.innerHTML = '<tr><td colspan="7" class="note-red">Application Not Found...!</td></tr>';
+          return;
+        }
+        const apps = doc.data().applications;
+        tbody.innerHTML = '';
+        apps.forEach(a=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${a.payFee||'-'}</td><td>${a.className||'-'}</td><td>${a.sem||'-'}</td><td>${a.session||'-'}</td><td>${a.examType||'-'}</td><td>${a.entryDate||'-'}</td><td>${a.paymentStatus||'-'}</td>`;
+          tbody.appendChild(tr);
+        });
+      }catch(err){
+        tbody.innerHTML = '<tr><td colspan="7" class="note-red">Application Not Found...!</td></tr>';
+      }
+    }
+
+    // ---------- Upload DMC ----------
+    function clearDMC(){ document.getElementById('dmcFile').value=''; showMsg('dmcMsg',''); }
+
+    async function uploadDMC(){
+      showMsg('dmcMsg','Uploading...', 'black');
+      if(!currentUser){ showMsg('dmcMsg','Please login first.', 'red'); return; }
+      const file = document.getElementById('dmcFile').files[0];
+      if(!file){ showMsg('dmcMsg','Please choose a file.', 'red'); return; }
+      try{
+        const ref = storage.ref().child(`students/${currentUser.uid}/dmc_${Date.now()}`);
+        const snap = await ref.put(file);
+        const url = await snap.ref.getDownloadURL();
+        await db.collection('students').doc(currentUser.uid).set({ dmcURL: url, dmcUploadedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+        showMsg('dmcMsg','DMC uploaded successfully!', 'green');
+      }catch(err){
+        showMsg('dmcMsg', err.message || 'Upload failed', 'red');
+      }
+    }
+
+    // ---------- Change Password ----------
+    function clearPassword(){ ['oldPass','newPass','reNewPass'].forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; }); showMsg('passMsg',''); }
+
+    async function changePassword(){
+      showMsg('passMsg','Processing...', 'black');
+      const oldP = document.getElementById('oldPass').value;
+      const newP = document.getElementById('newPass').value;
+      const reP = document.getElementById('reNewPass').value;
+      if(!oldP||!newP||!reP){ showMsg('passMsg','Please fill all fields.', 'red'); return; }
+      if(newP !== reP){ showMsg('passMsg','New passwords do not match.', 'red'); return; }
+      if(!currentUser || !currentUser.email){ showMsg('passMsg','Please login again.', 'red'); return; }
+
+      try{
+        // Reauthenticate with email & old password
+        const cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, oldP);
+        await currentUser.reauthenticateWithCredential(cred);
+        await currentUser.updatePassword(newP);
+        showMsg('passMsg','Password changed successfully!', 'green');
+        clearPassword();
+      }catch(err){
+        showMsg('passMsg', err.message || 'Failed to change password', 'red');
+      }
+    }
+
+    // ---------- Load all saved data ----------
+    async function loadAllData(){
       if(!currentUser) return;
       try{
         const doc = await db.collection('students').doc(currentUser.uid).get();
-        if(doc.exists){
-          const data = doc.data();
-          if(data.name) document.getElementById('name').value = data.name;
-          if(data.father) document.getElementById('father').value = data.father;
-          if(data.mother) document.getElementById('mother').value = data.mother;
-          if(data.dob) document.getElementById('dob').value = data.dob;
-          if(data.gender) document.getElementById('gender').value = data.gender;
-          if(data.address) document.getElementById('address').value = data.address;
+        if(!doc.exists) return;
+        const data = doc.data();
+
+        // personal
+        if(data.name) document.getElementById('p_name').value = data.name;
+        if(data.father) document.getElementById('p_father').value = data.father;
+        if(data.mother) document.getElementById('p_mother').value = data.mother;
+        if(data.spouse) document.getElementById('p_spouse').value = data.spouse;
+        if(data.dob) document.getElementById('p_dob').value = data.dob;
+        if(data.gender) document.getElementById('p_gender').value = data.gender;
+        if(data.marital) document.getElementById('p_marital').value = data.marital;
+        if(data.email) document.getElementById('p_email').value = data.email;
+        if(data.caste) document.getElementById('p_caste').value = data.caste;
+        if(data.area) document.getElementById('p_area').value = data.area;
+        if(data.mobile) document.getElementById('p_mobile').value = data.mobile;
+        if(data.aadhaar) document.getElementById('p_aadhaar').value = data.aadhaar;
+
+        if(data.correspondence){
+          document.getElementById('c_address').value = data.correspondence.address || '';
+          document.getElementById('c_state').value = data.correspondence.state || '';
+          document.getElementById('c_district').value = data.correspondence.district || '';
+          document.getElementById('c_city').value = data.correspondence.city || '';
+          document.getElementById('c_pin').value = data.correspondence.pin || '';
+          document.getElementById('c_mobile').value = data.correspondence.mobile || '';
         }
-      } catch(err){
-        console.error('loadStudentData error', err);
+        if(data.permanent){
+          document.getElementById('p_address').value = data.permanent.address || '';
+          document.getElementById('p_state').value = data.permanent.state || '';
+          document.getElementById('p_district').value = data.permanent.district || '';
+          document.getElementById('p_city').value = data.permanent.city || '';
+          document.getElementById('p_pin').value = data.permanent.pin || '';
+          document.getElementById('p_mobile2').value = data.permanent.mobile || '';
+        }
+
+        // examination
+        if(data.examination){
+          document.getElementById('e_state').value = data.examination.state || '';
+          document.getElementById('e_type').value = data.examination.studentType || '';
+          document.getElementById('e_domicile').value = data.examination.domicile || '';
+          document.getElementById('e_capacity').value = data.examination.capacity || '';
+          document.getElementById('e_session').value = data.examination.session || '';
+          // subjects
+          if(Array.isArray(data.examination.subjects) && data.examination.subjects.length){
+            const tbody = document.querySelector('#subjectsTable tbody');
+            tbody.innerHTML = '';
+            data.examination.subjects.forEach((s, idx)=>{
+              const tr = document.createElement('tr');
+              tr.innerHTML = `<td>${idx+1}</td><td><input type="text" class="subCode" value="${s.code||''}" /></td><td><input type="text" class="subName" value="${s.name||''}" /></td><td><select class="subOpt"><option>--</option><option ${s.opt==='Compulsory'?'selected':''}>Compulsory</option><option ${s.opt==='Elective'?'selected':''}>Elective</option></select></td>`;
+              tbody.appendChild(tr);
+            });
+          }
+        }
+
+        // status
+        loadStatus();
+
+      }catch(err){
+        console.error('loadAllData error', err);
       }
     }
 
-    // Clear admission form
-    function clearAdmissionForm(){
-      document.getElementById('name').value = '';
-      document.getElementById('father').value = '';
-      document.getElementById('mother').value = '';
-      document.getElementById('dob').value = '';
-      document.getElementById('gender').value = '';
-      document.getElementById('address').value = '';
-      document.getElementById('photo').value = '';
-      document.getElementById('signature').value = '';
-      document.getElementById('thumb').value = '';
-      showMsg('formMsg','');
-    }
-
-    // Save admission form details and upload files to Storage (complete)
-    async function saveDetails(){
-      const msgId = 'formMsg';
-      showMsg(msgId, 'Saving...', 'black');
-
-      if(!currentUser){
-        showMsg(msgId, 'You must be logged in to save details.', 'red');
-        return;
-      }
-
-      const name = document.getElementById('name').value.trim();
-      const father = document.getElementById('father').value.trim();
-      const mother = document.getElementById('mother').value.trim();
-      const dob = document.getElementById('dob').value;
-      const gender = document.getElementById('gender').value;
-      const address = document.getElementById('address').value.trim();
-
-      if(!name || !father || !mother || !dob || !gender || !address){
-        showMsg(msgId, 'Please fill all required fields in admission form.', 'red');
-        return;
-      }
-
-      const photoFile = document.getElementById('photo').files[0];
-      const signatureFile = document.getElementById('signature').files[0];
-      const thumbFile = document.getElementById('thumb').files[0];
-
-      try{
-        // Update text fields in Firestore (merge true)
-        const studentRef = db.collection('students').doc(currentUser.uid);
-        await studentRef.set({
-          name, father, mother, dob, gender, address,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
-
-        // Upload files to Storage and save URLs
-        const uploads = {};
-
-        if(photoFile){
-          const photoRef = storage.ref().child(`students/${currentUser.uid}/photo_${Date.now()}`);
-          const snap = await photoRef.put(photoFile);
-          uploads.photoURL = await snap.ref.getDownloadURL();
-        }
-        if(signatureFile){
-          const sigRef = storage.ref().child(`students/${currentUser.uid}/signature_${Date.now()}`);
-          const snap = await sigRef.put(signatureFile);
-          uploads.signatureURL = await snap.ref.getDownloadURL();
-        }
-        if(thumbFile){
-          const thumbRef = storage.ref().child(`students/${currentUser.uid}/thumb_${Date.now()}`);
-          const snap = await thumbRef.put(thumbFile);
-          uploads.thumbURL = await snap.ref.getDownloadURL();
-        }
-
-        // If any uploads done, merge URLs into Firestore
-        if(Object.keys(uploads).length){
-          await studentRef.set(uploads, { merge: true });
-        }
-
-        showMsg(msgId, 'Admission details saved successfully!', 'green');
-      } catch(err){
-        showMsg(msgId, err.message || 'Failed to save details', 'red');
-      }
-    }
+    // initialize small UI values
+    document.getElementById('ipAddr').innerText = '103.240.234.196';
+    document.getElementById('expire').innerText = '30:00 Min';
+    document.getElementById('studentType').innerText = 'Private';
   </script>
 </body>
 </html>
