@@ -48,25 +48,16 @@
       <!-- Registration -->
       <section class="card">
         <h2>Private Student New Registration</h2>
-        <label>Student's Name *</label>
-        <input type="text" id="regName" />
-        <label>Date Of Birth *</label>
-        <input type="date" id="regDob" />
-        <label>Father's Name *</label>
-        <input type="text" id="regFather" />
-        <label>Mother's Name *</label>
-        <input type="text" id="regMother" />
-        <label>Gender *</label>
-        <select id="regGender"><option value="">Select</option><option>Female</option><option>Male</option></select>
-        <label>Mobile No *</label>
-        <input type="text" id="regMobile" />
-        <label>Email *</label>
-        <input type="email" id="regEmail" />
-        <label>Capacity *</label>
-        <select id="regCapacity"><option value="">Select</option><option>Regular</option><option>Private</option></select>
-        <div>
-          <input type="checkbox" id="regAgree" /> I agree to Terms & Conditions <a href="#">Read</a>
-        </div>
+        <label>Student's Name *</label><input type="text" id="regName" />
+        <label>Date Of Birth *</label><input type="date" id="regDob" />
+        <label>Father's Name *</label><input type="text" id="regFather" />
+        <label>Mother's Name *</label><input type="text" id="regMother" />
+        <label>Gender *</label><select id="regGender"><option value="">Select</option><option>Female</option><option>Male</option></select>
+        <label>Mobile No *</label><input type="text" id="regMobile" />
+        <label>Email *</label><input type="email" id="regEmail" />
+        <label>Password *</label><input type="password" id="regPassword" />
+        <label>Capacity *</label><select id="regCapacity"><option value="">Select</option><option>Regular</option><option>Private</option></select>
+        <div><input type="checkbox" id="regAgree" /> I agree to Terms & Conditions <a href="#">Read</a></div>
         <button class="btn" onclick="register()">Register</button>
         <button class="btn secondary" type="reset">Cancel</button>
         <div class="message" id="regMsg"></div>
@@ -75,10 +66,8 @@
       <!-- Login -->
       <section class="card">
         <h2>Already Registered Private Students</h2>
-        <label>Email ID *</label>
-        <input type="email" id="loginEmail" />
-        <label>Password *</label>
-        <input type="password" id="loginPassword" />
+        <label>Email ID *</label><input type="email" id="loginEmail" />
+        <label>Password *</label><input type="password" id="loginPassword" />
         <label>Enter Captcha *</label>
         <div style="display:flex;gap:10px;align-items:center;">
           <input type="text" id="loginCaptchaInput" />
@@ -153,4 +142,4 @@
     }
     generateCaptcha();
 
-    // Register
+    //
