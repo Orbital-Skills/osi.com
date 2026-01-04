@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Development Centre</title>
+    <style>
+        /* --- RESET & BASIC STYLES --- */
+        * { box-sizing: border-box; }
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #f0f0f0; 
+            background-image: radial-gradient(#d4d4d4 1px, transparent 1px);
+            background-size: 20px 20px;
+            margin: 0;
+            padding: 0;
+            font-size: 13px;
+            color: #333;
+        }
+
+        /* --- UTILITIES --- */
+        .hidden { display: none !important; }
+        .pull-right { float: right; }
+        
+        /* --- BUTTONS & INPUTS --- */
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .btn-primary { background-color: #337ab7; color: white; border-color: #2e6da4; }
+        .btn-primary:hover { background-color: #286090; }
+        .btn-default { background-color: #fff; border-color: #ccc; color: #333; }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 6px 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+            background: #fff;
+        }
+        label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 12px; }
+        .required { color: red; }
+
+        /* --- LOGIN PAGE STYLES --- */
+        .login-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .login-header {
+            background: #fcf8e3;
+            color: #8a6d3b;
+            padding: 15px;
+            border: 1px solid #faebcc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+        }
+        .col-half { flex: 1; min-width: 300px; padding: 15px; border: 1px solid #e3e3e3; border-radius: 4px; }
+        .section-title {
+            border-left: 4px solid #337ab7;
+            padding-left: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 15px;
+        }
+        .captcha-box {
+            background: #000;
+            color: #fff;
+            padding: 5px 10px;
+            font-family: monospace;
+            font-size: 18px;
+            display: inline-block;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+
+        /* --- DASHBOARD STYLES --- */
+        
+        /* 1. New Main Institution Header */
+        .inst-header {
+            background: #fff;
+            padding: 20px 30px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 10;
+        }
+        .inst-logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: #337ab7; /* Matching Blue Theme */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 2. Blue Info Bar */
+        .top-bar {
+            background: #337ab7;
+            color: white;
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #286090;
+            font-size: 12px;
+        }
+        .user-info { display: flex; align-items: center; gap: 15px; font-weight: bold; }
+        .user-avatar img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; vertical-align: middle; }
+        
+        /* Layout */
+        .dashboard-wrapper { display: flex; min-height: 100vh; }
+        .sidebar { width: 240px; background: #f8f8f8; border-right: 1px solid #ddd; flex-shrink: 0; }
+        .sidebar-header { background: #286090; color: white; padding: 10px 15px; font-weight: bold; }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar li { border-bottom: 1px solid #eaeaea; }
+        .sidebar a { display: block; padding: 12px 15px; color: #333; text-decoration: none; font-weight: 600; transition: 0.2s; }
+        .sidebar a:hover { background: #eee; }
+        .sidebar a.active { background: #e7e7e7; border-left: 4px solid #337ab7; color: #337ab7; }
+
+        .main-content { flex: 1; padding: 20px; background: #f9f9f9; }
+        
+        /* Panels & Grids */
+        .panel { background: #fff; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; box-shadow: 0 1px 1px rgba(0,0,0,0.05); }
+        .panel-heading { background: #f5f5f5; color: #337ab7; padding: 10px 15px; border-bottom: 1px solid #ddd; font-weight: bold; text-transform: uppercase; font-size: 12px; }
+        .panel-body { padding: 15px; }
+        .row { display: flex; flex-wrap: wrap; margin: 0 -10px; }
+        .col { padding: 0 10px; flex: 1; }
+        .col-12 { width: 100%; padding: 0 10px; }
+        .col-6 { width: 50%; padding: 0 10px; }
+        .col-4 { width: 33.33%; padding: 0 10px; }
+        .col-3 { width: 25%; padding: 0 10px; }
+
+        .photo-box { border: 1px solid #ccc; height: 100px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; overflow: hidden; }
+        .photo-box img { max-height: 100%; max-width: 100%; }
+
+        .footer { text-align: center; padding: 20px; color: #777; border-top: 1px solid #ddd; margin-top: 20px; background: #fff; }
+
+        @media (max-width: 768px) {
+            .dashboard-wrapper { flex-direction: column; }
+            .sidebar { width: 100%; }
+            .row { flex-direction: column; }
+            .col-6, .col-4, .col-3 { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =======================
+         1. LOGIN PAGE VIEW
+    ======================== -->
+    <div id="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                Note: The portal is currently non-operational. Forms are for demo and UI testing.
+                <span class="pull-right" style="cursor:pointer; color:#a94442;">Dismiss</span>
+            </div>
+
+            <!-- Left: New Registration -->
+            <div class="col-half">
+                <div class="section-title">| Private Student New Registration</div>
+                <p style="color: #666; font-size: 12px;">Fill all required fields marked with *.</p>
+                <div class="row">
+                    <div class="col-6"><label>Student's Name <span class="required">*</span></label><input type="text" placeholder="ENTER FULL NAME"></div>
+                    <div class="col-6"><label>Date Of Birth <span class="required">*</span></label><input type="date"></div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><label>Father's Name <span class="required">*</span></label><input type="text" placeholder="Shri ENTER NAME"></div>
+                    <div class="col-6"><label>Mother's Name <span class="required">*</span></label><input type="text" placeholder="Smt ENTER NAME"></div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><label>Gender <span class="required">*</span></label><select><option>-------SELECT-------</option><option>Male</option><option>Female</option></select></div>
+                    <div class="col-6"><label>Mobile No <span class="required">*</span></label><input type="text" placeholder="+91 ENTER VALID MOBILE"></div>
+                </div>
+                <label>E-mail ID <span class="required">*</span></label>
+                <input type="email" value="hmt2cu@gmail.com">
+                <div style="margin: 15px 0;">
+                    <input type="checkbox" style="width:auto;"> I agree to accept all Terms & Conditions <a href="#">Read</a>
+                </div>
+                <button class="btn btn-primary">Register</button>
+                <button class="btn btn-default">Cancel</button>
+            </div>
+
+            <!-- Right: Login -->
+            <div class="col-half">
+                <div class="section-title">| Already Registered Private Students</div>
+                <label>Email ID <span class="required">*</span></label><input type="text" placeholder="Enter">
+                <label>Password <span class="required">*</span></label><input type="password" placeholder="........">
+                <label>Enter Captcha <span class="required">*</span></label>
+                <div class="row">
+                    <div class="col-6"><input type="text" placeholder="Enter"></div>
+                    <div class="col-6" style="display:flex; align-items:center;">
+                        <span class="captcha-box">99645</span>
+                        <button class="btn btn-default btn-xs">Refresh</button>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <button class="btn btn-primary" onclick="login()">Login</button>
+                    <a href="#" class="pull-right" style="margin-top:5px;">Forgot UserID / Password?</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer">Powered by OSI Pvt. Ltd. ©2022</div>
+    </div>
+
+    <!-- =======================
+         2. DASHBOARD VIEW
+    ======================== -->
+    <div id="dashboard-view" class="hidden">
+        
+        <!-- NEW INSTITUTION HEADER -->
+        <div class="inst-header">
+            <div class="inst-logo-text">Orbital Skill Development Centre</div>
+        </div>
+
+        <!-- Blue Info Bar -->
+        <div class="top-bar">
+            <div class="user-info">
+                <div class="user-avatar"><img src="https://via.placeholder.com/40" alt="User"></div>
+                <span>Jagriti</span>
+            </div>
+            <div class="user-info">
+                <span>Your IP : 103.240.234.196</span>
+                <span>|</span>
+                <span>Expire In : <span id="timer">29:36 Min</span></span>
+                <span>|</span>
+                <span>Student Type : Private</span>
+            </div>
+        </div>
+
+        <div class="dashboard-wrapper">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">Student Exam Menu</div>
+                <ul>
+                    <li><a href="#" onclick="showPage('personal')" id="link-personal" class="active">Student's Personal Details</a></li>
+                    <li><a href="#" onclick="showPage('exam')" id="link-exam">Examination Details</a></li>
+                    <li><a href="#">Application Status</a></li>
+                    <li><a href="#">Upload DMC File</a></li>
+                    <li><a href="#" onclick="showPage('password')" id="link-password">Change Password</a></li>
+                    <li><a href="#" onclick="logout()" style="color:red;">Sign Out</a></li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                
+                <!-- PERSONAL DETAILS FORM -->
+                <div id="page-personal">
+                    <div class="panel">
+                        <div class="panel-heading">Student Personal Details</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-6"><label>1. STUDENT'S FULL NAME <span class="required">*</span></label><input type="text" value="JAGRITI"></div>
+                                <div class="col-6"><label>2. FATHER'S NAME <span class="required">*</span></label><div style="display:flex; gap:5px;"><input type="text" value="SHRI" style="width: 60px;" readonly><input type="text" value="SUBHASH CHANDER"></div></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>3. MOTHER'S NAME <span class="required">*</span></label><div style="display:flex; gap:5px;"><input type="text" value="SMT" style="width: 60px;" readonly><input type="text" value="RANI DEVI"></div></div>
+                                <div class="col-6"><label>4. SPOUSE NAME</label><div style="display:flex; gap:5px;"><input type="text" value="SHRI/SMT" style="width: 80px;" readonly><input type="text" placeholder="SPOUSE NAME"></div></div>
+                            </div>
+                             <div class="row">
+                                <div class="col-3"><label>5. DATE OF BIRTH <span class="required">*</span></label><input type="text" value="14-SEP-2005"></div>
+                                <div class="col-3"><label>6. GENDER <span class="required">*</span></label><select><option>FEMALE</option></select></div>
+                                <div class="col-6"><label>7. MARITAL STATUS <span class="required">*</span></label><select><option>SINGLE</option></select></div>
+                            </div>
+                            <h4 style="color:#337ab7; border-bottom:1px solid #ddd; padding-bottom:5px; margin-top:20px;">CORRESPONDENCE ADDRESS</h4>
+                            <div class="row"><div class="col-12"><label>15. FULL ADDRESS <span class="required">*</span></label><textarea rows="2">448 BHATTU ROAD HANS COLONY FATEHABAD</textarea></div></div>
+                            <div class="row">
+                                <div class="col-4"><label>17. DISTRICT</label><input type="text" value="FATEHABAD"></div>
+                                <div class="col-4"><label>18. CITY/TEHSIL</label><input type="text" value="FATEHABAD"></div>
+                                <div class="col-4"><label>19. PIN CODE</label><input type="text" value="125050"></div>
+                            </div>
+                            <div style="background:#f0f8ff; padding:15px; margin-top:20px; border:1px solid #bce8f1;">
+                                <div class="row">
+                                    <div class="col-4"><label>27. PHOTO</label><div class="photo-box"><img src="https://via.placeholder.com/100x80?text=Photo" alt="Photo"></div><input type="file"></div>
+                                    <div class="col-4"><label>28. SIGNATURE</label><div class="photo-box"><img src="https://via.placeholder.com/150x60?text=Signature" alt="Sig"></div><input type="file"></div>
+                                    <div class="col-4"><label>29. THUMB</label><div class="photo-box"><img src="https://via.placeholder.com/100x80?text=Thumb" alt="Thumb"></div><input type="file"></div>
+                                </div>
+                                <p style="font-size:11px; margin-top:10px;">I. KINDLY UPLOAD PHOTO AND SIGNATURES IN .JPEG/.JPG FORMAT ONLY.</p>
+                            </div>
+                            <br>
+                            <div style="text-align:right;"><button class="btn btn-primary">Save Personal Details</button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EXAM DETAILS FORM -->
+                <div id="page-exam" class="hidden">
+                    <div class="panel">
+                        <div class="panel-heading">Examination Details</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-6"><label>1. STATE TO WHICH YOU BELONG</label><select><option>Haryana</option></select></div>
+                                <div class="col-6"><label>3. DOMICILE NO:</label><input type="text" value="SCC/2023/114790"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>4. CAPACITY FOR APPEARING:</label><select><option>WOMEN</option></select></div>
+                                <div class="col-6"><label>5. SESSION:</label><select><option>DEC.21-MAR.22</option></select></div>
+                            </div>
+                            <div style="margin-top:20px; border-top:2px solid #337ab7; padding-top:10px;">
+                                <label style="color:#a94442;">14. SUBJECT DETAILS</label>
+                                <table style="width:100%; border-collapse: collapse; margin-top:10px;">
+                                    <thead><tr style="background:#005580; color:white; text-align:left;"><th style="padding:8px;">S. No</th><th style="padding:8px;">Subject Code</th><th style="padding:8px;">Subject Name</th><th style="padding:8px;">Select Option</th></tr></thead>
+                                    <tbody><tr style="border-bottom:1px solid #ddd;"><td style="padding:8px;">1</td><td style="padding:8px;">ENG01</td><td style="padding:8px;">General English</td><td style="padding:8px;"><input type="checkbox" checked disabled></td></tr></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASSWORD CHANGE FORM -->
+                <div id="page-password" class="hidden">
+                    <div class="panel">
+                        <div class="panel-heading">Change Password</div>
+                        <div class="panel-body">
+                            <div style="max-width: 500px; margin: 0 auto;">
+                                <div class="row" style="align-items: center; margin-bottom: 10px;">
+                                    <div class="col-4" style="text-align: right;"><label>Old Password</label></div>
+                                    <div class="col-8"><input type="password" placeholder="Enter Password"></div>
+                                </div>
+                                <div class="row" style="align-items: center; margin-bottom: 10px;">
+                                    <div class="col-4" style="text-align: right;"><label style="color:#337ab7;">New Password</label></div>
+                                    <div class="col-8"><input type="password" placeholder="Enter new password"></div>
+                                </div>
+                                <div class="row" style="align-items: center; margin-bottom: 10px;">
+                                    <div class="col-4" style="text-align: right;"><label style="color:#337ab7;">Re-Enter New Password</label></div>
+                                    <div class="col-8"><input type="password" placeholder="Enter new password"></div>
+                                </div>
+                                <hr>
+                                <div style="text-align: right;"><button class="btn btn-primary">Change Password</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- End Main Content -->
+        </div> <!-- End Dashboard Wrapper -->
+        
+        <div class="footer">Powered by OSI Pvt. Ltd. ©2022</div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        function login() {
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+        }
+        function logout() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('login-page').classList.remove('hidden');
+        }
+        function showPage(pageId) {
+            document.getElementById('page-personal').classList.add('hidden');
+            document.getElementById('page-exam').classList.add('hidden');
+            document.getElementById('page-password').classList.add('hidden');
+
+            document.getElementById('link-personal').classList.remove('active');
+            document.getElementById('link-exam').classList.remove('active');
+            document.getElementById('link-password').classList.remove('active');
+
+            document.getElementById('page-' + pageId).classList.remove('hidden');
+            document.getElementById('link-' + pageId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
