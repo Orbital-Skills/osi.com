@@ -29,54 +29,31 @@
         .pull-right { float: right; }
         .text-red { color: #a94442; }
         
-        /* --- BRANDING / LOGO STYLES --- */
-        .brand-header {
-            display: flex;
-            align-items: center;
-            background: #fff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ddd;
-        }
-        .brand-logo {
-            height: 50px; /* Logo Size Adjusted */
-            margin-right: 15px;
-        }
-        .brand-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: #337ab7;
-            text-transform: uppercase;
-        }
+        /* --- BRANDING --- */
+        .brand-header { display: flex; align-items: center; background: #fff; padding: 10px 20px; border-bottom: 1px solid #ddd; }
+        .brand-logo { height: 50px; margin-right: 15px; }
+        .brand-title { font-size: 24px; font-weight: 800; color: #337ab7; text-transform: uppercase; }
 
         /* --- BUTTONS & INPUTS --- */
-        .btn {
-            display: inline-block; padding: 6px 12px; font-size: 12px; text-align: center; cursor: pointer;
-            border: 1px solid transparent; border-radius: 4px; font-weight: bold; margin-top: 5px;
-        }
+        .btn { display: inline-block; padding: 6px 12px; font-size: 12px; text-align: center; cursor: pointer; border: 1px solid transparent; border-radius: 4px; font-weight: bold; margin-top: 5px; }
         .btn-primary { background-color: #337ab7; color: white; border-color: #2e6da4; }
         .btn-info { background-color: #5bc0de; color: white; border-color: #46b8da; }
         .btn-success { background-color: #5cb85c; color: white; }
         .btn-default { background-color: #fff; border-color: #ccc; color: #333; }
         .btn:disabled { background-color: #ccc; cursor: not-allowed; }
         
-        input, select, textarea {
-            width: 100%; padding: 4px 8px; margin-bottom: 5px; border: 1px solid #ccc;
-            border-radius: 3px; font-size: 11px; background: #fff; height: 28px;
-        }
+        input, select, textarea { width: 100%; padding: 4px 8px; margin-bottom: 5px; border: 1px solid #ccc; border-radius: 3px; font-size: 11px; background: #fff; height: 28px; }
         textarea { height: auto; }
         input[type="checkbox"] { width: auto; height: auto; margin: 0; vertical-align: middle; }
         label { display: block; font-weight: 700; margin-bottom: 2px; font-size: 10px; text-transform: uppercase; color: #555; }
         .required { color: red; }
         .error-border { border: 1px solid red !important; background-color: #fff0f0; }
 
-        /* INPUT GROUPS */
         .input-group { display: flex; gap: 5px; }
         .input-prefix { width: 50px; background: #eee; text-align: center; font-weight: bold; color: #555; pointer-events: none; }
 
         /* --- LAYOUT --- */
         .dashboard-wrapper { display: flex; min-height: 100vh; }
-        
-        /* SIDEBAR */
         .sidebar { width: 230px; background: #f8f8f8; border-right: 1px solid #ddd; flex-shrink: 0; }
         .sidebar-header { background: #337ab7; color: white; padding: 10px 15px; font-weight: bold; font-style: italic; font-size: 13px; }
         .sidebar a { display: block; padding: 10px 15px; color: #333; text-decoration: none; font-weight: 600; border-bottom: 1px solid #eaeaea; transition: 0.2s; }
@@ -84,7 +61,6 @@
         .sidebar a.active { background: #e7e7e7; border-left: 4px solid #337ab7; color: #337ab7; }
 
         .main-content { flex: 1; padding: 15px; background: #f9f9f9; }
-        
         .panel { background: #fff; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; box-shadow: 0 1px 1px rgba(0,0,0,0.05); }
         .panel-heading { background: #f5f5f5; color: #337ab7; padding: 8px 15px; border-bottom: 1px solid #ddd; font-weight: bold; text-transform: uppercase; font-size: 11px; }
         .panel-body { padding: 15px; }
@@ -98,18 +74,18 @@
 
         /* PHOTO BOX */
         .photo-box { border: 1px solid #ccc; height: 90px; width: 100%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; overflow: hidden; }
-        
+        .photo-box img { width: 100%; height: 100%; object-fit: contain; } /* Ensures image fits */
+
         /* TABLES */
         table.custom-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px; }
         table.custom-table th, table.custom-table td { border: 1px solid #ddd; padding: 5px; text-align: left; }
         .green-header-table th { background: #008573; color: white; }
 
-        /* PREVIEW / PRINT FORM STYLE */
+        /* PREVIEW STYLE */
         .preview-container { border: 2px solid #333; background: #fff; padding: 5px; }
         .preview-header-box { text-align: center; border-bottom: 2px solid #333; padding: 10px; background: #fff; margin-bottom: 10px; }
         .preview-logo { height: 60px; margin-bottom: 5px; }
         .preview-title { font-size: 18px; font-weight: bold; color: #337ab7; text-transform: uppercase; }
-        
         .preview-row { display: flex; border-bottom: 1px solid #ccc; }
         .preview-label { width: 25%; background: #f0f0f0; padding: 5px; font-weight: bold; border-right: 1px solid #ccc; font-size: 10px; }
         .preview-val { width: 25%; padding: 5px; font-size: 11px; border-right: 1px solid #ccc; }
@@ -121,7 +97,6 @@
         .course-card { background: white; border: 1px solid #ddd; padding: 15px; text-align: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-weight: bold; color: #337ab7; }
         .course-card:hover { border-color: #337ab7; background: #f0f8ff; }
 
-        /* USER TOP BAR */
         .top-bar { background: #337ab7; color: white; padding: 5px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #286090; font-size: 11px; }
 
         @media (max-width: 768px) { .dashboard-wrapper { flex-direction: column; } .sidebar { width: 100%; } }
@@ -131,7 +106,6 @@
 
     <!-- LOGIN PAGE -->
     <div id="login-page">
-        <!-- HEADER WITH LOGO FOR LOGIN -->
         <div style="max-width:900px; margin:20px auto 0 auto; background:#fff; padding:15px; border:1px solid #ddd; border-bottom:none; display:flex; align-items:center; justify-content:center;">
             <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" class="brand-logo">
             <div class="brand-title">Orbital Skill Development Centre</div>
@@ -169,14 +143,10 @@
 
     <!-- DASHBOARD -->
     <div id="dashboard-view" class="hidden">
-        
-        <!-- DASHBOARD HEADER WITH LOGO -->
         <div class="brand-header">
             <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" class="brand-logo">
             <div class="brand-title">Orbital Skill Development Centre</div>
         </div>
-
-        <!-- Top Bar -->
         <div class="top-bar">
             <div>
                 <img src="https://via.placeholder.com/30" style="border-radius:50%; vertical-align:middle; width:25px; margin-right:5px;">
@@ -186,7 +156,6 @@
         </div>
 
         <div class="dashboard-wrapper">
-            <!-- Sidebar -->
             <div class="sidebar">
                 <div class="sidebar-header">Student Exam Menu</div>
                 <a href="#" onclick="showPage('personal')" id="link-personal" class="active">Student's Personal Details</a>
@@ -196,7 +165,6 @@
                 <a href="#" onclick="logout()" style="color:red;">Sign Out</a>
             </div>
 
-            <!-- Main Content -->
             <div class="main-content">
                 
                 <!-- 1. PERSONAL DETAILS -->
@@ -211,43 +179,23 @@
                                 </div>
                                 <div class="col-6">
                                     <label>2. FATHER'S NAME <span class="required">*</span></label>
-                                    <div class="input-group">
-                                        <input type="text" value="SHRI" class="input-prefix" readonly>
-                                        <input type="text" id="dash-father" readonly style="background:#eee;">
-                                    </div>
+                                    <div class="input-group"><input type="text" value="SHRI" class="input-prefix" readonly><input type="text" id="dash-father" readonly style="background:#eee;"></div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <label>3. MOTHER'S NAME <span class="required">*</span></label>
-                                    <div class="input-group">
-                                        <input type="text" value="SMT" class="input-prefix" readonly>
-                                        <input type="text" id="dash-mother" readonly style="background:#eee;">
-                                    </div>
+                                    <div class="input-group"><input type="text" value="SMT" class="input-prefix" readonly><input type="text" id="dash-mother" readonly style="background:#eee;"></div>
                                 </div>
                                 <div class="col-6">
                                     <label>4. SPOUSE NAME</label>
-                                    <div class="input-group">
-                                        <input type="text" value="SHRI/SMT" class="input-prefix" style="width:70px;" readonly>
-                                        <input type="text" id="dash-spouse" placeholder="SPOUSE NAME">
-                                    </div>
+                                    <div class="input-group"><input type="text" value="SHRI/SMT" class="input-prefix" style="width:70px;" readonly><input type="text" id="dash-spouse" placeholder="SPOUSE NAME"></div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-4">
-                                    <label>5. DATE OF BIRTH <span class="required">*</span></label>
-                                    <input type="date" id="dash-dob" readonly style="background:#eee;">
-                                </div>
-                                <div class="col-4">
-                                    <label>6. GENDER <span class="required">*</span></label>
-                                    <input type="text" id="dash-gender" readonly style="background:#eee;">
-                                </div>
-                                <div class="col-4">
-                                    <label>7. MARITAL STATUS <span class="required">*</span></label>
-                                    <select id="dash-marital">
-                                        <option value="">--Select--</option><option>SINGLE</option><option>MARRIED</option>
-                                    </select>
-                                </div>
+                                <div class="col-4"><label>5. DATE OF BIRTH <span class="required">*</span></label><input type="date" id="dash-dob" readonly style="background:#eee;"></div>
+                                <div class="col-4"><label>6. GENDER <span class="required">*</span></label><input type="text" id="dash-gender" readonly style="background:#eee;"></div>
+                                <div class="col-4"><label>7. MARITAL STATUS <span class="required">*</span></label><select id="dash-marital"><option value="">--Select--</option><option>SINGLE</option><option>MARRIED</option></select></div>
                             </div>
                             <div class="row">
                                 <div class="col-4"><label>8. E-MAIL ID <span class="required">*</span></label><input type="text" id="dash-email" readonly style="background:#eee;"></div>
@@ -255,10 +203,7 @@
                                 <div class="col-4"><label>10. RESIDENCE AREA TYPE <span class="required">*</span></label><select id="dash-area"><option value="">--Select--</option><option>URBAN</option><option>RURAL</option></select></div>
                             </div>
                             <div class="row">
-                                <div class="col-4">
-                                    <label>11. MOBILE NO <span class="required">*</span></label>
-                                    <div class="input-group"><input type="text" value="+91" class="input-prefix" style="width:40px;"><input type="text" id="dash-mobile" readonly style="background:#eee;"></div>
-                                </div>
+                                <div class="col-4"><label>11. MOBILE NO <span class="required">*</span></label><div class="input-group"><input type="text" value="+91" class="input-prefix" style="width:40px;"><input type="text" id="dash-mobile" readonly style="background:#eee;"></div></div>
                                 <div class="col-4"><label>12. AADHAAR NO <span class="required">*</span></label><input type="text" id="dash-aadhaar" placeholder="Enter Aadhaar"></div>
                                 <div class="col-4"><label>13. NAD ID/ACKNOWLEDGEMENT NO</label><input type="text" disabled style="background:#f0f0f0;"></div>
                             </div>
@@ -285,11 +230,24 @@
                                 <div class="col-4"><label>24. CITY/TEHSIL</label><input type="text" id="perm-city"></div>
                             </div>
 
+                            <!-- UPDATED PHOTO SECTION WITH PREVIEW LOGIC -->
                             <h4 style="color:#337ab7; border-bottom:1px solid #ddd; margin-top:15px; font-size:11px;">PHOTO SIGNATURE AND THUMB</h4>
                             <div class="row">
-                                <div class="col-4"><label>27. PHOTO <span class="required">*</span></label><div class="photo-box">PHOTO</div><input type="file"></div>
-                                <div class="col-4"><label>28. SIGNATURE <span class="required">*</span></label><div class="photo-box">SIGNATURE</div><input type="file"></div>
-                                <div class="col-4"><label>29. THUMB <span class="required">*</span></label><div class="photo-box">THUMB</div><input type="file"></div>
+                                <div class="col-4">
+                                    <label>27. PHOTO <span class="required">*</span></label>
+                                    <div class="photo-box" id="preview-photo">PHOTO</div>
+                                    <input type="file" onchange="previewImage(this, 'preview-photo')">
+                                </div>
+                                <div class="col-4">
+                                    <label>28. SIGNATURE <span class="required">*</span></label>
+                                    <div class="photo-box" id="preview-sign">SIGNATURE</div>
+                                    <input type="file" onchange="previewImage(this, 'preview-sign')">
+                                </div>
+                                <div class="col-4">
+                                    <label>29. THUMB <span class="required">*</span></label>
+                                    <div class="photo-box" id="preview-thumb">THUMB</div>
+                                    <input type="file" onchange="previewImage(this, 'preview-thumb')">
+                                </div>
                             </div>
 
                             <div style="text-align:right; margin-top:15px;">
@@ -299,8 +257,8 @@
                     </div>
                 </div>
 
-                <!-- 2. EXAM DETAILS -->
-                <div id="page-exam" class="hidden">
+                <!-- 2.  DETAILS -->
+              <div id="page-exam" class="hidden">
                     <div class="panel">
                         <div class="panel-heading">EXAMINATION DETAILS</div>
                         <div class="panel-body">
@@ -330,38 +288,30 @@
                     </div>
                 </div>
 
-                <!-- 3. PREVIEW FORM (APPLICATION STATUS) -->
+                <!-- 3. PREVIEW FORM -->
                 <div id="page-preview" class="hidden">
                     <div class="panel">
                         <div class="panel-heading">APPLICATION FORM PREVIEW</div>
                         <div class="panel-body">
-                            
-                            <!-- OFFICIAL PRINTABLE CONTAINER -->
                             <div class="preview-container">
-                                
-                                <!-- HEADER WITH LOGO IN PREVIEW -->
                                 <div class="preview-header-box">
                                     <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" class="preview-logo">
                                     <div class="preview-title">ORBITAL SKILL DEVELOPMENT CENTRE</div>
                                     <div style="font-size:11px; margin-top:5px;">ONLINE EXAMINATION FORM (PRIVATE CANDIDATE)</div>
                                 </div>
-                                
                                 <div class="preview-subhead">I. PERSONAL DETAILS</div>
                                 <div class="preview-row"><div class="preview-label">Student Name</div><div class="preview-val" id="prev-name"></div><div class="preview-label">Father's Name</div><div class="preview-val" id="prev-father"></div></div>
                                 <div class="preview-row"><div class="preview-label">Mother's Name</div><div class="preview-val" id="prev-mother"></div><div class="preview-label">DOB</div><div class="preview-val" id="prev-dob"></div></div>
                                 <div class="preview-row"><div class="preview-label">Gender</div><div class="preview-val" id="prev-gender"></div><div class="preview-label">Marital Status</div><div class="preview-val" id="prev-marital"></div></div>
                                 <div class="preview-row"><div class="preview-label">Category</div><div class="preview-val" id="prev-caste"></div><div class="preview-label">Aadhaar</div><div class="preview-val" id="prev-aadhaar"></div></div>
                                 <div class="preview-row"><div class="preview-label">Address</div><div class="preview-full" id="prev-address"></div></div>
-                                
                                 <div class="preview-subhead">II. EXAMINATION DETAILS</div>
                                 <div class="preview-row"><div class="preview-label">State</div><div class="preview-val" id="prev-state"></div><div class="preview-label">Exam Mode</div><div class="preview-val" id="prev-mode"></div></div>
                                 <div class="preview-row"><div class="preview-label">Session</div><div class="preview-val" id="prev-session"></div><div class="preview-label">Exam Type</div><div class="preview-val" id="prev-type"></div></div>
                             </div>
-
                             <div style="margin-top:20px; background:#f9f9f9; padding:10px; border:1px solid #ccc;">
                                 <input type="checkbox" id="preview-agree" onchange="toggleProceed()"> I Agree to the terms and conditions.
                             </div>
-
                             <div style="text-align:right; margin-top:10px;">
                                 <button class="btn btn-default" onclick="showPage('exam')">Edit</button>
                                 <button class="btn btn-primary" id="btn-proceed" disabled onclick="showCourses()">Proceed to Course Selection</button>
@@ -385,45 +335,32 @@
     </div>
 
     <script>
-        // --- CONFIG ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
-            authDomain: "orbital4u.firebaseapp.com",
-            projectId: "orbital4u",
-            storageBucket: "orbital4u.firebasestorage.app",
-            messagingSenderId: "88284726348",
-            appId: "1:88284726348:web:0d43de2919b592509b60e9",
-            measurementId: "G-BS3BEKLJN7"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        const coursePages = {
-            "Health Care Skills": "health-care.html",
-            "Banking-Finance Skills": "banking-finance.html",
-            "IT-ITS Sector": "IT-ITES Sector.html",
-            "Fireman": "fire-safety.html",
-            "Electrician": "electrician.html",
-            "Plumber": "plumber.html",
-            "Boutique Design": "beautician.html",
-            "ECCE/ NTT": "ecce-ntt.html",
-            "Welder": "welder.html",
-            "Cyber Security": "cyber-security.html"
-        };
+        const coursePages = { "Health Care Skills": "health-care.html", "Banking-Finance Skills": "banking-finance.html", "IT-ITS Sector": "IT-ITES Sector.html", "Fireman": "fire-safety.html", "Electrician": "electrician.html", "Plumber": "plumber.html", "Boutique Design": "beautician.html", "ECCE/ NTT": "ecce-ntt.html", "Welder": "welder.html", "Cyber Security": "cyber-security.html" };
         
-        // --- LOGIC ---
+        // --- NEW PREVIEW IMAGE FUNCTION ---
+        function previewImage(input, previewId) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(previewId).innerHTML = '<img src="'+e.target.result+'" style="width:100%; height:100%; object-fit:contain;">';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function validateSection(containerId) {
             const container = document.getElementById(containerId);
             const inputs = container.querySelectorAll('input, select, textarea');
             let isValid = true;
             inputs.forEach(input => {
                 input.classList.remove('error-border');
-                if(input.disabled || input.hasAttribute('readonly') || input.id === 'dash-spouse') return;
-                if (input.value.trim() === "") {
-                    input.classList.add('error-border');
-                    isValid = false;
-                }
+                if(input.disabled || input.hasAttribute('readonly') || input.id === 'dash-spouse' || input.type === "file") return;
+                if (input.value.trim() === "") { input.classList.add('error-border'); isValid = false; }
             });
             if (!isValid) alert("Please fill all MANDATORY fields (Red Border).");
             return isValid;
@@ -459,11 +396,7 @@
                 document.getElementById('perm-full').value = document.getElementById('addr-full').value;
                 document.getElementById('perm-district').value = document.getElementById('addr-district').value;
                 document.getElementById('perm-city').value = document.getElementById('addr-city').value;
-            } else {
-                document.getElementById('perm-full').value = "";
-                document.getElementById('perm-district').value = "";
-                document.getElementById('perm-city').value = "";
-            }
+            } else { document.getElementById('perm-full').value = ""; document.getElementById('perm-district').value = ""; document.getElementById('perm-city').value = ""; }
         }
 
         function addRow() {
@@ -481,16 +414,10 @@
             const cContainer = document.getElementById('course-container');
             for (const [name, url] of Object.entries(coursePages)) {
                 let div = document.createElement('div');
-                div.className = 'course-card';
-                div.innerText = name;
-                div.onclick = () => {
-                    if(confirm("Redirect to " + name + " application?")) {
-                        window.location.href = url;
-                    }
-                };
+                div.className = 'course-card'; div.innerText = name;
+                div.onclick = () => { if(confirm("Redirect to " + name + " application?")) window.location.href = url; };
                 cContainer.appendChild(div);
             }
-
             auth.onAuthStateChanged(user => {
                 if(user) loadData(user.uid);
                 else { document.getElementById('login-page').classList.remove('hidden'); document.getElementById('dashboard-view').classList.add('hidden'); }
@@ -532,9 +459,7 @@
                 }
             });
         }
-
         function logout() { auth.signOut().then(() => window.location.reload()); }
-        
         function showPage(pid) {
             document.querySelectorAll('.main-content > div').forEach(d => d.classList.add('hidden'));
             document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
