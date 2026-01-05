@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Development Centre</title>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        /* --- RESET & BASIC STYLES --- */
+        * { box-sizing: border-box; }
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #f0f0f0; 
+            background-image: radial-gradient(#d4d4d4 1px, transparent 1px);
+            background-size: 20px 20px;
+            margin: 0;
+            padding: 0;
+            font-size: 11px;
+            color: #333;
+        }
+
+        /* --- UTILITIES --- */
+        .hidden { display: none !important; }
+        .pull-right { float: right; }
+        .text-red { color: #a94442; }
+        
+        /* --- BRANDING / LOGO STYLES --- */
+        .brand-header {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .brand-logo {
+            height: 50px; /* Logo Size Adjusted */
+            margin-right: 15px;
+        }
+        .brand-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #337ab7;
+            text-transform: uppercase;
+        }
+
+        /* --- BUTTONS & INPUTS --- */
+        .btn {
+            display: inline-block; padding: 6px 12px; font-size: 12px; text-align: center; cursor: pointer;
+            border: 1px solid transparent; border-radius: 4px; font-weight: bold; margin-top: 5px;
+        }
+        .btn-primary { background-color: #337ab7; color: white; border-color: #2e6da4; }
+        .btn-info { background-color: #5bc0de; color: white; border-color: #46b8da; }
+        .btn-success { background-color: #5cb85c; color: white; }
+        .btn-default { background-color: #fff; border-color: #ccc; color: #333; }
+        .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+        
+        input, select, textarea {
+            width: 100%; padding: 4px 8px; margin-bottom: 5px; border: 1px solid #ccc;
+            border-radius: 3px; font-size: 11px; background: #fff; height: 28px;
+        }
+        textarea { height: auto; }
+        input[type="checkbox"] { width: auto; height: auto; margin: 0; vertical-align: middle; }
+        label { display: block; font-weight: 700; margin-bottom: 2px; font-size: 10px; text-transform: uppercase; color: #555; }
+        .required { color: red; }
+        .error-border { border: 1px solid red !important; background-color: #fff0f0; }
+
+        /* INPUT GROUPS */
+        .input-group { display: flex; gap: 5px; }
+        .input-prefix { width: 50px; background: #eee; text-align: center; font-weight: bold; color: #555; pointer-events: none; }
+
+        /* --- LAYOUT --- */
+        .dashboard-wrapper { display: flex; min-height: 100vh; }
+        
+        /* SIDEBAR */
+        .sidebar { width: 230px; background: #f8f8f8; border-right: 1px solid #ddd; flex-shrink: 0; }
+        .sidebar-header { background: #337ab7; color: white; padding: 10px 15px; font-weight: bold; font-style: italic; font-size: 13px; }
+        .sidebar a { display: block; padding: 10px 15px; color: #333; text-decoration: none; font-weight: 600; border-bottom: 1px solid #eaeaea; transition: 0.2s; }
+        .sidebar a:hover { background: #eee; }
+        .sidebar a.active { background: #e7e7e7; border-left: 4px solid #337ab7; color: #337ab7; }
+
+        .main-content { flex: 1; padding: 15px; background: #f9f9f9; }
+        
+        .panel { background: #fff; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; box-shadow: 0 1px 1px rgba(0,0,0,0.05); }
+        .panel-heading { background: #f5f5f5; color: #337ab7; padding: 8px 15px; border-bottom: 1px solid #ddd; font-weight: bold; text-transform: uppercase; font-size: 11px; }
+        .panel-body { padding: 15px; }
+
+        /* GRID */
+        .row { display: flex; flex-wrap: wrap; margin: 0 -5px; }
+        .col-12 { width: 100%; padding: 0 5px; }
+        .col-6 { width: 50%; padding: 0 5px; }
+        .col-4 { width: 33.33%; padding: 0 5px; }
+        .col-3 { width: 25%; padding: 0 5px; }
+
+        /* PHOTO BOX */
+        .photo-box { border: 1px solid #ccc; height: 90px; width: 100%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; overflow: hidden; }
+        
+        /* TABLES */
+        table.custom-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px; }
+        table.custom-table th, table.custom-table td { border: 1px solid #ddd; padding: 5px; text-align: left; }
+        .green-header-table th { background: #008573; color: white; }
+
+        /* PREVIEW / PRINT FORM STYLE */
+        .preview-container { border: 2px solid #333; background: #fff; padding: 5px; }
+        .preview-header-box { text-align: center; border-bottom: 2px solid #333; padding: 10px; background: #fff; margin-bottom: 10px; }
+        .preview-logo { height: 60px; margin-bottom: 5px; }
+        .preview-title { font-size: 18px; font-weight: bold; color: #337ab7; text-transform: uppercase; }
+        
+        .preview-row { display: flex; border-bottom: 1px solid #ccc; }
+        .preview-label { width: 25%; background: #f0f0f0; padding: 5px; font-weight: bold; border-right: 1px solid #ccc; font-size: 10px; }
+        .preview-val { width: 25%; padding: 5px; font-size: 11px; border-right: 1px solid #ccc; }
+        .preview-full { width: 75%; padding: 5px; font-size: 11px; }
+        .preview-subhead { background: #337ab7; color: white; padding: 5px; font-weight: bold; font-size: 12px; margin-top: 10px; }
+
+        /* COURSES GRID */
+        .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; padding: 10px; }
+        .course-card { background: white; border: 1px solid #ddd; padding: 15px; text-align: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-weight: bold; color: #337ab7; }
+        .course-card:hover { border-color: #337ab7; background: #f0f8ff; }
+
+        /* USER TOP BAR */
+        .top-bar { background: #337ab7; color: white; padding: 5px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #286090; font-size: 11px; }
+
+        @media (max-width: 768px) { .dashboard-wrapper { flex-direction: column; } .sidebar { width: 100%; } }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN PAGE -->
+    <div id="login-page">
+        <!-- HEADER WITH LOGO FOR LOGIN -->
+        <div style="max-width:900px; margin:20px auto 0 auto; background:#fff; padding:15px; border:1px solid #ddd; border-bottom:none; display:flex; align-items:center; justify-content:center;">
+            <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" class="brand-logo">
+            <div class="brand-title">Orbital Skill Development Centre</div>
+        </div>
+
+        <div style="max-width:900px; margin:0 auto 40px auto; background:#fff; padding:20px; border:1px solid #ddd; border-top:none;">
+            <div style="background:#fcf8e3; color:#8a6d3b; padding:10px; text-align:center; margin-bottom:20px; border:1px solid #faebcc;">
+                Portal is ready. Please Register or Login.
+            </div>
+            <div class="row">
+                <!-- Reg -->
+                <div class="col-6" style="border-right:1px solid #eee; padding-right:20px;">
+                    <h4 style="color:#337ab7; border-bottom:2px solid #337ab7;">NEW REGISTRATION</h4>
+                    <label>Name <span class="required">*</span></label><input type="text" id="reg-name">
+                    <label>Father's Name <span class="required">*</span></label><input type="text" id="reg-father">
+                    <label>Mother's Name <span class="required">*</span></label><input type="text" id="reg-mother">
+                    <div class="row">
+                        <div class="col-6"><label>DOB <span class="required">*</span></label><input type="date" id="reg-dob"></div>
+                        <div class="col-6"><label>Gender <span class="required">*</span></label><select id="reg-gender"><option>Male</option><option>Female</option></select></div>
+                    </div>
+                    <label>Email <span class="required">*</span></label><input type="email" id="reg-email">
+                    <label>Password <span class="required">*</span></label><input type="password" id="reg-password">
+                    <button class="btn btn-primary" onclick="handleRegister()">Register</button>
+                </div>
+                <!-- Login -->
+                <div class="col-6" style="padding-left:20px;">
+                    <h4 style="color:#337ab7; border-bottom:2px solid #337ab7;">LOGIN</h4>
+                    <label>Email ID</label><input type="text" id="login-email">
+                    <label>Password</label><input type="password" id="login-password">
+                    <button class="btn btn-primary" onclick="handleLogin()">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard-view" class="hidden">
+        
+        <!-- DASHBOARD HEADER WITH LOGO -->
+        <div class="brand-header">
+            <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" class="brand-logo">
+            <div class="brand-title">Orbital Skill Development Centre</div>
+        </div>
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div>
+                <img src="https://via.placeholder.com/30" style="border-radius:50%; vertical-align:middle; width:25px; margin-right:5px;">
+                <span id="display-name" style="font-weight:bold;">STUDENT</span>
+            </div>
+            <div>Your IP: 103.240.234.196 | Expire In: 29:36 Min | Student Type: Private</div>
+        </div>
+
+        <div class="dashboard-wrapper">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">Student Exam Menu</div>
+                <a href="#" onclick="showPage('personal')" id="link-personal" class="active">Student's Personal Details</a>
+                <a href="#" onclick="showPage('exam')" id="link-exam">Examination Details</a>
+                <a href="#" onclick="showPreview()" id="link-preview">Application Status</a>
+                <a href="#" onclick="showPage('courses')" id="link-courses">Select Course</a>
+                <a href="#" onclick="logout()" style="color:red;">Sign Out</a>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                
+                <!-- 1. PERSONAL DETAILS -->
+                <div id="page-personal">
+                    <div class="panel">
+                        <div class="panel-heading">STUDENT PERSONAL DETAILS</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label>1. STUDENT'S FULL NAME <span class="required">*</span></label>
+                                    <input type="text" id="dash-name" readonly style="background:#eee;">
+                                </div>
+                                <div class="col-6">
+                                    <label>2. FATHER'S NAME <span class="required">*</span></label>
+                                    <div class="input-group">
+                                        <input type="text" value="SHRI" class="input-prefix" readonly>
+                                        <input type="text" id="dash-father" readonly style="background:#eee;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label>3. MOTHER'S NAME <span class="required">*</span></label>
+                                    <div class="input-group">
+                                        <input type="text" value="SMT" class="input-prefix" readonly>
+                                        <input type="text" id="dash-mother" readonly style="background:#eee;">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label>4. SPOUSE NAME</label>
+                                    <div class="input-group">
+                                        <input type="text" value="SHRI/SMT" class="input-prefix" style="width:70px;" readonly>
+                                        <input type="text" id="dash-spouse" placeholder="SPOUSE NAME">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label>5. DATE OF BIRTH <span class="required">*</span></label>
+                                    <input type="date" id="dash-dob" readonly style="background:#eee;">
+                                </div>
+                                <div class="col-4">
+                                    <label>6. GENDER <span class="required">*</span></label>
+                                    <input type="text" id="dash-gender" readonly style="background:#eee;">
+                                </div>
+                                <div class="col-4">
+                                    <label>7. MARITAL STATUS <span class="required">*</span></label>
+                                    <select id="dash-marital">
+                                        <option value="">--Select--</option><option>SINGLE</option><option>MARRIED</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"><label>8. E-MAIL ID <span class="required">*</span></label><input type="text" id="dash-email" readonly style="background:#eee;"></div>
+                                <div class="col-4"><label>9. CASTE <span class="required">*</span></label><select id="dash-caste"><option value="">--Select--</option><option>General</option><option>SC</option><option>BC</option><option>ST</option></select></div>
+                                <div class="col-4"><label>10. RESIDENCE AREA TYPE <span class="required">*</span></label><select id="dash-area"><option value="">--Select--</option><option>URBAN</option><option>RURAL</option></select></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label>11. MOBILE NO <span class="required">*</span></label>
+                                    <div class="input-group"><input type="text" value="+91" class="input-prefix" style="width:40px;"><input type="text" id="dash-mobile" readonly style="background:#eee;"></div>
+                                </div>
+                                <div class="col-4"><label>12. AADHAAR NO <span class="required">*</span></label><input type="text" id="dash-aadhaar" placeholder="Enter Aadhaar"></div>
+                                <div class="col-4"><label>13. NAD ID/ACKNOWLEDGEMENT NO</label><input type="text" disabled style="background:#f0f0f0;"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"><label>14. RELIGION <span class="required">*</span></label><select id="dash-religion"><option value="">--Select--</option><option>HINDU</option><option>MUSLIM</option><option>SIKH</option><option>CHRISTIAN</option></select></div>
+                            </div>
+
+                            <h4 style="color:#337ab7; border-bottom:1px solid #ddd; margin-top:15px; font-size:11px;">CORRESPONDENCE ADDRESS</h4>
+                            <div class="row"><div class="col-12"><label>15. FULL ADDRESS <span class="required">*</span></label><textarea rows="2" id="addr-full"></textarea></div></div>
+                            <div class="row">
+                                <div class="col-4"><label>16. STATE <span class="required">*</span></label><select id="addr-state"><option>HARYANA</option><option>PUNJAB</option></select></div>
+                                <div class="col-4"><label>17. DISTRICT <span class="required">*</span></label><input type="text" id="addr-district"></div>
+                                <div class="col-4"><label>18. CITY/TEHSIL <span class="required">*</span></label><input type="text" id="addr-city"></div>
+                            </div>
+                            <div class="row"><div class="col-4"><label>19. PIN CODE <span class="required">*</span></label><input type="text" id="addr-pin"></div></div>
+
+                            <div style="margin:10px 0;"><input type="checkbox" id="chk-same" onchange="copyAddress()"> PERMANENT ADDRESS IS SAME AS CORRESPONDENCE ADDRESS</div>
+
+                            <h4 style="color:#337ab7; border-bottom:1px solid #ddd; margin-top:5px; font-size:11px;">PERMANENT ADDRESS</h4>
+                            <div class="row"><div class="col-12"><label>21. FULL ADDRESS <span class="required">*</span></label><textarea rows="2" id="perm-full"></textarea></div></div>
+                            <div class="row">
+                                <div class="col-4"><label>22. STATE</label><select id="perm-state"><option>HARYANA</option></select></div>
+                                <div class="col-4"><label>23. DISTRICT</label><input type="text" id="perm-district"></div>
+                                <div class="col-4"><label>24. CITY/TEHSIL</label><input type="text" id="perm-city"></div>
+                            </div>
+
+                            <h4 style="color:#337ab7; border-bottom:1px solid #ddd; margin-top:15px; font-size:11px;">PHOTO SIGNATURE AND THUMB</h4>
+                            <div class="row">
+                                <div class="col-4"><label>27. PHOTO <span class="required">*</span></label><div class="photo-box">PHOTO</div><input type="file"></div>
+                                <div class="col-4"><label>28. SIGNATURE <span class="required">*</span></label><div class="photo-box">SIGNATURE</div><input type="file"></div>
+                                <div class="col-4"><label>29. THUMB <span class="required">*</span></label><div class="photo-box">THUMB</div><input type="file"></div>
+                            </div>
+
+                            <div style="text-align:right; margin-top:15px;">
+                                <button class="btn btn-info" onclick="savePersonalAndProceed()">Save Personal Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. EXAM DETAILS -->
+                <div id="page-exam" class="hidden">
+                    <div class="panel">
+                        <div class="panel-heading">EXAMINATION DETAILS</div>
+                        <div class="panel-body">
+                             <div class="row">
+                                <div class="col-4"><label>1. STATE TO WHICH YOU BELONG <span class="required">*</span></label><select id="exam-state"><option>Haryana</option></select></div>
+                                <div class="col-4"><label>2. EXAM MODE <span class="required">*</span></label><select id="exam-mode"><option>Online</option><option>Offline</option></select></div>
+                                <div class="col-4"><label>3. DOMICILE NO <span class="required">*</span></label><input type="text" id="exam-domicile"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"><label>4. CAPACITY <span class="required">*</span></label><select id="exam-capacity"><option>Women</option><option>Men</option></select></div>
+                                <div class="col-4"><label>5. SESSION <span class="required">*</span></label><input type="date" id="exam-session"></div>
+                                <div class="col-4"><label>6. REG NO <span class="required">*</span></label><input type="text" id="exam-reg-no"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"><label>9. CATEGORY <span class="required">*</span></label><select id="exam-category"><option>General</option><option>SC</option></select></div>
+                                <div class="col-4"><label>12. EXAM TYPE <span class="required">*</span></label><select id="exam-type"><option>Regular</option><option>Private</option></select></div>
+                                <div class="col-4"><label>13. YEAR <span class="required">*</span></label><input type="date" id="exam-year"></div>
+                            </div>
+                            <hr>
+                            <label style="color:#337ab7;">16. LAST QUALIFYING EXAMINATION DETAILS <span class="required">*</span></label>
+                            <table class="custom-table green-header-table" id="qualifying-table">
+                                <thead><tr><th>CLASS</th><th>BOARD</th><th>YEAR</th><th>ROLL NO</th><th>RESULT</th><th>UPLOAD</th></tr></thead>
+                                <tbody><tr><td><select style="width:100%;"><option>Select</option><option>10th</option><option>12th</option><option>BA</option></select></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><select><option>Pass</option><option>Fail</option></select></td><td><input type="file"></td></tr></tbody>
+                            </table>
+                            <button class="btn btn-success" onclick="addRow()">+ Add More Class</button>
+                            
+                            <div style="text-align:right; margin-top:20px;">
+                                <button class="btn btn-info" onclick="saveExamAndPreview()">Preview Form</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. PREVIEW FORM (APPLICATION STATUS) -->
+                <div id="page-preview" class="hidden">
+                    <div class="panel">
+                        <div class="panel-heading">APPLICATION FORM PREVIEW</div>
+                        <div class="panel-body">
+                            
+                            <!-- OFFICIAL PRINTABLE CONTAINER -->
+                            <div class="preview-container">
+                                
+                                <!-- HEADER WITH LOGO IN PREVIEW -->
+                                <div class="preview-header-box">
+                                    <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" class="preview-logo">
+                                    <div class="preview-title">ORBITAL SKILL DEVELOPMENT CENTRE</div>
+                                    <div style="font-size:11px; margin-top:5px;">ONLINE EXAMINATION FORM (PRIVATE CANDIDATE)</div>
+                                </div>
+                                
+                                <div class="preview-subhead">I. PERSONAL DETAILS</div>
+                                <div class="preview-row"><div class="preview-label">Student Name</div><div class="preview-val" id="prev-name"></div><div class="preview-label">Father's Name</div><div class="preview-val" id="prev-father"></div></div>
+                                <div class="preview-row"><div class="preview-label">Mother's Name</div><div class="preview-val" id="prev-mother"></div><div class="preview-label">DOB</div><div class="preview-val" id="prev-dob"></div></div>
+                                <div class="preview-row"><div class="preview-label">Gender</div><div class="preview-val" id="prev-gender"></div><div class="preview-label">Marital Status</div><div class="preview-val" id="prev-marital"></div></div>
+                                <div class="preview-row"><div class="preview-label">Category</div><div class="preview-val" id="prev-caste"></div><div class="preview-label">Aadhaar</div><div class="preview-val" id="prev-aadhaar"></div></div>
+                                <div class="preview-row"><div class="preview-label">Address</div><div class="preview-full" id="prev-address"></div></div>
+                                
+                                <div class="preview-subhead">II. EXAMINATION DETAILS</div>
+                                <div class="preview-row"><div class="preview-label">State</div><div class="preview-val" id="prev-state"></div><div class="preview-label">Exam Mode</div><div class="preview-val" id="prev-mode"></div></div>
+                                <div class="preview-row"><div class="preview-label">Session</div><div class="preview-val" id="prev-session"></div><div class="preview-label">Exam Type</div><div class="preview-val" id="prev-type"></div></div>
+                            </div>
+
+                            <div style="margin-top:20px; background:#f9f9f9; padding:10px; border:1px solid #ccc;">
+                                <input type="checkbox" id="preview-agree" onchange="toggleProceed()"> I Agree to the terms and conditions.
+                            </div>
+
+                            <div style="text-align:right; margin-top:10px;">
+                                <button class="btn btn-default" onclick="showPage('exam')">Edit</button>
+                                <button class="btn btn-primary" id="btn-proceed" disabled onclick="showCourses()">Proceed to Course Selection</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. COURSES -->
+                <div id="page-courses" class="hidden">
+                    <div class="panel">
+                        <div class="panel-heading">SELECT COURSE</div>
+                        <div class="panel-body">
+                            <div class="course-grid" id="course-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIG ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
+            authDomain: "orbital4u.firebaseapp.com",
+            projectId: "orbital4u",
+            storageBucket: "orbital4u.firebasestorage.app",
+            messagingSenderId: "88284726348",
+            appId: "1:88284726348:web:0d43de2919b592509b60e9",
+            measurementId: "G-BS3BEKLJN7"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        const coursePages = {
+            "Health Care Skills": "health-care.html",
+            "Banking-Finance Skills": "banking-finance.html",
+            "IT-ITS Sector": "IT-ITES Sector.html",
+            "Fireman": "fire-safety.html",
+            "Electrician": "electrician.html",
+            "Plumber": "plumber.html",
+            "Boutique Design": "beautician.html",
+            "ECCE/ NTT": "ecce-ntt.html",
+            "Welder": "welder.html",
+            "Cyber Security": "cyber-security.html"
+        };
+        
+        // --- LOGIC ---
+        function validateSection(containerId) {
+            const container = document.getElementById(containerId);
+            const inputs = container.querySelectorAll('input, select, textarea');
+            let isValid = true;
+            inputs.forEach(input => {
+                input.classList.remove('error-border');
+                if(input.disabled || input.hasAttribute('readonly') || input.id === 'dash-spouse') return;
+                if (input.value.trim() === "") {
+                    input.classList.add('error-border');
+                    isValid = false;
+                }
+            });
+            if (!isValid) alert("Please fill all MANDATORY fields (Red Border).");
+            return isValid;
+        }
+
+        function savePersonalAndProceed() {
+            if (!validateSection('page-personal')) return;
+            alert("Personal Details Saved!");
+            showPage('exam');
+        }
+
+        function saveExamAndPreview() {
+            if (!validateSection('page-exam')) return;
+            document.getElementById('prev-name').innerText = document.getElementById('dash-name').value;
+            document.getElementById('prev-father').innerText = document.getElementById('dash-father').value;
+            document.getElementById('prev-mother').innerText = document.getElementById('dash-mother').value;
+            document.getElementById('prev-dob').innerText = document.getElementById('dash-dob').value;
+            document.getElementById('prev-gender').innerText = document.getElementById('dash-gender').value;
+            document.getElementById('prev-marital').innerText = document.getElementById('dash-marital').value;
+            document.getElementById('prev-caste').innerText = document.getElementById('dash-caste').value;
+            document.getElementById('prev-aadhaar').innerText = document.getElementById('dash-aadhaar').value;
+            document.getElementById('prev-address').innerText = document.getElementById('addr-full').value + ", " + document.getElementById('addr-district').value;
+            document.getElementById('prev-state').innerText = document.getElementById('exam-state').value;
+            document.getElementById('prev-mode').innerText = document.getElementById('exam-mode').value;
+            document.getElementById('prev-session').innerText = document.getElementById('exam-session').value;
+            document.getElementById('prev-type').innerText = document.getElementById('exam-type').value;
+            alert("Exam Details Saved!");
+            showPage('preview');
+        }
+
+        function copyAddress() {
+            if(document.getElementById('chk-same').checked) {
+                document.getElementById('perm-full').value = document.getElementById('addr-full').value;
+                document.getElementById('perm-district').value = document.getElementById('addr-district').value;
+                document.getElementById('perm-city').value = document.getElementById('addr-city').value;
+            } else {
+                document.getElementById('perm-full').value = "";
+                document.getElementById('perm-district').value = "";
+                document.getElementById('perm-city').value = "";
+            }
+        }
+
+        function addRow() {
+            const table = document.getElementById('qualifying-table').getElementsByTagName('tbody')[0];
+            const newRow = table.rows[0].cloneNode(true);
+            const inputs = newRow.getElementsByTagName('input');
+            for(let i=0; i<inputs.length; i++) inputs[i].value = '';
+            table.appendChild(newRow);
+        }
+
+        function toggleProceed() { document.getElementById('btn-proceed').disabled = !document.getElementById('preview-agree').checked; }
+        function showCourses() { showPage('courses'); }
+
+        window.onload = function() {
+            const cContainer = document.getElementById('course-container');
+            for (const [name, url] of Object.entries(coursePages)) {
+                let div = document.createElement('div');
+                div.className = 'course-card';
+                div.innerText = name;
+                div.onclick = () => {
+                    if(confirm("Redirect to " + name + " application?")) {
+                        window.location.href = url;
+                    }
+                };
+                cContainer.appendChild(div);
+            }
+
+            auth.onAuthStateChanged(user => {
+                if(user) loadData(user.uid);
+                else { document.getElementById('login-page').classList.remove('hidden'); document.getElementById('dashboard-view').classList.add('hidden'); }
+            });
+        }
+
+        function handleRegister() {
+            const e = document.getElementById('reg-email').value; const p = document.getElementById('reg-password').value;
+            if(!e || !p) return alert("Fill Email/Pass");
+            auth.createUserWithEmailAndPassword(e, p).then(c => {
+                db.collection("students").doc(c.user.uid).set({
+                    name: document.getElementById('reg-name').value,
+                    father: document.getElementById('reg-father').value,
+                    mother: document.getElementById('reg-mother').value,
+                    dob: document.getElementById('reg-dob').value,
+                    gender: document.getElementById('reg-gender').value,
+                    mobile: document.getElementById('reg-mobile').value,
+                    email: e
+                }).then(() => { alert("Registered!"); if(auth.currentUser) loadData(auth.currentUser.uid); });
+            }).catch(e => alert(e.message));
+        }
+
+        function handleLogin() { auth.signInWithEmailAndPassword(document.getElementById('login-email').value, document.getElementById('login-password').value).catch(e => alert(e.message)); }
+        
+        function loadData(uid) {
+            db.collection("students").doc(uid).get().then(d => {
+                const data = d.exists ? d.data() : {};
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('dashboard-view').classList.remove('hidden');
+                document.getElementById('display-name').innerText = data.name ? data.name.toUpperCase() : "STUDENT";
+                if(d.exists) {
+                    document.getElementById('dash-name').value = data.name;
+                    document.getElementById('dash-father').value = data.father;
+                    document.getElementById('dash-mother').value = data.mother;
+                    document.getElementById('dash-dob').value = data.dob;
+                    document.getElementById('dash-gender').value = data.gender;
+                    document.getElementById('dash-email').value = data.email;
+                    document.getElementById('dash-mobile').value = data.mobile;
+                }
+            });
+        }
+
+        function logout() { auth.signOut().then(() => window.location.reload()); }
+        
+        function showPage(pid) {
+            document.querySelectorAll('.main-content > div').forEach(d => d.classList.add('hidden'));
+            document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+            document.getElementById('page-'+pid).classList.remove('hidden');
+            if(document.getElementById('link-'+pid)) document.getElementById('link-'+pid).classList.add('active');
+        }
+        function showPreview() { showPage('preview'); }
+    </script>
+</body>
+</html>
