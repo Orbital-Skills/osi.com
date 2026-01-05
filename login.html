@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orbital Skill Development Centre</title>
     
-    <!-- Firebase SDKs -->
+    <!-- 1. Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -13,18 +13,7 @@
     <style>
         /* --- RESET & BASIC STYLES --- */
         * { box-sizing: border-box; }
-        body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            background-color: #f0f0f0; 
-            background-image: radial-gradient(#d4d4d4 1px, transparent 1px);
-            background-size: 20px 20px;
-            margin: 0;
-            padding: 0;
-            font-size: 11px;
-            color: #333;
-        }
-
-        /* --- UTILITIES --- */
+        body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0; font-size: 11px; color: #333; }
         .hidden { display: none !important; }
         .pull-right { float: right; }
         .text-red { color: #a94442; }
@@ -74,7 +63,7 @@
 
         /* PHOTO BOX */
         .photo-box { border: 1px solid #ccc; height: 90px; width: 100%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; overflow: hidden; }
-        .photo-box img { width: 100%; height: 100%; object-fit: contain; } /* Ensures image fits */
+        .photo-box img { width: 100%; height: 100%; object-fit: contain; }
 
         /* TABLES */
         table.custom-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px; }
@@ -173,24 +162,12 @@
                         <div class="panel-heading">STUDENT PERSONAL DETAILS</div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-6">
-                                    <label>1. STUDENT'S FULL NAME <span class="required">*</span></label>
-                                    <input type="text" id="dash-name" readonly style="background:#eee;">
-                                </div>
-                                <div class="col-6">
-                                    <label>2. FATHER'S NAME <span class="required">*</span></label>
-                                    <div class="input-group"><input type="text" value="SHRI" class="input-prefix" readonly><input type="text" id="dash-father" readonly style="background:#eee;"></div>
-                                </div>
+                                <div class="col-6"><label>1. STUDENT'S FULL NAME <span class="required">*</span></label><input type="text" id="dash-name" readonly style="background:#eee;"></div>
+                                <div class="col-6"><label>2. FATHER'S NAME <span class="required">*</span></label><div class="input-group"><input type="text" value="SHRI" class="input-prefix" readonly><input type="text" id="dash-father" readonly style="background:#eee;"></div></div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
-                                    <label>3. MOTHER'S NAME <span class="required">*</span></label>
-                                    <div class="input-group"><input type="text" value="SMT" class="input-prefix" readonly><input type="text" id="dash-mother" readonly style="background:#eee;"></div>
-                                </div>
-                                <div class="col-6">
-                                    <label>4. SPOUSE NAME</label>
-                                    <div class="input-group"><input type="text" value="SHRI/SMT" class="input-prefix" style="width:70px;" readonly><input type="text" id="dash-spouse" placeholder="SPOUSE NAME"></div>
-                                </div>
+                                <div class="col-6"><label>3. MOTHER'S NAME <span class="required">*</span></label><div class="input-group"><input type="text" value="SMT" class="input-prefix" readonly><input type="text" id="dash-mother" readonly style="background:#eee;"></div></div>
+                                <div class="col-6"><label>4. SPOUSE NAME</label><div class="input-group"><input type="text" value="SHRI/SMT" class="input-prefix" style="width:70px;" readonly><input type="text" id="dash-spouse" placeholder="SPOUSE NAME"></div></div>
                             </div>
                             <div class="row">
                                 <div class="col-4"><label>5. DATE OF BIRTH <span class="required">*</span></label><input type="date" id="dash-dob" readonly style="background:#eee;"></div>
@@ -207,9 +184,7 @@
                                 <div class="col-4"><label>12. AADHAAR NO <span class="required">*</span></label><input type="text" id="dash-aadhaar" placeholder="Enter Aadhaar"></div>
                                 <div class="col-4"><label>13. NAD ID/ACKNOWLEDGEMENT NO</label><input type="text" disabled style="background:#f0f0f0;"></div>
                             </div>
-                            <div class="row">
-                                <div class="col-4"><label>14. RELIGION <span class="required">*</span></label><select id="dash-religion"><option value="">--Select--</option><option>HINDU</option><option>MUSLIM</option><option>SIKH</option><option>CHRISTIAN</option></select></div>
-                            </div>
+                            <div class="row"><div class="col-4"><label>14. RELIGION <span class="required">*</span></label><select id="dash-religion"><option value="">--Select--</option><option>HINDU</option><option>MUSLIM</option><option>SIKH</option><option>CHRISTIAN</option></select></div></div>
 
                             <h4 style="color:#337ab7; border-bottom:1px solid #ddd; margin-top:15px; font-size:11px;">CORRESPONDENCE ADDRESS</h4>
                             <div class="row"><div class="col-12"><label>15. FULL ADDRESS <span class="required">*</span></label><textarea rows="2" id="addr-full"></textarea></div></div>
@@ -230,13 +205,13 @@
                                 <div class="col-4"><label>24. CITY/TEHSIL</label><input type="text" id="perm-city"></div>
                             </div>
 
-                            <!-- UPDATED PHOTO SECTION WITH PREVIEW LOGIC -->
                             <h4 style="color:#337ab7; border-bottom:1px solid #ddd; margin-top:15px; font-size:11px;">PHOTO SIGNATURE AND THUMB</h4>
                             <div class="row">
                                 <div class="col-4">
                                     <label>27. PHOTO <span class="required">*</span></label>
                                     <div class="photo-box" id="preview-photo">PHOTO</div>
-                                    <input type="file" onchange="previewImage(this, 'preview-photo')">
+                                    <!-- ID Added for Google Drive Upload -->
+                                    <input type="file" id="file-photo-upload" onchange="previewImage(this, 'preview-photo')">
                                 </div>
                                 <div class="col-4">
                                     <label>28. SIGNATURE <span class="required">*</span></label>
@@ -257,8 +232,8 @@
                     </div>
                 </div>
 
-                <!-- 2.  DETAILS -->
-              <div id="page-exam" class="hidden">
+                <!-- 2. EXAM DETAILS -->
+                <div id="page-exam" class="hidden">
                     <div class="panel">
                         <div class="panel-heading">EXAMINATION DETAILS</div>
                         <div class="panel-body">
@@ -314,7 +289,8 @@
                             </div>
                             <div style="text-align:right; margin-top:10px;">
                                 <button class="btn btn-default" onclick="showPage('exam')">Edit</button>
-                                <button class="btn btn-primary" id="btn-proceed" disabled onclick="showCourses()">Proceed to Course Selection</button>
+                                <!-- THIS BUTTON TRIGGERS GOOGLE SHEET SAVE -->
+                                <button class="btn btn-primary" id="btn-proceed" disabled onclick="submitToGoogleSheet()">Proceed to Select Course</button>
                             </div>
                         </div>
                     </div>
@@ -335,24 +311,27 @@
     </div>
 
     <script>
+        // --- 1. FIREBASE CONFIG ---
         const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        // --- 2. GOOGLE APPS SCRIPT URL ---
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwIyJ1Sa5o4_rfni6Tadn1S4GdaPRkQmvy19OA-NYMvjyNcNPtMjEvtD0ZSDo6kYBDt/exec";
+
         const coursePages = { "Health Care Skills": "health-care.html", "Banking-Finance Skills": "banking-finance.html", "IT-ITS Sector": "IT-ITES Sector.html", "Fireman": "fire-safety.html", "Electrician": "electrician.html", "Plumber": "plumber.html", "Boutique Design": "beautician.html", "ECCE/ NTT": "ecce-ntt.html", "Welder": "welder.html", "Cyber Security": "cyber-security.html" };
         
-        // --- NEW PREVIEW IMAGE FUNCTION ---
+        // --- IMAGE PREVIEW ---
         function previewImage(input, previewId) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById(previewId).innerHTML = '<img src="'+e.target.result+'" style="width:100%; height:100%; object-fit:contain;">';
-                }
+                reader.onload = function(e) { document.getElementById(previewId).innerHTML = '<img src="'+e.target.result+'">'; }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
+        // --- VALIDATION & NAVIGATION ---
         function validateSection(containerId) {
             const container = document.getElementById(containerId);
             const inputs = container.querySelectorAll('input, select, textarea');
@@ -368,6 +347,7 @@
 
         function savePersonalAndProceed() {
             if (!validateSection('page-personal')) return;
+            // Ideally save to Firestore here, simplified for demo
             alert("Personal Details Saved!");
             showPage('exam');
         }
@@ -399,17 +379,73 @@
             } else { document.getElementById('perm-full').value = ""; document.getElementById('perm-district').value = ""; document.getElementById('perm-city').value = ""; }
         }
 
-        function addRow() {
-            const table = document.getElementById('qualifying-table').getElementsByTagName('tbody')[0];
-            const newRow = table.rows[0].cloneNode(true);
-            const inputs = newRow.getElementsByTagName('input');
-            for(let i=0; i<inputs.length; i++) inputs[i].value = '';
-            table.appendChild(newRow);
-        }
-
+        function addRow() { const t=document.getElementById('qualifying-table').getElementsByTagName('tbody')[0]; const r=t.rows[0].cloneNode(true); t.appendChild(r); }
         function toggleProceed() { document.getElementById('btn-proceed').disabled = !document.getElementById('preview-agree').checked; }
         function showCourses() { showPage('courses'); }
 
+        // --- GOOGLE SHEET & DRIVE INTEGRATION ---
+        const fileToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        };
+
+        async function submitToGoogleSheet() {
+            const btn = document.getElementById('btn-proceed');
+            btn.innerText = "Saving to Server...";
+            btn.disabled = true;
+
+            try {
+                // Gather Data
+                const formData = {
+                    FullName: document.getElementById('dash-name').value,
+                    FatherMotherName: document.getElementById('dash-father').value + " / " + document.getElementById('dash-mother').value,
+                    DOB: document.getElementById('dash-dob').value,
+                    Gender: document.getElementById('dash-gender').value,
+                    Address: document.getElementById('addr-full').value,
+                    District: document.getElementById('addr-district').value,
+                    State: document.getElementById('addr-state').value || "Haryana",
+                    Email: document.getElementById('dash-email').value,
+                    Mobile: document.getElementById('dash-mobile').value,
+                    CourseSelected: "Not Selected Yet",
+                    Qualification: document.getElementById('qual-class') ? document.getElementById('qual-class').value : "N/A",
+                    PhotoBase64: "", PhotoMime: "", PhotoFilename: ""
+                };
+
+                // Check Photo
+                const photoInput = document.getElementById('file-photo-upload');
+                if (photoInput && photoInput.files.length > 0) {
+                    const file = photoInput.files[0];
+                    formData.PhotoBase64 = await fileToBase64(file);
+                    formData.PhotoMime = file.type;
+                    formData.PhotoFilename = file.name;
+                }
+
+                // Send to Google Script
+                await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData)
+                });
+
+                alert("Data & Photo Saved Successfully!");
+                showCourses();
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error saving data: " + error.message);
+                showCourses(); // Proceed anyway
+            } finally {
+                btn.innerText = "Proceed to Select Course";
+                btn.disabled = false;
+            }
+        }
+
+        // --- AUTH & INIT ---
         window.onload = function() {
             const cContainer = document.getElementById('course-container');
             for (const [name, url] of Object.entries(coursePages)) {
