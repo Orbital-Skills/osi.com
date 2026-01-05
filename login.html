@@ -164,102 +164,102 @@
 </head>
 <body>
 
-    <!-- =======================
-         1. LOGIN PAGE VIEW
-    ======================== -->
-    <div id="login-page">
-        <div class="login-container">
-            <div class="login-header">
-                Note: The portal is currently non-operational. Forms are for demo and UI testing.
-                <span class="pull-right" style="cursor:pointer; color:#a94442;">Dismiss</span>
-            </div>
+  <!-- =======================
+     1. LOGIN PAGE VIEW
+======================== -->
+<div id="login-page">
+  <div class="login-container">
 
-            <!-- Left: New Registration -->
-            <div class="col-half">
-                <div class="section-title">| Private Student New Registration</div>
-                <p style="color: #666; font-size: 12px;">Fill all required fields marked with *.</p>
-                <div class="row">
-                    <div class="col-6"><label>Student's Name <span class="required">*</span></label><input type="text" placeholder="ENTER FULL NAME"></div>
-                    <div class="col-6"><label>Date Of Birth <span class="required">*</span></label><input type="date"></div>
-                </div>
-                <div class="row">
-                    <div class="col-6"><label>Father's Name <span class="required">*</span></label><input type="text" placeholder="Shri ENTER NAME"></div>
-                    <div class="col-6"><label>Mother's Name <span class="required">*</span></label><input type="text" placeholder="Smt ENTER NAME"></div>
-                </div>
-                <div class="row">
-                    <div class="col-6"><label>Gender <span class="required">*</span></label><select><option>-------SELECT-------</option><option>Male</option><option>Female</option></select></div>
-                    <div class="col-6"><label>Mobile No <span class="required">*</span></label><input type="text" placeholder="+91 ENTER VALID MOBILE"></div>
-                </div>
-                <label>E-mail ID <span class="required">*</span></label>
-                <input type="email" value="hmt2cu@gmail.com"> 
-                <div style="margin: 15px 0;">
-                    <input type="checkbox" style="width:auto;"> I agree to accept all Terms & Conditions <a href="#">Read</a>
-                </div>
-                <button class="btn btn-primary" onclick="register()">Register</button>
-                <button class="btn btn-default">Cancel</button>
-            </div>
-
-            <!-- Right: Login -->
-            <div class="col-half">
-                <div class="section-title">| Already Registered Private Students</div>
-                <label>Email ID <span class="required">*</span></label><input type="text" placeholder="Enter">
-                <label>Password <span class="required">*</span></label><input type="password" placeholder="........">
-                <label>Enter Captcha <span class="required">*</span></label>
-                <div class="row">
-                    <div class="col-6"><input type="text" placeholder="Enter"></div>
-                    <div class="col-6" style="display:flex; align-items:center;">
-                        <span class="captcha-box">99645</span>
-                        <button class="btn btn-default btn-xs">Refresh</button>
-                    </div>
-                </div>
-                <div style="margin-top: 15px;">
-                    <button class="btn btn-primary" onclick="login()">Login</button>
-                    <a href="#" class="pull-right" style="margin-top:5px;">Forgot UserID / Password?</a>
-                </div>
-            </div>
-        </div>
-        <div class="footer">Powered by OSI Pvt. Ltd. ©2022</div>
+    <div class="login-header">
+      Note: The portal is currently non-operational. Forms are for demo and UI testing.
+      <span class="pull-right" style="cursor:pointer; color:#a94442;">Dismiss</span>
     </div>
 
-    <!-- =======================
-         2. DASHBOARD VIEW
-    ======================== -->
-    <div id="dashboard-view" class="hidden">
-        
-        <!-- NEW INSTITUTION HEADER -->
-        <div class="inst-header">
-            <div class="inst-logo-text">Orbital Skill Development Centre</div>
+    <!-- Left: New Registration -->
+    <div class="col-half">
+      <div class="section-title">| Private Student New Registration</div>
+      <p style="color: #666; font-size: 12px;">Fill all required fields marked with *.</p>
+
+      <div class="row">
+        <div class="col-6">
+          <label>Student's Name *</label>
+          <input type="text" placeholder="ENTER FULL NAME">
         </div>
-
-        <!-- Blue Info Bar -->
-        <div class="top-bar">
-            <div class="user-info">
-                <div class="user-avatar"><img src="https://via.placeholder.com/40" alt="User"></div>
-                <span>Jagriti</span>
-            </div>
-            <div class="user-info">
-                <span>Your IP : 103.240.234.196</span>
-                <span>|</span>
-                <span>Expire In : <span id="timer">29:36 Min</span></span>
-                <span>|</span>
-                <span>Student Type : Private</span>
-            </div>
+        <div class="col-6">
+          <label>Date Of Birth *</label>
+          <input type="date">
         </div>
+      </div>
 
-        <div class="dashboard-wrapper">
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <div class="sidebar-header">Student Exam Menu</div>
-                <ul>
-                    <li><a href="#" onclick="showPage('personal')" id="link-personal" class="active">Student's Personal Details</a></li>
-                    <li><a href="#" onclick="showPage('exam')" id="link-exam">Examination Details</a></li>
-                    <li><a href="#">Application Status</a></li>
-                    <li><a href="#">Upload DMC File</a></li>
-                    <li><a href="#" onclick="showPage('password')" id="link-password">Change Password</a></li>
-                    <li><a href="#" onclick="logout()" style="color:red;">Sign Out</a></li>
-                </ul>
-            </div>
+      <div class="row">
+        <div class="col-6">
+          <label>Father's Name *</label>
+          <input type="text" placeholder="Shri ENTER NAME">
+        </div>
+        <div class="col-6">
+          <label>Mother's Name *</label>
+          <input type="text" placeholder="Smt ENTER NAME">
+        </div>
+      </div>
 
+      <div class="row">
+        <div class="col-6">
+          <label>Gender *</label>
+          <select>
+            <option>-------SELECT-------</option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <label>Mobile No *</label>
+          <input type="text" placeholder="+91 ENTER VALID MOBILE">
+        </div>
+      </div>
+
+      <label>E-mail ID *</label>
+      <input type="email" id="regEmail" value="hmt2cu@gmail.com">
+
+      <div style="margin: 15px 0;">
+        <input type="checkbox" style="width:auto;">
+        I agree to accept all Terms & Conditions <a href="#">Read</a>
+      </div>
+
+      <button class="btn btn-primary" onclick="register()">Register</button>
+      <button class="btn btn-default">Cancel</button>
+    </div>
+
+    <!-- Right: Login -->
+    <div class="col-half">
+      <div class="section-title">| Already Registered Private Students</div>
+
+      <label>Email ID *</label>
+      <input type="text" id="loginEmail" placeholder="Enter">
+
+      <label>Password *</label>
+      <input type="password" id="loginPassword" placeholder="........">
+
+      <label>Enter Captcha *</label>
+      <div class="row">
+        <div class="col-6">
+          <input type="text" placeholder="Enter">
+        </div>
+        <div class="col-6" style="display:flex; align-items:center;">
+          <span class="captcha-box">99645</span>
+          <button class="btn btn-default btn-xs">Refresh</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 15px;">
+        <button class="btn btn-primary" onclick="login()">Login</button>
+        <a href="#" class="pull-right" style="margin-top:5px;">Forgot UserID / Password?</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">Powered by OSI Pvt. Ltd. ©2022</div>
+</div>
             <!-- Main Content -->
             <div class="main-content">
                 
