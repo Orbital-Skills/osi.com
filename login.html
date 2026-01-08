@@ -149,7 +149,7 @@
             <h1>ORBITAL SKILL DEVELOPMENT CENTER</h1>
         </div>
         <nav class="navbar">
-             <a href="#">HOME</a>
+            <a href="#">HOME</a>
             <a href="#">USER MANUAL</a>
             <a href="#">REGISTRATION/SIGN IN</a>
             <a href="#">FAQ</a>
@@ -158,7 +158,7 @@
             <div class="news-ticker">
                 <div class="news-label">Latest News -</div>
                 <marquee class="marquee-text" scrollamount="6" onmouseover="this.stop();" onmouseout="this.start();">
-                    !!! GOOD NEWS!! LAST DATE EXTENDED FOR REGISTRATION. || ADMISSIONS WILL CLOSE SOON. || KINDLY FILL THE FORM CAREFULLY. || ADMIT CARDS WILL BE AVAILABLE FOR DOWNLOAD SHORTLY.
+                    !!! LAST DATE EXTENDED FOR REGISTRATION. || ADMISSIONS WILL CLOSE SOON. || KINDLY FILL THE FORM CAREFULLY. || ADMIT CARDS WILL BE AVAILABLE FOR DOWNLOAD SHORTLY.
                 </marquee>
             </div>
 
@@ -247,7 +247,14 @@
                         <div class="row"><div class="col-4"><label>8. E-MAIL ID</label><input type="text" id="dash-email" readonly style="background:#eee;"></div><div class="col-4"><label>9. CASTE</label><select id="dash-caste"><option value="">--Select--</option><option>General</option><option>SC</option><option>BC</option><option>ST</option></select></div><div class="col-4"><label>10. AREA TYPE</label><select id="dash-area"><option value="">--Select--</option><option>URBAN</option><option>RURAL</option></select></div></div>
                         <div class="row">
                             <div class="col-4"><label>11. MOBILE</label><input type="text" id="dash-mobile" readonly style="background:#eee;"></div>
-                            <div class="col-4"><label>12. AADHAAR</label><input type="text" id="dash-aadhaar"></div>
+                          <div class="col-4">
+    <label>12. AADHAAR</label>
+    <input type="text" id="dash-aadhaar" maxlength="12" 
+           placeholder="12 digit Aadhar Number" 
+           oninput="checkAadharValid()"
+           style="width: 100%; padding: 4px 8px; border: 1px solid #ccc; border-radius: 3px; height: 28px;">
+    <div id="aadharStatus" style="font-size: 10px; margin-top: 2px; font-weight: bold;"></div>
+</div>
                             <div class="col-4"><label>13. VOTER ID</label><input type="text" id="dash-voter"></div>
                         </div>
                         <div class="row"><div class="col-4"><label>14. RELIGION</label><select id="dash-religion"><option value="">--Select--</option><option>HINDU</option><option>MUSLIM</option><option>SIKH</option><option>CHRISTIAN</option></select></div></div>
@@ -398,6 +405,7 @@
             </div>
         </div>
     </div>
+
     <!-- SCRIPT SECTION -->
     <script>
         const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
@@ -734,6 +742,49 @@
                 else { document.getElementById('login-page').classList.remove('hidden'); document.getElementById('dashboard-view').classList.add('hidden'); }
             });
         }
+// --- आधार वेरिफिकेशन लॉजिक (Verhoeff Algorithm) ---
+const d_table = [
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
+    [2, 3, 4, 0, 1, 7, 8, 9, 5, 6], [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
+    [4, 0, 1, 2, 3, 9, 5, 6, 7, 8], [5, 9, 8, 7, 6, 0, 4, 3, 2, 1],
+    [6, 5, 9, 8, 7, 1, 0, 4, 3, 2], [7, 6, 5, 9, 8, 2, 1, 0, 4, 3],
+    [8, 7, 6, 5, 9, 3, 2, 1, 0, 4], [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+];
+const p_table = [
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
+    [5, 8, 0, 3, 7, 9, 6, 1, 4, 2], [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
+    [9, 4, 5, 3, 1, 2, 6, 8, 7, 0], [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
+    [2, 7, 9, 3, 8, 0, 6, 4, 1, 5], [7, 0, 4, 6, 9, 1, 3, 2, 5, 8]
+];
+
+function checkAadharValid() {
+    const input = document.getElementById('dash-aadhaar');
+    const status = document.getElementById('aadharStatus');
+    let val = input.value.replace(/\D/g, ''); // सिर्फ नंबर रखें
+    input.value = val;
+
+    if (val.length === 12) {
+        let c = 0;
+        let invertedArray = val.split('').map(Number).reverse();
+        for (let i = 0; i < invertedArray.length; i++) {
+            c = d_table[c][p_table[i % 8][invertedArray[i]]];
+        }
+        
+        if (c === 0) {
+            status.innerText = "✓ Valid Aadhaar Number";
+            status.style.color = "green";
+            input.style.borderColor = "green";
+        } else {
+            status.innerText = "✗ Invalid Aadhaar Number";
+            status.style.color = "red";
+            input.style.borderColor = "red";
+        }
+    } else {
+        status.innerText = val.length > 0 ? "Enter 12 digits" : "";
+        status.style.color = "#f0ad4e";
+        input.style.borderColor = "#ccc";
+    }
+}
     </script>
 </body>
 </html>
