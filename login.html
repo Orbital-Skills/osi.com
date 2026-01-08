@@ -14,19 +14,18 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <style>
-        /* --- GLOBAL STYLES --- */
+        /* --- GLOBAL STYLES (ORIGINAL) --- */
         * { box-sizing: border-box; }
         body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0; font-size: 11px; color: #333; }
         .hidden { display: none !important; }
         .pull-right { float: right; }
         .text-red { color: #a94442; }
         
-        /* BRANDING */
+        /* --- DASHBOARD STYLES (KEPT EXACTLY SAME) --- */
         .brand-header { display: flex; align-items: center; background: #fff; padding: 10px 20px; border-bottom: 1px solid #ddd; }
         .brand-logo { height: 50px; margin-right: 15px; }
         .brand-title { font-size: 24px; font-weight: 800; color: #337ab7; text-transform: uppercase; }
 
-        /* BUTTONS */
         .btn { display: inline-block; padding: 6px 12px; font-size: 11px; text-align: center; cursor: pointer; border: 1px solid transparent; border-radius: 4px; font-weight: bold; margin-top: 5px; color:white;}
         .btn-primary { background-color: #337ab7; }
         .btn-warning { background-color: #f0ad4e; border-color: #eea236; }
@@ -34,30 +33,20 @@
         .btn-success { background-color: #5cb85c; border-color: #4cae4c; }
         .btn:disabled { background-color: #ccc; cursor: not-allowed; }
         
-        /* INPUTS */
         input, select, textarea { width: 100%; padding: 4px 8px; margin-bottom: 5px; border: 1px solid #ccc; border-radius: 3px; font-size: 11px; background: #fff; height: 28px; }
         textarea { height: auto; }
         input[type="checkbox"] { width: auto; height: auto; margin: 0; vertical-align: middle; }
         label { display: block; font-weight: 700; margin-bottom: 2px; font-size: 10px; text-transform: uppercase; color: #555; }
         .required { color: red; }
         .error-border { border: 1px solid red !important; background-color: #fff0f0; }
-        .input-group { display: flex; gap: 5px; }
-        .input-prefix { width: 50px; background: #eee; text-align: center; font-weight: bold; color: #555; pointer-events: none; }
+        .input-group { display: block; width: 100%; }
 
-        /* LAYOUT */
         .dashboard-wrapper { display: flex; min-height: 100vh; }
         .sidebar { width: 230px; background: #f8f8f8; border-right: 1px solid #ddd; flex-shrink: 0; }
         .sidebar-header { background: #337ab7; color: white; padding: 10px 15px; font-weight: bold; font-style: italic; font-size: 13px; }
         
-        /* SIDEBAR LOCKED STYLE */
-        .sidebar a { 
-            display: block; padding: 10px 15px; color: #333; text-decoration: none; 
-            font-weight: 600; border-bottom: 1px solid #eaeaea; transition: 0.2s;
-            pointer-events: none; /* LOCK: User cannot click sidebar */
-            cursor: default;
-        }
+        .sidebar a { display: block; padding: 10px 15px; color: #333; text-decoration: none; font-weight: 600; border-bottom: 1px solid #eaeaea; transition: 0.2s; pointer-events: none; cursor: default; }
         .sidebar a.active { background: #e7e7e7; border-left: 4px solid #337ab7; color: #337ab7; }
-        /* Sign out is exception */
         .sidebar a.sign-out-btn { pointer-events: auto !important; cursor: pointer; color: red; }
 
         .main-content { flex: 1; padding: 15px; background: #f9f9f9; }
@@ -65,27 +54,23 @@
         .panel-heading { background: #f5f5f5; color: #337ab7; padding: 8px 15px; border-bottom: 1px solid #ddd; font-weight: bold; text-transform: uppercase; font-size: 11px; }
         .panel-body { padding: 15px; }
 
-        /* GRID */
         .row { display: flex; flex-wrap: wrap; margin: 0 -5px; }
         .col-12 { width: 100%; padding: 0 5px; }
         .col-6 { width: 50%; padding: 0 5px; }
         .col-4 { width: 33.33%; padding: 0 5px; }
         .col-3 { width: 25%; padding: 0 5px; }
 
-        /* UPLOAD */
         .upload-row { display: flex; gap: 40px; padding: 15px; background: #fcfcfc; border: 1px solid #eee; margin-top: 5px; align-items: flex-end; }
         .upload-item { display: flex; flex-direction: column; justify-content: flex-end; }
         .box-photo-fixed { width: 119px; height: 136px; border: 1px solid #ccc; background: #e9e9e9; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; overflow: hidden; color: #aaa; font-weight: bold; }
         .box-sign-fixed { width: 150px; height: 60px; border: 1px solid #ccc; background: #e9e9e9; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; overflow: hidden; color: #aaa; font-weight: bold; }
         .photo-img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* TABLES */
         table.custom-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px; }
         table.custom-table th, table.custom-table td { border: 1px solid #ddd; padding: 5px; text-align: left; vertical-align: middle; }
         .green-header-table th { background: #008573; color: white; border-color: #006e5f; text-transform: uppercase; font-size: 10px; }
         .doc-status { font-size: 10px; color: green; font-weight: bold; display: none; }
 
-        /* PREVIEW */
         .status-container { border: 1px solid #337ab7; background: #fff; padding: 5px; position: relative; }
         .status-header { text-align: center; border: 2px solid #337ab7; padding: 15px; margin-bottom: 15px; background: #fff; }
         .status-logo { height: 70px; margin-bottom: 5px; }
@@ -97,52 +82,134 @@
         .status-sign-display { border: 1px solid #000; background: #fff; display: flex; align-items: center; justify-content: center; width: 150px; height: 60px; }
         .status-photo-display img, .status-sign-display img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* COURSES */
-        .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; padding: 20px; }
-        .course-card { background: white; border: 1px solid #ddd; padding: 20px; text-align: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-weight: bold; color: #555; transition: all 0.3s ease; border-radius: 8px; }
+        .course-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 30px; }
+        .course-card { width: 200px; background: white; border: 1px solid #ddd; padding: 25px 15px; text-align: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-weight: bold; color: #555; transition: all 0.3s ease; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .course-card:hover { border-color: #337ab7; background: #f0f8ff; transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
-        .course-icon { font-size: 40px; margin-bottom: 10px; color: #337ab7; transition: transform 0.3s ease; }
+        .course-icon { font-size: 40px; margin-bottom: 15px; color: #337ab7; transition: transform 0.3s ease; }
         .course-card:hover .course-icon { transform: scale(1.2); color: #e67e22; }
-        .course-title { font-size: 13px; text-transform: uppercase; }
+        .course-title { font-size: 13px; text-transform: uppercase; line-height: 1.4; }
 
         .top-bar { background: #337ab7; color: white; padding: 5px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #286090; font-size: 11px; }
         @media (max-width: 768px) { .dashboard-wrapper { flex-direction: column; } .sidebar { width: 100%; } }
+
+        /* --- STYLES FOR NEW LOGIN PAGE ONLY --- */
+        .login-top-header { background-color: #fff; padding: 10px 0; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #ccc; }
+        .login-top-header img { height: 70px; margin-right: 15px; }
+        .login-top-header h1 { color: #2c3e50; font-size: 26px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .navbar { background-color: #0056b3; display: flex; justify-content: center; border-top: 1px solid #004494; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .navbar a { color: white; padding: 8px 25px; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; border-right: 1px solid rgba(255,255,255,0.2); }
+        .navbar a:hover { background-color: #004494; }
+
+        .login-container { width: 1000px; margin: 20px auto; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border: 1px solid #ddd; min-height: 600px; padding-bottom: 20px; }
+        .news-ticker { background-color: #eef7ff; border-bottom: 1px solid #bce8f1; padding: 8px 15px; display: flex; align-items: center; font-size: 12px; }
+        .news-label { font-weight: bold; color: #000; white-space: nowrap; margin-right: 10px; }
+        .marquee-text { color: #cc0000; font-weight: bold; width: 100%; }
+
+        .split-layout { display: flex; padding: 20px; }
+        .left-col { width: 60%; padding-right: 30px; border-right: 1px solid #ddd; }
+        .right-col { width: 40%; padding-left: 30px; display: flex; flex-direction: column; align-items: center; }
+        
+        .login-h2 { text-align: center; color: #444; font-size: 22px; margin-bottom: 20px; font-weight: bold; }
+        .note-box { border: 1px dashed red; background-color: #fffafa; color: red; font-size: 11px; font-weight: bold; padding: 8px; margin-bottom: 20px; line-height: 1.4; text-align: center; }
+        
+        .form-row { display: flex; align-items: center; margin-bottom: 12px; }
+        .form-label { 
+
+    width: 160px; white-space: nowrap; text-align: right; padding-right: 10px; font-size: 11px; font-weight: normal; color: #333; 
+
+    text-transform: uppercase; 
+
+}
+        .right-form-row { display: flex; align-items: center; margin-bottom: 15px; width: 100%; }
+        .right-label { width: 160px; text-align: right; padding-right: 12px; font-size: 12px; font-weight: Normal; color: #333; text-transform: uppercase; }
+        
+        .input-wrapper { flex: 1; display: flex; }
+        .prefix-box { background: #eee; border: 1px solid #ccc; border-right: none; padding: 6px 8px; font-size: 12px; color: #333; font-weight: bold; width: 45px; text-align: center; height: 28px; line-height: 15px;}
+        .mobile-input { border-left: none !important; }
+        .captcha-box { background-color: #eeffee; border: 1px solid #ccc; padding: 5px 15px; font-family: "Courier New", monospace; font-weight: bold; font-size: 20px; letter-spacing: 5px; margin-right: 10px; user-select: none; width: 120px; text-align: center; }
+        
+        .login-btn { width: 100%; background-color: #337ab7; color: white; border: none; padding: 10px; font-weight: bold; font-size: 14px; margin-top: 10px; border-radius: 3px; cursor: pointer; }
+        .footer { margin-top: auto; background-color: #0056b3; color: white; text-align: center; padding: 15px; font-size: 12px; font-family: "Courier New", monospace; }
+
+        @media (max-width: 768px) { 
+            .login-container { width: 95%; } 
+            .split-layout { flex-direction: column; }
+            .left-col { width: 100%; border-right: none; border-bottom: 1px solid #ddd; padding-bottom: 20px; margin-bottom: 20px; padding-right: 0;}
+            .right-col { width: 100%; padding-left: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- 1. LOGIN PAGE -->
+    <!-- 1. LOGIN PAGE (REPLACED WITH NEW DESIGN) -->
     <div id="login-page">
-        <div style="max-width:900px; margin:20px auto 0 auto; background:#fff; padding:15px; border:1px solid #ddd; border-bottom:none; display:flex; align-items:center; justify-content:center;">
-            <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" class="brand-logo">
-            <div class="brand-title">Orbital Skill Development Centre</div>
+        <div class="login-top-header">
+            <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" alt="Logo">
+            <h1>ORBITAL SKILL DEVELOPMENT CENTER</h1>
         </div>
-        <div style="max-width:900px; margin:0 auto 40px auto; background:#fff; padding:20px; border:1px solid #ddd; border-top:none;">
-            <div style="background:#fcf8e3; color:#8a6d3b; padding:10px; text-align:center; margin-bottom:20px; border:1px solid #faebcc;">
-                Portal is ready. Please Register or Login.
+        <nav class="navbar">
+            <a onclick="location.reload()">HOME</a>
+            <a onclick="openModal('manual-modal')">USER MANUAL</a>
+            <a onclick="openModal('courses-modal')">COURSES</a>
+            <a onclick="openModal('faq-modal')">FAQ</a>
+        </nav>
+        <div class="login-container">
+            <div class="news-ticker">
+                <div class="news-label">Latest News -</div>
+                <marquee class="marquee-text" scrollamount="6" onmouseover="this.stop();" onmouseout="this.start();">
+                    !!! GOOD NEWS!! LAST DATE EXTENDED FOR REGISTRATION. || ADMISSIONS WILL CLOSE SOON. || KINDLY FILL THE FORM CAREFULLY. || ADMIT CARDS WILL BE AVAILABLE FOR DOWNLOAD SHORTLY.
+                </marquee>
             </div>
-            <div class="row">
-                <div class="col-6" style="border-right:1px solid #eee; padding-right:20px;">
-                    <h4 style="color:#337ab7; border-bottom:2px solid #337ab7;">NEW REGISTRATION</h4>
-                    <label>Name <span class="required">*</span></label><input type="text" id="reg-name">
-                    <label>Father's Name <span class="required">*</span></label><input type="text" id="reg-father">
-                    <label>Mother's Name <span class="required">*</span></label><input type="text" id="reg-mother">
-                    <div class="row"><div class="col-6"><label>DOB <span class="required">*</span></label><input type="date" id="reg-dob"></div><div class="col-6"><label>Gender</label><select id="reg-gender"><option>Male</option><option>Female</option></select></div></div>
-                    <label>Email <span class="required">*</span></label><input type="email" id="reg-email">
-                    <label>Password <span class="required">*</span></label><input type="password" id="reg-password">
-                    <button class="btn btn-primary" onclick="handleRegister()">Register</button>
+
+            <div class="split-layout">
+                <!-- LEFT: Registration -->
+                <div class="left-col">
+                    <h2 class="login-h2">Student New Registration</h2>
+                    <div class="note-box">Note: Student's Name, Father's Name, Mother's Name and Date of Birth should be as per Matriculation Certificate.</div>
+                    <form id="reg-form">
+                        <div class="form-row"><label class="form-label"><span class="required">*</span>Student's Name:</label><div class="input-wrapper"><input type="text" id="reg-name" placeholder="FULL NAME"></div></div>
+                        <div class="form-row"><label class="form-label"><span class="required">*</span>Father's Name:</label><div class="input-wrapper"><input type="text" id="reg-father" placeholder="NAME"></div></div>
+                        <div class="form-row"><label class="form-label"><span class="required">*</span>Mother's Name:</label><div class="input-wrapper"><input type="text" id="reg-mother" placeholder="NAME"></div></div>
+                        <div class="form-row"><label class="form-label"><span class="required">*</span>Date Of Birth:</label><div class="input-wrapper"><input type="date" id="reg-dob"></div></div>
+                        <div class="form-row"><label class="form-label"><span class="required">*</span>Gender:</label><div class="input-wrapper"><select id="reg-gender"><option>Select</option><option>Male</option><option>Female</option></select></div></div>
+                        <div class="form-row"><label class="form-label"><span class="required">*</span>Mobile No:</label><div class="input-wrapper"><span class="prefix-box">+91</span><input type="text" id="reg-mobile" class="mobile-input" maxlength="10"></div></div>
+                        <div class="form-row"><label class="form-label"><span class="required">*</span>E-mail ID:</label><div class="input-wrapper"><input type="email" id="reg-email" placeholder="Enter Valid Email"></div></div>
+                        <div class="form-row"><label class="form-label"><span class="required">*</span>Create Password:</label><div class="input-wrapper"><input type="password" id="reg-password" placeholder="Min 6 chars"></div></div>
+                        <div style="margin-left: 150px; margin-top: 15px; display: flex; align-items: center;">
+    <input type="checkbox" id="terms" style="margin-right: 5px;">
+    <label for="terms" style="font-size: 11px; font-weight: normal; text-transform: uppercase; margin-bottom: 0;">I agree to Terms & Conditions</label>
+</div>
+                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; margin-left: 50px;">
+                            <button type="button" class="btn btn-primary" onclick="handleRegister()">Register</button>
+                            <button type="reset" class="btn btn-warning">Cancel</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-6" style="padding-left:20px;">
-                    <h4 style="color:#337ab7; border-bottom:2px solid #337ab7;">LOGIN</h4>
-                    <label>Email ID</label><input type="text" id="login-email">
-                    <label>Password</label><input type="password" id="login-password">
-                    <button class="btn btn-primary" onclick="handleLogin()">Login</button>
+
+                <!-- RIGHT: Login -->
+                <div class="right-col">
+                    <h2 class="login-h2">Already Registered</h2>
+                    <form style="width: 100%;">
+                        <div class="right-form-row"><label class="right-label">EMAIL ID <span class="required">*</span>:</label><div class="input-wrapper"><input type="text" id="login-email"></div></div>
+                        <div class="right-form-row"><label class="right-label">PASSWORD <span class="required">*</span>:</label><div class="input-wrapper"><input type="password" id="login-password"></div></div>
+                        <div class="right-form-row">
+                            <label class="right-label">CAPTCHA:</label>
+                            <div style="display: flex; align-items: center;">
+                                <div id="captcha-display" class="captcha-box">91633</div>
+                                <i class="fas fa-sync-alt" style="color: purple; cursor: pointer; font-size: 18px;" onclick="generateCaptcha()"></i>
+                            </div>
+                        </div>
+                        <div class="right-form-row"><label class="right-label">ENTER CAPTCHA:</label><div class="input-wrapper"><input type="text" id="captcha-input"></div></div>
+                        <button type="button" class="login-btn" onclick="handleLogin()">Login</button>
+                    </form>
                 </div>
             </div>
         </div>
+        <div class="footer">@ 2022 Orbital Skill Development Center. All rights reserved.</div>
     </div>
 
-    <!-- 2. DASHBOARD -->
+    <!-- 2. DASHBOARD (EXACT ORIGINAL STRUCTURE + BACK BUTTONS ADDED) -->
     <div id="dashboard-view" class="hidden">
         <div class="brand-header">
             <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" class="brand-logo">
@@ -156,12 +223,10 @@
         <div class="dashboard-wrapper">
             <div class="sidebar">
                 <div class="sidebar-header">Student Exam Menu</div>
-                <!-- Links are Locked (pointer-events:none via CSS) -->
                 <a id="link-personal" class="active">Student's Personal Details</a>
                 <a id="link-exam">Examination Details</a>
                 <a id="link-preview">Application Status</a>
                 <a id="link-courses">Select Course</a>
-                <!-- Sign Out is clickable -->
                 <a onclick="logout()" class="sign-out-btn">Sign Out</a>
             </div>
 
@@ -170,26 +235,50 @@
                 <!-- PERSONAL DETAILS -->
                 <div id="page-personal">
                     <div class="panel"><div class="panel-heading">STUDENT PERSONAL DETAILS</div><div class="panel-body">
-                        <div class="row"><div class="col-6"><label>1. STUDENT'S FULL NAME</label><input type="text" id="dash-name" readonly style="background:#eee;"></div><div class="col-6"><label>2. FATHER'S NAME</label><div class="input-group"><input type="text" value="SHRI" class="input-prefix" readonly><input type="text" id="dash-father" readonly style="background:#eee;"></div></div></div>
-                        <div class="row"><div class="col-6"><label>3. MOTHER'S NAME</label><div class="input-group"><input type="text" value="SMT" class="input-prefix" readonly><input type="text" id="dash-mother" readonly style="background:#eee;"></div></div><div class="col-6"><label>4. SPOUSE NAME</label><div class="input-group"><input type="text" value="SHRI/SMT" class="input-prefix" readonly><input type="text" id="dash-spouse" placeholder="SPOUSE NAME"></div></div></div>
+                        <div class="row">
+                            <div class="col-6"><label>1. STUDENT'S FULL NAME</label><input type="text" id="dash-name" readonly style="background:#eee;"></div>
+                            <div class="col-6"><label>2. FATHER'S NAME</label><input type="text" id="dash-father" readonly style="background:#eee;"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><label>3. MOTHER'S NAME</label><input type="text" id="dash-mother" readonly style="background:#eee;"></div>
+                            <div class="col-6"><label>4. SPOUSE NAME</label><input type="text" id="dash-spouse" placeholder="SPOUSE NAME"></div>
+                        </div>
                         <div class="row"><div class="col-4"><label>5. DOB</label><input type="date" id="dash-dob" readonly style="background:#eee;"></div><div class="col-4"><label>6. GENDER</label><input type="text" id="dash-gender" readonly style="background:#eee;"></div><div class="col-4"><label>7. MARITAL STATUS</label><select id="dash-marital"><option value="">--Select--</option><option>SINGLE</option><option>MARRIED</option></select></div></div>
                         <div class="row"><div class="col-4"><label>8. E-MAIL ID</label><input type="text" id="dash-email" readonly style="background:#eee;"></div><div class="col-4"><label>9. CASTE</label><select id="dash-caste"><option value="">--Select--</option><option>General</option><option>SC</option><option>BC</option><option>ST</option></select></div><div class="col-4"><label>10. AREA TYPE</label><select id="dash-area"><option value="">--Select--</option><option>URBAN</option><option>RURAL</option></select></div></div>
-                        <div class="row"><div class="col-4"><label>11. MOBILE</label><input type="text" id="dash-mobile" readonly style="background:#eee;"></div><div class="col-4"><label>12. AADHAAR</label><input type="text" id="dash-aadhaar"></div><div class="col-4"><label>13. VOTER ID</label><input type="text" disabled></div></div>
+                        <div class="row">
+                            <div class="col-4"><label>11. MOBILE</label><input type="text" id="dash-mobile" readonly style="background:#eee;"></div>
+                            <div class="col-4"><label>12. AADHAAR</label><input type="text" id="dash-aadhaar"></div>
+                            <div class="col-4"><label>13. VOTER ID</label><input type="text" id="dash-voter"></div>
+                        </div>
                         <div class="row"><div class="col-4"><label>14. RELIGION</label><select id="dash-religion"><option value="">--Select--</option><option>HINDU</option><option>MUSLIM</option><option>SIKH</option><option>CHRISTIAN</option></select></div></div>
                         
                         <h4 style="color:#337ab7; border-bottom:1px solid #ddd; margin-top:10px;">CORRESPONDENCE ADDRESS</h4>
                         <div class="row"><div class="col-12"><label>15. FULL ADDRESS <span class="required">*</span></label><textarea rows="2" id="addr-full"></textarea></div></div>
-                        <div class="row"><div class="col-4"><label>16. STATE</label><select id="addr-state"><option>HARYANA</option><option>PUNJAB</option></select></div><div class="col-4"><label>17. DISTRICT</label><input type="text" id="addr-district"></div><div class="col-4"><label>18. TEHSIL</label><input type="text" id="addr-city"></div></div>
-                        <div class="row"><div class="col-4"><label>19. CITY</label><input type="text" id="addr-city"></div></div> <div class="col-4"><label>20. BLOCK/VILLAGE</label><input type="text" id="addr-block/village"></div></div>
-                        <div class="col-4"><label>21. PIN CODE</label><input type="text" id="addr-pin"></div></div>
+                        <div class="row">
+                            <div class="col-4"><label>16. STATE <span class="required">*</span></label><select id="addr-state"><option>HARYANA</option><option>PUNJAB</option></select></div>
+                            <div class="col-4"><label>17. DISTRICT <span class="required">*</span></label><input type="text" id="addr-district"></div>
+                            <div class="col-4"><label>18. TEHSIL <span class="required">*</span></label><input type="text" id="addr-tehsil"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4"><label>19. CITY <span class="required">*</span></label><input type="text" id="addr-city"></div>
+                            <div class="col-4"><label>20. BLOCK/VILLAGE</label><input type="text" id="addr-block" placeholder="Optional"></div>
+                            <div class="col-4"><label>21. PIN CODE <span class="required">*</span></label><input type="text" id="addr-pin"></div>
+                        </div>
                         
                         <div style="margin:10px 0;"><input type="checkbox" id="chk-same" onchange="copyAddress()"> PERMANENT ADDRESS IS SAME AS CORRESPONDENCE ADDRESS</div>
 
                         <h4 style="color:#337ab7; border-bottom:1px solid #ddd; margin-top:5px;">PERMANENT ADDRESS</h4>
                         <div class="row"><div class="col-12"><label>22. FULL ADDRESS <span class="required">*</span></label><textarea rows="2" id="perm-full"></textarea></div></div>
-                        <div class="row"><div class="col-4"><label>23. STATE <span class="required">*</span></label><select id="perm-state"><option>HARYANA</option><option>PUNJAB</option></select></div>
-                        <div class="col-4"><label>24. DISTRICT <span class="required">*</span></label><input type="text" id="perm-district"></div>
-                        <div class="col-4"><label>25. TEHSIL <span class="required">*</span></label><input type="text" id="perm-city"></div></div>
+                        <div class="row">
+                            <div class="col-4"><label>23. STATE <span class="required">*</span></label><select id="perm-state"><option>HARYANA</option><option>PUNJAB</option></select></div>
+                            <div class="col-4"><label>24. DISTRICT <span class="required">*</span></label><input type="text" id="perm-district"></div>
+                            <div class="col-4"><label>25. TEHSIL <span class="required">*</span></label><input type="text" id="perm-tehsil"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4"><label>26. CITY <span class="required">*</span></label><input type="text" id="perm-city"></div>
+                            <div class="col-4"><label>27. BLOCK/VILLAGE</label><input type="text" id="perm-block" placeholder="Optional"></div>
+                            <div class="col-4"><label>28. PIN CODE <span class="required">*</span></label><input type="text" id="perm-pin"></div>
+                        </div>
 
                         <h4 style="color:#337ab7; border-bottom:1px solid #ddd; margin-top:15px;">PHOTO & SIGNATURE (Max 50KB)</h4>
                         <div class="upload-row">
@@ -212,6 +301,11 @@
                 <!-- EXAM DETAILS -->
                 <div id="page-exam" class="hidden">
                     <div class="panel"><div class="panel-heading">EXAMINATION DETAILS</div><div class="panel-body">
+                        <!-- BACK BUTTON ADDED HERE -->
+                        <div style="margin-bottom: 10px;">
+                            <button class="btn btn-warning" onclick="showPage('personal')"><i class="fa fa-arrow-left"></i> Back</button>
+                        </div>
+                        
                         <div class="row">
                             <div class="col-4"><label>1. STATE TO WHICH YOU BELONG <span class="required">*</span></label><select id="exam-state"><option value="">Select</option><option>Haryana</option><option>Punjab</option><option>Rajasthan</option><option>Others</option></select></div>
                             <div class="col-4"><label>2. EXAM MODE <span class="required">*</span></label><select id="exam-mode"><option value="">Select</option><option>Online</option><option>Offline</option></select></div>
@@ -257,18 +351,23 @@
                             <div class="status-subtitle">ONLINE APPLICATION FORM (PRIVATE CANDIDATE)</div>
                         </div>
 
+                        <!-- BACK BUTTON ADDED HERE -->
+                        <div style="padding: 10px 0;">
+                            <button class="btn btn-warning" onclick="showPage('exam')"><i class="fa fa-arrow-left"></i> Back</button>
+                        </div>
+
                         <div class="status-section-head">STUDENT PERSONAL DETAILS</div>
-                        <div class="row"><div class="col-6"><div class="status-label">1. FULL NAME *</div><input type="text" class="status-input" id="p-name"></div><div class="col-6"><div class="status-label">2. FATHER'S NAME *</div><div class="input-group"><input type="text" class="status-input" id="p-father"></div></div></div>
-                        <div class="row" style="margin-top:5px;"><div class="col-6"><div class="status-label">3. MOTHER'S NAME *</div><div class="input-group"><input type="text" class="status-input" id="p-mother"></div></div><div class="col-6"><div class="status-label">4. SPOUSE NAME</div><div class="input-group"><input type="text" class="status-input" id="p-spouse"></div></div></div>
+                        <div class="row"><div class="col-6"><div class="status-label">1. FULL NAME *</div><input type="text" class="status-input" id="p-name"></div><div class="col-6"><div class="status-label">2. FATHER'S NAME *</div><input type="text" class="status-input" id="p-father"></div></div>
+                        <div class="row" style="margin-top:5px;"><div class="col-6"><div class="status-label">3. MOTHER'S NAME *</div><input type="text" class="status-input" id="p-mother"></div><div class="col-6"><div class="status-label">4. SPOUSE NAME</div><input type="text" class="status-input" id="p-spouse"></div></div>
                         <div class="row" style="margin-top:5px;"><div class="col-4"><div class="status-label">5. DOB *</div><input type="text" class="status-input" id="p-dob"></div><div class="col-4"><div class="status-label">6. GENDER *</div><input type="text" class="status-input" id="p-gender"></div><div class="col-4"><div class="status-label">7. MARITAL STATUS *</div><input type="text" class="status-input" id="p-marital"></div></div>
                         <div class="row" style="margin-top:5px;"><div class="col-4"><div class="status-label">8. EMAIL ID *</div><input type="text" class="status-input" id="p-email"></div><div class="col-4"><div class="status-label">9. CASTE *</div><input type="text" class="status-input" id="p-caste"></div><div class="col-4"><div class="status-label">10. AREA TYPE *</div><input type="text" class="status-input" id="p-area"></div></div>
-                        <div class="row" style="margin-top:5px;"><div class="col-4"><div class="status-label">11. MOBILE NO</div><input type="text" class="status-input" id="p-mobile"></div><div class="col-4"><div class="status-label">12. AADHAAR NO</div><input type="text" class="status-input" id="p-aadhaar"></div><div class="col-4"><div class="status-label">13. VOTER ID</div><input type="text" class="status-input"></div></div>
+                        <div class="row" style="margin-top:5px;"><div class="col-4"><div class="status-label">11. MOBILE NO</div><input type="text" class="status-input" id="p-mobile"></div><div class="col-4"><div class="status-label">12. AADHAAR NO</div><input type="text" class="status-input" id="p-aadhaar"></div><div class="col-4"><div class="status-label">13. VOTER ID</div><input type="text" class="status-input" id="p-voter"></div></div>
                         <div class="row" style="margin-top:5px;"><div class="col-4"><div class="status-label">14. RELIGION *</div><input type="text" class="status-input" id="p-religion"></div></div>
 
                         <div class="status-section-head">CORRESPONDENCE ADDRESS</div>
                         <div class="row"><div class="col-12"><div class="status-label">15. FULL ADDRESS *</div><input type="text" class="status-input" id="p-address"></div></div>
-                        <div class="row" style="margin-top:5px;"><div class="col-4"><div class="status-label">16. STATE *</div><input type="text" class="status-input" id="p-addr-state"></div><div class="col-4"><div class="status-label">17. DISTRICT *</div><input type="text" class="status-input" id="p-district"></div><div class="col-4"><div class="status-label">18. CITY</div><input type="text" class="status-input" id="p-city"></div></div>
-                        <div class="row" style="margin-top:5px;"><div class="col-4"><div class="status-label">19. PIN CODE *</div><input type="text" class="status-input" id="p-pin"></div></div>
+                        <div class="row" style="margin-top:5px;"><div class="col-4"><div class="status-label">16. STATE *</div><input type="text" class="status-input" id="p-addr-state"></div><div class="col-4"><div class="status-label">17. DISTRICT *</div><input type="text" class="status-input" id="p-district"></div><div class="col-4"><div class="status-label">18. TEHSIL</div><input type="text" class="status-input" id="p-tehsil"></div></div>
+                        <div class="row" style="margin-top:5px;"><div class="col-4"><div class="status-label">19. CITY *</div><input type="text" class="status-input" id="p-city"></div><div class="col-4"><div class="status-label">20. BLOCK/VILLAGE</div><input type="text" class="status-input" id="p-block"></div><div class="col-4"><div class="status-label">21. PIN CODE *</div><input type="text" class="status-input" id="p-pin"></div></div>
 
                         <div class="status-section-head">PHOTO & SIGNATURE</div>
                         <div class="row"><div class="col-6"><div class="status-label">27. PHOTO</div><div class="status-photo-display" id="p-photo-box">PHOTO</div></div><div class="col-6"><div class="status-label">28. SIGNATURE</div><div class="status-sign-display" id="p-sign-box" style="margin-top:55px;">SIGN</div></div></div>
@@ -284,15 +383,26 @@
                     </div></div>
                 </div>
 
-                <!-- COURSES -->
+                <!-- COURSES (CENTERED) -->
                 <div id="page-courses" class="hidden">
-                    <div class="panel"><div class="panel-heading">SELECT COURSE</div><div class="panel-body"><div class="course-grid" id="course-container"></div></div></div>
+                    <div class="panel"><div class="panel-heading">SELECT COURSE</div><div class="panel-body">
+                        <!-- BACK BUTTON ADDED HERE -->
+                        <div style="margin-bottom: 15px;">
+                            <button class="btn btn-warning" onclick="showPage('preview')"><i class="fa fa-arrow-left"></i> Back</button>
+                        </div>
+                        
+                        <div class="course-grid" id="course-container"></div>
+                    </div></div>
                 </div>
 
             </div>
         </div>
     </div>
 
+    <!-- MODALS -->
+    <div id="manual-modal" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('manual-modal')">&times;</span><h2 style="color:#337ab7;">Process</h2><div class="step-box">1. Register</div><div class="step-box">2. Login</div><div class="step-box">3. Fill Form</div><div class="step-box">4. Select Course</div><div class="step-box">5. Pay Fee</div></div></div>
+    <div id="courses-modal" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('courses-modal')">&times;</span><h2 style="color:#337ab7;">Courses</h2><div class="course-grid" id="public-course-grid"></div></div></div>
+    <div id="faq-modal" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('faq-modal')">&times;</span><h2 style="color:#337ab7;">FAQ</h2><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q: How to Register?</div><div class="faq-a">A: Fill form on left.</div></div></div></div>
     <!-- SCRIPT SECTION -->
     <script>
         const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
@@ -302,11 +412,10 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // STORE DATA
         let currentPhotos = { photoBase64: "", signBase64: "" };
         let currentQualifyingDoc = { base64: "", name: "" };
+        let currentCaptcha = "91633";
 
-        // ANIMATED COURSE ICONS MAPPING
         const courseData = [
             { name: "Health Care Skills", url: "health-care.html", icon: "fa-user-doctor" },
             { name: "Banking-Finance Skills", url: "banking-finance.html", icon: "fa-building-columns" },
@@ -320,7 +429,11 @@
             { name: "Cyber Security", url: "cyber-security.html", icon: "fa-shield-halved" }
         ];
 
-        // --- HANDLERS ---
+        function generateCaptcha() {
+            currentCaptcha = Math.floor(10000 + Math.random() * 90000).toString();
+            document.getElementById('captcha-display').innerText = currentCaptcha;
+        }
+
         function handlePhotoSelect(input, previewId, keyName, maxSizeKB) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
@@ -353,22 +466,18 @@
             let isValid = true;
             inputs.forEach(input => {
                 input.classList.remove('error-border');
-                if(input.disabled || input.readOnly || input.id === 'dash-spouse' || input.type === 'file') return;
+                if(input.disabled || input.readOnly || input.id === 'dash-spouse' || input.id === 'addr-block' || input.id === 'perm-block' || input.type === 'file') return;
                 if (input.value.trim() === "") { input.classList.add('error-border'); isValid = false; }
             });
             if (!isValid) alert("Please fill all MANDATORY fields.");
             return isValid;
         }
 
-        // SAVE PERSONAL (WITH PERMANENT ADDRESS LOGIC)
         function savePersonalAndProceed() {
             if (!validateSection('page-personal')) return;
-            
-            // Permanent Address Logic
             const isSame = document.getElementById('chk-same').checked;
             if(!isSame) {
-                // If checkbox unchecked, these are mandatory
-                if(!document.getElementById('perm-full').value || !document.getElementById('perm-district').value) {
+                if(!document.getElementById('perm-full').value || !document.getElementById('perm-district').value || !document.getElementById('perm-city').value) {
                     alert("Please fill Permanent Address details or check 'Same as Correspondence'.");
                     return;
                 }
@@ -381,16 +490,22 @@
                     caste: document.getElementById('dash-caste').value,
                     area: document.getElementById('dash-area').value,
                     aadhaar: document.getElementById('dash-aadhaar').value,
+                    voterId: document.getElementById('dash-voter').value,
                     religion: document.getElementById('dash-religion').value,
                     address: document.getElementById('addr-full').value,
                     addrState: document.getElementById('addr-state').value,
                     district: document.getElementById('addr-district').value,
-                    city: document.getElementById('addr-city').value,
+                    addrTehsil: document.getElementById('addr-tehsil').value,
+                    addrCity: document.getElementById('addr-city').value,
+                    addrBlock: document.getElementById('addr-block').value,
                     pincode: document.getElementById('addr-pin').value,
                     permAddress: document.getElementById('perm-full').value,
                     permState: document.getElementById('perm-state').value,
                     permDistrict: document.getElementById('perm-district').value,
+                    permTehsil: document.getElementById('perm-tehsil').value,
                     permCity: document.getElementById('perm-city').value,
+                    permBlock: document.getElementById('perm-block').value,
+                    permPin: document.getElementById('perm-pin').value,
                     photoData: currentPhotos
                 }).then(() => {
                     alert("Personal Details Saved!");
@@ -399,7 +514,6 @@
             }
         }
 
-        // SAVE EXAM & PREVIEW
         function saveExamAndPreview() {
             if (!validateSection('page-exam')) return;
             if(auth.currentUser) {
@@ -437,12 +551,15 @@
             document.getElementById('p-area').value = document.getElementById('dash-area').value;
             document.getElementById('p-mobile').value = document.getElementById('dash-mobile').value;
             document.getElementById('p-aadhaar').value = document.getElementById('dash-aadhaar').value;
+            document.getElementById('p-voter').value = document.getElementById('dash-voter').value;
             document.getElementById('p-religion').value = document.getElementById('dash-religion').value;
             
             document.getElementById('p-address').value = document.getElementById('addr-full').value;
             document.getElementById('p-addr-state').value = document.getElementById('addr-state').value;
             document.getElementById('p-district').value = document.getElementById('addr-district').value;
+            document.getElementById('p-tehsil').value = document.getElementById('addr-tehsil').value;
             document.getElementById('p-city').value = document.getElementById('addr-city').value;
+            document.getElementById('p-block').value = document.getElementById('addr-block').value;
             document.getElementById('p-pin').value = document.getElementById('addr-pin').value;
 
             document.getElementById('p-exam-state').value = document.getElementById('exam-state').value;
@@ -482,23 +599,33 @@
             finally { btn.innerText = "Select Course"; btn.disabled = false; }
         }
 
-        // --- AUTH & LOAD ---
         function handleRegister() {
-            const e = document.getElementById('reg-email').value; const p = document.getElementById('reg-password').value;
-            if(!e || !p) return alert("Fill fields");
-            auth.createUserWithEmailAndPassword(e, p).then(c => {
+            const terms = document.getElementById('terms').checked;
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-password').value;
+            
+            if(!terms) return alert("Please accept Terms & Conditions");
+            if(!email || !pass) return alert("Fill all fields");
+
+            auth.createUserWithEmailAndPassword(email, pass).then(c => {
                 db.collection("students").doc(c.user.uid).set({
                     name: document.getElementById('reg-name').value,
                     father: document.getElementById('reg-father').value,
                     mother: document.getElementById('reg-mother').value,
                     dob: document.getElementById('reg-dob').value,
                     gender: document.getElementById('reg-gender').value,
-                    email: e
+                    mobile: document.getElementById('reg-mobile').value,
+                    email: email
                 }).then(() => { alert("Registered!"); loadData(c.user.uid); });
             }).catch(e => alert(e.message));
         }
 
-        function handleLogin() { auth.signInWithEmailAndPassword(document.getElementById('login-email').value, document.getElementById('login-password').value).catch(e => alert(e.message)); }
+        function handleLogin() { 
+            const enteredCaptcha = document.getElementById('captcha-input').value;
+            if(enteredCaptcha !== currentCaptcha) return alert("Invalid Captcha");
+
+            auth.signInWithEmailAndPassword(document.getElementById('login-email').value, document.getElementById('login-password').value).catch(e => alert(e.message)); 
+        }
 
         function loadData(uid) {
             db.collection("students").doc(uid).get().then(d => {
@@ -521,16 +648,24 @@
                     if(data.caste) document.getElementById('dash-caste').value = data.caste;
                     if(data.area) document.getElementById('dash-area').value = data.area;
                     if(data.aadhaar) document.getElementById('dash-aadhaar').value = data.aadhaar;
+                    if(data.voterId) document.getElementById('dash-voter').value = data.voterId;
                     if(data.religion) document.getElementById('dash-religion').value = data.religion;
+                    
                     if(data.address) document.getElementById('addr-full').value = data.address;
                     if(data.addrState) document.getElementById('addr-state').value = data.addrState;
                     if(data.district) document.getElementById('addr-district').value = data.district;
-                    if(data.city) document.getElementById('addr-city').value = data.city;
+                    if(data.addrTehsil) document.getElementById('addr-tehsil').value = data.addrTehsil;
+                    if(data.addrCity) document.getElementById('addr-city').value = data.addrCity;
+                    if(data.addrBlock) document.getElementById('addr-block').value = data.addrBlock;
                     if(data.pincode) document.getElementById('addr-pin').value = data.pincode;
+                    
                     if(data.permAddress) document.getElementById('perm-full').value = data.permAddress;
                     if(data.permState) document.getElementById('perm-state').value = data.permState;
                     if(data.permDistrict) document.getElementById('perm-district').value = data.permDistrict;
+                    if(data.permTehsil) document.getElementById('perm-tehsil').value = data.permTehsil;
                     if(data.permCity) document.getElementById('perm-city').value = data.permCity;
+                    if(data.permBlock) document.getElementById('perm-block').value = data.permBlock;
+                    if(data.permPin) document.getElementById('perm-pin').value = data.permPin;
 
                     if(data.examState) document.getElementById('exam-state').value = data.examState;
                     if(data.examMode) document.getElementById('exam-mode').value = data.examMode;
@@ -561,27 +696,37 @@
         function logout() { auth.signOut().then(() => window.location.reload()); }
         function showPage(pid) {
             ['personal','exam','preview','courses'].forEach(id => document.getElementById('page-'+id).classList.add('hidden'));
-            
-            // LOCKING SIDEBAR UI LOGIC
             document.querySelectorAll('.sidebar a').forEach(a => {
                 a.classList.remove('active');
                 if(a.id === 'link-'+pid) a.classList.add('active');
             });
-
             document.getElementById('page-'+pid).classList.remove('hidden');
         }
         function showPreview() { populatePreview(); showPage('preview'); }
+        
         function copyAddress() {
             if(document.getElementById('chk-same').checked) {
                 document.getElementById('perm-full').value = document.getElementById('addr-full').value;
-                document.getElementById('perm-district').value = document.getElementById('addr-district').value;
-                document.getElementById('perm-city').value = document.getElementById('addr-city').value;
                 document.getElementById('perm-state').value = document.getElementById('addr-state').value;
-            } else { document.getElementById('perm-full').value = ""; }
+                document.getElementById('perm-district').value = document.getElementById('addr-district').value;
+                document.getElementById('perm-tehsil').value = document.getElementById('addr-tehsil').value;
+                document.getElementById('perm-city').value = document.getElementById('addr-city').value;
+                document.getElementById('perm-block').value = document.getElementById('addr-block').value;
+                document.getElementById('perm-pin').value = document.getElementById('addr-pin').value;
+            } else { 
+                document.getElementById('perm-full').value = ""; 
+                document.getElementById('perm-district').value = ""; 
+                document.getElementById('perm-tehsil').value = ""; 
+                document.getElementById('perm-city').value = ""; 
+                document.getElementById('perm-block').value = ""; 
+                document.getElementById('perm-pin').value = ""; 
+            }
         }
+        
         function addRow() { const t = document.getElementById('qualifying-table').getElementsByTagName('tbody')[0]; const r = t.rows[0].cloneNode(true); Array.from(r.getElementsByTagName('input')).forEach(i => i.value=''); t.appendChild(r); }
 
         window.onload = function() {
+            generateCaptcha();
             const cContainer = document.getElementById('course-container');
             courseData.forEach(c => {
                 let div = document.createElement('div'); div.className = 'course-card'; 
