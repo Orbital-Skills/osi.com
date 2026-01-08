@@ -506,49 +506,112 @@
                             <span class="block text-xs text-slate-500 font-medium">Course Fee</span>
                             <span class="text-lg font-bold text-slate-900">₹${course.fee}</span>
                         </div>
-                      <a href="index.html#registration" 
-   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors">
-    Apply Now
-</a>
-                        </button>
-                    </div>
+                 
+            <button onclick="openPaymentModal('${course.title}', '${course.fee}')" 
+               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+               Pay Course Fee (₹${course.fee})
+            </button>
+            </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+    
+    // Lucide icons को लोड करना
+    lucide.createIcons();
+};
 
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-            
-            // Re-initialize icons for new content
-            lucide.createIcons();
-        };
+// Search और Filter Functionality
+const searchInput = document.getElementById('searchInput');
+const levelFilter = document.getElementById('levelFilter');
 
-        // Filter Functionality
-        const searchInput = document.getElementById('searchInput');
-        const levelFilter = document.getElementById('levelFilter');
+const filterCourses = () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const selectedLevel = levelFilter.value;
 
-        const filterCourses = () => {
-            const searchTerm = searchInput.value.toLowerCase();
-            const selectedLevel = levelFilter.value;
+    const filtered = courses.filter(course => {
+        const matchesSearch = course.title.toLowerCase().includes(searchTerm) || 
+                              course.eligibility.toLowerCase().includes(searchTerm);
+        const matchesLevel = selectedLevel === 'all' || course.level.toString() === selectedLevel;
+        
+        return matchesSearch && matchesLevel;
+    });
 
-            const filtered = courses.filter(course => {
-                const matchesSearch = course.title.toLowerCase().includes(searchTerm) || 
-                                      course.eligibility.toLowerCase().includes(searchTerm);
-                const matchesLevel = selectedLevel === 'all' || course.level.toString() === selectedLevel;
-                
-                return matchesSearch && matchesLevel;
-            });
+    renderCourses(filtered);
+};
 
-            renderCourses(filtered);
-        };
+// Event Listeners
+searchInput.addEventListener('input', filterCourses);
+levelFilter.addEventListener('change', filterCourses);
 
-        // Event Listeners
-        searchInput.addEventListener('input', filterCourses);
-        levelFilter.addEventListener('change', filterCourses);
+// Initial Render
+renderCourses(courses);
 
-        // Initial Render
-        renderCourses(courses);
+// --- Payment Popup Logic ---
+function openPaymentModal(title, amount) {
+    const modal = document.getElementById('paymentModal');
+    
+    // पॉपअप में जानकारी भरना
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalAmount').innerText = "Total Amount: ₹" + amount;
+    
+    // UPI String (यहाँ आपकी UPI ID है)
+    const upiID = "hmt2cu@okaxis";
+    const upiString = `upi://pay?pa=${upiID}&pn=Orbital%20Skills&am=${amount}&cu=INR`;
+    
+    // Dynamic QR Code Generate करना (id="dynamicQR" को टारगेट कर रहा है)
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
+    document.getElementById('dynamicQR').src = qrUrl;
+    
+    // मोबाइल बटन अपडेट करना
+    document.getElementById('directUPIBtn').href = upiString;
+    
+    modal.style.display = 'flex';
+}
 
-    </script>
+function closePaymentModal() {
+    document.getElementById('paymentModal').style.display = 'none';
+}
+
+// बाहर क्लिक करने पर बंद करना
+window.onclick = function(event) {
+    let modal = document.getElementById('paymentModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+<div id="paymentModal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; font-family: sans-serif;">
+    <div style="background: white; width: 90%; max-width: 400px; padding: 25px; border-radius: 20px; text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
+        
+        <span onclick="closePaymentModal()" style="position: absolute; right: 20px; top: 15px; cursor: pointer; font-size: 30px; color: #a0aec0; font-weight: bold;">&times;</span>
+        
+        <h2 id="modalTitle" style="font-size: 18px; color: #2d3748; font-weight: 700; margin-bottom: 5px;">Course Name</h2>
+        <p id="modalAmount" style="font-size: 24px; color: #2563eb; font-weight: 800; margin-bottom: 20px;">₹0</p>
+        
+        <div style="background: #f7fafc; padding: 20px; border-radius: 15px; border: 1px solid #e2e8f0; display: inline-block; margin-bottom: 20px; min-height: 240px;">
+            <img id="dynamicQR" src="" alt="QR Loading..." style="width: 220px; height: 220px; display: block; border-radius: 8px;">
+            <p style="margin-top: 10px; font-size: 12px; color: #718096;">Scan with GPay, PhonePe or Paytm</p>
+        </div>
+
+        <p style="font-size: 14px; font-weight: 600; color: #4a5568; margin-bottom: 15px;">
+            UPI ID: <span style="color: #2563eb;">hmt2cu@okaxis</span>
+        </p>
+
+        <a id="directUPIBtn" href="#" style="display: block; background: #2563eb; color: white; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 15px; font-size: 15px;">
+            Pay via UPI App (GPay/PhonePe)
+        </a>
+
+        <div style="background: #fff5f5; padding: 12px; border-radius: 10px; border-left: 4px solid #f56565; text-align: left; font-size: 13px; margin-bottom: 15px;">
+            <p style="color: #c53030; margin: 0;"><b>नोट:</b> पेमेंट के बाद स्क्रीनशॉट व्हाट्सएप पर भेजें।</p>
+        </div>
+
+        <a href="https://wa.me/919416711671" target="_blank" style="display: flex; align-items: center; justify-content: center; background: #25D366; color: white; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 15px;">
+            WhatsApp Screenshot
+        </a>
+    </div>
+</div>
+
 </body>
 </html>
-```
