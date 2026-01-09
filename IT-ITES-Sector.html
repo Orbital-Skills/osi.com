@@ -1,11 +1,10 @@
-<!DOCTYPE html>
+-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orbital Skill Develpoment Center Skill Develpoment Center Skill Develpoment Center | Future-Ready IT-ITES Training</title>
+    <title>Orbital Skill Develpoment Center | Future-Ready IT-ITES Training</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -96,7 +95,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center max-w-3xl mx-auto">
                 <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-6">
-                    Launch Your Career <span class="text-blue-600">In IT-ITES-Sector</span>
+                    Launch Your Career <span class="text-blue-600">In IT-ITS Sector</span>
                 </h1>
                 <p class="text-lg text-slate-600 mb-10 leading-relaxed">
                     Elevate your skills with Orbital Skill Develpoment Center's specialized IT-ITES training programs. 
@@ -210,10 +209,11 @@
                             <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Email Address</label>
                             <input type="email" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 focus:outline-none focus:border-blue-500 text-white" placeholder="john@example.com">
                         </div>
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-lg transition-all shadow-lg shadow-blue-600/20">
-                            Apply for Admission
-                        </button>
-                    </form>
+                        <a href="login.html" class="block w-full">
+    <button type="button" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-lg transition-all shadow-lg shadow-blue-600/20">
+        Apply for Admission
+    </button>
+</a>                    </form>
                 </div>
             </div>
         </div>
@@ -250,147 +250,110 @@
             </div>
         </div>
     </footer>
-
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <script>
-        // --- 1. कोर्सेज डेटा (Icon के साथ) ---
         const courses = [
-            { id: 1, name: "Customer Care Executive-Domestic- Non- Voice", icon: "fa-headset", exp: "12th Class OR 10th Class + ITI", dur: "6 Months", fee: "₹5000", cat: "Support" },
-            { id: 2, name: "Customer Care Executive-Domestic- Voice", icon: "fa-phone-volume", exp: "12th Class OR 10th Class + ITI", dur: "6 Months", fee: "₹5000", cat: "Support" },
-            { id: 3, name: "Domestic Biometric Data Operator", icon: "fa-fingerprint", exp: "12th Class OR 10th Class + ITI", dur: "6 Months", fee: "₹5000", cat: "Operations" },
-            { id: 4, name: "Accounting", icon: "fa-calculator", exp: "10th Standard", dur: "6 Months", fee: "₹5000", cat: "Finance" },
-            { id: 5, name: "Domestic IT Helpdesk Attendant", icon: "fa-user-gear", exp: "12th Class OR 10th Class + ITI", dur: "6 Months", fee: "₹5000", cat: "Support" },
-            { id: 6, name: "Junior Software Developer", icon: "fa-code", exp: "12th Class + 6 months exp OR 10th + ITI", dur: "6 Months", fee: "₹5000", cat: "Development" },
-            { id: 7, name: "Digital Marketing Assistant", icon: "fa-bullhorn", exp: "12th pass", dur: "3 Months", fee: "₹5000", cat: "Marketing" },
-            { id: 8, name: "Computer Basics and Accounting", icon: "fa-laptop-code", exp: "12th pass", dur: "3 Months", fee: "₹5000", cat: "Finance" },
-            { id: 9, name: "Advanced Accounting with Tally ERP", icon: "fa-file-invoice-dollar", exp: "12th Pass", dur: "3 Months", fee: "₹5000", cat: "Finance" },
-            { id: 10, name: "Financial Accounting with Tally ERP", icon: "fa-coins", exp: "12th Pass, Hindi/English", dur: "3 Months", fee: "₹5000", cat: "Finance" },
-            { id: 11, name: "Graphic Designing with Video Editing", icon: "fa-video", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Design" },
-            { id: 12, name: "Tally With GST", icon: "fa-receipt", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Finance" },
-            { id: 13, name: "Web Designing", icon: "fa-globe", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 14, name: "ORACLE", icon: "fa-database", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Database" },
-            { id: 15, name: "DTP & GRAPHICS", icon: "fa-palette", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Design" },
-            { id: 16, name: "Digital Marketing", icon: "fa-chart-line", exp: "Graduation", dur: "3 Month", fee: "₹5000", cat: "Marketing" },
-            { id: 17, name: "C Programming", icon: "fa-terminal", exp: "10th", dur: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 18, name: "C++", icon: "fa-cuate", exp: "12th Class + C", dur: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 19, name: "Core Java", icon: "fa-mug-hot", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 20, name: "Advanced Java", icon: "fa-layer-group", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 21, name: "Python (Basic + Adv)", icon: "fa-brands fa-python", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 22, name: "C#.NET", icon: "fa-hashtag", exp: "10th", dur: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 23, name: "ASP.NET", icon: "fa-window-restore", exp: "12th", dur: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 24, name: "MySQL", icon: "fa-server", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Database" },
-            { id: 25, name: "SQL Server", icon: "fa-database", exp: "12th pass", dur: "3 Month", fee: "₹5000", cat: "Database" },
-            { id: 26, name: "PL/SQL", icon: "fa-table", exp: "12th pass", dur: "3 Month", fee: "₹5000", cat: "Database" },
-            { id: 27, name: "MS Office", icon: "fa-file-word", exp: "8th pass", dur: "3 Month", fee: "₹5000", cat: "Basic" },
-            { id: 28, name: "Basic Excel", icon: "fa-file-excel", exp: "8th pass", dur: "3 Month", fee: "₹5000", cat: "Basic" },
-            { id: 29, name: "Advance Excel", icon: "fa-table-cells", exp: "8th pass", dur: "3 Month", fee: "₹5000", cat: "Basic" },
-            { id: 30, name: "Tally Prime", icon: "fa-book", exp: "12th pass", dur: "3 Month", fee: "₹5000", cat: "Finance" },
-            { id: 31, name: "Typing - English", icon: "fa-keyboard", exp: "10th pass", dur: "3 Month", fee: "₹5000", cat: "Skills" },
-            { id: 32, name: "Typing - Hindi", icon: "fa-font", exp: "10th pass", dur: "3 Month", fee: "₹5000", cat: "Skills" },
-            { id: 33, name: "Typing - Marathi", icon: "fa-language", exp: "10th pass", dur: "3 Month", fee: "₹5000", cat: "Skills" }
+            { id: 1, name: "Customer Care Executive-Domestic- Non- Voice", level: "Level 3", exp: "12th Class OR 10th Class + ITI", duration: "6 Months", fee: "₹5000", cat: "Support" },
+            { id: 2, name: "Customer Care Executive-Domestic- Voice", level: "Level 3", exp: "12th Class OR 10th Class + ITI", duration: "6 Months", fee: "₹5000", cat: "Support" },
+            { id: 3, name: "Domestic Biometric Data Operator", level: "Level 3", exp: "12th Class OR 10th Class + ITI", duration: "6 Months", fee: "₹5000", cat: "Operations" },
+            { id: 4, name: "Accounting", level: "Level 3", exp: "10th Standard", duration: "6 Months", fee: "₹5000", cat: "Finance" },
+            { id: 5, name: "Domestic IT Helpdesk Attendant", level: "Level 3", exp: "12th Class OR 10th Class + ITI", duration: "6 Months", fee: "₹5000", cat: "Support" },
+            { id: 6, name: "Junior Software Developer", level: "Level 3", exp: "12th Class + 6 months exp OR 10th + ITI", duration: "6 Months", fee: "₹5000", cat: "Development" },
+            { id: 7, name: "Digital Marketing Assistant", level: "Level 3", exp: "12th pass", duration: "3 Months", fee: "₹5000", cat: "Marketing" },
+            { id: 8, name: "Computer Basics and Accounting", level: "Level 3", exp: "12th pass", duration: "3 Months", fee: "₹5000", cat: "Finance" },
+            { id: 9, name: "Advanced Accounting with Tally ERP", level: "Level 4", exp: "12th Pass", duration: "3 Months", fee: "₹5000", cat: "Finance" },
+            { id: 10, name: "Financial Accounting with Tally ERP", level: "Level 3", exp: "12th Pass, Hindi/English", duration: "3 Months", fee: "₹5000", cat: "Finance" },
+            { id: 11, name: "Graphic Designing with Video Editing", level: "Level 3", exp: "12th Class", duration: "3 Month", fee: "₹5000", cat: "Design" },
+            { id: 12, name: "Tally With GST", level: "Level 3", exp: "12th Class", duration: "3 Month", fee: "₹5000", cat: "Finance" },
+            { id: 13, name: "Web Designing", level: "Level 3", exp: "12th Class", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 14, name: "ORACLE", level: "Level 3", exp: "12th Class", duration: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 15, name: "DTP & GRAPHICS", level: "Level 3", exp: "12th Class", duration: "3 Month", fee: "₹5000", cat: "Design" },
+            { id: 16, name: "Digital Marketing", level: "Level 3", exp: "Graduation", duration: "3 Month", fee: "₹5000", cat: "Marketing" },
+            { id: 17, name: "C Programming", level: "Level 3", exp: "10th", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 18, name: "C++", level: "Level 3", exp: "12th Class + C", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 19, name: "Core Java", level: "Level 3", exp: "12th Class", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 20, name: "Advanced Java", level: "Level 3", exp: "12th Class", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 21, name: "Python (Basic + Adv)", level: "Level 3", exp: "12th Class", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 22, name: "C#.NET", level: "Level 3", exp: "10th", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 23, name: "ASP.NET", level: "Level 3", exp: "12th", duration: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 24, name: "MySQL", level: "Level 3", exp: "12th Class", duration: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 25, name: "SQL Server", level: "Level 3", exp: "12th pass", duration: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 26, name: "PL/SQL", level: "Level 3", exp: "12th pass", duration: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 27, name: "MS Office", level: "Level 3", exp: "8th pass", duration: "3 Month", fee: "₹5000", cat: "Basic" },
+            { id: 28, name: "Basic Excel", level: "Level 3", exp: "8th pass", duration: "3 Month", fee: "₹5000", cat: "Basic" },
+            { id: 29, name: "Advance Excel", level: "Level 3", exp: "8th pass", duration: "3 Month", fee: "₹5000", cat: "Basic" },
+            { id: 30, name: "Tally Prime", level: "Level 3", exp: "12th pass", duration: "3 Month", fee: "₹5000", cat: "Finance" },
+            { id: 31, name: "Typing - English", level: "Level 3", exp: "10th pass", duration: "3 Month", fee: "₹5000", cat: "Skills" },
+            { id: 32, name: "Typing - Hindi", level: "Level 3", exp: "10th pass", duration: "3 Month", fee: "₹5000", cat: "Skills" },
+            { id: 33, name: "Typing - Marathi", level: "Level 3", exp: "10th pass", duration: "3 Month", fee: "₹5000", cat: "Skills" }
         ];
 
-        // --- 2. कोर्स रेंडर करने का फंक्शन ---
-        function renderCourses(coursesToRender) {
-            const courseGrid = document.getElementById('course-grid');
-            if (!courseGrid) return;
-            
-            courseGrid.innerHTML = '';
-            coursesToRender.forEach(course => {
+        function renderCourses(data) {
+            const grid = document.getElementById('courseGrid');
+            grid.innerHTML = '';
+            data.forEach(course => {
                 const card = document.createElement('div');
-                card.className = 'bg-white rounded-3xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/10 transition-all group';
+                card.className = 'course-card bg-white border border-slate-200 p-6 rounded-3xl flex flex-col h-full';
                 card.innerHTML = `
-                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <i class="fas ${course.icon} text-blue-600 text-xl"></i>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-2 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-md uppercase">${course.cat}</span>
+                        <span class="text-xs font-bold text-slate-400">${course.level}</span>
                     </div>
-                    <div class="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full mb-3 uppercase tracking-wider">${course.cat}</div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2 leading-tight">${course.name}</h3>
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="flex items-center gap-1.5 text-slate-500 text-xs">
-                            <i class="far fa-clock text-blue-500"></i>
-                            <span>${course.dur}</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-slate-500 text-xs">
-                            <i class="far fa-star text-amber-500"></i>
-                            <span>${course.exp}</span>
-                        </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">${course.name}</h3>
+                    <div class="space-y-2 mb-6 flex-grow text-sm text-slate-600">
+                        <div class="flex items-center gap-2"><i class="far fa-clock"></i><span>${course.duration}</span></div>
+                        <div class="flex items-start gap-2"><i class="fas fa-graduation-cap mt-1"></i><span class="line-clamp-2">${course.exp}</span></div>
                     </div>
-                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-                        <div>
-                            <p class="text-[10px] text-slate-500 uppercase tracking-wider">Assessment Fee</p>
-                            <p class="text-lg font-extrabold text-slate-900">${course.fee}</p>
-                        </div>
-                        <button onclick="openPayment('${course.name}', '${course.fee}')" class="bg-slate-100 text-slate-900 px-4 py-2 rounded-xl text-sm font-bold group-hover:bg-blue-600 group-hover:text-white transition-all">
-                            Apply Now
-                        </button>
-                    </div>
-                `;
-                courseGrid.appendChild(card);
+                    <div class="pt-4 border-t border-slate-50 flex items-center justify-between">
+                        <div><p class="text-[10px] text-slate-400 font-bold uppercase">Fee</p><p class="text-lg font-black">${course.fee}</p></div>
+                        <button onclick="openPayment('${course.name}', '${course.fee}')" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-blue-600 transition-all">Pay Course Fee</button>
+                    </div>`;
+                grid.appendChild(card);
             });
         }
 
-        // --- 3. इवेंट लिसनर्स और इनिशियलाइज़ेशन ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const courseSearch = document.getElementById('course-search');
-            
-            if(courseSearch) {
-                courseSearch.addEventListener('input', (e) => {
-                    const term = e.target.value.toLowerCase();
-                    const filtered = courses.filter(c => 
-                        c.name.toLowerCase().includes(term) || 
-                        c.cat.toLowerCase().includes(term) ||
-                        c.exp.toLowerCase().includes(term)
-                    );
-                    renderCourses(filtered);
-                });
-            }
-
-            // शुरुआत में कोर्सेज दिखाएँ
-            renderCourses(courses);
-        });
-
-        // --- 4. पेमेंट पॉपअप फंक्शन ---
         function openPayment(name, fee) {
-            const cleanFee = fee.replace(/[^0-9]/g, ''); 
-            const upiId = "HMT2CU@OKAXIS";
-            const waNumber = "91XXXXXXXXXX"; // अपना असली नंबर यहाँ लिखें
-
+            const upiId = "hmt2cu@okaxis";
+            const cleanFee = fee.replace(/[^0-9]/g, '');
             document.getElementById('paymentModal').style.display = 'flex';
-            document.getElementById('pay-course-name').innerText = name;
-            document.getElementById('pay-amount').innerText = fee;
+            document.getElementById('pop-name').innerText = name;
+            document.getElementById('pop-amt').innerText = "Total Amount: " + fee;
+            document.getElementById('pop-upi').innerText = "UPI ID: " + upiId;
 
             document.getElementById('qrcode').innerHTML = "";
-            new QRCode(document.getElementById("qrcode"), {
-                text: `upi://pay?pa=${upiId}&pn=OrbitalSkill&am=${cleanFee}&cu=INR`,
-                width: 180,
-                height: 180
-            });
+            new QRCode(document.getElementById("qrcode"), { text: `upi://pay?pa=${upiId}&pn=Orbital&am=${cleanFee}&cu=INR`, width: 160, height: 160 });
 
-            const msg = encodeURIComponent(`नमस्ते, मैंने ${name} कोर्स के लिए ${fee} की फीस पे कर दी है। यह रहा मेरा स्क्रीनशॉट।`);
-            document.getElementById('wa-confirm-btn').href = `https://wa.me/${waNumber}?text=${msg}`;
+            document.getElementById('pay-upi-btn').onclick = () => { window.location.href = `upi://pay?pa=${upiId}&pn=Orbital&am=${cleanFee}&cu=INR`; };
+            document.getElementById('wa-btn').onclick = () => {
+                window.open(`https://wa.me/919416711671?text=Hi, I paid ${fee} for ${name}`, '_blank');
+                setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+            };
         }
 
-        function closeModal() {
-            document.getElementById('paymentModal').style.display = 'none';
-        }
+        document.getElementById('courseSearch').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            renderCourses(courses.filter(c => c.name.toLowerCase().includes(term) || c.cat.toLowerCase().includes(term)));
+        });
+
+        window.onload = () => renderCourses(courses);
     </script>
 
-    <div id="paymentModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
-        <div style="background:white; padding:25px; border-radius:20px; width:330px; text-align:center; position:relative; font-family: sans-serif;">
-            <span onclick="closeModal()" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:24px; font-weight:bold; color:#999;">&times;</span>
-            
-            <h3 style="margin-bottom:5px; font-size:18px; color:#333;">Scan & Pay</h3>
-            <p id="pay-course-name" style="font-size:13px; color:#666; margin-bottom:15px; min-height: 20px;"></p>
-            
-            <div id="qrcode" style="display:flex; justify-content:center; margin:15px 0; background:#f9f9f9; padding:10px; border-radius:10px;"></div>
-            
-            <p style="font-weight:bold; font-size:18px; color:#111;">Amount: <span id="pay-amount"></span></p>
-            
-            <a id="wa-confirm-btn" href="#" target="_blank" style="display:flex; align-items:center; justify-content:center; gap:10px; background:#25D366; color:white; padding:12px; border-radius:12px; text-decoration:none; margin-top:20px; font-weight:bold;">
-                <i class="fab fa-whatsapp"></i> Send Screenshot
-            </a>
-            <p style="font-size:10px; color:#aaa; margin-top:12px;">पेमेंट के बाद स्क्रीनशॉट भेजना अनिवार्य है।</p>
+    <div id="paymentModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; justify-content:center; align-items:center; padding:10px;">
+        <div style="background:white; border-radius:24px; width:100%; max-width:360px; position:relative; padding:25px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.2);">
+            <button onclick="document.getElementById('paymentModal').style.display='none'" style="position:absolute; top:15px; right:15px; font-size:24px; color:#94a3b8; border:none; background:none; cursor:pointer;">&times;</button>
+            <h4 id="pop-name" style="color:#475569; font-size:15px; font-weight:700; margin-bottom:10px;">Course Name</h4>
+            <h2 id="pop-amt" style="color:#2563eb; font-size:22px; font-weight:800; margin-bottom:20px;">Amount</h2>
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:20px; padding:20px; display:inline-block; margin-bottom:15px;">
+                <div id="qrcode" style="display:flex; justify-content:center; margin-bottom:10px;"></div>
+                <p style="font-size:12px; color:#64748b;">Scan with GPay, PhonePe or Paytm</p>
+            </div>
+            <p id="pop-upi" style="color:#2563eb; font-size:13px; font-weight:700; margin-bottom:20px;">UPI ID</p>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <button id="pay-upi-btn" style="background:#2563eb; color:white; padding:14px; border-radius:14px; font-weight:700; border:none; cursor:pointer;">Pay via UPI App (GPay/PhonePe)</button>
+                <div style="background:#fff1f2; border-left:4px solid #f43f5e; padding:10px; border-radius:8px; text-align:left;"><p style="font-size:12px; color:#9f1239; margin:0;"><strong>नोट:</strong> पेमेंट के बाद स्क्रीनशॉट व्हाट्सएप पर भेजें।</p></div>
+                <button id="wa-btn" style="background:#22c55e; color:white; padding:14px; border-radius:14px; font-weight:700; border:none; cursor:pointer;">WhatsApp Screenshot</button>
+            </div>
         </div>
     </div>
 </body>
