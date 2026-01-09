@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orbital Skill Develpoment Center Skill Develpoment Center Skill Develpoment Center | Future-Ready IT-ITES Training</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -250,120 +251,147 @@
         </div>
     </footer>
 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <script>
+        // --- 1. कोर्सेज डेटा (Icon के साथ) ---
         const courses = [
-            { id: 1, name: "Customer Care Executive-Domestic- Non- Voice", level: "Level 3", exp: "12th Class OR 10th Class + ITI", hours: "400 Hrs", duration: "6 Months", fee: "₹5000", cat: "Support" },
-            { id: 2, name: "Customer Care Executive-Domestic- Voice", level: "Level 3", exp: "12th Class OR 10th Class + ITI", hours: "400 Hrs", duration: "6 Months", fee: "₹5000", cat: "Support" },
-            { id: 3, name: "Domestic Biometric Data Operator", level: "Level 3", exp: "12th Class OR 10th Class + ITI", hours: "400 Hrs", duration: "6 Months", fee: "₹5000", cat: "Operations" },
-            { id: 4, name: "Accounting", level: "Level 3", exp: "10th Standard", hours: "450 Hrs", duration: "6 Months", fee: "₹5000", cat: "Finance" },
-            { id: 5, name: "Domestic IT Helpdesk Attendant", level: "Level 3", exp: "12th Class OR 10th Class + ITI", hours: "400 Hrs", duration: "6 Months", fee: "₹5000", cat: "Support" },
-            { id: 6, name: "Junior Software Developer", level: "Level 3", exp: "12th Class + 6 months exp OR 10th + ITI", hours: "400 Hrs", duration: "6 Months", fee: "₹5000", cat: "Development" },
-            { id: 7, name: "Digital Marketing Assistant", level: "Level 3", exp: "12th pass", hours: "144 hrs.", duration: "3 Months", fee: "₹5000", cat: "Marketing" },
-            { id: 8, name: "Computer Basics and Accounting", level: "Level 3", exp: "12th pass", hours: "288 hrs.", duration: "3 Months", fee: "₹5000", cat: "Finance" },
-            { id: 9, name: "Advanced Accounting with Tally ERP", level: "Level 4", exp: "12th Pass", hours: "120 Hrs", duration: "3 Months", fee: "₹5000", cat: "Finance" },
-            { id: 10, name: "Financial Accounting with Tally ERP", level: "Level 3", exp: "12th Pass, Hindi/English", hours: "120 Hrs", duration: "3 Months", fee: "₹5000", cat: "Finance" },
-            { id: 11, name: "Graphic Designing with Video Editing", level: "Level 3", exp: "12th Class", hours: "120 Hrs", duration: "3 Month", fee: "₹5000", cat: "Design" },
-            { id: 12, name: "Tally With GST", level: "Level 3", exp: "12th Class", hours: "120 Hrs", duration: "3 Month", fee: "₹5000", cat: "Finance" },
-            { id: 13, name: "Web Designing", level: "Level 3", exp: "12th Class", hours: "85 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 14, name: "ORACLE", level: "Level 3", exp: "12th Class", hours: "80 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Database" },
-            { id: 15, name: "DTP & GRAPHICS", level: "Level 3", exp: "12th Class", hours: "75 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Design" },
-            { id: 16, name: "Digital Marketing", level: "Level 3", exp: "Graduation", hours: "95 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Marketing" },
-            { id: 17, name: "C Programming", level: "Level 3", exp: "10th", hours: "75 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 18, name: "C++", level: "Level 3", exp: "12th Class + C", hours: "80 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 19, name: "Core Java", level: "Level 3", exp: "12th Class", hours: "80 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 20, name: "Advanced Java", level: "Level 3", exp: "12th Class", hours: "85 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 21, name: "Python (Basic + Adv)", level: "Level 3", exp: "12th Class", hours: "120 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 22, name: "C#.NET", level: "Level 3", exp: "10th", hours: "85 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 23, name: "ASP.NET", level: "Level 3", exp: "12th", hours: "85 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Development" },
-            { id: 24, name: "MySQL", level: "Level 3", exp: "12th Class", hours: "80 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Database" },
-            { id: 25, name: "SQL Server", level: "Level 3", exp: "12th pass", hours: "80 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Database" },
-            { id: 26, name: "PL/SQL", level: "Level 3", exp: "12th pass", hours: "75 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Database" },
-            { id: 27, name: "MS Office", level: "Level 3", exp: "8th pass", hours: "75 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Basic" },
-            { id: 28, name: "Basic Excel", level: "Level 3", exp: "8th pass", hours: "65 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Basic" },
-            { id: 29, name: "Advance Excel", level: "Level 3", exp: "8th pass", hours: "75 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Basic" },
-            { id: 30, name: "Tally Prime", level: "Level 3", exp: "12th pass", hours: "70 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Finance" },
-            { id: 31, name: "Typing - English", level: "Level 3", exp: "10th pass", hours: "60 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Skills" },
-            { id: 32, name: "Typing - Hindi", level: "Level 3", exp: "10th pass", hours: "60 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Skills" },
-            { id: 33, name: "Typing - Marathi", level: "Level 3", exp: "10th pass", hours: "60 Hrs.", duration: "3 Month", fee: "₹5000", cat: "Skills" }
+            { id: 1, name: "Customer Care Executive-Domestic- Non- Voice", icon: "fa-headset", exp: "12th Class OR 10th Class + ITI", dur: "6 Months", fee: "₹5000", cat: "Support" },
+            { id: 2, name: "Customer Care Executive-Domestic- Voice", icon: "fa-phone-volume", exp: "12th Class OR 10th Class + ITI", dur: "6 Months", fee: "₹5000", cat: "Support" },
+            { id: 3, name: "Domestic Biometric Data Operator", icon: "fa-fingerprint", exp: "12th Class OR 10th Class + ITI", dur: "6 Months", fee: "₹5000", cat: "Operations" },
+            { id: 4, name: "Accounting", icon: "fa-calculator", exp: "10th Standard", dur: "6 Months", fee: "₹5000", cat: "Finance" },
+            { id: 5, name: "Domestic IT Helpdesk Attendant", icon: "fa-user-gear", exp: "12th Class OR 10th Class + ITI", dur: "6 Months", fee: "₹5000", cat: "Support" },
+            { id: 6, name: "Junior Software Developer", icon: "fa-code", exp: "12th Class + 6 months exp OR 10th + ITI", dur: "6 Months", fee: "₹5000", cat: "Development" },
+            { id: 7, name: "Digital Marketing Assistant", icon: "fa-bullhorn", exp: "12th pass", dur: "3 Months", fee: "₹5000", cat: "Marketing" },
+            { id: 8, name: "Computer Basics and Accounting", icon: "fa-laptop-code", exp: "12th pass", dur: "3 Months", fee: "₹5000", cat: "Finance" },
+            { id: 9, name: "Advanced Accounting with Tally ERP", icon: "fa-file-invoice-dollar", exp: "12th Pass", dur: "3 Months", fee: "₹5000", cat: "Finance" },
+            { id: 10, name: "Financial Accounting with Tally ERP", icon: "fa-coins", exp: "12th Pass, Hindi/English", dur: "3 Months", fee: "₹5000", cat: "Finance" },
+            { id: 11, name: "Graphic Designing with Video Editing", icon: "fa-video", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Design" },
+            { id: 12, name: "Tally With GST", icon: "fa-receipt", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Finance" },
+            { id: 13, name: "Web Designing", icon: "fa-globe", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 14, name: "ORACLE", icon: "fa-database", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 15, name: "DTP & GRAPHICS", icon: "fa-palette", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Design" },
+            { id: 16, name: "Digital Marketing", icon: "fa-chart-line", exp: "Graduation", dur: "3 Month", fee: "₹5000", cat: "Marketing" },
+            { id: 17, name: "C Programming", icon: "fa-terminal", exp: "10th", dur: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 18, name: "C++", icon: "fa-cuate", exp: "12th Class + C", dur: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 19, name: "Core Java", icon: "fa-mug-hot", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 20, name: "Advanced Java", icon: "fa-layer-group", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 21, name: "Python (Basic + Adv)", icon: "fa-brands fa-python", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 22, name: "C#.NET", icon: "fa-hashtag", exp: "10th", dur: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 23, name: "ASP.NET", icon: "fa-window-restore", exp: "12th", dur: "3 Month", fee: "₹5000", cat: "Development" },
+            { id: 24, name: "MySQL", icon: "fa-server", exp: "12th Class", dur: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 25, name: "SQL Server", icon: "fa-database", exp: "12th pass", dur: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 26, name: "PL/SQL", icon: "fa-table", exp: "12th pass", dur: "3 Month", fee: "₹5000", cat: "Database" },
+            { id: 27, name: "MS Office", icon: "fa-file-word", exp: "8th pass", dur: "3 Month", fee: "₹5000", cat: "Basic" },
+            { id: 28, name: "Basic Excel", icon: "fa-file-excel", exp: "8th pass", dur: "3 Month", fee: "₹5000", cat: "Basic" },
+            { id: 29, name: "Advance Excel", icon: "fa-table-cells", exp: "8th pass", dur: "3 Month", fee: "₹5000", cat: "Basic" },
+            { id: 30, name: "Tally Prime", icon: "fa-book", exp: "12th pass", dur: "3 Month", fee: "₹5000", cat: "Finance" },
+            { id: 31, name: "Typing - English", icon: "fa-keyboard", exp: "10th pass", dur: "3 Month", fee: "₹5000", cat: "Skills" },
+            { id: 32, name: "Typing - Hindi", icon: "fa-font", exp: "10th pass", dur: "3 Month", fee: "₹5000", cat: "Skills" },
+            { id: 33, name: "Typing - Marathi", icon: "fa-language", exp: "10th pass", dur: "3 Month", fee: "₹5000", cat: "Skills" }
         ];
 
-        const courseGrid = document.getElementById('courseGrid');
-        const courseSearch = document.getElementById('courseSearch');
-        const noResults = document.getElementById('noResults');
-
-        function renderCourses(data) {
+        // --- 2. कोर्स रेंडर करने का फंक्शन ---
+        function renderCourses(coursesToRender) {
+            const courseGrid = document.getElementById('course-grid');
+            if (!courseGrid) return;
+            
             courseGrid.innerHTML = '';
-            if (data.length === 0) {
-                noResults.classList.remove('hidden');
-                return;
-            }
-            noResults.classList.add('hidden');
-
-            data.forEach(course => {
+            coursesToRender.forEach(course => {
                 const card = document.createElement('div');
-                card.className = 'course-card group bg-white border border-slate-200 p-6 rounded-3xl flex flex-col h-full';
-                
-                // Set category color
-                let catColor = 'bg-blue-100 text-blue-600';
-                if (course.cat === 'Finance') catColor = 'bg-emerald-100 text-emerald-600';
-                if (course.cat === 'Development') catColor = 'bg-indigo-100 text-indigo-600';
-                if (course.cat === 'Marketing') catColor = 'bg-rose-100 text-rose-600';
-                if (course.cat === 'Database') catColor = 'bg-amber-100 text-amber-600';
-
+                card.className = 'bg-white rounded-3xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/10 transition-all group';
                 card.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="tag-pill px-2.5 py-1 rounded-md ${catColor}">${course.cat}</span>
-                        <span class="text-xs font-bold text-slate-400">${course.level}</span>
+                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas ${course.icon} text-blue-600 text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-3">${course.name}</h3>
-                    <div class="space-y-3 mb-6 flex-grow">
-                        <div class="flex items-center gap-2 text-sm text-slate-600">
-                            <i class="far fa-clock w-4"></i>
-                            <span>${course.hours} (${course.duration})</span>
+                    <div class="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full mb-3 uppercase tracking-wider">${course.cat}</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2 leading-tight">${course.name}</h3>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="flex items-center gap-1.5 text-slate-500 text-xs">
+                            <i class="far fa-clock text-blue-500"></i>
+                            <span>${course.dur}</span>
                         </div>
-                        <div class="flex items-start gap-2 text-sm text-slate-600">
-                            <i class="fas fa-graduation-cap w-4 mt-1"></i>
-                            <span class="line-clamp-2">${course.exp}</span>
+                        <div class="flex items-center gap-1.5 text-slate-500 text-xs">
+                            <i class="far fa-star text-amber-500"></i>
+                            <span>${course.exp}</span>
                         </div>
                     </div>
-                    <div class="pt-4 border-t border-slate-50 flex items-center justify-between">
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
                         <div>
-                            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Assessment Fee</p>
+                            <p class="text-[10px] text-slate-500 uppercase tracking-wider">Assessment Fee</p>
                             <p class="text-lg font-extrabold text-slate-900">${course.fee}</p>
                         </div>
-                      <a ="https://wa.me/message/NP5YOJV63ILWD1" target="_blank" rel="noopener noreferrer">
-                      <button class="bg-slate-100 text-slate-900 px-4 py-2 rounded-xl text-sm font-bold group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <button onclick="openPayment('${course.name}', '${course.fee}')" class="bg-slate-100 text-slate-900 px-4 py-2 rounded-xl text-sm font-bold group-hover:bg-blue-600 group-hover:text-white transition-all">
                             Apply Now
                         </button>
-                        </a>
                     </div>
                 `;
                 courseGrid.appendChild(card);
             });
         }
 
-        courseSearch.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = courses.filter(c => 
-                c.name.toLowerCase().includes(term) || 
-                c.cat.toLowerCase().includes(term) ||
-                c.exp.toLowerCase().includes(term)
-            );
-            renderCourses(filtered);
-        });
-
-        // Initial render
-        renderCourses(courses);
-
-        // Simple smooth scroll for nav
-        document.querySelectorAll('a[^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('')).scrollIntoView({
-                    behavior: 'smooth'
+        // --- 3. इवेंट लिसनर्स और इनिशियलाइज़ेशन ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const courseSearch = document.getElementById('course-search');
+            
+            if(courseSearch) {
+                courseSearch.addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const filtered = courses.filter(c => 
+                        c.name.toLowerCase().includes(term) || 
+                        c.cat.toLowerCase().includes(term) ||
+                        c.exp.toLowerCase().includes(term)
+                    );
+                    renderCourses(filtered);
                 });
-            });
+            }
+
+            // शुरुआत में कोर्सेज दिखाएँ
+            renderCourses(courses);
         });
+
+        // --- 4. पेमेंट पॉपअप फंक्शन ---
+        function openPayment(name, fee) {
+            const cleanFee = fee.replace(/[^0-9]/g, ''); 
+            const upiId = "HMT2CU@OKAXIS";
+            const waNumber = "91XXXXXXXXXX"; // अपना असली नंबर यहाँ लिखें
+
+            document.getElementById('paymentModal').style.display = 'flex';
+            document.getElementById('pay-course-name').innerText = name;
+            document.getElementById('pay-amount').innerText = fee;
+
+            document.getElementById('qrcode').innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), {
+                text: `upi://pay?pa=${upiId}&pn=OrbitalSkill&am=${cleanFee}&cu=INR`,
+                width: 180,
+                height: 180
+            });
+
+            const msg = encodeURIComponent(`नमस्ते, मैंने ${name} कोर्स के लिए ${fee} की फीस पे कर दी है। यह रहा मेरा स्क्रीनशॉट।`);
+            document.getElementById('wa-confirm-btn').href = `https://wa.me/${waNumber}?text=${msg}`;
+        }
+
+        function closeModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
     </script>
+
+    <div id="paymentModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:white; padding:25px; border-radius:20px; width:330px; text-align:center; position:relative; font-family: sans-serif;">
+            <span onclick="closeModal()" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:24px; font-weight:bold; color:#999;">&times;</span>
+            
+            <h3 style="margin-bottom:5px; font-size:18px; color:#333;">Scan & Pay</h3>
+            <p id="pay-course-name" style="font-size:13px; color:#666; margin-bottom:15px; min-height: 20px;"></p>
+            
+            <div id="qrcode" style="display:flex; justify-content:center; margin:15px 0; background:#f9f9f9; padding:10px; border-radius:10px;"></div>
+            
+            <p style="font-weight:bold; font-size:18px; color:#111;">Amount: <span id="pay-amount"></span></p>
+            
+            <a id="wa-confirm-btn" href="#" target="_blank" style="display:flex; align-items:center; justify-content:center; gap:10px; background:#25D366; color:white; padding:12px; border-radius:12px; text-decoration:none; margin-top:20px; font-weight:bold;">
+                <i class="fab fa-whatsapp"></i> Send Screenshot
+            </a>
+            <p style="font-size:10px; color:#aaa; margin-top:12px;">पेमेंट के बाद स्क्रीनशॉट भेजना अनिवार्य है।</p>
+        </div>
+    </div>
 </body>
-</html></html>
+</html>
