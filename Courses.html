@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Skill Development Center - Course Catalog</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        orbital: {
+                            blue: '#1e3a8a',
+                            gold: '#fbbf24',
+                            bg: '#f8fafc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-orbital-bg font-sans text-slate-800">
+
+    <!-- Top Info Bar -->
+    <div class="bg-orbital-blue text-white py-2 text-xs md:text-sm">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-2">
+            <div class="flex flex-wrap justify-center gap-4">
+                <span><i class="fas fa-map-marker-alt text-orbital-gold mr-1"></i> Bighar Road, Fatehabad</span>
+                <span><i class="fas fa-phone-alt text-orbital-gold mr-1"></i> +9194 1671 1671</span>
+                <span><i class="fas fa-envelope text-orbital-gold mr-1"></i> osi@ftbh.onmicrosoft.com</span>
+            </div>
+            <div class="flex gap-4">
+                <a href="https://wa.me/message/NP5YOJV63ILWD1" class="hover:text-orbital-gold"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/orbitalskills" class="hover:text-orbital-gold"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/orbitalskills/" class="hover:text-orbital-gold"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white shadow sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-orbital-blue text-white p-2 rounded-lg">
+                    <i class="fas fa-user-graduate text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-orbital-blue leading-none">ORBITAL</h1>
+                    <p class="text-xs font-bold text-gray-500 tracking-widest">SKILL DEVELOPMENT CENTER</p>
+                </div>
+            </div>
+            <a href="https://wa.me/message/NP5YOJV63ILWD1" target="_blank" class="hidden md:inline-block bg-green-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-green-600 transition shadow-lg">
+                <i class="fab fa-whatsapp mr-1"></i> Chat Now
+            </a>
+        </div>
+    </header>
+
+    <!-- Search & Filter Area -->
+    <div class="bg-white border-b py-8">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Available Courses (सभी कोर्स)</h2>
+                <p class="text-gray-600 mt-2">Search course details and pay fees directly.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-4 max-w-5xl mx-auto">
+                <div class="md:w-1/3">
+                    <select id="sectorFilter" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:border-orbital-blue shadow-sm bg-gray-50 cursor-pointer">
+                        <option value="All">All Sectors (सभी सेक्टर)</option>
+                    </select>
+                </div>
+                <div class="flex-grow relative">
+                    <i class="fas fa-search absolute left-4 top-4 text-gray-400"></i>
+                    <input type="text" id="searchInput" placeholder="Search course name (e.g. Drone, Electrician)..." 
+                        class="w-full pl-10 p-3 rounded-lg border border-gray-300 focus:outline-none focus:border-orbital-blue shadow-sm">
+                </div>
+            </div>
+            
+            <div class="text-center mt-4 text-sm text-gray-500">
+                Total Courses: <span id="totalCount" class="font-bold text-orbital-blue">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Grid -->
+    <section class="py-10 bg-gray-50 min-h-screen">
+        <div class="container mx-auto px-4">
+            <div id="courseContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Courses injected here -->
+            </div>
+            <div id="noResults" class="hidden text-center py-12">
+                <i class="fas fa-folder-open text-4xl text-gray-300 mb-2"></i>
+                <p class="text-xl text-gray-500">No courses found matching your criteria.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-orbital-blue text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold text-orbital-gold mb-6">Contact Us</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm mb-8">
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-map-marker-alt text-3xl mb-2 text-orbital-gold"></i>
+                    <p>Bighar Road, Fatehabad, Haryana</p>
+                </div>
+                <div class="flex flex-col items-center">
+                   
+<button onclick="sendWhatsApp()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition shadow-md flex items-center justify-center gap-2">
+            <i class="fab fa-whatsapp text-xl"></i> WhatsApp Screenshot
+          </button>
+                  </div>
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-envelope text-3xl mb-2 text-orbital-gold"></i>
+                    <p>osi@ftbh.onmicrosoft.com</p>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 pt-6 text-xs text-blue-300">
+                &copy; 2024 Orbital Skill Development Center. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================= MODALS ========================= -->
+
+    <!-- 1. COURSE DETAILS MODAL -->
+    <div id="detailsModal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-lg rounded-xl shadow-2xl overflow-hidden modal-content relative animate-fade-in-up">
+            
+            <!-- Header -->
+            <div class="bg-orbital-blue p-4 flex justify-between items-center sticky top-0 z-10">
+                <h3 class="text-white font-bold text-lg flex items-center gap-2">
+                    <i class="fas fa-info-circle"></i> Course Details
+                </h3>
+                <button onclick="closeDetailsModal()" class="text-white hover:text-red-200 text-2xl font-bold">&times;</button>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 space-y-4">
+                <div class="text-center mb-4">
+                    <span id="detailSector" class="bg-blue-100 text-orbital-blue text-xs font-bold px-3 py-1 rounded-full uppercase"></span>
+                    <h2 id="detailName" class="text-2xl font-bold text-gray-800 mt-2 leading-tight"></h2>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 space-y-3">
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="text-gray-500 text-sm">NSQF Level:</span>
+                        <span id="detailLevel" class="font-bold text-gray-800"></span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="text-gray-500 text-sm">Duration:</span>
+                        <span id="detailDuration" class="font-bold text-gray-800"></span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500 text-sm">Assessment Fee (OSDC):</span>
+                        <span id="detailFee" class="text-xl font-bold text-green-600"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-700 mb-2 flex items-center gap-2"><i class="fas fa-user-graduate text-orbital-gold"></i> Eligibility / Qualification:</h4>
+                    <p id="detailEligibility" class="text-gray-600 text-sm bg-blue-50 p-3 rounded-lg border border-blue-100 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="p-4 border-t bg-gray-50 flex gap-3">
+                <button onclick="closeDetailsModal()" class="flex-1 py-2 rounded-lg border border-gray-300 text-gray-700 font-semibold hover:bg-gray-100">Close</button>
+                <button id="detailPayBtn" onclick="" class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 shadow-md">Pay Fee Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. PAYMENT MODAL -->
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-md rounded-xl p-6 relative shadow-2xl">
+          <button onclick="closePaymentModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-800 text-3xl font-bold">&times;</button>
+      
+          <div class="text-center">
+              <h2 class="text-xl font-bold text-gray-800 mb-1">Course Fee Payment</h2>
+              <p class="text-xs text-gray-500 mb-4">Secure Payment Gateway</p>
+          </div>
+      
+          <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 mb-4">
+              <p class="text-sm text-gray-500">Selected Course:</p>
+              <p id="modalCourseName" class="font-bold text-gray-800 mb-2"></p>
+              <div class="flex justify-between items-center border-t border-gray-200 pt-2">
+                  <p class="text-sm text-gray-500">Total Fee:</p>
+                  <p id="modalCourseFee" class="text-xl font-extrabold text-green-600"></p>
+              </div>
+          </div>
+      
+          <div class="flex justify-center mb-4">
+            <img id="upiQr" class="w-48 h-48 border-2 border-dashed border-gray-300 rounded-lg p-1" alt="Payment QR Code">
+          </div>
+      
+          <p class="text-center text-sm mb-3 bg-yellow-50 p-2 rounded border border-yellow-200 text-yellow-800">
+            <strong>UPI ID:</strong> hmt2cu@okaxis
+          </p>
+      
+          <a id="upiLink" href="#" class="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg mb-3 shadow-md flex items-center justify-center gap-2">
+            <i class="fas fa-mobile-alt"></i> Pay via UPI App
+          </a>
+      
+          <div class="bg-red-50 text-red-600 text-xs p-2 rounded mb-3 text-center border border-red-100">
+            <i class="fas fa-exclamation-circle"></i> नोट: पेमेंट के बाद स्क्रीनशॉट व्हाट्सएप पर भेजें।
+          </div>
+      
+          <button onclick="sendWhatsApp()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition shadow-md flex items-center justify-center gap-2">
+            <i class="fab fa-whatsapp text-xl"></i> WhatsApp Screenshot
+          </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT DATA & LOGIC -->
+    <script>
+        // ==========================================================
+        // COMPLETE COURSE DATA
+        // ==========================================================
+        const allCourses = [
+            // --- Agriculture Sector ---
+            {s:"Agriculture", n:"Kisan Drone Operator", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"10th Class + 2 years relevant experience OR 10th Class + ITI (2 years) in relevant field"},
+            {s:"Agriculture", n:"Organic Grower", l:"4", d:"390 Hrs / 1 Year", f:"5000", e:"10th Class with 2 Years of relevant experience OR Certificate-NSQF Level-3 with 2 years of relevant experience"},
+            {s:"Agriculture", n:"Dairy Farmer / Entrepreneur", l:"4", d:"360 Hrs / 6 Months", f:"5000", e:"10th Class with 1 year of relevant Experience OR 8th Class with 3 Years of relevant experience"},
+            {s:"Agriculture", n:"Mushroom Grower", l:"4", d:"380 Hrs / 6 Months", f:"5000", e:"10th Class with 1 year of relevant experience OR Certificate NSQF Level-3 with 2 Years of relevant experience"},
+            {s:"Agriculture", n:"Beekeeper", l:"3", d:"280 Hrs / 3 Months", f:"5000", e:"8th Class with 1 Year of relevant experience OR 5th Class with 3 Years of relevant experience"},
+            {s:"Agriculture", n:"Floriculturist", l:"4", d:"540 Hrs / 6 Months", f:"5000", e:"8th Class with 4 Years of relevant experience OR 10th Class with 2 Years of relevant Experience"},
+            {s:"Agriculture", n:"Micro-Irrigation Technician", l:"4", d:"380 Hrs / 6 Months", f:"5000", e:"12th Pass or I.T.I /Diploma in relevant field OR 10th Pass with 1 Year of relevant experience"},
+            {s:"Agriculture", n:"Soil & Water Testing Lab Analyst", l:"5", d:"440 Hrs / 1 Year", f:"5000", e:"B.Sc (Agriculture/ Chemistry) OR 12th with 4 years of relevant experience"},
+            {s:"Agriculture", n:"Gardener", l:"4", d:"340 Hrs / 1 Year", f:"10500", e:"5th Class with 6 Months of experience working in a garden or nursery"},
+            {s:"Agriculture", n:"Vermicompost Producer", l:"4", d:"360 Hrs / 6 Months", f:"5000", e:"10th Class with 2 years’ work experience in relevant field OR 8th Class with 4 Years of experience"},
+            {s:"Agriculture", n:"Agriculture Field Officer", l:"4", d:"390 Hrs / 6 Months", f:"6500", e:"2 Years Diploma (Banking and Finance/Agriculture/Horticulture) post 10th OR 12th Class/ITI"},
+            {s:"Agriculture", n:"Quality Seed Grower", l:"4", d:"380 Hrs / 6 Months", f:"5000", e:"10th Class with 1 Year of relevant experience OR 8th Class with 3 Years of relevant experience"},
+            {s:"Agriculture", n:"Poultry Farm Supervisor", l:"5", d:"480 Hrs / 6 Months", f:"5000", e:"Graduation in the relevant field OR 10th + ITI with 2 years of relevant experience"},
+            {s:"Agriculture", n:"Tractor Operator", l:"4", d:"384 Hrs / 6 Months", f:"5000", e:"12th Pass or I.T.I /Diploma OR 10th Pass with 1 Year of relevant experience"},
+            {s:"Agriculture", n:"Agriculture Warehouse Worker", l:"3", d:"280 Hrs / 6 Months", f:"5000", e:"8th Class with one year experience OR 5th Class with 2 Years of relevant experience"},
+            {s:"Agriculture", n:"Aquaculture Worker", l:"3", d:"300 Hrs / 6 Months", f:"5000", e:"5th Class with 3 Year of relevant experience OR Ability to read and write with 4 Years of relevant experience"},
+            {s:"Agriculture", n:"Cotton Cultivator", l:"3", d:"300 Hrs / 6 Months", f:"5000", e:"8th Class with 1 year of relevant experience OR Ability to read and write with 5 Years of relevant experience"},
+            {s:"Agriculture", n:"Paddy Farmer", l:"3", d:"300 Hrs / 6 Months", f:"5000", e:"Ability to read and write with 5 years of relevant experience OR 5th Class Pass with 3 years of relevant experience"},
+            {s:"Agriculture", n:"Sericulturist", l:"3", d:"272 Hrs / 6 Months", f:"5000", e:"8th Class with 1 year of relevant experience OR Ability to read and write with 5 Years of relevant experience"},
+            {s:"Agriculture", n:"Sugarcane Cultivator", l:"3", d:"300 Hrs / 6 Months", f:"5000", e:"8th Class with 1 Year of relevant experience OR 5th Class with 3 Years of relevant experience"},
+            {s:"Agriculture", n:"Bamboo Grower", l:"3", d:"260 Hrs / 3 Months", f:"5000", e:"5th Class with 3 years of relevant experience OR Ability to read and write with 5 years of experience"},
+            {s:"Agriculture", n:"Coffee Plantation Worker", l:"3", d:"270 Hrs / 3 Months", f:"5000", e:"8th Class Pass with 1 year of relevant experience OR 5th Class Pass with 3 years of relevant experience"},
+            {s:"Agriculture", n:"Dairy Worker", l:"3", d:"300 Hrs / 3 Months", f:"5000", e:"8th Class with 1 year of relevant experience OR 5th Class with 3 Years of relevant experience"},
+            {s:"Agriculture", n:"Fish Retailer", l:"3", d:"280 Hrs / 3 Months", f:"6500", e:"Ability to read and write with 5 Years of relevant experience OR 8th Class with 1 Year of relevant experience"},
+            {s:"Agriculture", n:"Greenhouse Operator", l:"3", d:"280 Hrs / 3 Months", f:"5000", e:"8th Class OR Certificate-NSQF Level-3 (Farm Worker) with 6 months of relevant experience"},
+            {s:"Agriculture", n:"Hatchery Operator", l:"3", d:"300 Hrs / 3 Months", f:"5000", e:"8th Class with 1 Year of relevant experience OR Certificate-NSQF Level-3"},
+            {s:"Agriculture", n:"Milk Tester", l:"3", d:"300 Hrs / 3 Months", f:"5000", e:"8th Class with 1 Years of relevant experience OR 5th Class with 3 years of relevant experience"},
+            {s:"Agriculture", n:"Nursery Worker", l:"3", d:"200 Hrs / 3 Months", f:"5000", e:"5th Class"},
+            {s:"Agriculture", n:"Orchard Worker", l:"3", d:"200 Hrs / 3 Months", f:"5000", e:"Preferably 5th Std"},
+            {s:"Agriculture", n:"Tea Plantation Worker", l:"3", d:"300 Hrs / 3 Months", f:"5000", e:"8th Class with 1 year of relevant experience OR 5th Class with 3 Years of relevant experience"},
+            {s:"Agriculture", n:"Animal/Aqua Feed Technician", l:"4", d:"380 Hrs / 6 Months", f:"5000", e:"10th Pass with 3 Years of relevant experience OR 12th Pass or I.T.I with 1 Year of relevant experience"},
+            {s:"Agriculture", n:"Aquarium Technician", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"10th class pass with 2 years experience OR 8th Class with 4 Years of relevant experience"},
+            {s:"Agriculture", n:"Barefoot Technician", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"10th Class Pass with 2 years of relevant experience OR 10th Class Pass + ITI"},
+            {s:"Agriculture", n:"Bulk Milk Cooler Operator", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"10th class pass with 2 years experience OR 10th Class+ ITI"},
+            {s:"Agriculture", n:"Chilling Plant Technician", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"10th Class Pass with 2 years of relevant experience OR 10th Class Pass + ITI"},
+            {s:"Agriculture", n:"Combine Harvester Operator", l:"4", d:"384 Hrs / 6 Months", f:"5000", e:"ITI/Diploma in relevant field OR 10th Class with 1 Year of relevant experience"},
+            {s:"Agriculture", n:"Deep Sea Fisher", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"10th Class with 2 Years of experience in the relevant field OR 10th Class + I.T.I"},
+            {s:"Agriculture", n:"Fishing Boat Driver", l:"4", d:"390 Hrs / 6 Months", f:"6500", e:"10th Class Pass with 2 years of relevant experience OR 10th Class Pass + ITI"},
+            {s:"Agriculture", n:"Hydroponics Technician", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"10th Class Pass with 2 years of relevant experience OR 10th Class Pass + ITI"},
+            {s:"Agriculture", n:"Seed Processing Worker", l:"3", d:"300 Hrs / 3 Months", f:"5000", e:"8th Class OR 5th Class with 3 Year of relevant experience"},
+
+            // --- APPAREL SECTOR ---
+            {s:"Apparel", n:"Sewing Machine Operator", l:"3", d:"285 Hrs / 6 Months", f:"5000", e:"Minimum 5th Class and 1 year of relevant experience"},
+            {s:"Apparel", n:"Fashion Designer", l:"5", d:"735 Hrs / 1 Year", f:"5950", e:"10th class with 2-3 yrs exp OR 12th Class + 2 yrs of relevant experience"},
+            {s:"Apparel", n:"Hand Embroiderer (Addawala)", l:"3", d:"420 Hrs / 3 Months", f:"5000", e:"Ability to Read and Write with 5 years of Experience OR 5th Class Pass with 3 year of Experience"},
+            {s:"Apparel", n:"Export Manager", l:"6", d:"375 Hrs / 1 Year", f:"5000", e:"Minimum 1 Year Govt. Body Approved Diploma OR Degree in related field"},
+            {s:"Apparel", n:"Boutique Manager", l:"6", d:"600 Hrs / 1 Year", f:"6800", e:"Diploma in Fashion Design"},
+            {s:"Apparel", n:"Sampling Tailor", l:"4", d:"745 Hrs / 1 Year", f:"5950", e:"8th Class with 4 Years of experience in relevant field OR 8th Class + ITI"},
+            {s:"Apparel", n:"Fabric Cutter", l:"3", d:"315 Hrs / 1 Year", f:"5000", e:"10th Class with 2 years of relevant experience OR 12th class with 1 yrs exp."},
+            {s:"Apparel", n:"Layerman", l:"2", d:"135 Hrs / 3 Months", f:"5000", e:"5th Class"},
+            {s:"Apparel", n:"Embroidery Machine Operator", l:"3", d:"270 Hrs / 6 Months", f:"5950", e:"5th Class with 4 Years of experience OR 8th Class with 2 Years of experience"},
+            {s:"Apparel", n:"Pressman", l:"3", d:"285 Hrs / 6 Months", f:"5000", e:"5th Class"},
+            {s:"Apparel", n:"Record Keeper", l:"3", d:"300 Hrs / 3 Months", f:"5000", e:"10th Class with 2 Years of relevant experience OR 12th Class with 1 Years of relevant experience"},
+            {s:"Apparel", n:"Washing Machine Operator", l:"3", d:"315 Hrs / 6 Months", f:"5000", e:"10th Class with 2 Years of relevant experience OR NSQF Level 2 with 2 years of experience"},
+            {s:"Apparel", n:"Aari Embroiderer", l:"4", d:"200 Hrs / 6 Months", f:"5000", e:"12th pass"},
+            {s:"Apparel", n:"Specialised Sewing Machine Operator", l:"4", d:"255 Hrs / 6 Months", f:"5000", e:"Minimum 8th Class and 2 Years of relevant experience"},
+            {s:"Apparel", n:"Fabric Checker", l:"4", d:"375 Hrs / 6 Months", f:"5000", e:"Minimum 8th Class and 3 Years of relevant experience"},
+            {s:"Apparel", n:"Finisher & Packer", l:"4", d:"400 Hrs / 1 Year", f:"5000", e:"5th Class with 2 Years of relevant experience OR 8th class with 1 yrs exp"},
+            {s:"Apparel", n:"Processing Supervisor", l:"4", d:"515 Hrs / 1 Year", f:"6500", e:"12th Class with 3 Years of experience"},
+            {s:"Apparel", n:"Maintenance Mechanic", l:"4", d:"555 Hrs / 1 Year", f:"6500", e:"8th class with 4 yrs of relevant experience OR 10th class with 2 yrs exp"},
+            {s:"Apparel", n:"Pattern Master", l:"4", d:"735 Hrs / 1 Year", f:"5950", e:"Minimum 12th Class and 1 Year of relevant experience"},
+            {s:"Apparel", n:"Assistant Designer", l:"4", d:"800 Hrs / 1 Year", f:"5000", e:"12th pass with 2 years experience in relevant field or Graduation"},
+            {s:"Apparel", n:"Advance Pattern Maker", l:"5", d:"500 Hrs / 1 Year", f:"5000", e:"Graduate with 3 Years of experience in relevant field"},
+            {s:"Apparel", n:"Export Executive", l:"5", d:"500 Hrs / 1 Year", f:"5000", e:"12th Class with 4 Years of relevant experience OR Graduation"},
+            {s:"Apparel", n:"Factory Compliance Auditor", l:"5", d:"500 Hrs / 1 Year", f:"5000", e:"Graduate in related field with 4 Years of relevant experience"},
+            {s:"Apparel", n:"Industrial Engineer", l:"5", d:"500 Hrs / 1 Year", f:"6500", e:"Graduate in relevant field with 4 Years of relevant experience"},
+            {s:"Apparel", n:"Sampling Coordinator", l:"5", d:"500 Hrs / 1 Year", f:"5000", e:"12th Class with 4 Years of relevant experience OR Graduation"},
+            {s:"Apparel", n:"Merchandiser", l:"5", d:"800 Hrs / 1 Year", f:"6500", e:"Graduate with 3 Years of relevant experience"},
+            {s:"Apparel", n:"Production Supervisor Sewing", l:"5", d:"800 Hrs / 1 Year", f:"5950", e:"Graduate 3 Years of relevant experience OR Diploma in textiles"},
+            {s:"Apparel", n:"Sourcing Manager", l:"6", d:"615 Hrs / 1 Year", f:"1550", e:"Minimum 1 Year Govt. Body Approved Diploma OR NSQF level 5"},
+
+            // --- AUTOMOTIVE SECTOR ---
+            {s:"Automotive", n:"Electric Vehicle Service Technician", l:"4", d:"648 Hrs / 1 Year", f:"6500", e:"ITI (Mechanic Motor Vehicle) with minimum 1 Year of experience"},
+            {s:"Automotive", n:"Two Wheeler Service Technician", l:"4", d:"456 Hrs / 1 Year", f:"5000", e:"10th Class with 1-2 Years of experience"},
+            {s:"Automotive", n:"Four Wheeler Service Technician", l:"4", d:"456 Hrs / 1 Year", f:"5100", e:"10th Class with 1-2 Years of experience"},
+            {s:"Automotive", n:"Automotive Sales Executive", l:"4", d:"440 Hrs / 1 Year", f:"5000", e:"12th Class with 2 Years of relevant experience OR Graduate"},
+            {s:"Automotive", n:"Commercial Vehicle Driver", l:"4", d:"304 Hrs / 6 Months", f:"5000", e:"8th Class with 2 Years of experience as LMV driver"},
+            {s:"Automotive", n:"Taxi Driver", l:"4", d:"304 Hrs / 3 Months", f:"5000", e:"8th Class with 2 years experience"},
+            {s:"Automotive", n:"Automotive Body Repair Technician", l:"4", d:"400 Hrs / 1 Year", f:"5100", e:"8th Class + 1 year ITI with 2 years of experience OR 10th Class with 1 Year exp"},
+            {s:"Automotive", n:"Automotive Electrician", l:"4", d:"400 Hrs / 1 Year", f:"5000", e:"10th Class OR Certificate-NSQF (Four Wheeler Service Assistant)"},
+            {s:"Automotive", n:"Automotive Assembly Assistant", l:"2", d:"256 Hrs / 6 Months", f:"5000", e:"8th Class"},
+            {s:"Automotive", n:"Automotive Body Painting Assistant", l:"2", d:"256 Hrs / 3 Months", f:"5000", e:"8th Class"},
+            {s:"Automotive", n:"Automotive Machining Assistant", l:"2", d:"256 Hrs / 3 Months", f:"5000", e:"8th Class"},
+            {s:"Automotive", n:"Automotive Washer", l:"2", d:"200 Hrs / 3 Months", f:"5000", e:"5th Class"},
+            {s:"Automotive", n:"Driving Assistant", l:"2", d:"200 Hrs / 3 Months", f:"5000", e:"5th Class"},
+            {s:"Automotive", n:"Automotive Assembly Operator", l:"3", d:"320 Hrs / 6 Months", f:"5000", e:"10th Class"},
+            {s:"Automotive", n:"Automotive Paint Operator", l:"3", d:"304 Hrs / 6 Months", f:"5000", e:"8th Class + 1 year ITI with 3 years of experience OR 10th Class"},
+            {s:"Automotive", n:"Maintenance Assistant", l:"3", d:"280 Hrs / 6 Months", f:"5000", e:"8th Class + 2 year ITI with 1 year of relevant experience"},
+            {s:"Automotive", n:"Quality Control Assistant", l:"3", d:"360 Hrs / 6 Months", f:"5000", e:"10th Class with 1-2 Years of experience in Quality OR 12th Class"},
+            {s:"Automotive", n:"Sales Assistant", l:"3", d:"304 Hrs / 3 Months", f:"5000", e:"10th Class with 2 years of relevant experience OR 12th Class"},
+            {s:"Automotive", n:"Welding Machine Operator", l:"3", d:"320 Hrs / 3 Months", f:"5000", e:"10th Class OR Certificate-NSQF"},
+            {s:"Automotive", n:"Bicycle Mechanic", l:"3", d:"270 Hrs / 3 Months", f:"5000", e:"8th Class pass with 1 year of relevant experience OR 10th Class pass"},
+            {s:"Automotive", n:"EV Assembly Operator", l:"3", d:"320 Hrs / 6 Months", f:"5000", e:"8th + 1 year ITI with 1 year experience OR 10th Class"},
+            {s:"Automotive", n:"Auto Rickshaw Driver", l:"4", d:"304 Hrs / 6 Months", f:"5000", e:"8th Class with 1 year of experience of LMV driving"},
+            {s:"Automotive", n:"AC Technician", l:"4", d:"456 Hrs / 1 Year", f:"5000", e:"8th Class + 1 year ITI with 2 years of experience OR 10th Class"},
+            {s:"Automotive", n:"CNC Machining Technician", l:"4", d:"400 Hrs / 1 Year", f:"5000", e:"12th Class with 1-2 Years of experience"},
+            {s:"Automotive", n:"Casting Technician", l:"4", d:"400 Hrs / 1 Year", f:"10500", e:"12th Class with 1 Year of relevant experience OR 10th Class+ ITI"},
+            {s:"Automotive", n:"Forklift Operator", l:"4", d:"304 Hrs / 1 Year", f:"5000", e:"8th Class with 2 year of relevant experience of LMV driving"},
+            {s:"Automotive", n:"Machining Lead Technician", l:"5", d:"520 Hrs / 1 Year", f:"5000", e:"10th Class + 2 year I.T.I (Machinist/ Turner)"},
+            {s:"Automotive", n:"Product Design Engineer", l:"5", d:"520 Hrs / 1 Year", f:"5000", e:"B.E./B.Tech OR Diploma"},
+
+            // --- BANKING & FINANCE ---
+            {s:"Banking", n:"Business Correspondent / Facilitator", l:"4", d:"404 Hrs / 1 Year", f:"5000", e:"12th class in any stream OR 3 yrs Govt. recognized diploma"},
+            {s:"Banking", n:"GST Assistant", l:"4", d:"480 Hrs / 1 Year", f:"5000", e:"Class 12th Pass + 6 months relevant work experience"},
+            {s:"Banking", n:"Accounts Executive", l:"4", d:"350 Hrs / 6 Months", f:"5000", e:"10+2 with Commerce OR Graduation"},
+            {s:"Banking", n:"Loan Processing Officer", l:"5", d:"250 Hrs / 6 Months", f:"5000", e:"12th pass"},
+            {s:"Banking", n:"Insurance Agent", l:"3", d:"404 Hrs / 6 Months", f:"5000", e:"12th class in any stream"},
+            {s:"Banking", n:"Microfinance Executive", l:"3", d:"404 Hrs / 6 Months", f:"5000", e:"10th Class or 2 yrs ITI after 8th class"},
+            {s:"Banking", n:"Debt Recovery Agent", l:"4", d:"404 Hrs / 1 Year", f:"5000", e:"12th in any stream"},
+            {s:"Banking", n:"Junior Finance Associate", l:"3", d:"480 Hrs / 6 Months", f:"5000", e:"Graduation or equivalent"},
+            {s:"Banking", n:"Mutual Fund Associate", l:"3", d:"300 Hrs / 6 Months", f:"5000", e:"10th Pass"},
+            {s:"Banking", n:"Accounts Assistant (Tally)", l:"3", d:"500 Hrs / 6 Months", f:"5000", e:"Passed 12th class examination"},
+            {s:"Banking", n:"Insurance Sales Associate", l:"4", d:"480 Hrs / 1 Year", f:"5000", e:"Graduation or equivalent"},
+            {s:"Banking", n:"MIS Data Analyst", l:"4", d:"480 Hrs / 1 Year", f:"6500", e:"Class 12th Pass + 6 months relevant work experience OR 10th + ITI"},
+            {s:"Banking", n:"Credit Processing Officer", l:"4", d:"460 Hrs / 1 Year", f:"5000", e:"Graduate in any Stream"},
+            {s:"Banking", n:"Consultant Tax Practitioner", l:"5", d:"570 Hrs / 1 Year", f:"5000", e:"Graduation in Commerce/Business Management"},
+            {s:"Banking", n:"Insolvency Associate", l:"5", d:"250 Hrs / 6 Months", f:"5000", e:"Graduation in commerce, economics, law"},
+
+            // --- BEAUTY & WELLNESS ---
+            {s:"Beauty & Wellness", n:"Assistant Beauty Therapist", l:"3", d:"390 Hrs / 6 Months", f:"5000", e:"Class VIII"},
+            {s:"Beauty & Wellness", n:"Beauty Therapist", l:"4", d:"450 Hrs / 1 Year", f:"6800", e:"Class X with 1 year of experience"},
+            {s:"Beauty & Wellness", n:"Hair Dresser & Stylist", l:"4", d:"450 Hrs / 1 Year", f:"6800", e:"Class VIII with 2 years of experience"},
+            {s:"Beauty & Wellness", n:"Yoga Instructor", l:"4", d:"270 Hrs / 1 Year", f:"5000", e:"Class X OR Certificate course in Yoga"},
+            {s:"Beauty & Wellness", n:"Bridal Makeup Artist", l:"5", d:"510 Hrs / 1 Year", f:"9200", e:"Class X with Skincare/Makeup course"},
+            {s:"Beauty & Wellness", n:"Nail Technician", l:"4", d:"330 Hrs / 1 Year", f:"5000", e:"Class VIII with 2 years of experience in Nail care"},
+            {s:"Beauty & Wellness", n:"Tattoo Artist", l:"5", d:"354 Hrs / 1 Year", f:"5000", e:"12th pass"},
+            {s:"Beauty & Wellness", n:"Assistant Nail Technician", l:"3", d:"270 Hrs / 6 Months", f:"5000", e:"Class VIII with 6 months of experience"},
+            {s:"Beauty & Wellness", n:"Spa Therapist", l:"4", d:"390 Hrs / 1 Year", f:"5000", e:"Class X with 1 year of experience"},
+            {s:"Beauty & Wellness", n:"Senior Beauty Therapist", l:"5", d:"540 Hrs / 1 Year", f:"5000", e:"Class X with 2 years of experience"},
+            {s:"Beauty & Wellness", n:"Senior Yoga Trainer", l:"6", d:"570 Hrs / 1 Year", f:"5000", e:"Graduate with Diploma in Yoga"},
+            {s:"Beauty & Wellness", n:"Cosmetologist", l:"4", d:"810 Hrs / 1 Year", f:"5000", e:"Class X with 2 years of experience"},
+            {s:"Beauty & Wellness", n:"Gym Assistant", l:"3", d:"330 Hrs / 6 Months", f:"5100", e:"Class X with 6 months of relevant experience"},
+            {s:"Beauty & Wellness", n:"Personal Trainer", l:"4", d:"630 Hrs / 1 Year", f:"10500", e:"Class X with 2 years of experience"},
+
+            // --- CONSTRUCTION ---
+            {s:"Construction", n:"Assistant Electrician", l:"3", d:"390 Hrs / 6 Months", f:"5000", e:"5th Class Pass with 3 years experience OR 8th pass"},
+            {s:"Construction", n:"Mason Concrete", l:"4", d:"400 Hrs / 6 Months", f:"5000", e:"Preferably 5th standard"},
+            {s:"Construction", n:"Bar Bender & Steel Fixer", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"NSQF level 3 OR 8th class + ITI"},
+            {s:"Construction", n:"Construction Painter", l:"3", d:"350 Hrs / 6 Months", f:"5000", e:"5th Standard"},
+            {s:"Construction", n:"Surveyor", l:"6", d:"660 Hrs / 1 Year", f:"5000", e:"Diploma (after 12th) OR B.Tech/B.E (Civil)"},
+            {s:"Construction", n:"Foreman - Concrete", l:"5", d:"570 Hrs / 1 Year", f:"10500", e:"10th Class/ I.T.I (Civil) with 3 Years of experience"},
+            {s:"Construction", n:"Construction Fitter", l:"3", d:"350 Hrs / 6 Months", f:"5000", e:"10th Standard"},
+            {s:"Construction", n:"Assistant Facade Installer", l:"3", d:"350 Hrs / 6 Months", f:"5000", e:"5th Standard"},
+            {s:"Construction", n:"Brick Mason", l:"4", d:"390 Hrs / 6 Months", f:"10500", e:"8th class + ITI OR 10th pass"},
+            {s:"Construction", n:"Construction Electrician - LV", l:"4", d:"600 Hrs / 1 Year", f:"5000", e:"10th Pass"},
+            {s:"Construction", n:"Chargehand Shuttering Carpenter", l:"4", d:"450 Hrs / 1 Year", f:"5000", e:"NSQF level 3 OR 8th class + ITI"},
+            {s:"Construction", n:"Construction Lab Technician", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"NSQF level 3 OR 8th class + ITI"},
+            {s:"Construction", n:"Draughtsperson Civil", l:"4", d:"450 Hrs / 6 Months", f:"5000", e:"10th Class + I.T.I"},
+            {s:"Construction", n:"Fabricator", l:"4", d:"450 Hrs / 1 Year", f:"5000", e:"12th Class with 3-5 Years of experience"},
+            {s:"Construction", n:"Foreman - Electrical", l:"5", d:"540 Hrs / 1 Year", f:"10500", e:"10th Class/ I.T.I (Electrical) with 3 Years of experience"},
+            {s:"Construction", n:"Store Keeper Construction", l:"5", d:"304 Hrs / 6 Months", f:"5000", e:"Preferably 5th standard"},
+            {s:"Construction", n:"Rural Mason", l:"4", d:"750 Hrs / 1 Year", f:"5000", e:"8th Class with 2 Years of experience"},
+            {s:"Construction", n:"Supervisor - Electrical", l:"6", d:"660 Hrs / 1 Year", f:"5000", e:"NSQF level 5 OR 3 years Diploma"},
+
+            // --- DOMESTIC SECTOR ---
+            {s:"Domestic", n:"Housekeeper cum Cook", l:"3", d:"400 Hrs / 1 Year", f:"5000", e:"9th Class"},
+            {s:"Domestic", n:"Child Caretaker", l:"3", d:"200 Hrs / 6 Months", f:"5000", e:"5th Class"},
+            {s:"Domestic", n:"Elderly Caretaker", l:"3", d:"200 Hrs / 6 Months", f:"5000", e:"5th Standard"},
+            {s:"Domestic", n:"Baby Caregiver", l:"3", d:"390 Hrs / 1 Year", f:"5000", e:"5th Class + 3 years experience"},
+            {s:"Domestic", n:"Mother and Newborn Caregiver", l:"3", d:"390 Hrs / 1 Year", f:"5000", e:"5th Class + 3 years experience"},
+            {s:"Domestic", n:"General Housekeeper", l:"3", d:"200 Hrs / 3 Months", f:"5000", e:"Basic Literacy and Numeracy"},
+            {s:"Domestic", n:"Caregiver PwD", l:"4", d:"400 Hrs / 1 Year", f:"5000", e:"10th Standard"},
+            {s:"Domestic", n:"Professional Cook", l:"4", d:"600 Hrs / 1 Year", f:"9200", e:"8th Class + ITI"},
+            {s:"Domestic", n:"Assistant Home Manager", l:"5", d:"570 Hrs / 6 Months", f:"5000", e:"12th Class Pass with 4 years of relevant experience"},
+
+            // --- ELECTRONICS SECTOR ---
+            {s:"Electronics", n:"Field Technician - Home Appliances", l:"4", d:"540 Hrs / 1 Year", f:"5000", e:"8th Class pass + ITI OR 10th Class"},
+            {s:"Electronics", n:"Mobile Phone Repair Technician", l:"4", d:"570 Hrs / 1 Year", f:"5000", e:"8th class pass + ITI OR 10th class"},
+            {s:"Electronics", n:"CCTV Installation Technician", l:"4", d:"540 Hrs / 1 Year", f:"6500", e:"8th Class pass + ITI OR 10th Class"},
+            {s:"Electronics", n:"Solar Panel Installation", l:"4", d:"540 Hrs / 1 Year", f:"6500", e:"8th Class pass + ITI OR 10th Class"},
+            {s:"Electronics", n:"LED Light Repair Technician", l:"4", d:"550 Hrs / 1 Year", f:"6500", e:"8th Class pass + ITI OR 10th Class"},
+            {s:"Electronics", n:"DTH Set Top Box Installer", l:"4", d:"540 Hrs / 1 Year", f:"5000", e:"8th Class pass + ITI OR 10th Class"},
+            {s:"Electronics", n:"Assembly Line Operator", l:"3", d:"420 Hrs / 6 Months", f:"5000", e:"8th Class with 2 Years exp OR 10th Class"},
+            {s:"Electronics", n:"TV Repair Technician", l:"3", d:"400 Hrs / 1 Year", f:"6500", e:"8th Class with 2 years exp OR 10th Class"},
+            {s:"Electronics", n:"Field Technician - AC", l:"4", d:"540 Hrs / 1 Year", f:"5000", e:"8th Class pass + ITI OR 10th Class"},
+            {s:"Electronics", n:"UPS & Inverter Technician", l:"4", d:"550 Hrs / 1 Year", f:"5000", e:"8th Class pass + ITI OR 10th Class"},
+            {s:"Electronics", n:"Drone Service Technician", l:"4", d:"400 Hrs / 1 Year", f:"5000", e:"10th Class with 3 years exp OR 12th Class"},
+            {s:"Electronics", n:"Multiskill Technician", l:"6", d:"600 Hrs / 1 Year", f:"5000", e:"10th Class with 3 years exp OR 12th Class"},
+            
+             // --- FIRE & SAFETY ---
+            {s:"Fire & Safety", n:"Fire Technology & Industrial Safety", l:"-", d:"1 Year", f:"10500", e:"12th"},
+            {s:"Fire & Safety", n:"Industrial Safety", l:"-", d:"1 Year", f:"10500", e:"12th"},
+            {s:"Fire & Safety", n:"Sub Fire Officer", l:"-", d:"780 Hrs", f:"10500", e:"Graduation"},
+            {s:"Fire & Safety", n:"Fireman", l:"-", d:"6 Months", f:"9200", e:"10th"},
+            {s:"Fire & Safety", n:"Driver Cum Pump Operator", l:"-", d:"6 Months", f:"9200", e:"10th"},
+            {s:"Fire & Safety", n:"Health Sanitary Inspector", l:"-", d:"780 Hrs", f:"10500", e:"10th"},
+
+            // --- HEALTHCARE SECTOR ---
+            {s:"Healthcare", n:"General Duty Assistant", l:"4", d:"5000 Hrs / 1 Year", f:"5500", e:"10th Pass"},
+            {s:"Healthcare", n:"Emergency Medical Technician", l:"4", d:"360 Hrs / 1 Year", f:"5500", e:"12th Class Pass"},
+            {s:"Healthcare", n:"Home Health Aide", l:"3", d:"5000 Hrs / 1 Year", f:"5500", e:"10th Standard"},
+            {s:"Healthcare", n:"Pharmacy Assistant", l:"4", d:"5000 Hrs / 1 Year", f:"5500", e:"12th Class Pass"},
+            {s:"Healthcare", n:"Diabetes Assistant", l:"4", d:"5500 Hrs / 1 Year", f:"5500", e:"12th Pass"},
+            {s:"Healthcare", n:"Vision Technician", l:"4", d:"500 Hrs / 1 Year", f:"5500", e:"12th Science"},
+            {s:"Healthcare", n:"Wellness Acupuncturist", l:"3", d:"390 Hrs / 3 Months", f:"5000", e:"10th pass"},
+            {s:"Healthcare", n:"Medical Records Assistant", l:"4", d:"5500 Hrs / 1 Year", f:"1700", e:"Class XII in Science"},
+            {s:"Healthcare", n:"Dresser (Medical)", l:"3", d:"5000 Hrs / 1 Year", f:"5950", e:"10th Class"},
+            {s:"Healthcare", n:"Dietetic Aide", l:"3", d:"5000 Hrs / 1 Year", f:"5500", e:"10th Pass"},
+            {s:"Healthcare", n:"Panchakarma Assistant", l:"3", d:"480 Hrs / 6 Months", f:"5500", e:"8th class pass with 1 year of experience"},
+            {s:"Healthcare", n:"Yoga Therapy Assistant", l:"4", d:"700 Hrs / 1 Year", f:"5500", e:"12th Class Pass"},
+
+            // --- IT - ITES SECTOR ---
+            {s:"IT-ITES", n:"Domestic Data Entry Operator", l:"3", d:"400 Hrs / 1 Year", f:"5000", e:"12th Class OR 10th Class + ITI"},
+            {s:"IT-ITES", n:"Graphic Designer / Video Editing", l:"3", d:"120 Hrs / 3 Month", f:"5000", e:"12th Class"},
+            {s:"IT-ITES", n:"Web Developer", l:"4", d:"400 Hrs / 1 Year", f:"5000", e:"Graduate OR 12th + Exp"},
+            {s:"IT-ITES", n:"Digital Marketing Assistant", l:"3", d:"144 Hrs / 3 Months", f:"5000", e:"12th pass"},
+            {s:"IT-ITES", n:"Software Developer", l:"5", d:"500 Hrs / 1 Year", f:"5000", e:"Graduate"},
+            {s:"IT-ITES", n:"AI Data Scientist", l:"7", d:"712 Hrs / 1 Year", f:"6500", e:"Graduate Engineering"},
+            {s:"IT-ITES", n:"Customer Care Executive", l:"3", d:"400 Hrs / 6 Months", f:"5000", e:"12th Class"},
+            {s:"IT-ITES", n:"Domestic Biometric Data Operator", l:"3", d:"400 Hrs / 6 Months", f:"5000", e:"12th Class"},
+            {s:"IT-ITES", n:"Accounting", l:"3", d:"450 Hrs / 6 Months", f:"5000", e:"10th Standard"},
+            {s:"IT-ITES", n:"Junior Software Developer", l:"3", d:"400 Hrs / 6 Months", f:"5000", e:"12th Class + 6 months exp"},
+            {s:"IT-ITES", n:"Tally With GST", l:"3", d:"120 Hrs / 3 Month", f:"5000", e:"12th Class"},
+            {s:"IT-ITES", n:"Hardware & Networking Associate", l:"4", d:"576 Hrs / 1 Year", f:"5000", e:"12th pass"},
+            
+            // --- LOGISTICS SECTOR ---
+            {s:"Logistics", n:"Warehouse Packer", l:"3", d:"300 Hrs / 3 Months", f:"5000", e:"Class X OR Class VIII + ITI"},
+            {s:"Logistics", n:"Courier Delivery Executive", l:"3", d:"300 Hrs / 3 Months", f:"5000", e:"Class X OR Class VIII + ITI"},
+            {s:"Logistics", n:"Inventory Clerk", l:"3", d:"270 Hrs / 6 Months", f:"5000", e:"Class X OR Class VIII + ITI"},
+            {s:"Logistics", n:"Forklift Operator", l:"4", d:"304 Hrs / 1 Year", f:"5000", e:"8th Class"},
+            {s:"Logistics", n:"Clearance Support Agent", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"Class XII + 1 year exp"},
+            {s:"Logistics", n:"Warehouse Supervisor", l:"5", d:"470 Hrs / 1 Year", f:"5000", e:"Graduate OR Class XII + 3 years"},
+
+            // --- MANAGEMENT SECTOR ---
+            {s:"Management", n:"Armed Security Guard", l:"4", d:"390 Hrs / 3 Months", f:"9200", e:"10th pass"},
+            {s:"Management", n:"Office Assistant", l:"3", d:"184 Hrs / 3 Months", f:"5000", e:"08th Standard pass"},
+            {s:"Management", n:"Firefighter", l:"4", d:"600 Hrs / 1 Year", f:"8500", e:"10th pass"},
+            {s:"Management", n:"CCTV Supervisor", l:"4", d:"460 Hrs / 1 Year", f:"5000", e:"12th pass"},
+            {s:"Management", n:"Career Counselor", l:"5", d:"570 Hrs / 1 Year", f:"5000", e:"Graduate"},
+            {s:"Management", n:"Tax Consultant", l:"5", d:"570 Hrs / 1 Year", f:"5000", e:"Graduation in Commerce"},
+
+            // --- MEDIA & ENTERTAINMENT ---
+            {s:"Media", n:"Editor (Video)", l:"4", d:"390 Hrs / 6 Months", f:"5000", e:"Class XII with 1 year exp"},
+            {s:"Media", n:"Photographer", l:"4", d:"450 Hrs / 1 Year", f:"6500", e:"Class XII Pass"},
+            {s:"Media", n:"Animator", l:"4", d:"450 Hrs / 6 Months", f:"5000", e:"Class XII with 1 year exp"},
+            {s:"Media", n:"Sound Editor", l:"4", d:"540 Hrs / 1 Year", f:"10500", e:"Graduate + exp"},
+            {s:"Media", n:"Account Director", l:"6", d:"840 Hrs / 1 Year", f:"8500", e:"Postgraduate"},
+            {s:"Media", n:"Dance Teacher", l:"6", d:"900 Hrs / 1 Year", f:"10500", e:"Bachelor's degree in Performing art"},
+            {s:"Media", n:"Digital Marketing Manager", l:"6", d:"840 Hrs / 1 Year", f:"8500", e:"Postgraduate"},
+
+            // --- PLUMBING SECTOR ---
+            {s:"Plumbing", n:"Plumber (General)", l:"4", d:"432 Hrs / 1 Year", f:"5000", e:"5th Standard pass"},
+            {s:"Plumbing", n:"Plumbing Supervisor", l:"5", d:"690 Hrs / 1 Year", f:"6500", e:"10th Class + I.T.I"},
+            {s:"Plumbing", n:"Assistant Plumber", l:"3", d:"232 Hrs / 6 Months", f:"5000", e:"5th Pass"},
+
+            // --- TELECOM SECTOR ---
+            {s:"Telecom", n:"Optical Fiber Splicer", l:"3", d:"390 Hrs / 6 Months", f:"5000", e:"Class 10th OR Class 8th + 1 year"},
+            {s:"Telecom", n:"Tower Technician", l:"4", d:"480 Hrs / 1 Year", f:"5000", e:"Class 12th OR Class 10th + ITI"},
+            {s:"Telecom", n:"Handset Repair Engineer", l:"4", d:"480 Hrs / 1 Year", f:"5000", e:"Class 12th OR Class 10th + ITI"},
+            {s:"Telecom", n:"Broadband Technician", l:"4", d:"450 Hrs / 1 Year", f:"5000", e:"Class 12th Pass"},
+            {s:"Telecom", n:"5G Network Engineer", l:"6", d:"510 Hrs / 1 Year", f:"6500", e:"B.E./B.Tech"},
+
+            // --- TOURISM & HOSPITALITY ---
+            {s:"Tourism", n:"Front Office Associate", l:"4", d:"660 Hrs / 6 Months", f:"10500", e:"11th grade pass"},
+            {s:"Tourism", n:"Housekeeping Supervisor", l:"5", d:"456 Hrs / 1 Year", f:"10500", e:"12th Class/I.T.I"},
+            {s:"Tourism", n:"Tour Guide", l:"5", d:"570 Hrs / 1 Year", f:"10500", e:"12th Class/I.T.I"},
+            {s:"Tourism", n:"Bartender", l:"5", d:"540 Hrs / 1 Year", f:"10500", e:"12th grade Pass"},
+            {s:"Tourism", n:"Adventure Travel Guide", l:"5", d:"510 Hrs / 1 Year", f:"10500", e:"10th Class/I.T.I"},
+            {s:"Tourism", n:"Assistant Chef", l:"3", d:"390 Hrs / 3 Month", f:"6500", e:"9th Class"}
+        ];
+
+        // ==========================================
+        // UI LOGIC
+        // ==========================================
+        const container = document.getElementById('courseContainer');
+        const filterSelect = document.getElementById('sectorFilter');
+        const searchInput = document.getElementById('searchInput');
+        const totalCount = document.getElementById('totalCount');
+        const noResults = document.getElementById('noResults');
+
+        // Populate Filters
+        const uniqueSectors = [...new Set(allCourses.map(item => item.s))].sort();
+        uniqueSectors.forEach(sec => {
+            const opt = document.createElement('option');
+            opt.value = sec;
+            opt.textContent = sec;
+            filterSelect.appendChild(opt);
+        });
+
+        // Open Detail Modal
+        function openDetails(index) {
+            const c = allCourses[index];
+            document.getElementById('detailSector').innerText = c.s;
+            document.getElementById('detailName').innerText = c.n;
+            document.getElementById('detailLevel').innerText = `Level-${c.l}`;
+            document.getElementById('detailDuration').innerText = c.d;
+            document.getElementById('detailFee').innerText = `₹${c.f}`;
+            document.getElementById('detailEligibility').innerText = c.e;
+            
+            // Link Pay button in detail modal to payment modal
+            document.getElementById('detailPayBtn').setAttribute('onclick', `openPaymentModal('${c.n}', '${c.f}')`);
+            
+            document.getElementById('detailsModal').classList.remove('hidden');
+        }
+
+        function closeDetailsModal() {
+            document.getElementById('detailsModal').classList.add('hidden');
+        }
+
+        // Render Function
+        function render(data) {
+            container.innerHTML = '';
+            totalCount.textContent = data.length;
+
+            if (data.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            }
+            noResults.classList.add('hidden');
+
+            const fragment = document.createDocumentFragment();
+
+            data.forEach((item, index) => {
+                // Find original index for modal linking
+                const originalIndex = allCourses.indexOf(item);
+
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col h-full course-card';
+                card.innerHTML = `
+                    <div class="h-1 bg-orbital-gold w-full"></div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="bg-blue-50 text-orbital-blue text-xs font-bold px-2 py-1 rounded uppercase tracking-wide border border-blue-100">
+                                ${item.s}
+                            </span>
+                            <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded">
+                                L-${item.l}
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-gray-800 mb-1 leading-snug">${item.n}</h3>
+                        <p class="text-xs text-gray-500 mb-4 h-8 overflow-hidden line-clamp-2">Elig: ${item.e}</p>
+
+                        <div class="mt-auto space-y-2 text-sm text-gray-600 border-t pt-3">
+                            <div class="flex justify-between">
+                                <span><i class="far fa-clock text-orbital-gold"></i> ${item.d}</span>
+                                <span class="font-bold text-gray-800">₹${item.f}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2 mt-4">
+                            <button onclick="openDetails(${originalIndex})" class="flex-1 py-2 rounded-lg border border-orbital-blue text-orbital-blue text-sm font-semibold hover:bg-blue-50 transition">
+                                View Details | विवरण
+                            </button>
+                            
+                            <a href="javascript:void(0)" 
+                               onclick="openPaymentModal('${item.n}','${item.f}')"
+                               class="flex-1 inline-flex justify-center items-center px-4 py-2 text-sm font-medium rounded-lg shadow-sm text-white bg-indigo-700 hover:bg-indigo-800 transition">
+                                Pay Fee
+                            </a>
+                        </div>
+                    </div>
+                `;
+                fragment.appendChild(card);
+            });
+            container.appendChild(fragment);
+        }
+
+        // Filtering Function
+        function filterData() {
+            const sector = filterSelect.value;
+            const search = searchInput.value.toLowerCase();
+
+            const filtered = allCourses.filter(item => {
+                const matchSector = sector === 'All' || item.s === sector;
+                const matchSearch = item.n.toLowerCase().includes(search) || item.s.toLowerCase().includes(search);
+                return matchSector && matchSearch;
+            });
+
+            render(filtered);
+        }
+
+        // Payment Modal Functions
+        function openPaymentModal(courseName, fee) {
+            // Close detail modal if open
+            closeDetailsModal();
+
+            document.getElementById('modalCourseName').innerText = courseName;
+            document.getElementById('modalCourseFee').innerText = '₹' + fee;
+
+            const upiId = "hmt2cu@okaxis";
+            const upiString = `upi://pay?pa=${upiId}&pn=Orbital Skills&am=${fee}&cu=INR&tn=${encodeURIComponent(courseName)}`;
+
+            document.getElementById('upiQr').src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" + encodeURIComponent(upiString);
+            document.getElementById('upiLink').href = upiString;
+
+            document.getElementById('paymentModal').classList.remove('hidden');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+        }
+
+        function sendWhatsApp() {
+            const phoneNumber = "919416711671";
+            const courseName = document.getElementById('modalCourseName').innerText;
+            const message = encodeURIComponent(
+                `नमस्ते, मैंने ${courseName} कोर्स की फीस का पेमेंट कर दिया है। कृपया मेरा रजिस्ट्रेशन कन्फर्म करें।`
+            );
+
+            window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
+            closePaymentModal();
+            setTimeout(() => { window.location.href = "login.html"; }, 5000);
+        }
+
+        // Event Listeners
+        filterSelect.addEventListener('change', filterData);
+        searchInput.addEventListener('input', filterData);
+
+        // Initial Load
+        render(allCourses);
+
+    </script>
+</body>
+</html>
