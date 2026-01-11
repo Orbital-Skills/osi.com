@@ -577,74 +577,78 @@
         }
 
 async function submitToGoogleSheet() {
-    const btn = document.getElementById('btn-proceed');
-    btn.innerText = "Saving..."; 
-    btn.disabled = true;
+  const btn = document.getElementById('btn-proceed');
+  btn.innerText = "Saving...";
+  btn.disabled = true;
 
-    try {
-        const formData = {
-  FullName: document.getElementById('dash-name').value,
-  FatherName: document.getElementById('dash-father').value,
-  MotherName: document.getElementById('dash-mother').value,
-  SpouseName: document.getElementById('dash-spouse').value,
-  DOB: document.getElementById('dash-dob').value,
-  Gender: document.getElementById('dash-gender').value,
-  MaritalStatus: document.getElementById('dash-marital').value,
-  Caste: document.getElementById('dash-caste').value,
-  Religion: document.getElementById('dash-religion').value,
-  Aadhaar: document.getElementById('dash-aadhaar').value,
-  VoterID: document.getElementById('dash-voter').value,
-  Mobile: document.getElementById('dash-mobile').value,
-  Email: document.getElementById('dash-email').value,
+  try {
+    const formData = {
+      FullName: document.getElementById('dash-name').value,
+      FatherName: document.getElementById('dash-father').value,
+      MotherName: document.getElementById('dash-mother').value,
+      SpouseName: document.getElementById('dash-spouse').value,
+      DOB: document.getElementById('dash-dob').value,
+      Gender: document.getElementById('dash-gender').value,
+      MaritalStatus: document.getElementById('dash-marital').value,
+      Caste: document.getElementById('dash-caste').value,
+      Religion: document.getElementById('dash-religion').value,
+      Aadhaar: document.getElementById('dash-aadhaar').value,
+      VoterID: document.getElementById('dash-voter').value,
+      Mobile: document.getElementById('dash-mobile').value,
+      Email: document.getElementById('dash-email').value,
 
-  Address: document.getElementById('addr-full').value,
-  State: document.getElementById('addr-state').value,
-  District: document.getElementById('addr-district').value,
-  Tehsil: document.getElementById('addr-tehsil').value,
-  City: document.getElementById('addr-city').value,
-  Block: document.getElementById('addr-block').value,
-  Pincode: document.getElementById('addr-pin').value,
+      Address: document.getElementById('addr-full').value,
+      State: document.getElementById('addr-state').value,
+      District: document.getElementById('addr-district').value,
+      Tehsil: document.getElementById('addr-tehsil').value,
+      City: document.getElementById('addr-city').value,
+      Block: document.getElementById('addr-block').value,
+      Pincode: document.getElementById('addr-pin').value,
 
-  PermanentAddress: document.getElementById('perm-full').value,
-  PermanentState: document.getElementById('perm-state').value,
-  PermanentDistrict: document.getElementById('perm-district').value,
-  PermanentTehsil: document.getElementById('perm-tehsil').value,
-  PermanentCity: document.getElementById('perm-city').value,
-  PermanentBlock: document.getElementById('perm-block').value,
-  PermanentPincode: document.getElementById('perm-pin').value,
+      PermanentAddress: document.getElementById('perm-full').value,
+      PermanentState: document.getElementById('perm-state').value,
+      PermanentDistrict: document.getElementById('perm-district').value,
+      PermanentTehsil: document.getElementById('perm-tehsil').value,
+      PermanentCity: document.getElementById('perm-city').value,
+      PermanentBlock: document.getElementById('perm-block').value,
+      PermanentPincode: document.getElementById('perm-pin').value,
 
-  ExamState: document.getElementById('exam-state').value,
-  ExamMode: document.getElementById('exam-mode').value,
-  DomicileNo: document.getElementById('exam-domicile').value,
-  ExamCenterChoice: document.getElementById('exam-center').value,
-  DomicileDate: document.getElementById('exam-domicile-date').value,
-  ExamType: document.getElementById('exam-type').value,
+      ExamState: document.getElementById('exam-state').value,
+      ExamMode: document.getElementById('exam-mode').value,
+      ExamCenterChoice: document.getElementById('exam-center').value,
+      ExamType: document.getElementById('exam-type').value,
+      DomicileNo: document.getElementById('exam-domicile').value,
+      DomicileDate: document.getElementById('exam-domicile-date').value,
 
-  Course: document.getElementById('qual-class').value,
-  Qualification: document.getElementById('qual-class').value,
+      Qualification: document.getElementById('qual-class').value,
 
-  PhotoBase64: currentPhotos.photoBase64,
-  PhotoMime: "image/jpeg",
-  PhotoFilename: "photo.jpg"
-};
-        await fetch(SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
-        });
-localStorage.setItem("StudentID", document.getElementById("dash-name").value + "_" + Date.now());
+      PhotoBase64: currentPhotos.photoBase64,
+      PhotoMime: "image/jpeg",
+      PhotoFilename: "photo.jpg"
+    };
 
-        alert("Data Upload Successfully!");
-        showPage('courses');
+    const response = await fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
 
-    } catch (e) {
-        alert("Sync Error: " + e);
-    } finally {
-        btn.innerText = "Select Course"; 
-        btn.disabled = false;
-    }
+    const result = await response.json();
+
+    // 🔴 यहीं StudentID save होगा
+    localStorage.setItem("StudentID", result.StudentID);
+
+    alert("Form Saved. Now select your course.");
+    showPage('courses');
+
+  } catch (e) {
+    alert("Save Error: " + e);
+  } finally {
+    btn.innerText = "Select Course";
+    btn.disabled = false;
+  }
 }
+
         function handleRegister() {
             const terms = document.getElementById('terms').checked;
             const email = document.getElementById('reg-email').value;
@@ -787,13 +791,12 @@ window.onload = function() {
         div.innerHTML = `<i class="fa ${c.icon} course-icon"></i><div class="course-title">${c.name}</div>`;
         
         // Course Select करने पर क्या करना है
-        div.onclick = () => {
-            if(confirm("Confirm Course: " + c.name + "?")) {
-                selectCourse(c.name, c.url);  // Sheet में Save और उसी course page पर redirect
-            }
-        };
-        
-        cContainer.appendChild(div);
+       div.onclick = () => {
+  if(confirm("Confirm Course: " + c.name + "?")) {
+    selectCourse(c.name, c.url);
+  }
+};
+   cContainer.appendChild(div);
     });
 
     // Firebase Auth State Change को Handle करना
@@ -808,24 +811,24 @@ window.onload = function() {
 
 // Course Select करने पर Sheet में Update और Redirection
 function selectCourse(courseName, courseUrl) {
-    const studentId = localStorage.getItem("StudentID");  // LocalStorage से Student ID लेना
+  const studentId = localStorage.getItem("StudentID");
 
-    const payload = {
-        Action: "UPDATE_COURSE",  // Action Set करना
-        StudentID: studentId,
-        Course: courseName
-    };
+  const payload = {
+    Action: "UPDATE_COURSE",
+    StudentID: studentId,
+    Course: courseName
+  };
 
-    // Fetch के द्वारा Data send करना
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",  // no-cors से Data भेजने का तरीका
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-    }).then(() => {
-        window.location.href = courseUrl;  // Data save होने के बाद वही course page पर redirect करना
-    });
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    window.location.href = courseUrl;
+  });
 }
+
 
 // --- आधार वेरिफिकेशन लॉजिक (Verhoeff Algorithm) ---
 const d_table = [
