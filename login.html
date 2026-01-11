@@ -602,7 +602,13 @@
                     PhotoBase64: currentPhotos.photoBase64,
                     PhotoMime: "image/jpeg", PhotoFilename: "photo.jpg"
                 };
-                await fetch(SCRIPT_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(formData) });
+                await fetch(SCRIPT_URL, {
+  method: "POST",
+  mode: "no-cors",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(formData)
+});
+
                 alert("Data Synced!");
                 showPage('courses');
             } catch(e) { alert("Sync Error: " + e); showPage('courses'); } 
