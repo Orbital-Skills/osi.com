@@ -576,69 +576,74 @@
             if(currentPhotos.signBase64) document.getElementById('p-sign-box').innerHTML = '<img src="'+currentPhotos.signBase64+'" class="photo-img">';
         }
 
-        async function submitToGoogleSheet() {
-            const btn = document.getElementById('btn-proceed');
-            btn.innerText = "Saving..."; btn.disabled = true;
-            try {
-const formData = {
-  FullName: document.getElementById('dash-name').value,
-  FatherName: document.getElementById('dash-father').value,
-  MotherName: document.getElementById('dash-mother').value,
-  SpouseName: document.getElementById('dash-spouse').value,
-  DOB: document.getElementById('dash-dob').value,
-  Gender: document.getElementById('dash-gender').value,
-  MaritalStatus: document.getElementById('dash-marital').value,
-  Caste: document.getElementById('dash-caste').value,
-  Religion: document.getElementById('dash-religion').value,
-  Aadhaar: document.getElementById('dash-aadhaar').value,
-  VoterID: document.getElementById('dash-voter').value,
-  Mobile: document.getElementById('dash-mobile').value,
-  Email: document.getElementById('dash-email').value,
+async function submitToGoogleSheet() {
+    const btn = document.getElementById('btn-proceed');
+    btn.innerText = "Saving..."; 
+    btn.disabled = true;
 
-  Address: document.getElementById('addr-full').value,
-  State: document.getElementById('addr-state').value,
-  District: document.getElementById('addr-district').value,
-  Tehsil: document.getElementById('addr-tehsil').value,
-  City: document.getElementById('addr-city').value,
-  Block: document.getElementById('addr-block').value,
-  Pincode: document.getElementById('addr-pin').value,
+    try {
+        const formData = {
+            FullName: document.getElementById('dash-name').value,
+            FatherName: document.getElementById('dash-father').value,
+            MotherName: document.getElementById('dash-mother').value,
+            SpouseName: document.getElementById('dash-spouse').value,
+            DOB: document.getElementById('dash-dob').value,
+            Gender: document.getElementById('dash-gender').value,
+            MaritalStatus: document.getElementById('dash-marital').value,
+            Caste: document.getElementById('dash-caste').value,
+            Religion: document.getElementById('dash-religion').value,
+            Aadhaar: document.getElementById('dash-aadhaar').value,
+            VoterID: document.getElementById('dash-voter').value,
+            Mobile: document.getElementById('dash-mobile').value,
+            Email: document.getElementById('dash-email').value,
 
-  PermanentAddress: document.getElementById('perm-full').value,
-  PermanentState: document.getElementById('perm-state').value,
-  PermanentDistrict: document.getElementById('perm-district').value,
-  PermanentTehsil: document.getElementById('perm-tehsil').value,
-  PermanentCity: document.getElementById('perm-city').value,
-  PermanentBlock: document.getElementById('perm-block').value,
-  PermanentPincode: document.getElementById('perm-pin').value,
+            Address: document.getElementById('addr-full').value,
+            State: document.getElementById('addr-state').value,
+            District: document.getElementById('addr-district').value,
+            Tehsil: document.getElementById('addr-tehsil').value,
+            City: document.getElementById('addr-city').value,
+            Block: document.getElementById('addr-block').value,
+            Pincode: document.getElementById('addr-pin').value,
 
-  ExamState: document.getElementById('exam-state').value,
-  ExamMode: document.getElementById('exam-mode').value,
-  ExamCenterChoice: document.getElementById('exam-center').value,
-  ExamType: document.getElementById('exam-type').value,
-  DomicileNo: document.getElementById('domicile-no').value,
-  DomicileDate: document.getElementById('domicile-date').value,
+            PermanentAddress: document.getElementById('perm-full').value,
+            PermanentState: document.getElementById('perm-state').value,
+            PermanentDistrict: document.getElementById('perm-district').value,
+            PermanentTehsil: document.getElementById('perm-tehsil').value,
+            PermanentCity: document.getElementById('perm-city').value,
+            PermanentBlock: document.getElementById('perm-block').value,
+            PermanentPincode: document.getElementById('perm-pin').value,
 
-  Course: document.getElementById('course-name').value,
-  Qualification: document.getElementById('qual-class').value,
+            ExamState: document.getElementById('exam-state').value,
+            ExamMode: document.getElementById('exam-mode').value,
+            ExamCenterChoice: document.getElementById('exam-center').value,
+            ExamType: document.getElementById('exam-type').value,
+            DomicileNo: document.getElementById('exam-domicile').value,
+            DomicileDate: document.getElementById('exam-domicile-date').value,
 
-  PhotoBase64: currentPhotos.photoBase64,
-  PhotoMime: "image/jpeg",
-  PhotoFilename: "photo.jpg"
-};
+            Qualification: document.getElementById('qual-class').value,
 
-                await fetch(SCRIPT_URL, {
-  method: "POST",
-  mode: "no-cors",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(formData)
-});
+            PhotoBase64: currentPhotos.photoBase64,
+            PhotoMime: "image/jpeg",
+            PhotoFilename: "photo.jpg"
+        };
 
-                alert("Data Synced!");
-                showPage('courses');
-            } catch(e) { alert("Sync Error: " + e); showPage('courses'); } 
-            finally { btn.innerText = "Select Course"; btn.disabled = false; }
-        }
+        await fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        });
 
+        alert("Data Upload Successfully!");
+        showPage('courses');
+
+    } catch (e) {
+        alert("Sync Error: " + e);
+    } finally {
+        btn.innerText = "Select Course"; 
+        btn.disabled = false;
+    }
+}
         function handleRegister() {
             const terms = document.getElementById('terms').checked;
             const email = document.getElementById('reg-email').value;
