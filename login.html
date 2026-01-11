@@ -633,6 +633,7 @@ async function submitToGoogleSheet() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
         });
+localStorage.setItem("StudentID", document.getElementById("dash-name").value + "_" + Date.now());
 
         alert("Data Upload Successfully!");
         showPage('courses');
@@ -768,27 +769,64 @@ async function submitToGoogleSheet() {
             }
         }
         
-        function addRow() { const t = document.getElementById('qualifying-table').getElementsByTagName('tbody')[0]; const r = t.rows[0].cloneNode(true); Array.from(r.getElementsByTagName('input')).forEach(i => i.value=''); t.appendChild(r); }
+       function addRow() { 
+  const t = document.getElementById('qualifying-table').getElementsByTagName('tbody')[0]; 
+  const r = t.rows[0].cloneNode(true); 
+  Array.from(r.getElementsByTagName('input')).forEach(i => i.value=''); 
+  t.appendChild(r); 
+}
 
-        window.onload = function() {
-            generateCaptcha();
-            const cContainer = document.getElementById('course-container');
-            courseData.forEach(c => {
-                let div = document.createElement('div'); div.className = 'course-card'; 
-                div.innerHTML = `<i class="fa ${c.icon} course-icon"></i><div class="course-title">${c.name}</div>`;
-                div.onclick = () => {
-    if(confirm("Confirm Course: " + c.name + "?")) {
-        saveCourseToSheet(c.name);
-    }
+window.onload = function() {
+    generateCaptcha();  // Captcha Generate करना
+
+    // Courses Display करने के लिए
+    const cContainer = document.getElementById('course-container');
+    courseData.forEach(c => {
+        let div = document.createElement('div');
+        div.className = 'course-card';
+        div.innerHTML = `<i class="fa ${c.icon} course-icon"></i><div class="course-title">${c.name}</div>`;
+        
+        // Course Select करने पर क्या करना है
+        div.onclick = () => {
+            if(confirm("Confirm Course: " + c.name + "?")) {
+                selectCourse(c.name, c.url);  // Sheet में Save और उसी course page पर redirect
+            }
+        };
+        
+        cContainer.appendChild(div);
+    });
+
+    // Firebase Auth State Change को Handle करना
+    auth.onAuthStateChanged(user => {
+        if(user) loadData(user.uid);  // अगर user logged in है
+        else { 
+            document.getElementById('login-page').classList.remove('hidden');
+            document.getElementById('dashboard-view').classList.add('hidden');
+        }
+    });
 };
 
-                cContainer.appendChild(div);
-            });
-            auth.onAuthStateChanged(user => {
-                if(user) loadData(user.uid);
-                else { document.getElementById('login-page').classList.remove('hidden'); document.getElementById('dashboard-view').classList.add('hidden'); }
-            });
-        }
+// Course Select करने पर Sheet में Update और Redirection
+function selectCourse(courseName, courseUrl) {
+    const studentId = localStorage.getItem("StudentID");  // LocalStorage से Student ID लेना
+
+    const payload = {
+        Action: "UPDATE_COURSE",  // Action Set करना
+        StudentID: studentId,
+        Course: courseName
+    };
+
+    // Fetch के द्वारा Data send करना
+    fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",  // no-cors से Data भेजने का तरीका
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    }).then(() => {
+        window.location.href = courseUrl;  // Data save होने के बाद वही course page पर redirect करना
+    });
+}
+
 // --- आधार वेरिफिकेशन लॉजिक (Verhoeff Algorithm) ---
 const d_table = [
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
@@ -832,26 +870,25 @@ function checkAadharValid() {
         input.style.borderColor = "#ccc";
     }
 }
-   async function saveCourseToSheet(courseName) {
-    try {
-        const payload = {
-            StudentID: document.getElementById('display-name').innerText,
-            Course: courseName,
-            Action: "UPDATE_COURSE"
-        };
+  function selectCourse(courseName, courseUrl) {
+  const studentId = localStorage.getItem("StudentID");   // यही सही है
 
-        await fetch(SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
+  const payload = {
+    Action: "UPDATE_COURSE",
+    StudentID: studentId,
+    Course: courseName
+  };
 
-        alert("Course Selected: " + courseName + "\nAdmit Card will be generated soon.");
-    } catch (e) {
-        alert("Course Save Error: " + e);
-    }
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    window.location.href = courseUrl;   // उसी course page पर भेजेगा
+  });
 }
+
  </script>
 </body>
 </html>
