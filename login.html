@@ -581,27 +581,29 @@
             btn.innerText = "Saving..."; btn.disabled = true;
             try {
                 const formData = {
-                    FullName: document.getElementById('dash-name').value,
-                    FatherMotherName: document.getElementById('dash-father').value + " / " + document.getElementById('dash-mother').value,
-                    DOB: document.getElementById('dash-dob').value,
-                    Gender: document.getElementById('dash-gender').value,
-                    Address: document.getElementById('addr-full').value,
-                    District: document.getElementById('addr-district').value,
-                    State: document.getElementById('addr-state').value,
-                    Email: document.getElementById('dash-email').value,
-                    Mobile: document.getElementById('dash-mobile').value,
-                    CourseSelected: "Pending",
-                    Qualification: document.getElementById('qual-class').value,
-                    // 👇 Examination Detail
-  exam_state: document.getElementById('exam-state').value,
-  exam_mode: document.getElementById('exam-mode').value,
-  exam_center_choice: document.getElementById('exam-center').value,
-  exam_type: document.getElementById('exam-type').value,
-  domicile_no: document.getElementById('domicile-no').value,
-  domicile_date: document.getElementById('domicile-date').value,
-                    PhotoBase64: currentPhotos.photoBase64,
-                    PhotoMime: "image/jpeg", PhotoFilename: "photo.jpg"
-                };
+  FullName: document.getElementById('dash-name').value,
+  FatherMotherName: document.getElementById('dash-father').value + " / " + document.getElementById('dash-mother').value,
+  DOB: document.getElementById('dash-dob').value,
+  Gender: document.getElementById('dash-gender').value,
+  Address: document.getElementById('addr-full').value,
+  District: document.getElementById('addr-district').value,
+  State: document.getElementById('addr-state').value,
+  Email: document.getElementById('dash-email').value,
+  Mobile: document.getElementById('dash-mobile').value,
+  CourseSelected: "Pending",
+  Qualification: document.getElementById('qual-class').value,
+
+  exam_state: document.getElementById('exam-state') ? document.getElementById('exam-state').value : "",
+  exam_mode: document.getElementById('exam-mode') ? document.getElementById('exam-mode').value : "",
+  exam_center_choice: document.getElementById('exam-center') ? document.getElementById('exam-center').value : "",
+  exam_type: document.getElementById('exam-type') ? document.getElementById('exam-type').value : "",
+  domicile_no: document.getElementById('domicile-no') ? document.getElementById('domicile-no').value : "",
+  domicile_date: document.getElementById('domicile-date') ? document.getElementById('domicile-date').value : "",
+
+  PhotoBase64: currentPhotos.photoBase64,
+  PhotoMime: "image/jpeg",
+  PhotoFilename: "photo.jpg"
+};
                 await fetch(SCRIPT_URL, {
   method: "POST",
   mode: "no-cors",
