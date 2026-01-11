@@ -627,16 +627,12 @@ async function submitToGoogleSheet() {
       PhotoFilename: "photo.jpg"
     };
 
-    const response = await fetch(SCRIPT_URL, {
+    await fetch(SCRIPT_URL, {
       method: "POST",
+      mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
     });
-
-    const result = await response.json();
-
-    // 🔴 यहीं StudentID save होगा
-    localStorage.setItem("StudentID", result.StudentID);
 
     alert("Form Saved. Now select your course.");
     showPage('courses');
@@ -648,6 +644,7 @@ async function submitToGoogleSheet() {
     btn.disabled = false;
   }
 }
+
 
         function handleRegister() {
             const terms = document.getElementById('terms').checked;
@@ -791,7 +788,7 @@ window.onload = function() {
         div.innerHTML = `<i class="fa ${c.icon} course-icon"></i><div class="course-title">${c.name}</div>`;
         
         // Course Select करने पर क्या करना है
-       div.onclick = () => {
+     div.onclick = () => {
   if(confirm("Confirm Course: " + c.name + "?")) {
     selectCourse(c.name, c.url);
   }
@@ -828,7 +825,6 @@ function selectCourse(courseName, courseUrl) {
     window.location.href = courseUrl;
   });
 }
-
 
 // --- आधार वेरिफिकेशन लॉजिक (Verhoeff Algorithm) ---
 const d_table = [
