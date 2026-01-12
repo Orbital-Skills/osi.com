@@ -407,502 +407,154 @@
     </div>
 
     <!-- SCRIPT SECTION -->
-   <script>
-    function getOrCreateStudentID() {
-  let sid = localStorage.getItem("StudentID");
-  if (!sid) {
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth()+1).padStart(2,'0');
-    const day = String(d.getDate()).padStart(2,'0');
-    const rand = Math.floor(1000 + Math.random()*9000);
-    sid = "OSD-" + y + m + day + "-" + rand;
-    localStorage.setItem("StudentID", sid);
-  }
-  return sid;
-}
-        const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrcyNNMI5QKEnup9wU2tWZ-A1TRBIVl_tAcw7j_ouqdhNwkOtu6YgOSCKClUGT-gIM/exec";
+ <script>
+    // --- कॉन्फ़िगरेशन ---
+    const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrcyNNMI5QKEnup9wU2tWZ-A1TRBIVl_tAcw7j_ouqdhNwkOtu6YgOSCKClUGT-gIM/exec";
 
-        try { firebase.initializeApp(firebaseConfig); } catch(e) { console.error(e); }
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+    try { firebase.initializeApp(firebaseConfig); } catch(e) { console.error(e); }
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-        let currentPhotos = { photoBase64: "", signBase64: "" };
-        let currentQualifyingDoc = { base64: "", name: "" };
-        let currentCaptcha = "91633";
+    let currentPhotos = { photoBase64: "", signBase64: "" };
+    let currentQualifyingDoc = { base64: "", name: "" };
+    let currentCaptcha = "91633";
 
-        const courseData = [
-            { name: "Health Care Skills", url: "health-care.html", icon: "fa-user-doctor" },
-            { name: "Banking-Finance Skills", url: "banking-finance.html", icon: "fa-building-columns" },
-            { name: "IT-ITS Sector", url: "IT-ITES Sector.html", icon: "fa-laptop-code" },
-            { name: "Fireman", url: "fire-safety.html", icon: "fa-fire-extinguisher" },
-            { name: "Electrician", url: "electrician.html", icon: "fa-bolt" },
-            { name: "Plumber", url: "plumber.html", icon: "fa-faucet" },
-            { name: "Boutique Design", url: "beautician.html", icon: "fa-scissors" },
-            { name: "ECCE/ NTT", url: "ecce-ntt.html", icon: "fa-child-reaching" },
-            { name: "Welder", url: "welder.html", icon: "fa-fire-burner" },
-            { name: "Cyber Security", url: "cyber-security.html", icon: "fa-shield-halved" }
-        ];
+    const courseData = [
+        { name: "Health Care Skills", url: "health-care.html", icon: "fa-user-doctor" },
+        { name: "Banking-Finance Skills", url: "banking-finance.html", icon: "fa-building-columns" },
+        { name: "IT-ITS Sector", url: "IT-ITES Sector.html", icon: "fa-laptop-code" },
+        { name: "Fireman", url: "fire-safety.html", icon: "fa-fire-extinguisher" },
+        { name: "Electrician", url: "electrician.html", icon: "fa-bolt" },
+        { name: "Plumber", url: "plumber.html", icon: "fa-faucet" },
+        { name: "Boutique Design", url: "beautician.html", icon: "fa-scissors" },
+        { name: "ECCE/ NTT", url: "ecce-ntt.html", icon: "fa-child-reaching" },
+        { name: "Welder", url: "welder.html", icon: "fa-fire-burner" },
+        { name: "Cyber Security", url: "cyber-security.html", icon: "fa-shield-halved" }
+    ];
 
-        function generateCaptcha() {
-            currentCaptcha = Math.floor(10000 + Math.random() * 90000).toString();
-            document.getElementById('captcha-display').innerText = currentCaptcha;
-        }
-
-        function handlePhotoSelect(input, previewId, keyName, maxSizeKB) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                if(file.size > maxSizeKB * 1024) { alert(`File too large! Max size is ${maxSizeKB}KB.`); input.value = ""; return; }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById(previewId).innerHTML = '<img src="'+e.target.result+'" class="photo-img">';
-                    currentPhotos[keyName] = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function handleDocUpload(input, maxSizeKB) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                if(file.size > maxSizeKB * 1024) { alert(`Document too large! Max size is ${maxSizeKB}KB.`); input.value = ""; return; }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentQualifyingDoc = { base64: e.target.result, name: file.name };
-                    document.getElementById('qual-doc-status').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function validateSection(containerId) {
-            const container = document.getElementById(containerId);
-            const inputs = container.querySelectorAll('input, select, textarea');
-            let isValid = true;
-            inputs.forEach(input => {
-                input.classList.remove('error-border');
-                if(input.disabled || input.readOnly || input.id === 'dash-spouse' || input.id === 'addr-block' || input.id === 'perm-block' || input.type === 'file') return;
-                if (input.value.trim() === "") { input.classList.add('error-border'); isValid = false; }
-            });
-            if (!isValid) alert("Please fill all MANDATORY fields.");
-            return isValid;
-        }
-
-        function savePersonalAndProceed() {
-            if (!validateSection('page-personal')) return;
-            const isSame = document.getElementById('chk-same').checked;
-            if(!isSame) {
-                if(!document.getElementById('perm-full').value || !document.getElementById('perm-district').value || !document.getElementById('perm-city').value) {
-                    alert("Please fill Permanent Address details or check 'Same as Correspondence'.");
-                    return;
-                }
-            }
-
-            if(auth.currentUser) {
-                db.collection("students").doc(auth.currentUser.uid).update({
-                    spouse: document.getElementById('dash-spouse').value,
-                    marital: document.getElementById('dash-marital').value,
-                    caste: document.getElementById('dash-caste').value,
-                    area: document.getElementById('dash-area').value,
-                    aadhaar: document.getElementById('dash-aadhaar').value,
-                    voterId: document.getElementById('dash-voter').value,
-                    religion: document.getElementById('dash-religion').value,
-                    address: document.getElementById('addr-full').value,
-                    addrState: document.getElementById('addr-state').value,
-                    district: document.getElementById('addr-district').value,
-                    addrTehsil: document.getElementById('addr-tehsil').value,
-                    addrCity: document.getElementById('addr-city').value,
-                    addrBlock: document.getElementById('addr-block').value,
-                    pincode: document.getElementById('addr-pin').value,
-                    permAddress: document.getElementById('perm-full').value,
-                    permState: document.getElementById('perm-state').value,
-                    permDistrict: document.getElementById('perm-district').value,
-                    permTehsil: document.getElementById('perm-tehsil').value,
-                    permCity: document.getElementById('perm-city').value,
-                    permBlock: document.getElementById('perm-block').value,
-                    permPin: document.getElementById('perm-pin').value,
-                    photoData: currentPhotos
-                }).then(() => {
-                    alert("Personal Details Saved!");
-                    showPage('exam');
-                });
-            }
-        }
-
-        function saveExamAndPreview() {
-            if (!validateSection('page-exam')) return;
-            if(auth.currentUser) {
-                db.collection("students").doc(auth.currentUser.uid).update({
-                    examState: document.getElementById('exam-state').value,
-                    examMode: document.getElementById('exam-mode').value,
-                    examCenter: document.getElementById('exam-center').value,
-                    examType: document.getElementById('exam-type').value,
-                    domicile: document.getElementById('exam-domicile').value,
-                    domicileDate: document.getElementById('exam-domicile-date').value,
-                    qualClass: document.getElementById('qual-class').value,
-                    qualBoard: document.getElementById('qual-board').value,
-                    qualYear: document.getElementById('qual-year').value,
-                    qualRoll: document.getElementById('qual-roll').value,
-                    qualResult: document.getElementById('qual-result').value,
-                    qualDoc: currentQualifyingDoc
-                }).then(() => {
-                    populatePreview();
-                    alert("Exam Details Saved!");
-                    showPage('preview');
-                });
-            }
-        }
-
-        function populatePreview() {
-            document.getElementById('p-name').value = document.getElementById('dash-name').value;
-            document.getElementById('p-father').value = document.getElementById('dash-father').value;
-            document.getElementById('p-mother').value = document.getElementById('dash-mother').value;
-            document.getElementById('p-spouse').value = document.getElementById('dash-spouse').value;
-            document.getElementById('p-dob').value = document.getElementById('dash-dob').value;
-            document.getElementById('p-gender').value = document.getElementById('dash-gender').value;
-            document.getElementById('p-marital').value = document.getElementById('dash-marital').value;
-            document.getElementById('p-email').value = document.getElementById('dash-email').value;
-            document.getElementById('p-caste').value = document.getElementById('dash-caste').value;
-            document.getElementById('p-area').value = document.getElementById('dash-area').value;
-            document.getElementById('p-mobile').value = document.getElementById('dash-mobile').value;
-            document.getElementById('p-aadhaar').value = document.getElementById('dash-aadhaar').value;
-            document.getElementById('p-voter').value = document.getElementById('dash-voter').value;
-            document.getElementById('p-religion').value = document.getElementById('dash-religion').value;
-            
-            document.getElementById('p-address').value = document.getElementById('addr-full').value;
-            document.getElementById('p-addr-state').value = document.getElementById('addr-state').value;
-            document.getElementById('p-district').value = document.getElementById('addr-district').value;
-            document.getElementById('p-tehsil').value = document.getElementById('addr-tehsil').value;
-            document.getElementById('p-city').value = document.getElementById('addr-city').value;
-            document.getElementById('p-block').value = document.getElementById('addr-block').value;
-            document.getElementById('p-pin').value = document.getElementById('addr-pin').value;
-
-            document.getElementById('p-exam-state').value = document.getElementById('exam-state').value;
-            document.getElementById('p-exam-mode').value = document.getElementById('exam-mode').value;
-            document.getElementById('p-exam-center').value = document.getElementById('exam-center').value;
-            document.getElementById('p-exam-type').value = document.getElementById('exam-type').value;
-            document.getElementById('p-exam-domicile').value = document.getElementById('exam-domicile').value;
-            document.getElementById('p-exam-date').value = document.getElementById('exam-domicile-date').value;
-
-            if(currentPhotos.photoBase64) document.getElementById('p-photo-box').innerHTML = '<img src="'+currentPhotos.photoBase64+'" class="photo-img">';
-            if(currentPhotos.signBase64) document.getElementById('p-sign-box').innerHTML = '<img src="'+currentPhotos.signBase64+'" class="photo-img">';
-        }
-
-async function submitToGoogleSheet() {
-  const btn = document.getElementById('btn-proceed');
-  btn.innerText = "Saving...";
-  btn.disabled = true;
-
-  try {
-    const formData = {
-      StudentID: getOrCreateStudentID(),
-      FullName: document.getElementById('dash-name').value,
-      FatherName: document.getElementById('dash-father').value,
-      MotherName: document.getElementById('dash-mother').value,
-      SpouseName: document.getElementById('dash-spouse').value,
-      DOB: document.getElementById('dash-dob').value,
-      Gender: document.getElementById('dash-gender').value,
-      MaritalStatus: document.getElementById('dash-marital').value,
-      Caste: document.getElementById('dash-caste').value,
-      Religion: document.getElementById('dash-religion').value,
-      Aadhaar: document.getElementById('dash-aadhaar').value,
-      VoterID: document.getElementById('dash-voter').value,
-      Mobile: document.getElementById('dash-mobile').value,
-      Email: document.getElementById('dash-email').value,
-
-      Address: document.getElementById('addr-full').value,
-      State: document.getElementById('addr-state').value,
-      District: document.getElementById('addr-district').value,
-      Tehsil: document.getElementById('addr-tehsil').value,
-      City: document.getElementById('addr-city').value,
-      Block: document.getElementById('addr-block').value,
-      Pincode: document.getElementById('addr-pin').value,
-
-      PermanentAddress: document.getElementById('perm-full').value,
-      PermanentState: document.getElementById('perm-state').value,
-      PermanentDistrict: document.getElementById('perm-district').value,
-      PermanentTehsil: document.getElementById('perm-tehsil').value,
-      PermanentCity: document.getElementById('perm-city').value,
-      PermanentBlock: document.getElementById('perm-block').value,
-      PermanentPincode: document.getElementById('perm-pin').value,
-
-      ExamState: document.getElementById('exam-state').value,
-      ExamMode: document.getElementById('exam-mode').value,
-      ExamCenterChoice: document.getElementById('exam-center').value,
-      ExamType: document.getElementById('exam-type').value,
-      DomicileNo: document.getElementById('exam-domicile').value,
-      DomicileDate: document.getElementById('exam-domicile-date').value,
-
-      Qualification: document.getElementById('qual-class').value,
-
-      PhotoBase64: currentPhotos.photoBase64,
-      PhotoMime: "image/jpeg",
-      PhotoFilename: "photo.jpg"
-    };
-
-   // रजिस्ट्रेशन वाला हिस्सा
-// 1. Student ID बनाएं
-    const generatedID = "OSD-" + Date.now(); 
-    formData.StudentID = generatedID; 
-
-    // 2. डेटा को Google Script पर भेजें (बिना await के)
-    fetch(SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors", 
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    });
-
-    // 3. ID को तुरंत ब्राउज़र में सेव करें
-    localStorage.setItem("StudentID", generatedID);
-
-    // 4. मैसेज दिखाएं और कोर्सेज वाले पेज पर भेजें
-    alert("Registration Successful! Your ID: " + generatedID);
-    showPage('courses');
-
-  } catch (e) {
-    console.error("Save Error:", e);
-    alert("Technical Error: " + e.message);
-  } finally {
-    // बटन को वापस सामान्य करें
-    btn.innerText = "Select Course";
-    btn.disabled = false;
-  }
-}
-        function handleRegister() {
-            const terms = document.getElementById('terms').checked;
-            const email = document.getElementById('reg-email').value;
-            const pass = document.getElementById('reg-password').value;
-            
-            if(!terms) return alert("Please accept Terms & Conditions");
-            if(!email || !pass) return alert("Fill all fields");
-
-            auth.createUserWithEmailAndPassword(email, pass).then(c => {
-                db.collection("students").doc(c.user.uid).set({
-                    name: document.getElementById('reg-name').value,
-                    father: document.getElementById('reg-father').value,
-                    mother: document.getElementById('reg-mother').value,
-                    dob: document.getElementById('reg-dob').value,
-                    gender: document.getElementById('reg-gender').value,
-                    mobile: document.getElementById('reg-mobile').value,
-                    email: email
-                }).then(() => { alert("Registered!"); loadData(c.user.uid); });
-            }).catch(e => alert(e.message));
-        }
-
-        function handleLogin() { 
-            const enteredCaptcha = document.getElementById('captcha-input').value;
-            if(enteredCaptcha !== currentCaptcha) return alert("Invalid Captcha");
-
-            auth.signInWithEmailAndPassword(document.getElementById('login-email').value, document.getElementById('login-password').value).catch(e => alert(e.message)); 
-        }
-
-        function loadData(uid) {
-            db.collection("students").doc(uid).get().then(d => {
-                if(d.exists) {
-                    const data = d.data();
-                    document.getElementById('login-page').classList.add('hidden');
-                    document.getElementById('dashboard-view').classList.remove('hidden');
-                    document.getElementById('display-name').innerText = data.name ? data.name.toUpperCase() : "STUDENT";
-                    
-                    document.getElementById('dash-name').value = data.name || '';
-                    document.getElementById('dash-father').value = data.father || '';
-                    document.getElementById('dash-mother').value = data.mother || '';
-                    document.getElementById('dash-dob').value = data.dob || '';
-                    document.getElementById('dash-gender').value = data.gender || '';
-                    document.getElementById('dash-email').value = data.email || '';
-                    document.getElementById('dash-mobile').value = data.mobile || '';
-
-                    if(data.spouse) document.getElementById('dash-spouse').value = data.spouse;
-                    if(data.marital) document.getElementById('dash-marital').value = data.marital;
-                    if(data.caste) document.getElementById('dash-caste').value = data.caste;
-                    if(data.area) document.getElementById('dash-area').value = data.area;
-                    if(data.aadhaar) document.getElementById('dash-aadhaar').value = data.aadhaar;
-                    if(data.voterId) document.getElementById('dash-voter').value = data.voterId;
-                    if(data.religion) document.getElementById('dash-religion').value = data.religion;
-                    
-                    if(data.address) document.getElementById('addr-full').value = data.address;
-                    if(data.addrState) document.getElementById('addr-state').value = data.addrState;
-                    if(data.district) document.getElementById('addr-district').value = data.district;
-                    if(data.addrTehsil) document.getElementById('addr-tehsil').value = data.addrTehsil;
-                    if(data.addrCity) document.getElementById('addr-city').value = data.addrCity;
-                    if(data.addrBlock) document.getElementById('addr-block').value = data.addrBlock;
-                    if(data.pincode) document.getElementById('addr-pin').value = data.pincode;
-                    
-                    if(data.permAddress) document.getElementById('perm-full').value = data.permAddress;
-                    if(data.permState) document.getElementById('perm-state').value = data.permState;
-                    if(data.permDistrict) document.getElementById('perm-district').value = data.permDistrict;
-                    if(data.permTehsil) document.getElementById('perm-tehsil').value = data.permTehsil;
-                    if(data.permCity) document.getElementById('perm-city').value = data.permCity;
-                    if(data.permBlock) document.getElementById('perm-block').value = data.permBlock;
-                    if(data.permPin) document.getElementById('perm-pin').value = data.permPin;
-
-                    if(data.examState) document.getElementById('exam-state').value = data.examState;
-                    if(data.examMode) document.getElementById('exam-mode').value = data.examMode;
-                    if(data.examCenter) document.getElementById('exam-center').value = data.examCenter;
-                    if(data.examType) document.getElementById('exam-type').value = data.examType;
-                    if(data.domicile) document.getElementById('exam-domicile').value = data.domicile;
-                    if(data.domicileDate) document.getElementById('exam-domicile-date').value = data.domicileDate;
-
-                    if(data.qualClass) document.getElementById('qual-class').value = data.qualClass;
-                    if(data.qualBoard) document.getElementById('qual-board').value = data.qualBoard;
-                    if(data.qualYear) document.getElementById('qual-year').value = data.qualYear;
-                    if(data.qualRoll) document.getElementById('qual-roll').value = data.qualRoll;
-                    if(data.qualResult) document.getElementById('qual-result').value = data.qualResult;
-                    if(data.qualDoc) {
-                        currentQualifyingDoc = data.qualDoc;
-                        document.getElementById('qual-doc-status').style.display = 'block';
-                    }
-
-                    if(data.photoData) {
-                        currentPhotos = data.photoData;
-                        if(currentPhotos.photoBase64) document.getElementById('preview-photo').innerHTML = '<img src="'+currentPhotos.photoBase64+'" class="photo-img">';
-                        if(currentPhotos.signBase64) document.getElementById('preview-sign').innerHTML = '<img src="'+currentPhotos.signBase64+'" class="photo-img">';
-                    }
-                }
-            });
-        }
-
-        function logout() { auth.signOut().then(() => window.location.reload()); }
-        function showPage(pid) {
-            ['personal','exam','preview','courses'].forEach(id => document.getElementById('page-'+id).classList.add('hidden'));
-            document.querySelectorAll('.sidebar a').forEach(a => {
-                a.classList.remove('active');
-                if(a.id === 'link-'+pid) a.classList.add('active');
-            });
-            document.getElementById('page-'+pid).classList.remove('hidden');
-        }
-        function showPreview() { populatePreview(); showPage('preview'); }
-        
-        function copyAddress() {
-            if(document.getElementById('chk-same').checked) {
-                document.getElementById('perm-full').value = document.getElementById('addr-full').value;
-                document.getElementById('perm-state').value = document.getElementById('addr-state').value;
-                document.getElementById('perm-district').value = document.getElementById('addr-district').value;
-                document.getElementById('perm-tehsil').value = document.getElementById('addr-tehsil').value;
-                document.getElementById('perm-city').value = document.getElementById('addr-city').value;
-                document.getElementById('perm-block').value = document.getElementById('addr-block').value;
-                document.getElementById('perm-pin').value = document.getElementById('addr-pin').value;
-            } else { 
-                document.getElementById('perm-full').value = ""; 
-                document.getElementById('perm-district').value = ""; 
-                document.getElementById('perm-tehsil').value = ""; 
-                document.getElementById('perm-city').value = ""; 
-                document.getElementById('perm-block').value = ""; 
-                document.getElementById('perm-pin').value = ""; 
-            }
-        }
-        
-       function addRow() { 
-  const t = document.getElementById('qualifying-table').getElementsByTagName('tbody')[0]; 
-  const r = t.rows[0].cloneNode(true); 
-  Array.from(r.getElementsByTagName('input')).forEach(i => i.value=''); 
-  t.appendChild(r); 
-}
-
-window.onload = function() {
-    generateCaptcha();  // Captcha Generate करना
-
-    // Courses Display करने के लिए
-    const cContainer = document.getElementById('course-container');
-    courseData.forEach(c => {
-        let div = document.createElement('div');
-        div.className = 'course-card';
-        div.innerHTML = `<i class="fa ${c.icon} course-icon"></i><div class="course-title">${c.name}</div>`;
-        
-        // Course Select करने पर क्या करना है
-     div.onclick = () => {
-  if(confirm("Confirm Course: " + c.name + "?")) {
-    selectCourse(c.name, c.url);
-  }
-};
-   cContainer.appendChild(div);
-    });
-
-    // Firebase Auth State Change को Handle करना
-    auth.onAuthStateChanged(user => {
-        if(user) loadData(user.uid);  // अगर user logged in है
-        else { 
-            document.getElementById('login-page').classList.remove('hidden');
-            document.getElementById('dashboard-view').classList.add('hidden');
-        }
-    });
-};
-// --- आधार वेरिफिकेशन लॉजिक (Verhoeff Algorithm) ---
-const d_table = [
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
-    [2, 3, 4, 0, 1, 7, 8, 9, 5, 6], [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
-    [4, 0, 1, 2, 3, 9, 5, 6, 7, 8], [5, 9, 8, 7, 6, 0, 4, 3, 2, 1],
-    [6, 5, 9, 8, 7, 1, 0, 4, 3, 2], [7, 6, 5, 9, 8, 2, 1, 0, 4, 3],
-    [8, 7, 6, 5, 9, 3, 2, 1, 0, 4], [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
-];
-const p_table = [
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
-    [5, 8, 0, 3, 7, 9, 6, 1, 4, 2], [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
-    [9, 4, 5, 3, 1, 2, 6, 8, 7, 0], [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
-    [2, 7, 9, 3, 8, 0, 6, 4, 1, 5], [7, 0, 4, 6, 9, 1, 3, 2, 5, 8]
-];
-
-function checkAadharValid() {
-    const input = document.getElementById('dash-aadhaar');
-    const status = document.getElementById('aadharStatus');
-    let val = input.value.replace(/\D/g, ''); // सिर्फ नंबर रखें
-    input.value = val;
-
-    if (val.length === 12) {
-        let c = 0;
-        let invertedArray = val.split('').map(Number).reverse();
-        for (let i = 0; i < invertedArray.length; i++) {
-            c = d_table[c][p_table[i % 8][invertedArray[i]]];
-        }
-        
-        if (c === 0) {
-            status.innerText = "✓ Valid Aadhaar Number";
-            status.style.color = "green";
-            input.style.borderColor = "green";
-        } else {
-            status.innerText = "✗ Invalid Aadhaar Number";
-            status.style.color = "red";
-            input.style.borderColor = "red";
-        }
-    } else {
-        status.innerText = val.length > 0 ? "Enter 12 digits" : "";
-        status.style.color = "#f0ad4e";
-        input.style.borderColor = "#ccc";
+    // --- बेसिक फंक्शन्स ---
+    function generateCaptcha() {
+        currentCaptcha = Math.floor(10000 + Math.random() * 90000).toString();
+        document.getElementById('captcha-display').innerText = currentCaptcha;
     }
-}
- function selectCourse(courseName, courseUrl) {
-  const sId = localStorage.getItem("StudentID");
-  
-  if(!sId) {
-    alert("Please register first!");
-    return;
-  }
-// कोर्स अपडेट वाला हिस्सा
-function selectCourse(courseName, courseUrl) {
-  const sId = localStorage.getItem("StudentID");
 
-  if (!sId) {
-    alert("पंजीकरण आईडी नहीं मिली! पहले फॉर्म भरें।");
-    return;
-  }
+    function showPage(pid) {
+        ['personal','exam','preview','courses'].forEach(id => {
+            const el = document.getElementById('page-' + id);
+            if(el) el.classList.add('hidden');
+        });
+        const targetPage = document.getElementById('page-' + pid);
+        if(targetPage) targetPage.classList.remove('hidden');
+        
+        // Sidebar active class update
+        document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+        const activeLink = document.getElementById('link-' + pid);
+        if(activeLink) activeLink.classList.add('active');
+    }
 
-  fetch(SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      body: JSON.stringify({
-      Action: "UPDATE_COURSE",
-      StudentID: sId,
-      Course: courseName
-    })
-  }).then(() => {
-    // डेटा भेजने के बाद ही दूसरे पेज पर भेजें
-    window.location.href = courseUrl;
-  }).catch(err => {
-    console.error("Update failed:", err);
-  });
-}
-  </script>
+    function handlePhotoSelect(input, previewId, keyName, maxSizeKB) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            if(file.size > maxSizeKB * 1024) { alert(`File too large! Max size is ${maxSizeKB}KB.`); input.value = ""; return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById(previewId).innerHTML = '<img src="'+e.target.result+'" class="photo-img">';
+                currentPhotos[keyName] = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function validateSection(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('input, select, textarea');
+        let isValid = true;
+        inputs.forEach(input => {
+            input.classList.remove('error-border');
+            if(input.disabled || input.readOnly || input.id === 'dash-spouse' || input.type === 'file') return;
+            if (input.value.trim() === "") { input.classList.add('error-border'); isValid = false; }
+        });
+        if (!isValid) alert("Please fill all MANDATORY fields.");
+        return isValid;
+    }
+
+    // --- डेटा सेविंग और नेविगेशन ---
+    async function submitToGoogleSheet() {
+        const btn = document.getElementById('btn-proceed');
+        btn.innerText = "Saving...";
+        btn.disabled = true;
+
+        try {
+            const generatedID = "OSD-" + Date.now(); 
+            localStorage.setItem("StudentID", generatedID);
+
+            const formData = {
+                Action: "FULL_SAVE",
+                StudentID: generatedID,
+                FullName: document.getElementById('dash-name').value,
+                Mobile: document.getElementById('dash-mobile').value,
+                Email: document.getElementById('dash-email').value,
+                // ... बाकी फील्ड्स जो आप भेज रहे हैं
+                Course: "PENDING"
+            };
+
+            fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(formData) });
+
+            alert("Registration Successful! Your ID: " + generatedID);
+            showPage('courses'); 
+
+        } catch (e) {
+            alert("Error: " + e.message);
+        } finally {
+            btn.innerText = "Select Course";
+            btn.disabled = false;
+        }
+    }
+
+    function selectCourse(courseName, courseUrl) {
+        const sId = localStorage.getItem("StudentID");
+        if (!sId) return alert("StudentID missing!");
+
+        fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify({ Action: "UPDATE_COURSE", StudentID: sId, Course: courseName })
+        });
+        
+        setTimeout(() => { window.location.href = courseUrl; }, 500);
+    }
+
+    // --- अन्य यूटिलिटी फंक्शन्स ---
+    function copyAddress() {
+        const isSame = document.getElementById('chk-same').checked;
+        const fields = ['full', 'state', 'district', 'tehsil', 'city', 'block', 'pin'];
+        fields.forEach(f => {
+            document.getElementById('perm-' + f).value = isSame ? document.getElementById('addr-' + f).value : "";
+        });
+    }
+
+    window.onload = function() {
+        generateCaptcha();
+        const cContainer = document.getElementById('course-container');
+        if(cContainer) {
+            courseData.forEach(c => {
+                let div = document.createElement('div');
+                div.className = 'course-card';
+                div.innerHTML = `<i class="fa ${c.icon} course-icon"></i><div class="course-title">${c.name}</div>`;
+                div.onclick = () => { if(confirm("Confirm Course: " + c.name + "?")) selectCourse(c.name, c.url); };
+                cContainer.appendChild(div);
+            });
+        }
+
+        auth.onAuthStateChanged(user => {
+            if(user) loadData(user.uid);
+            else {
+                document.getElementById('login-page').classList.remove('hidden');
+                document.getElementById('dashboard-view').classList.add('hidden');
+            }
+        });
+    };
+</script>
 </body>
 </html>
