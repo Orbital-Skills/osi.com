@@ -641,13 +641,19 @@ async function submitToGoogleSheet() {
       PhotoFilename: "photo.jpg"
     };
 
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    });
+   // रजिस्ट्रेशन वाला हिस्सा
+const response = await fetch(SCRIPT_URL, {
+  method: "POST",
+  body: JSON.stringify(formData) // इसमें 'Action' नहीं है, तो ये नया रजिस्ट्रेशन मानेगा
+});
 
+const result = await response.json();
+
+if (result.success) {
+  // StudentID को 'sId' नाम से सेव कर रहे हैं ताकि अगला फंक्शन इसे ढूँढ सके
+  localStorage.setItem("StudentID", result.StudentID); 
+  alert("Registration Successful! ID: " + result.StudentID);
+}
     alert("Form Saved. Now select your course.");
     showPage('courses');
 
@@ -658,8 +664,6 @@ async function submitToGoogleSheet() {
     btn.disabled = false;
   }
 }
-
-
         function handleRegister() {
             const terms = document.getElementById('terms').checked;
             const email = document.getElementById('reg-email').value;
@@ -863,21 +867,35 @@ function checkAadharValid() {
     }
 }
  function selectCourse(courseName, courseUrl) {
-  const studentId = localStorage.getItem("StudentID");
+  const sId = localStorage.getItem("StudentID");
+  
+  if(!sId) {
+    alert("Please register first!");
+    return;
+  }
+// कोर्स अपडेट वाला हिस्सा
+function selectCourse(courseName, courseUrl) {
+  const sId = localStorage.getItem("StudentID");
+
+  if (!sId) {
+    alert("पंजीकरण आईडी नहीं मिली! पहले फॉर्म भरें।");
+    return;
+  }
 
   fetch(SCRIPT_URL, {
     method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      Action: "UPDATE_COURSE", // स्पेलिंग चेक करें, ये Capital होना चाहिए
-      StudentID: studentId,
+      Action: "UPDATE_COURSE",
+      StudentID: sId,
       Course: courseName
     })
   }).then(() => {
+    // डेटा भेजने के बाद ही दूसरे पेज पर भेजें
     window.location.href = courseUrl;
+  }).catch(err => {
+    console.error("Update failed:", err);
   });
 }
- </script>
+  </script>
 </body>
 </html>
