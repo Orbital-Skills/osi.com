@@ -647,7 +647,6 @@ async function submitToGoogleSheet() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
     });
-localStorage.setItem("StudentID", result.StudentID);
 
     alert("Form Saved. Now select your course.");
     showPage('courses');
