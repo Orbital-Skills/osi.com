@@ -862,25 +862,22 @@ function checkAadharValid() {
         input.style.borderColor = "#ccc";
     }
 }
-  function selectCourse(courseName, courseUrl) {
-  const studentId = localStorage.getItem("StudentID");   // यही सही है
-
-  const payload = {
-    Action: "UPDATE_COURSE",
-    StudentID: studentId,
-    Course: courseName
-  };
+ function selectCourse(courseName, courseUrl) {
+  const studentId = localStorage.getItem("StudentID");
 
   fetch(SCRIPT_URL, {
     method: "POST",
     mode: "no-cors",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+    body: JSON.stringify({
+      Action: "UPDATE_COURSE", // स्पेलिंग चेक करें, ये Capital होना चाहिए
+      StudentID: studentId,
+      Course: courseName
+    })
   }).then(() => {
-    window.location.href = courseUrl;   // उसी course page पर भेजेगा
+    window.location.href = courseUrl;
   });
 }
-
  </script>
 </body>
 </html>
