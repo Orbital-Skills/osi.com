@@ -642,26 +642,30 @@ async function submitToGoogleSheet() {
     };
 
    // रजिस्ट्रेशन वाला हिस्सा
-const generatedID = "OSD-" + Date.now(); 
-formData.StudentID = generatedID; // ID सेट करें
+// 1. Student ID बनाएं
+    const generatedID = "OSD-" + Date.now(); 
+    formData.StudentID = generatedID; 
 
-await fetch(SCRIPT_URL, {
-  method: "POST",
-  mode: "no-cors", // इसे वापस लगा दें ताकि लॉगिन/सबमिट हो सके
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(formData)
-});
+    // 2. डेटा को Google Script पर भेजें (बिना await के)
+    fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors", 
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
 
-// रिस्पॉन्स का इंतज़ार किए बिना ID सेव करें (क्योंकि हमने खुद बनाई है)
-localStorage.setItem("StudentID", generatedID);
-alert("Registration Successful!");
-      
-    alert("Form Saved. Now select your course.");
+    // 3. ID को तुरंत ब्राउज़र में सेव करें
+    localStorage.setItem("StudentID", generatedID);
+
+    // 4. मैसेज दिखाएं और कोर्सेज वाले पेज पर भेजें
+    alert("Registration Successful! Your ID: " + generatedID);
     showPage('courses');
 
   } catch (e) {
-    alert("Save Error: " + e);
+    console.error("Save Error:", e);
+    alert("Technical Error: " + e.message);
   } finally {
+    // बटन को वापस सामान्य करें
     btn.innerText = "Select Course";
     btn.disabled = false;
   }
