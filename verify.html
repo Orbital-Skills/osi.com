@@ -3,176 +3,428 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Verification - OSD</title>
+    <title>Verification Portal | OSD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f6f9; margin:0; padding:0; }
-        .navbar { background: #0056b3; padding: 15px; color: white; text-align: center; font-weight: bold; font-size: 20px; }
+        :root {
+            --theme-purple: #6a1b9a;
+            --theme-bg: #f4f4f4;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(to bottom, #7b1fa2 40%, #f5f5f5 40%); /* Top Purple, Bottom Gray */
+            min-height: 100vh;
+            margin: 0; padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 100px; /* Space for top logo overlap */
+        }
+
+        /* --- MAIN CARD --- */
+        .card-container {
+            background: white;
+            width: 90%;
+            max-width: 850px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        /* --- BIG FLOATING LOGO (ScreenShot Style) --- */
+        .floating-logo-container {
+            position: absolute;
+            top: 0; 
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center perfectly on the top edge */
+            width: 160px; /* BADA SIZE */
+            height: 160px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            border: 4px solid white; /* Optional border */
+        }
+
+        .floating-logo-container img {
+            width: 250px; /* Image inside circle */
+            height: auto;
+        }
+
+        /* --- TABS SECTION --- */
+        .tabs-header {
+            display: flex;
+            width: 100%;
+            height: 60px;
+            overflow: hidden;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        /* Inactive Tab Style (Like Screenshot Left Side) */
+        .tab-inactive {
+            background-color: #f1f1f1;
+            color: #666;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab-inactive:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Active Tab Style (Like Screenshot Right Side) */
+        .tab-active {
+            background-color: var(--theme-purple);
+            color: white;
+        }
+
+        /* --- FORM CONTENT --- */
+        .tab-content {
+            padding: 40px;
+            position: relative;
+            /* Background Watermark Image */
+            background-image: url('https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png'); 
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 500px;
+        }
         
-        .container { max-width: 600px; margin: 30px auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #333; margin-bottom: 25px; border-bottom: 2px solid #0056b3; padding-bottom: 10px; }
+        /* Watermark Overlay Hack to make it faded */
+        .tab-content::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.92); /* Covers the logo to make it faint */
+            z-index: 1;
+        }
 
-        /* FORM STYLES */
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: 600; margin-bottom: 5px; color: #555; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
-        .btn-verify { width: 100%; padding: 12px; background: #28a745; color: white; border: none; font-size: 18px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
-        .btn-verify:hover { background: #218838; }
+        /* Ensures content sits above the watermark */
+        .form-area {
+            position: relative;
+            z-index: 2;
+        }
 
-        /* RESULT CARD STYLES */
-        #result-card { display: none; border: 2px solid #0056b3; padding: 20px; border-radius: 8px; margin-top: 20px; position: relative; }
-        .verified-badge { position: absolute; top: -15px; right: -10px; background: gold; color: #000; padding: 5px 15px; border-radius: 20px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border: 2px solid white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
+
+        /* --- INPUT STYLES --- */
+        .input-group { margin-bottom: 20px; }
         
-        .profile-flex { display: flex; gap: 20px; align-items: start; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
-        .photo-box { width: 100px; height: 120px; background: #eee; border: 1px solid #999; object-fit: cover; }
-        .details-box { flex: 1; }
-        .details-box p { margin: 5px 0; font-size: 14px; }
-        .label { font-weight: bold; color: #444; width: 100px; display: inline-block; }
+        .input-group label {
+            display: block;
+            color: #444;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .input-group label span { color: #d32f2f; } /* Red Asterisk */
 
-        .error-msg { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 5px; margin-top: 15px; display: none; text-align: center; }
-        .loader { text-align: center; display: none; font-weight: bold; color: #0056b3; margin-top: 20px; }
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fdfdfd;
+            box-sizing: border-box; /* Fixes padding width issue */
+            transition: 0.2s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--theme-purple);
+            box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.1);
+        }
+
+        /* --- GRID SYSTEM --- */
+        .row { display: flex; gap: 20px; }
+        .col { flex: 1; }
+        
+        @media(max-width: 600px) {
+            .row { flex-direction: column; gap: 0; }
+        }
+
+        /* --- BUTTON --- */
+        .verify-btn {
+            background-color: #7b1fa2; /* Slightly different purple for button */
+            background: linear-gradient(to right, #7b1fa2, #9c27b0);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+        .verify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        /* --- RESULT TABLE --- */
+        .result-box {
+            display: none; margin-top: 30px; border-top: 2px dashed #ddd; padding-top: 20px;
+            text-align: center;
+        }
+        .success-badge {
+            background: #e8f5e9; color: #2e7d32; padding: 10px; border-radius: 4px;
+            font-weight: bold; margin-bottom: 20px; display: inline-block; width: 100%; box-sizing: border-box;
+        }
+        .data-table {
+            width: 100%; border-collapse: collapse; text-align: left;
+        }
+        .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
+        .data-lbl { font-weight: 600; color: #555; width: 40%; }
+        .data-val { font-weight: 700; color: #000; }
+
+        @keyframes fadeIn { from{opacity:0; transform: translateY(5px);} to{opacity:1; transform: translateY(0);} }
+
+        /* Loader */
+        .loader { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 100;
+            color: white; text-align: center; padding-top: 40vh; font-size: 20px;
+        }
+        .error-msg {
+            background: #ffebee; color: #c62828; padding: 12px;
+            border-radius: 4px; text-align: center; font-weight: bold;
+            display: none; margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">ORBITAL SKILL DEVELOPMENT CENTER - VERIFICATION</nav>
-
-    <div class="container">
-        <!-- SEARCH FORM -->
-        <div id="search-section">
-            <h2>Search Student Record</h2>
-            <div class="form-group">
-                <label>Roll No (Required)</label>
-                <input type="text" id="v-roll" placeholder="Enter Roll No (e.g. 2603001)">
-            </div>
-            <div class="form-group">
-                <label>Student Name</label>
-                <input type="text" id="v-name" placeholder="Name on Admit Card">
-            </div>
-            <div class="form-group">
-                <label>Father's Name</label>
-                <input type="text" id="v-father" placeholder="Father's Name">
-            </div>
-            
-            <div class="form-group"><label>Mother's Name</label><input type="text" id="v-mother" placeholder="Mother's Name"></div>
-            
-            <button class="btn-verify" onclick="verifyStudent()">Verify Details</button>
-            <div id="loading" class="loader">Verifying from Server... Please wait...</div>
-            <div id="error-box" class="error-msg"></div>
-        </div>
-
-        <!-- RESULT DISPLAY -->
-        <div id="result-card">
-            <div class="verified-badge">✅ VERIFIED</div>
-            <div class="profile-flex">
-                <img id="res-photo" src="" class="photo-box" alt="Student Photo">
-                <div class="details-box">
-                    <p><span class="label">Roll No:</span> <span id="res-roll"></span></p>
-                    <p><span class="label">Name:</span> <span id="res-name"></span></p>
-                    <p><span class="label">Father:</span> <span id="res-father"></span></p>
-                    <p><span class="label">Mother:</span> <span id="res-mother"></span></p>
-                    <p><span class="label">Course:</span> <span id="res-course"></span></p>
-                </div>
-            </div>
-            <div>
-                <h3 style="margin:0; color:#0056b3; border-bottom:1px solid #ccc;">Result Status</h3>
-                <p><b>Exam Center:</b> <span id="res-center"></span></p>
-                <p><b>Final Result:</b> <span id="res-status" style="color:green; font-weight:bold;">PASS</span></p>
-            </div>
-            <button onclick="location.reload()" style="margin-top:15px; padding:8px; width:100%; cursor:pointer;">Search Another</button>
-        </div>
+    <!-- OVERLAY LOADER -->
+    <div id="loader-overlay" class="loader">
+        <i class="fas fa-spinner fa-spin"></i> Checking Records...
     </div>
 
-    <script>
-        const SCRIPT_URL = "YAHAN_APNA_NAYA_SCRIPT_URL_DALEIN"; 
+    <!-- MAIN CARD -->
+    <div class="card-container">
 
-        // 1. Check if Opened via QR Code (?id=...)
-        window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-            if (id) {
-                document.getElementById('v-roll').value = id;
-                document.getElementById('search-section').style.display = 'none'; // Form chupao
-                document.getElementById('loading').style.display = 'block'; // Loader dikhao
-                document.getElementById('loading').innerText = "Scanning QR Data... Please Wait.";
+        <!-- FLOATING LOGO (CENTERED & BIG) -->
+        <div class="floating-logo-container">
+            <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" alt="OSD Logo">
+        </div>
+
+        <!-- TABS HEADER -->
+        <div class="tabs-header">
+            <!-- Left Tab: Gray -->
+            <div class="tab tab-inactive" onclick="switchTab('qr')">
+                <i class="fas fa-qrcode" style="margin-right: 8px;"></i> QR-Code Verification
+            </div>
+            <!-- Right Tab: Purple (Active) -->
+            <div class="tab tab-active" onclick="switchTab('manual')">
+                <i class="fas fa-file-alt" style="margin-right: 8px;"></i> Certificate Verification
+            </div>
+        </div>
+
+        <!-- QR CONTENT (Hidden initially for demo purposes, based on screenshot showing Manual open) -->
+        <div id="qr-tab" class="tab-content">
+            <div class="form-area" style="text-align: center;">
+                <h3 style="color:#555;">Scan QR Code</h3>
+                <p>Use your camera to scan the QR code on the certificate.</p>
+                <button class="verify-btn" style="background:#455a64;" onclick="alert('Camera requires HTTPS context.')">
+                    <i class="fas fa-camera"></i> Open Scanner
+                </button>
+            </div>
+        </div>
+
+        <!-- MANUAL ENTRY CONTENT (Active) -->
+        <div id="manual-tab" class="tab-content active">
+            <div class="form-area">
                 
-                // Direct Verify call without name checks
-                fetchData(id, null, null); 
-            }
-        };
+                <div id="error-box" class="error-msg"></div>
 
-        function verifyStudent() {
+                <div id="input-section">
+                    <!-- Row 1: Roll No -->
+                    <div class="input-group">
+                        <label>Enter Roll / Registration No <span>*</span></label>
+                        <input type="text" id="v-roll" placeholder="Ex: 2603001">
+                    </div>
+
+                    <!-- Row 2: Name & Father -->
+                    <div class="row">
+                        <div class="col input-group">
+                            <label>Student Name</label>
+                            <input type="text" id="v-name" placeholder="Full Name">
+                        </div>
+                        <div class="col input-group">
+                            <label>Father's Name</label>
+                            <input type="text" id="v-father" placeholder="Father Name">
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Mother & Course -->
+                    <div class="row">
+                        <div class="col input-group">
+                            <label>Mother's Name</label>
+                            <input type="text" id="v-mother" placeholder="Mother Name">
+                        </div>
+                        <div class="col input-group">
+                            <label>Course Name</label>
+                            <input type="text" id="v-course" placeholder="Applied Course">
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="verify-btn" onclick="verifyStudent()">
+                        VERIFY RECORD <i class="fas fa-arrow-right" style="margin-left:5px;"></i>
+                    </button>
+                </div>
+
+                <!-- RESULTS DISPLAY -->
+                <div id="result-display" class="result-box">
+                    <div class="success-badge">
+                        <i class="fas fa-check-circle"></i> VERIFIED STUDENT RECORD
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                        <img id="res-photo" src="" style="width: 100px; height: 120px; object-fit: cover; border: 3px solid #ddd; padding: 2px;">
+                        
+                        <table class="data-table">
+                            <tr><td class="data-lbl">Roll No:</td><td class="data-val" id="res-roll"></td></tr>
+                            <tr><td class="data-lbl">Name:</td><td class="data-val" id="res-name"></td></tr>
+                            <tr><td class="data-lbl">Father Name:</td><td class="data-val" id="res-father"></td></tr>
+                            <tr><td class="data-lbl">Course:</td><td class="data-val" id="res-course"></td></tr>
+                            <tr><td class="data-lbl">Status:</td><td class="data-val" style="color:green;">PASS</td></tr>
+                        </table>
+                    </div>
+                    
+                    <button onclick="location.reload()" style="margin-top:20px; background:transparent; border:none; color: #6a1b9a; text-decoration: underline; cursor:pointer;">
+                        Verify Another Student
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8NYb0IZguAp1nv56lMDokpQbiiCTkBz9IeYt66_aC3_YVnC9_4t6bXW9kK7aM_nZ_/exec"; 
+
+        // Tabs Logic
+        function switchTab(mode) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            // Remove active classes
+            tabs[0].classList.remove('tab-active'); tabs[0].classList.add('tab-inactive');
+            tabs[1].classList.remove('tab-active'); tabs[1].classList.add('tab-inactive');
+            contents[0].classList.remove('active');
+            contents[1].classList.remove('active');
+
+            if(mode === 'qr') {
+                tabs[0].classList.add('tab-active'); tabs[0].classList.remove('tab-inactive');
+                contents[0].classList.add('active');
+            } else {
+                tabs[1].classList.add('tab-active'); tabs[1].classList.remove('tab-inactive');
+                contents[1].classList.add('active');
+            }
+        }
+
+        async function verifyStudent() {
             const roll = document.getElementById('v-roll').value.trim();
             const name = document.getElementById('v-name').value.trim();
             const father = document.getElementById('v-father').value.trim();
+            const mother = document.getElementById('v-mother').value.trim();
+            const course = document.getElementById('v-course').value.trim();
+            
+            const errBox = document.getElementById('error-box');
+            errBox.style.display = 'none';
 
-            if(!roll) { alert("Please enter Roll No"); return; }
-            if(!name || !father) { 
-                if(!confirm("⚠️ You have not filled Name/Father Name.\nSystem might not verify strict details.\nContinue?")) return; 
+            if(!roll) {
+                errBox.innerText = "Please Enter Roll Number or Registration No.";
+                errBox.style.display = 'block';
+                return;
             }
 
-            fetchData(roll, name, father);
-        }
-
-        async function fetchData(roll, name, father) {
-            document.getElementById('error-box').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
+            document.getElementById('loader-overlay').style.display = 'block';
 
             try {
-                const res = await fetch(SCRIPT_URL, {
+                // Sending POST request to Google Sheet App Script
+                const response = await fetch(SCRIPT_URL, {
                     method: "POST",
-                    body: JSON.stringify({ 
-                        Action: "VERIFY_STUDENT", 
-                        RollNo: roll, 
-                        Name: name, 
-                        FName: father 
+                    body: JSON.stringify({
+                        Action: "VERIFY_STUDENT",
+                        RollNo: roll,
+                        Name: name,
+                        FName: father,
+                        MName: mother,
+                        Course: course
                     })
                 });
-                const data = await res.json();
-                document.getElementById('loading').style.display = 'none';
+
+                const data = await response.json();
+                document.getElementById('loader-overlay').style.display = 'none';
 
                 if (data.Success) {
-                    // Show Result
-                    document.getElementById('search-section').style.display = 'none';
-                    document.getElementById('result-card').style.display = 'block';
-                    
+                    // Hide Form, Show Result
+                    document.getElementById('input-section').style.display = 'none';
+                    document.getElementById('result-display').style.display = 'block';
+
+                    // Populate Data
                     document.getElementById('res-roll').innerText = data.Data.RollNo;
                     document.getElementById('res-name').innerText = data.Data.Name;
                     document.getElementById('res-father').innerText = data.Data.Father;
-                    document.getElementById('res-mother').innerText = data.Data.Mother;
                     document.getElementById('res-course').innerText = data.Data.Course;
-                    document.getElementById('res-center').innerText = data.Data.ExamCenter;
                     
                     if(data.Data.Photo) {
-                        // Agar photo Google Drive link hai, to seedha lag jayega kyunki script view link de raha hai
-                        document.getElementById('res-photo').src = data.Data.Photo; 
+                        document.getElementById('res-photo').src = data.Data.Photo;
                     } else {
-                        document.getElementById('res-photo').src = "https://via.placeholder.com/100?text=No+Img";
+                        document.getElementById('res-photo').src = "https://via.placeholder.com/150?text=No+Img";
                     }
 
                 } else {
-                    // Show Specific Error
-                    let msg = "Record not found!";
-                    if (data.Error === "ROLL_NOT_FOUND") msg = "❌ Invalid Roll Number. Please check again.";
-                    if (data.Error === "MISMATCH") {
-                        msg = "⚠️ Record Found but Details Mismatch!<br>";
-                        msg += "Please check spelling of: " + data.Details.join(", ");
-                    }
-                    
-                    // QR Mode me form wapas dikhana padega agar error aaya
-                    document.getElementById('search-section').style.display = 'block';
-                    
-                    const errBox = document.getElementById('error-box');
-                    errBox.innerHTML = msg;
+                    let msg = "No Record Found for this Roll Number.";
+                    if(data.Error === "MISMATCH") msg = "Record Found but Details (Name/Father) Mismatch.";
+                    errBox.innerText = msg;
                     errBox.style.display = 'block';
                 }
 
-            } catch(e) {
-                alert("Server Connection Error");
-                console.error(e);
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('search-section').style.display = 'block';
+            } catch (error) {
+                console.error(error);
+                document.getElementById('loader-overlay').style.display = 'none';
+                errBox.innerText = "Connection Failed. Please try again.";
+                errBox.style.display = 'block';
             }
         }
+        
+        // Auto Load from URL ID
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if(id) {
+                document.getElementById('v-roll').value = id;
+                verifyStudent();
+            }
+        };
     </script>
+
 </body>
 </html>
