@@ -12,20 +12,21 @@
             --theme-purple: #6a1b9a;
             --theme-bg: #f4f4f4;
             --text-color: #333;
+            --success-color: #2e7d32;
+            --error-color: #d32f2f;
         }
 
         body {
             font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(to bottom, #7b1fa2 40%, #f5f5f5 40%); /* Top Purple, Bottom Gray */
+            background: linear-gradient(to bottom, #7b1fa2 40%, #f5f5f5 40%);
             min-height: 100vh;
             margin: 0; padding: 0;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 100px; /* Space for top logo overlap */
+            padding-top: 100px;
         }
 
-        /* --- MAIN CARD --- */
         .card-container {
             background: white;
             width: 90%;
@@ -36,13 +37,11 @@
             margin-bottom: 50px;
         }
 
-        /* --- BIG FLOATING LOGO (ScreenShot Style) --- */
         .floating-logo-container {
             position: absolute;
-            top: 0; 
-            left: 50%;
-            transform: translate(-50%, -50%); /* Center perfectly on the top edge */
-            width: 160px; /* BADA SIZE */
+            top: 0; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160px;
             height: 160px;
             background: white;
             border-radius: 50%;
@@ -51,15 +50,14 @@
             justify-content: center;
             align-items: center;
             z-index: 20;
-            border: 4px solid white; /* Optional border */
+            border: 4px solid white;
         }
 
         .floating-logo-container img {
-            width: 220px; /* Image inside circle */
+            width: 220px;
             height: auto;
         }
 
-        /* --- TABS SECTION --- */
         .tabs-header {
             display: flex;
             width: 100%;
@@ -79,218 +77,169 @@
             text-transform: uppercase;
             transition: 0.3s;
         }
-         /* Inactive Tab Style */
-        .tab-inactive {
-            background-color: white;
-            color: red;
-            border-bottom: 1px solid #ddd;
-        }
-        .tab-inactive:hover {
-            background-color: #e0e0e0;
-        }
+        .tab-inactive { background-color: white; color: red; border-bottom: 1px solid #ddd; }
+        .tab-inactive:hover { background-color: #e0e0e0; }
+        .tab-active { background-color: green; color: white; }
 
-        /* Active Tab Style (Like Screenshot Right Side) */
-        .tab-active {
-            background-color: green;
-            color: white
-        }
-
-        /* --- FORM CONTENT --- */
         .tab-content {
             padding: 40px;
             position: relative;
-            /* Background Watermark Image */
             background-image: url('https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png'); 
             background-repeat: no-repeat;
             background-position: center;
             background-size: 500px;
+            display: none;
         }
         
-        /* Watermark Overlay Hack to make it faded */
         .tab-content::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.92); /* Covers the logo to make it faint */
-            z-index: 1;
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.92); z-index: 1;
         }
 
-        /* Ensures content sits above the watermark */
-        .form-area {
-            position: relative;
-            z-index: 2;
-        }
-
-        .tab-content { display: none; }
+        .form-area { position: relative; z-index: 2; }
         .tab-content.active { display: block; animation: fadeIn 0.3s; }
 
-        /* --- INPUT STYLES --- */
-        .input-group { margin-bottom: 20px; }
+        .input-group { margin-bottom: 20px; position: relative; }
         
         .input-group label {
-            display: block;
-            color: #444;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 8px;
+            display: block; color: #444; font-weight: 700; font-size: 14px; margin-bottom: 8px;
         }
-        .input-group label span { color: #d32f2f; } /* Red Asterisk */
+        .input-group label span { color: #d32f2f; }
 
         .input-group input {
-            width: 100%;
-            padding: 12px 15px;
-            font-size: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background: #fdfdfd;
-            box-sizing: border-box; /* Fixes padding width issue */
-            transition: 0.2s;
+            width: 100%; padding: 12px 15px; font-size: 15px;
+            border: 1px solid #ccc; border-radius: 4px;
+            background: #fdfdfd; box-sizing: border-box; transition: 0.2s;
         }
 
         .input-group input:focus {
-            outline: none;
-            border-color: var(--theme-purple);
+            outline: none; border-color: var(--theme-purple);
             box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.1);
         }
+        
+        /* Validation Styles */
+        .input-group input.valid { border-color: var(--success-color); background: #e8f5e9; }
+        .input-group input.invalid { border-color: var(--error-color); background: #ffebee; }
 
-        /* --- GRID SYSTEM --- */
+        .field-msg {
+            font-size: 12px; font-weight: 600; margin-top: 4px; display: block; min-height: 18px;
+        }
+        .msg-success { color: var(--success-color); }
+        .msg-error { color: var(--error-color); }
+        .checking { color: #f57c00; }
+
         .row { display: flex; gap: 20px; }
         .col { flex: 1; }
-        
-        @media(max-width: 600px) {
-            .row { flex-direction: column; gap: 0; }
-        }
+        @media(max-width: 600px) { .row { flex-direction: column; gap: 0; } }
 
-        /* --- BUTTON --- */
         .verify-btn {
-            background-color: #7b1fa2; /* Slightly different purple for button */
             background: linear-gradient(to right, #7b1fa2, #9c27b0);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 15px;
-            font-size: 16px;
-            font-weight: 800;
-            text-transform: uppercase;
-            border-radius: 5px;
-            cursor: pointer;
+            color: white; border: none; width: 100%; padding: 15px;
+            font-size: 16px; font-weight: 800; text-transform: uppercase;
+            border-radius: 5px; cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-            margin-top: 10px;
+            transition: transform 0.2s; margin-top: 10px;
+            opacity: 0.5; pointer-events: none; /* Disabled initially */
         }
-        .verify-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        .verify-btn.active-btn {
+            opacity: 1; pointer-events: all; cursor: pointer;
         }
+        .verify-btn:hover { transform: translateY(-2px); }
 
-        /* --- RESULT TABLE --- */
         .result-box {
-            display: none; margin-top: 30px; border-top: 2px dashed #ddd; padding-top: 20px;
-            text-align: center;
+            display: none; margin-top: 30px; border-top: 2px dashed #ddd; padding-top: 20px; text-align: center;
         }
         .success-badge {
             background: #e8f5e9; color: #2e7d32; padding: 10px; border-radius: 4px;
             font-weight: bold; margin-bottom: 20px; display: inline-block; width: 100%; box-sizing: border-box;
         }
-        .data-table {
-            width: 100%; border-collapse: collapse; text-align: left;
-        }
+        .data-table { width: 100%; border-collapse: collapse; text-align: left; }
         .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
         .data-lbl { font-weight: 600; color: #555; width: 40%; }
         .data-val { font-weight: 700; color: #000; }
 
         @keyframes fadeIn { from{opacity:0; transform: translateY(5px);} to{opacity:1; transform: translateY(0);} }
 
-        /* Loader */
         .loader { 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 100;
             color: white; text-align: center; padding-top: 40vh; font-size: 20px;
         }
-        .error-msg {
-            background: #ffebee; color: #c62828; padding: 12px;
-            border-radius: 4px; text-align: center; font-weight: bold;
-            display: none; margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
 
-    <!-- OVERLAY LOADER -->
     <div id="loader-overlay" class="loader">
-        <i class="fas fa-spinner fa-spin"></i> Checking Records...
+        <i class="fas fa-spinner fa-spin"></i> Loading...
     </div>
 
-    <!-- MAIN CARD -->
     <div class="card-container">
-
-        <!-- FLOATING LOGO (CENTERED & BIG) -->
         <div class="floating-logo-container">
             <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" alt="OSD Logo">
         </div>
 
-        <!-- TABS HEADER -->
         <div class="tabs-header">
-            <!-- Left Tab: Gray -->
             <div class="tab tab-inactive" onclick="switchTab('qr')">
                 <i class="fas fa-qrcode" style="margin-right: 8px;"></i> QR-Code Verification
             </div>
-            <!-- Right Tab: Purple (Active) -->
             <div class="tab tab-active" onclick="switchTab('manual')">
                 <i class="fas fa-file-alt" style="margin-right: 8px;"></i> Certificate Verification
             </div>
         </div>
 
-        <!-- QR CONTENT (Hidden initially for demo purposes, based on screenshot showing Manual open) -->
         <div id="qr-tab" class="tab-content">
             <div class="form-area" style="text-align: center;">
                 <h3 style="color:#555;">Scan QR Code</h3>
-                <p>Use your camera to scan the QR code on the certificate.</p>
-                <button class="verify-btn" style="background:#455a64;" onclick="alert('Camera requires HTTPS context.')">
+                <p>Use your camera to scan the QR code.</p>
+                <button class="verify-btn active-btn" style="background:#455a64;" onclick="alert('Camera requires HTTPS context.')">
                     <i class="fas fa-camera"></i> Open Scanner
                 </button>
             </div>
         </div>
 
-        <!-- MANUAL ENTRY CONTENT (Active) -->
         <div id="manual-tab" class="tab-content active">
             <div class="form-area">
                 
-                <div id="error-box" class="error-msg"></div>
-
                 <div id="input-section">
-                    <!-- Row 1: Roll No -->
+                    <!-- Step 1: Roll No Verification -->
                     <div class="input-group">
                         <label>Enter Roll / Registration No <span>*</span></label>
-                        <input type="text" id="v-roll" placeholder="Ex: 2603001">
+                        <!-- Added onblur event to fetch data -->
+                        <input type="text" id="v-roll" placeholder="Ex: 2603001" onblur="fetchRollData()">
+                        <small id="msg-roll" class="field-msg"></small>
                     </div>
 
-                    <!-- Row 2: Name & Father -->
-                    <div class="row">
-                        <div class="col input-group">
-                            <label>Student Name</label>
-                            <input type="text" id="v-name" placeholder="Full Name">
+                    <!-- Step 2: Other Details (Initially Disabled) -->
+                    <div id="details-section" style="opacity: 0.5; pointer-events: none;">
+                        <div class="row">
+                            <div class="col input-group">
+                                <label>Student Name</label>
+                                <input type="text" id="v-name" placeholder="Full Name" onkeyup="validateField(this, 'Name')" disabled>
+                                <small id="msg-name" class="field-msg"></small>
+                            </div>
+                            <div class="col input-group">
+                                <label>Father's Name</label>
+                                <input type="text" id="v-father" placeholder="Father Name" onkeyup="validateField(this, 'Father')" disabled>
+                                <small id="msg-father" class="field-msg"></small>
+                            </div>
                         </div>
-                        <div class="col input-group">
-                            <label>Father's Name</label>
-                            <input type="text" id="v-father" placeholder="Father Name">
+
+                        <div class="row">
+                            <div class="col input-group">
+                                <label>Mother's Name</label>
+                                <input type="text" id="v-mother" placeholder="Mother Name" onkeyup="validateField(this, 'Mother')" disabled>
+                                <small id="msg-mother" class="field-msg"></small>
+                            </div>
+                            <div class="col input-group">
+                                <label>Course Name</label>
+                                <input type="text" id="v-course" placeholder="Applied Course" onkeyup="validateField(this, 'Course')" disabled>
+                                <small id="msg-course" class="field-msg"></small>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Row 3: Mother & Course -->
-                    <div class="row">
-                        <div class="col input-group">
-                            <label>Mother's Name</label>
-                            <input type="text" id="v-mother" placeholder="Mother Name">
-                        </div>
-                        <div class="col input-group">
-                            <label>Course Name</label>
-                            <input type="text" id="v-course" placeholder="Applied Course">
-                        </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button class="verify-btn" onclick="verifyStudent()">
+                    <!-- Submit Button (Enabled only when all fields match) -->
+                    <button id="main-btn" class="verify-btn" onclick="showFinalResult()">
                         VERIFY RECORD <i class="fas fa-arrow-right" style="margin-left:5px;"></i>
                     </button>
                 </div>
@@ -308,6 +257,7 @@
                             <tr><td class="data-lbl">Roll No:</td><td class="data-val" id="res-roll"></td></tr>
                             <tr><td class="data-lbl">Name:</td><td class="data-val" id="res-name"></td></tr>
                             <tr><td class="data-lbl">Father Name:</td><td class="data-val" id="res-father"></td></tr>
+                            <tr><td class="data-lbl">Mother Name:</td><td class="data-val" id="res-mother"></td></tr>
                             <tr><td class="data-lbl">Course:</td><td class="data-val" id="res-course"></td></tr>
                             <tr><td class="data-lbl">Status:</td><td class="data-val" style="color:green;">PASS</td></tr>
                         </table>
@@ -323,107 +273,147 @@
 
     </div>
 
-    <!-- Script Logic -->
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8NYb0IZguAp1nv56lMDokpQbiiCTkBz9IeYt66_aC3_YVnC9_4t6bXW9kK7aM_nZ_/exec"; 
+        
+        let fetchedData = null; // To store data temporarily
 
-        // Tabs Logic
         function switchTab(mode) {
             const tabs = document.querySelectorAll('.tab');
             const contents = document.querySelectorAll('.tab-content');
-            
-            // Remove active classes
-            tabs[0].classList.remove('tab-active'); tabs[0].classList.add('tab-inactive');
-            tabs[1].classList.remove('tab-active'); tabs[1].classList.add('tab-inactive');
-            contents[0].classList.remove('active');
-            contents[1].classList.remove('active');
-
-            if(mode === 'qr') {
-                tabs[0].classList.add('tab-active'); tabs[0].classList.remove('tab-inactive');
-                contents[0].classList.add('active');
-            } else {
-                tabs[1].classList.add('tab-active'); tabs[1].classList.remove('tab-inactive');
-                contents[1].classList.add('active');
-            }
+            tabs[0].className = 'tab ' + (mode === 'qr' ? 'tab-active' : 'tab-inactive');
+            tabs[1].className = 'tab ' + (mode === 'manual' ? 'tab-active' : 'tab-inactive');
+            contents[0].className = mode === 'qr' ? 'tab-content active' : 'tab-content';
+            contents[1].className = mode === 'manual' ? 'tab-content active' : 'tab-content';
         }
 
-        async function verifyStudent() {
-            const roll = document.getElementById('v-roll').value.trim();
-            const name = document.getElementById('v-name').value.trim();
-            const father = document.getElementById('v-father').value.trim();
-            const mother = document.getElementById('v-mother').value.trim();
-            const course = document.getElementById('v-course').value.trim();
-            
-            const errBox = document.getElementById('error-box');
-            errBox.style.display = 'none';
+        // --- STEP 1: Fetch Data by Roll No ---
+        async function fetchRollData() {
+            const rollInput = document.getElementById('v-roll');
+            const msgBox = document.getElementById('msg-roll');
+            const roll = rollInput.value.trim();
 
-            if(!roll) {
-                errBox.innerText = "Please Enter Roll Number or Registration No.";
-                errBox.style.display = 'block';
-                return;
-            }
+            if(!roll) return;
 
-            document.getElementById('loader-overlay').style.display = 'block';
+            // UI Updates
+            msgBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking Database...';
+            msgBox.className = "field-msg checking";
+            rollInput.disabled = true;
 
             try {
-                // Sending POST request to Google Sheet App Script
+                // Requesting data specifically by Roll No
+                // IMPORTANT: Apps Script must handle Action: "FETCH_BY_ROLL"
                 const response = await fetch(SCRIPT_URL, {
                     method: "POST",
-                    body: JSON.stringify({
-                        Action: "VERIFY_STUDENT",
-                        RollNo: roll,
-                        Name: name,
-                        FName: father,
-                        MName: mother,
-                        Course: course
-                    })
+                    body: JSON.stringify({ Action: "FETCH_BY_ROLL", RollNo: roll }) 
                 });
-
+                
                 const data = await response.json();
-                document.getElementById('loader-overlay').style.display = 'none';
 
-                if (data.Success) {
-                    // Hide Form, Show Result
-                    document.getElementById('input-section').style.display = 'none';
-                    document.getElementById('result-display').style.display = 'block';
-
-                    // Populate Data
-                    document.getElementById('res-roll').innerText = data.Data.RollNo;
-                    document.getElementById('res-name').innerText = data.Data.Name;
-                    document.getElementById('res-father').innerText = data.Data.Father;
-                    document.getElementById('res-course').innerText = data.Data.Course;
+                if(data.Success) {
+                    fetchedData = data.Data; // Store correct data locally
                     
-                    if(data.Data.Photo) {
-                        document.getElementById('res-photo').src = data.Data.Photo;
-                    } else {
-                        document.getElementById('res-photo').src = "https://via.placeholder.com/150?text=No+Img";
-                    }
+                    // Success UI
+                    msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found. Please verify details below.';
+                    msgBox.className = "field-msg msg-success";
+                    rollInput.classList.add('valid');
+                    rollInput.classList.remove('invalid');
+
+                    // Enable other fields
+                    const detailsDiv = document.getElementById('details-section');
+                    detailsDiv.style.opacity = "1";
+                    detailsDiv.style.pointerEvents = "all";
+                    
+                    // Enable inputs
+                    document.getElementById('v-name').disabled = false;
+                    document.getElementById('v-father').disabled = false;
+                    document.getElementById('v-mother').disabled = false;
+                    document.getElementById('v-course').disabled = false;
 
                 } else {
-                    let msg = "No Record Found for this Roll Number.";
-                    if(data.Error === "MISMATCH") msg = "Record Found but Details (Name/Father) Mismatch.";
-                    errBox.innerText = msg;
-                    errBox.style.display = 'block';
+                    throw new Error("Record Not Found");
                 }
-
             } catch (error) {
-                console.error(error);
-                document.getElementById('loader-overlay').style.display = 'none';
-                errBox.innerText = "Connection Failed. Please try again.";
-                errBox.style.display = 'block';
+                fetchedData = null;
+                msgBox.innerHTML = '<i class="fas fa-times"></i> Invalid Roll No / Record Not Found.';
+                msgBox.className = "field-msg msg-error";
+                rollInput.classList.add('invalid');
+                rollInput.classList.remove('valid');
+                rollInput.disabled = false;
+                rollInput.focus();
             }
         }
-        
-        // Auto Load from URL ID
-        window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-            if(id) {
-                document.getElementById('v-roll').value = id;
-                verifyStudent();
-            }
-        };
-    </script>
 
+        // --- STEP 2: Validate Fields Real-time ---
+        function validateField(input, fieldKey) {
+            if(!fetchedData) return;
+
+            const userVal = input.value.trim().toLowerCase();
+            // Assuming API returns keys: Name, Father, Mother, Course
+            // If your API returns 'FName' instead of 'Father', map it here:
+            let dbKey = fieldKey;
+            if(fieldKey === 'Father') dbKey = 'FName'; // Adjust based on your script keys
+            if(fieldKey === 'Mother') dbKey = 'MName'; // Adjust based on your script keys
+            
+            const correctVal = (fetchedData[dbKey] || fetchedData[fieldKey] || "").trim().toLowerCase();
+            const msgBox = document.getElementById('msg-' + fieldKey.toLowerCase());
+
+            if(userVal === correctVal) {
+                input.classList.add('valid');
+                input.classList.remove('invalid');
+                msgBox.innerHTML = '<i class="fas fa-check"></i> Match';
+                msgBox.className = "field-msg msg-success";
+            } else {
+                input.classList.add('invalid');
+                input.classList.remove('valid');
+                if(userVal.length > 0) {
+                    msgBox.innerHTML = '<i class="fas fa-times"></i> Incorrect';
+                    msgBox.className = "field-msg msg-error";
+                } else {
+                    msgBox.innerHTML = '';
+                }
+            }
+            
+            checkAllFields();
+        }
+
+        // --- STEP 3: Enable Button if All Correct ---
+        function checkAllFields() {
+            const inputs = document.querySelectorAll('#details-section input');
+            let allValid = true;
+            inputs.forEach(inp => {
+                if(!inp.classList.contains('valid')) allValid = false;
+            });
+
+            const btn = document.getElementById('main-btn');
+            if(allValid) {
+                btn.classList.add('active-btn');
+                btn.innerHTML = 'VIEW FULL RESULT <i class="fas fa-check-double"></i>';
+            } else {
+                btn.classList.remove('active-btn');
+                btn.innerHTML = 'VERIFY RECORD <i class="fas fa-arrow-right"></i>';
+            }
+        }
+
+        // --- STEP 4: Show Result ---
+        function showFinalResult() {
+            if(!fetchedData) return;
+
+            document.getElementById('input-section').style.display = 'none';
+            document.getElementById('result-display').style.display = 'block';
+
+            document.getElementById('res-roll').innerText = fetchedData.RollNo;
+            document.getElementById('res-name').innerText = fetchedData.Name;
+            document.getElementById('res-father').innerText = fetchedData.FName || fetchedData.Father;
+            document.getElementById('res-mother').innerText = fetchedData.MName || fetchedData.Mother;
+            document.getElementById('res-course').innerText = fetchedData.Course;
+            
+            if(fetchedData.Photo) {
+                document.getElementById('res-photo').src = fetchedData.Photo;
+            } else {
+                document.getElementById('res-photo').src = "https://via.placeholder.com/150?text=No+Img";
+            }
+        }
+    </script>
 </body>
 </html>
