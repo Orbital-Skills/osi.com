@@ -141,19 +141,22 @@
     </style>
 </head>
 <body>
-
+ <!-- UPDATED NAVBAR (With Status Buttons) -->
+<nav class="navbar" style="display:flex; justify-content:center; align-items:center; background:#0056b3;">
+    <a href="#" onclick="showPage('dashboard')">HOME</a> <!-- Dashboard Home -->
+    <a href="#" onclick="handleNavClick('ADMIT')">ADMIT CARD</a>
+    <a href="#" onclick="handleNavClick('RESULT')">RESULT</a>
+    <a href="#" onclick="handleNavClick('CERT')">CERTIFICATE</a>
+    <a href="#">FAQ</a>
+    <a onclick="logout()" style="color:white; cursor:pointer;">LOGOUT</a>
+</nav>
     <!-- 1. LOGIN PAGE (REPLACED WITH NEW DESIGN) -->
     <div id="login-page">
         <div class="login-top-header">
             <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" alt="Logo">
             <h1>ORBITAL SKILL DEVELOPMENT CENTER</h1>
         </div>
-        <nav class="navbar">
-            <a href="#">HOME</a>
-            <a href="#">USER MANUAL</a>
-            <a href="#">REGISTRATION/SIGN IN</a>
-            <a href="#">FAQ</a>
-        </nav>
+       
         <div class="login-container">
             <div class="news-ticker">
                 <div class="news-label">Latest News -</div>
@@ -406,16 +409,18 @@
         </div>
     </div>
 
-    <!-- SCRIPT SECTION -->
- <script>
-    // --- कॉन्फ़िगरेशन ---
+  <script>
+    // --- CONFIGURATION ---
     const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrcyNNMI5QKEnup9wU2tWZ-A1TRBIVl_tAcw7j_ouqdhNwkOtu6YgOSCKClUGT-gIM/exec";
-
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcaR1iMT0aVkyMp6juAPdNMbIYqvQzqo_DopYl06U_QQ4mCmMf_tb7Q--sHhb8mfQq/exec";
+			
+    // --- INITIALIZATION ---
     try { firebase.initializeApp(firebaseConfig); } catch(e) { console.error(e); }
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // --- GLOBAL VARIABLES ---
+    let isAadharValid = false; 
     let currentPhotos = { photoBase64: "", signBase64: "" };
     let currentQualifyingDoc = { base64: "", name: "" };
     let currentCaptcha = "91633";
@@ -433,24 +438,19 @@
         { name: "Cyber Security", url: "cyber-security.html", icon: "fa-shield-halved" }
     ];
 
-    // --- बेसिक फंक्शन्स ---
+    // --- UTILITIES ---
+    function getOrCreateStudentID() {
+        let sid = localStorage.getItem("StudentID");
+        if (!sid) {
+            sid = "OSD-" + Date.now(); // Unique ID generate karein
+            localStorage.setItem("StudentID", sid);
+        }
+        return sid;
+    }
+
     function generateCaptcha() {
         currentCaptcha = Math.floor(10000 + Math.random() * 90000).toString();
         document.getElementById('captcha-display').innerText = currentCaptcha;
-    }
-
-    function showPage(pid) {
-        ['personal','exam','preview','courses'].forEach(id => {
-            const el = document.getElementById('page-' + id);
-            if(el) el.classList.add('hidden');
-        });
-        const targetPage = document.getElementById('page-' + pid);
-        if(targetPage) targetPage.classList.remove('hidden');
-        
-        // Sidebar active class update
-        document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
-        const activeLink = document.getElementById('link-' + pid);
-        if(activeLink) activeLink.classList.add('active');
     }
 
     function handlePhotoSelect(input, previewId, keyName, maxSizeKB) {
@@ -466,45 +466,229 @@
         }
     }
 
+    function handleDocUpload(input, maxSizeKB) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            if(file.size > maxSizeKB * 1024) { alert(`Document too large! Max size is ${maxSizeKB}KB.`); input.value = ""; return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentQualifyingDoc = { base64: e.target.result, name: file.name };
+                document.getElementById('qual-doc-status').style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // --- VALIDATION & SAVING (FIRESTORE) ---
     function validateSection(containerId) {
         const container = document.getElementById(containerId);
         const inputs = container.querySelectorAll('input, select, textarea');
         let isValid = true;
         inputs.forEach(input => {
             input.classList.remove('error-border');
-            if(input.disabled || input.readOnly || input.id === 'dash-spouse' || input.type === 'file') return;
+            if(input.disabled || input.readOnly || input.id === 'dash-spouse' || input.id === 'addr-block' || input.id === 'perm-block' || input.type === 'file') return;
             if (input.value.trim() === "") { input.classList.add('error-border'); isValid = false; }
         });
         if (!isValid) alert("Please fill all MANDATORY fields.");
         return isValid;
     }
 
-    // --- डेटा सेविंग और नेविगेशन ---
+    function savePersonalAndProceed() {
+        if (isAadharValid === false) { 
+            alert("कृपया एक सही आधार नंबर भरें!"); 
+            document.getElementById('dash-aadhaar').focus();
+            return; 
+        }
+
+        if (!validateSection('page-personal')) return;
+        const isSame = document.getElementById('chk-same').checked;
+        if(!isSame) {
+            if(!document.getElementById('perm-full').value || !document.getElementById('perm-district').value) {
+                alert("Please fill Permanent Address details.");
+                return;
+            }
+        }
+
+        if(auth.currentUser) {
+            db.collection("students").doc(auth.currentUser.uid).update({
+                spouse: document.getElementById('dash-spouse').value,
+                marital: document.getElementById('dash-marital').value,
+                caste: document.getElementById('dash-caste').value,
+                area: document.getElementById('dash-area').value,
+                aadhaar: document.getElementById('dash-aadhaar').value,
+                voterId: document.getElementById('dash-voter').value,
+                religion: document.getElementById('dash-religion').value,
+                address: document.getElementById('addr-full').value,
+                addrState: document.getElementById('addr-state').value,
+                district: document.getElementById('addr-district').value,
+                addrTehsil: document.getElementById('addr-tehsil').value,
+                addrCity: document.getElementById('addr-city').value,
+                addrBlock: document.getElementById('addr-block').value,
+                pincode: document.getElementById('addr-pin').value,
+                permAddress: document.getElementById('perm-full').value,
+                permState: document.getElementById('perm-state').value,
+                permDistrict: document.getElementById('perm-district').value,
+                permTehsil: document.getElementById('perm-tehsil').value,
+                permCity: document.getElementById('perm-city').value,
+                permBlock: document.getElementById('perm-block').value,
+                permPin: document.getElementById('perm-pin').value,
+                photoData: currentPhotos
+            }).then(() => {
+                alert("Personal Details Saved!");
+                showPage('exam');
+            });
+        }
+    }
+
+    function saveExamAndPreview() {
+        if (!validateSection('page-exam')) return;
+        if(auth.currentUser) {
+            db.collection("students").doc(auth.currentUser.uid).update({
+                examState: document.getElementById('exam-state').value,
+                examMode: document.getElementById('exam-mode').value,
+                examCenter: document.getElementById('exam-center').value,
+                examType: document.getElementById('exam-type').value,
+                domicile: document.getElementById('exam-domicile').value,
+                domicileDate: document.getElementById('exam-domicile-date').value,
+                qualClass: document.getElementById('qual-class').value,
+                qualBoard: document.getElementById('qual-board').value,
+                qualYear: document.getElementById('qual-year').value,
+                qualRoll: document.getElementById('qual-roll').value,
+                qualResult: document.getElementById('qual-result').value,
+                qualDoc: currentQualifyingDoc
+            }).then(() => {
+                populatePreview();
+                alert("Exam Details Saved!");
+                showPage('preview');
+            });
+        }
+    }
+
+    function populatePreview() {
+        // Personal
+        document.getElementById('p-name').value = document.getElementById('dash-name').value;
+        document.getElementById('p-father').value = document.getElementById('dash-father').value;
+        document.getElementById('p-mother').value = document.getElementById('dash-mother').value;
+        document.getElementById('p-spouse').value = document.getElementById('dash-spouse').value;
+        document.getElementById('p-dob').value = document.getElementById('dash-dob').value;
+        document.getElementById('p-gender').value = document.getElementById('dash-gender').value;
+        document.getElementById('p-marital').value = document.getElementById('dash-marital').value;
+        document.getElementById('p-email').value = document.getElementById('dash-email').value;
+        document.getElementById('p-caste').value = document.getElementById('dash-caste').value;
+        document.getElementById('p-area').value = document.getElementById('dash-area').value;
+        document.getElementById('p-mobile').value = document.getElementById('dash-mobile').value;
+        document.getElementById('p-aadhaar').value = document.getElementById('dash-aadhaar').value;
+        document.getElementById('p-voter').value = document.getElementById('dash-voter').value;
+        document.getElementById('p-religion').value = document.getElementById('dash-religion').value;
+        
+        // Address
+        document.getElementById('p-address').value = document.getElementById('addr-full').value;
+        document.getElementById('p-addr-state').value = document.getElementById('addr-state').value;
+        document.getElementById('p-district').value = document.getElementById('addr-district').value;
+        document.getElementById('p-tehsil').value = document.getElementById('addr-tehsil').value;
+        document.getElementById('p-city').value = document.getElementById('addr-city').value;
+        document.getElementById('p-block').value = document.getElementById('addr-block').value;
+        document.getElementById('p-pin').value = document.getElementById('addr-pin').value;
+
+        // Exam
+        document.getElementById('p-exam-state').value = document.getElementById('exam-state').value;
+        document.getElementById('p-exam-mode').value = document.getElementById('exam-mode').value;
+        document.getElementById('p-exam-center').value = document.getElementById('exam-center').value;
+        document.getElementById('p-exam-type').value = document.getElementById('exam-type').value;
+        document.getElementById('p-exam-domicile').value = document.getElementById('exam-domicile').value;
+        document.getElementById('p-exam-date').value = document.getElementById('exam-domicile-date').value;
+
+        // Photos
+        if(currentPhotos.photoBase64) document.getElementById('p-photo-box').innerHTML = '<img src="'+currentPhotos.photoBase64+'" class="photo-img">';
+        if(currentPhotos.signBase64) document.getElementById('p-sign-box').innerHTML = '<img src="'+currentPhotos.signBase64+'" class="photo-img">';
+    }
+
+ // --- 1. ID GENERATOR (Always New Unique ID) ---
+    function getOrCreateStudentID() {
+        // Hamesha nayi ID generate karein (Unique Timestamp + Random)
+        // Format: OSD-YearMonthDay-Random (e.g. OSD-20260114-5832)
+        const d = new Date();
+        const y = d.getFullYear();
+        const m = String(d.getMonth()+1).padStart(2,'0');
+        const day = String(d.getDate()).padStart(2,'0');
+        const rand = Math.floor(1000 + Math.random()*9000);
+        
+        const newID = "OSD-" + y + m + day + "-" + rand;
+        
+        // Is nayi ID ko save karein taki 'Select Course' me kaam aaye
+        localStorage.setItem("StudentID", newID);
+        
+        return newID;
+    }
+
+    // --- 2. DATA SAVING FUNCTION (Updated) ---
     async function submitToGoogleSheet() {
         const btn = document.getElementById('btn-proceed');
-        btn.innerText = "Saving...";
+        btn.innerText = "Saving New Record..."; 
         btn.disabled = true;
 
-        try {
-            const generatedID = "OSD-" + Date.now(); 
-            localStorage.setItem("StudentID", generatedID);
+        // Step 1: Nayi Unique ID Le Aao
+        const sId = getOrCreateStudentID();
 
+        try {
             const formData = {
                 Action: "FULL_SAVE",
-                StudentID: generatedID,
+                StudentID: sId,
                 FullName: document.getElementById('dash-name').value,
+                FatherName: document.getElementById('dash-father').value,
+                MotherName: document.getElementById('dash-mother').value,
+                SpouseName: document.getElementById('dash-spouse').value,
+                DOB: document.getElementById('dash-dob').value,
+                Gender: document.getElementById('dash-gender').value,
+                MaritalStatus: document.getElementById('dash-marital').value,
+                Caste: document.getElementById('dash-caste').value,
+                Religion: document.getElementById('dash-religion').value,
+                Aadhaar: document.getElementById('dash-aadhaar').value,
+                VoterID: document.getElementById('dash-voter').value,
                 Mobile: document.getElementById('dash-mobile').value,
                 Email: document.getElementById('dash-email').value,
-                // ... बाकी फील्ड्स जो आप भेज रहे हैं
-                Course: "PENDING"
+                
+                Address: document.getElementById('addr-full').value,
+                State: document.getElementById('addr-state').value,
+                District: document.getElementById('addr-district').value,
+                Tehsil: document.getElementById('addr-tehsil').value,
+                City: document.getElementById('addr-city').value,
+                Block: document.getElementById('addr-block').value,
+                Pincode: document.getElementById('addr-pin').value,
+
+                PermanentAddress: document.getElementById('perm-full').value,
+                PermanentState: document.getElementById('perm-state').value,
+                PermanentDistrict: document.getElementById('perm-district').value,
+                PermanentTehsil: document.getElementById('perm-tehsil').value,
+                PermanentCity: document.getElementById('perm-city').value,
+                PermanentBlock: document.getElementById('perm-block').value,
+                PermanentPincode: document.getElementById('perm-pin').value,
+
+                ExamState: document.getElementById('exam-state').value,
+                ExamMode: document.getElementById('exam-mode').value,
+                DomicileNo: document.getElementById('exam-domicile').value,
+                ExamCenterChoice: document.getElementById('exam-center').value,
+                DomicileDate: document.getElementById('exam-domicile-date').value,
+                ExamType: document.getElementById('exam-type').value,
+
+                // Fix: Empty Course Problem
+                Course: "Pending Selection", 
+                Qualification: document.getElementById('qual-class').value,
+                PhotoBase64: currentPhotos.photoBase64 || "",
+                PhotoMime: "image/jpeg",
+                PhotoFilename: "photo.jpg"
             };
 
-            fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(formData) });
+            await fetch(SCRIPT_URL, { 
+                method: "POST", 
+                mode: "no-cors", 
+                body: JSON.stringify(formData) 
+            });
 
-            alert("Registration Successful! Your ID: " + generatedID);
-            showPage('courses'); 
+            alert("New Record Added! ID: " + sId);
+            showPage('courses');
 
-        } catch (e) {
+        } catch(e) {
             alert("Error: " + e.message);
         } finally {
             btn.innerText = "Select Course";
@@ -512,49 +696,343 @@
         }
     }
 
+    // 2. Course Selection Fix (Prevents Ghost Rows)
     function selectCourse(courseName, courseUrl) {
+        if(!confirm("Confirm Course: " + courseName)) return;
+
         const sId = localStorage.getItem("StudentID");
-        if (!sId) return alert("StudentID missing!");
+        if(!sId) {
+            alert("Registration ID not found! Please fill form first.");
+            return;
+        }
+
+        const container = document.getElementById('course-container');
+        container.style.opacity = "0.5";
+        container.style.pointerEvents = "none";
 
         fetch(SCRIPT_URL, {
             method: "POST",
             mode: "no-cors",
-            body: JSON.stringify({ Action: "UPDATE_COURSE", StudentID: sId, Course: courseName })
+            body: JSON.stringify({
+                Action: "UPDATE_COURSE",
+                StudentID: sId,
+                Course: courseName
+            })
+        }).then(() => {
+            // Wait 1.5s for sheet update
+            setTimeout(() => {
+                window.location.href = courseUrl;
+            }, 1500);
+        }).catch(e => {
+            window.location.href = courseUrl;
         });
+    }
+    // --- AUTH & LOGIN ---
+    function handleRegister() {
+        const terms = document.getElementById('terms').checked;
+        const email = document.getElementById('reg-email').value;
+        const pass = document.getElementById('reg-password').value;
         
-        setTimeout(() => { window.location.href = courseUrl; }, 500);
+        if(!terms) return alert("Please accept Terms & Conditions");
+        if(!email || !pass) return alert("Fill all fields");
+
+        auth.createUserWithEmailAndPassword(email, pass).then(c => {
+            db.collection("students").doc(c.user.uid).set({
+                name: document.getElementById('reg-name').value,
+                father: document.getElementById('reg-father').value,
+                mother: document.getElementById('reg-mother').value,
+                dob: document.getElementById('reg-dob').value,
+                gender: document.getElementById('reg-gender').value,
+                mobile: document.getElementById('reg-mobile').value,
+                email: email
+            }).then(() => { alert("Registered!"); loadData(c.user.uid); });
+        }).catch(e => alert(e.message));
     }
 
-    // --- अन्य यूटिलिटी फंक्शन्स ---
-    function copyAddress() {
-        const isSame = document.getElementById('chk-same').checked;
-        const fields = ['full', 'state', 'district', 'tehsil', 'city', 'block', 'pin'];
-        fields.forEach(f => {
-            document.getElementById('perm-' + f).value = isSame ? document.getElementById('addr-' + f).value : "";
+    function handleLogin() { 
+        const enteredCaptcha = document.getElementById('captcha-input').value;
+        if(enteredCaptcha !== currentCaptcha) return alert("Invalid Captcha");
+
+        auth.signInWithEmailAndPassword(document.getElementById('login-email').value, document.getElementById('login-password').value)
+            .catch(e => alert(e.message)); 
+    }
+
+
+    function loadData(uid) {
+        db.collection("students").doc(uid).get().then(d => {
+            
+            // --- 1. FIX: Show Dashboard IMMEDIATELY ---
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+
+            if(d.exists) {
+                const data = d.data();
+                document.getElementById('display-name').innerText = data.name ? data.name.toUpperCase() : "STUDENT";
+           
+	   // 2. STATUS CHECK (Admit/Result Links)
+            let idToCheck = data.studentID || localStorage.getItem("StudentID");
+            if(idToCheck) {
+                console.log("Checking status for ID:", idToCheck);
+                fetchStatus(idToCheck); 
+            }
+    
+                document.getElementById('dash-name').value = data.name || '';
+                document.getElementById('dash-father').value = data.father || '';
+                document.getElementById('dash-mother').value = data.mother || '';
+                document.getElementById('dash-dob').value = data.dob || '';
+                document.getElementById('dash-gender').value = data.gender || '';
+                document.getElementById('dash-email').value = data.email || '';
+                document.getElementById('dash-mobile').value = data.mobile || '';
+
+                if(data.spouse) document.getElementById('dash-spouse').value = data.spouse;
+                if(data.marital) document.getElementById('dash-marital').value = data.marital;
+                if(data.caste) document.getElementById('dash-caste').value = data.caste;
+                if(data.area) document.getElementById('dash-area').value = data.area;
+                if(data.aadhaar) {
+                    document.getElementById('dash-aadhaar').value = data.aadhaar;
+                    checkAadharValid(); // Re-validate visual on load
+                }
+                if(data.voterId) document.getElementById('dash-voter').value = data.voterId;
+                if(data.religion) document.getElementById('dash-religion').value = data.religion;
+                
+                if(data.address) document.getElementById('addr-full').value = data.address;
+                if(data.addrState) document.getElementById('addr-state').value = data.addrState;
+                if(data.district) document.getElementById('addr-district').value = data.district;
+                if(data.addrTehsil) document.getElementById('addr-tehsil').value = data.addrTehsil;
+                if(data.addrCity) document.getElementById('addr-city').value = data.addrCity;
+                if(data.addrBlock) document.getElementById('addr-block').value = data.addrBlock;
+                if(data.pincode) document.getElementById('addr-pin').value = data.pincode;
+                
+                if(data.permAddress) document.getElementById('perm-full').value = data.permAddress;
+                if(data.permState) document.getElementById('perm-state').value = data.permState;
+                if(data.permDistrict) document.getElementById('perm-district').value = data.permDistrict;
+                if(data.permTehsil) document.getElementById('perm-tehsil').value = data.permTehsil;
+                if(data.permCity) document.getElementById('perm-city').value = data.permCity;
+                if(data.permBlock) document.getElementById('perm-block').value = data.permBlock;
+                if(data.permPin) document.getElementById('perm-pin').value = data.permPin;
+
+                if(data.examState) document.getElementById('exam-state').value = data.examState;
+                if(data.examMode) document.getElementById('exam-mode').value = data.examMode;
+                if(data.examCenter) document.getElementById('exam-center').value = data.examCenter;
+                if(data.examType) document.getElementById('exam-type').value = data.examType;
+                if(data.domicile) document.getElementById('exam-domicile').value = data.domicile;
+                if(data.domicileDate) document.getElementById('exam-domicile-date').value = data.domicileDate;
+
+                if(data.qualClass) document.getElementById('qual-class').value = data.qualClass;
+                if(data.qualBoard) document.getElementById('qual-board').value = data.qualBoard;
+                if(data.qualYear) document.getElementById('qual-year').value = data.qualYear;
+                if(data.qualRoll) document.getElementById('qual-roll').value = data.qualRoll;
+                if(data.qualResult) document.getElementById('qual-result').value = data.qualResult;
+                if(data.qualDoc) {
+                    currentQualifyingDoc = data.qualDoc;
+                    document.getElementById('qual-doc-status').style.display = 'block';
+                }
+
+                if(data.photoData) {
+                    currentPhotos = data.photoData;
+                    if(currentPhotos.photoBase64) document.getElementById('preview-photo').innerHTML = '<img src="'+currentPhotos.photoBase64+'" class="photo-img">';
+                    if(currentPhotos.signBase64) document.getElementById('preview-sign').innerHTML = '<img src="'+currentPhotos.signBase64+'" class="photo-img">';
+                }
+            }
+        }).catch(err => {
+            console.error(err);
+            // Even on error, show dashboard for now
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
         });
     }
 
+    function logout() { auth.signOut().then(() => window.location.reload()); }
+    function showPage(pid) {
+        ['personal','exam','preview','courses'].forEach(id => {
+            const el = document.getElementById('page-'+id);
+            if(el) el.classList.add('hidden');
+        });
+        document.querySelectorAll('.sidebar a').forEach(a => {
+            a.classList.remove('active');
+            if(a.id === 'link-'+pid) a.classList.add('active');
+        });
+        const target = document.getElementById('page-'+pid);
+        if(target) target.classList.remove('hidden');
+    }
+    function showPreview() { populatePreview(); showPage('preview'); }
+    
+    function copyAddress() {
+        if(document.getElementById('chk-same').checked) {
+            document.getElementById('perm-full').value = document.getElementById('addr-full').value;
+            document.getElementById('perm-state').value = document.getElementById('addr-state').value;
+            document.getElementById('perm-district').value = document.getElementById('addr-district').value;
+            document.getElementById('perm-tehsil').value = document.getElementById('addr-tehsil').value;
+            document.getElementById('perm-city').value = document.getElementById('addr-city').value;
+            document.getElementById('perm-block').value = document.getElementById('addr-block').value;
+            document.getElementById('perm-pin').value = document.getElementById('addr-pin').value;
+        } else { 
+            document.getElementById('perm-full').value = ""; 
+            document.getElementById('perm-district').value = ""; 
+            document.getElementById('perm-tehsil').value = ""; 
+            document.getElementById('perm-city').value = ""; 
+            document.getElementById('perm-block').value = ""; 
+            document.getElementById('perm-pin').value = ""; 
+        }
+    }
+    
+    function addRow() { 
+        const t = document.getElementById('qualifying-table').getElementsByTagName('tbody')[0]; 
+        const r = t.rows[0].cloneNode(true); 
+        Array.from(r.getElementsByTagName('input')).forEach(i => i.value=''); 
+        t.appendChild(r); 
+    }
+
+    // --- AADHAAR VERIFICATION ---
+    const d_table = [
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
+        [2, 3, 4, 0, 1, 7, 8, 9, 5, 6], [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
+        [4, 0, 1, 2, 3, 9, 5, 6, 7, 8], [5, 9, 8, 7, 6, 0, 4, 3, 2, 1],
+        [6, 5, 9, 8, 7, 1, 0, 4, 3, 2], [7, 6, 5, 9, 8, 2, 1, 0, 4, 3],
+        [8, 7, 6, 5, 9, 3, 2, 1, 0, 4], [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+    ];
+    const p_table = [
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
+        [5, 8, 0, 3, 7, 9, 6, 1, 4, 2], [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
+        [9, 4, 5, 3, 1, 2, 6, 8, 7, 0], [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
+        [2, 7, 9, 3, 8, 0, 6, 4, 1, 5], [7, 0, 4, 6, 9, 1, 3, 2, 5, 8]
+    ];
+
+    function checkAadharValid() {
+        const input = document.getElementById('dash-aadhaar');
+        const status = document.getElementById('aadharStatus');
+        let val = input.value.replace(/\D/g, ''); 
+        input.value = val;
+
+        if (val.length === 12) {
+            let c = 0;
+            let invertedArray = val.split('').map(Number).reverse();
+            for (let i = 0; i < invertedArray.length; i++) {
+                c = d_table[c][p_table[i % 8][invertedArray[i]]];
+            }
+            
+            if (c === 0) {
+                status.innerText = "✓ Valid Aadhaar Number";
+                status.style.color = "green";
+                input.style.borderColor = "green";
+                isAadharValid = true; 
+            } else {
+                status.innerText = "✗ Invalid Aadhaar Number";
+                status.style.color = "red";
+                input.style.borderColor = "red";
+                isAadharValid = false; 
+            }
+        } else {
+            status.innerText = val.length > 0 ? "Enter 12 digits" : "";
+            status.style.color = "#f0ad4e";
+            input.style.borderColor = "#ccc";
+            isAadharValid = false; 
+        }
+    }
+
+    // --- WINDOW LOAD & LISTENERS ---
     window.onload = function() {
         generateCaptcha();
+        
+        // Generate Course Grid
         const cContainer = document.getElementById('course-container');
-        if(cContainer) {
-            courseData.forEach(c => {
-                let div = document.createElement('div');
-                div.className = 'course-card';
-                div.innerHTML = `<i class="fa ${c.icon} course-icon"></i><div class="course-title">${c.name}</div>`;
-                div.onclick = () => { if(confirm("Confirm Course: " + c.name + "?")) selectCourse(c.name, c.url); };
-                cContainer.appendChild(div);
-            });
-        }
+        courseData.forEach(c => {
+            let div = document.createElement('div'); 
+            div.className = 'course-card'; 
+            div.innerHTML = `<i class="fa ${c.icon} course-icon"></i><div class="course-title">${c.name}</div>`;
+            
+            // USE NEW FUNCTION HERE
+            div.onclick = () => selectCourse(c.name, c.url);
+            
+            cContainer.appendChild(div);
+        });
 
+        // Auth Listener
         auth.onAuthStateChanged(user => {
-            if(user) loadData(user.uid);
-            else {
-                document.getElementById('login-page').classList.remove('hidden');
-                document.getElementById('dashboard-view').classList.add('hidden');
+            if(user) {
+                loadData(user.uid);
+            } else { 
+                document.getElementById('login-page').classList.remove('hidden'); 
+                document.getElementById('dashboard-view').classList.add('hidden'); 
             }
         });
-    };
+    }
+// --- GLOBAL STATUS VARIABLE ---
+let studentStatus = { 
+    loaded: false, 
+    admit: "", admitDate: null,
+    resultMarks: 0, resultDate: null,
+    cert: "", certDate: null
+};
+
+// --- 1. FETCH STATUS ON LOGIN ---
+// Is function ko 'loadData' ke andar call karna hai (jahan login success hota hai)
+async function fetchStatus(studentID) {
+    console.log("Fetching status...");
+    try {
+        const res = await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({ Action: "FETCH_STATUS", StudentID: studentID })
+        });
+        const d = await res.json();
+        
+        if (d.Found) {
+            studentStatus.loaded = true;
+            studentStatus.admit = d.AdmitLink;
+            studentStatus.admitDate = new Date(d.AdmitDate);
+            studentStatus.resultMarks = d.Marks;
+            studentStatus.resultDate = new Date(d.ResultDate);
+            studentStatus.cert = d.CertLink;
+            studentStatus.certDate = new Date(d.CertDate);
+        }
+    } catch(e) { console.error("Status fetch fail", e); }
+}
+
+// --- 2. HANDLE NAV CLICKS ---
+function handleNavClick(type) {
+    if (!studentStatus.loaded) { alert("Data Loading... Please wait."); return; }
+
+    const today = new Date();
+    const TWO_MONTHS = 60 * 24 * 60 * 60 * 1000; // ~60 Days in ms
+
+    // --- ADMIT CARD LOGIC ---
+    if (type === 'ADMIT') {
+        if (!studentStatus.admit || studentStatus.admit === "") {
+            alert("🚫 Admit Card अभी जनरेट नहीं हुआ है।\nकृपया परीक्षा तिथि के पास चेक करें।");
+            return;
+        }
+        // Expiry Check (Admit Date + 60 Days)
+        if ((today - studentStatus.admitDate) > TWO_MONTHS) {
+            alert("⏳ LINK EXPIRED!\nएडमिट कार्ड लिंक की समय सीमा समाप्त हो चुकी है (2 महीने)।\nऑफिस से संपर्क करें।");
+            return;
+        }
+        window.open(studentStatus.admit, '_blank');
+    }
+
+    // --- RESULT LOGIC ---
+    if (type === 'RESULT') {
+        if (studentStatus.resultMarks === 0) {
+            alert("🚫 परिणाम अभी घोषित नहीं हुआ है (Not Declared Yet)।");
+            return;
+        }
+        // Expiry Check
+        if (studentStatus.resultDate && (today - studentStatus.resultDate) > TWO_MONTHS) {
+            alert("⏳ RESULT LINK EXPIRED!\nपरिणाम लिंक 2 महीने पुराना है।");
+            return;
+        }
+        // Show Result Modal (Pop up)
+        alert(`✅ CONGRATULATIONS!\n\nYour Result is Declared.\nTotal Marks: ${studentStatus.resultMarks}\nStatus: PASS`);
+    }
+
+    // --- CERTIFICATE LOGIC (Forever Valid) ---
+    if (type === 'CERT') {
+        if (!studentStatus.cert || studentStatus.cert === "") {
+            alert("🚫 सर्टिफिकेट अभी जनरेट नहीं हुआ है।");
+            return;
+        }
+        window.open(studentStatus.cert, '_blank');
+    }
+}
 </script>
 </body>
 </html>
