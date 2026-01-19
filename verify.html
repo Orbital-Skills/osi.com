@@ -546,38 +546,53 @@ function checkAllFields() {
 // 1. कैमरा शुरू करने का फंक्शन
 function startQRScanner() {
     const readerDiv = document.getElementById('reader');
-    readerDiv.style.display = 'block';
+    const scanBtn = document.getElementById('open-scanner-btn'); // बटन की ID
 
+    // बटन को थोड़ा धुंधला करें ताकि पता चले कि प्रोसेस शुरू हो गया है
+    if(scanBtn) {
+        scanBtn.style.opacity = "0.5";
+        scanBtn.style.pointerEvents = "none";
+    }
+
+    readerDiv.style.display = 'block';
     const html5QrCode = new Html5Qrcode("reader");
 
-    const config = { 
-        fps: 10, 
-        qrbox: { width: 250, height: 250 },
-        aspectRatio: 1.0 
+    const qrCodeSuccessCallback = (decodedText) => {
+        html5QrCode.stop().then(() => {
+            readerDiv.style.display = 'none';
+            
+            // बटन को वापस चालू (Enable) करें
+            if(scanBtn) {
+                scanBtn.style.opacity = "1";
+                scanBtn.style.pointerEvents = "auto";
+            }
+            
+            try {
+                const url = new URL(decodedText);
+                const studentID = url.searchParams.get("StudentID");
+                
+                if (studentID) {
+                    autoFetchQRResult(studentID); // डेटा लाकर टेबल दिखाएगा
+                } else {
+                    alert("इस QR में Student ID नहीं मिली!");
+                }
+            } catch (e) {
+                alert("यह सही वेरिफिकेशन QR नहीं है।");
+            }
+        });
     };
 
-    // 'environment' का मतलब है पीछे का कैमरा
-    html5QrCode.start(
-        { facingMode: "environment" }, 
-        config, 
-        (decodedText) => {
-            html5QrCode.stop().then(() => {
-                readerDiv.style.display = 'none';
-                handleScanResult(decodedText); // डेटा लाने के लिए
-            });
-        }
-    ).catch((err) => {
-        console.error("Camera Error:", err);
-        alert("कैमरा शुरू नहीं हो सका। कृपया सुनिश्चित करें कि आपने परमिशन दी है और कोई दूसरा ऐप कैमरा इस्तेमाल नहीं कर रहा है।");
-        readerDiv.style.display = 'none';
-    });
-}
     const config = { fps: 15, qrbox: { width: 250, height: 250 } };
 
     html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
     .catch((err) => {
-        alert("कैमरा एक्सेस नहीं मिला! कृपया परमिशन दें।");
+        // अगर कैमरा नहीं खुलता, तो बटन को वापस 'Enable' करें
+        alert("कैमरा एक्सेस नहीं मिला!");
         readerDiv.style.display = 'none';
+        if(scanBtn) {
+            scanBtn.style.opacity = "1";
+            scanBtn.style.pointerEvents = "auto";
+        }
     });
 }
 
