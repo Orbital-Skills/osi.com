@@ -91,9 +91,14 @@
             display: none;
         }
         
+         /* Watermark Overlay Hack to make it faded */
         .tab-content::before {
-            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.92); z-index: 1;
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.92); /* Covers the logo to make it faint */
+            z-index: 1;
+
         }
 
         .form-area { position: relative; z-index: 2; }
@@ -165,6 +170,39 @@
             background: rgba(0,0,0,0.6); z-index: 100;
             color: white; text-align: center; padding-top: 40vh; font-size: 20px;
         }
+/* Academic Record Table - New Design */
+.academic-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 2px solid #6a1b9a; /* गहरा पर्पल बॉर्डर */
+}
+
+.academic-table th {
+    background-color: white;
+    color: #6a1b9a;
+    padding: 12px;
+    border: 1px solid #6a1b9a;
+    text-align: center;
+    font-size: 15px;
+}
+
+.academic-table td {
+    padding: 10px;
+    border: 1px solid #6a1b9a;
+    text-align: center;
+    color: #6a1b9a; /* टेक्स्ट का रंग पर्पल */
+    font-weight: 500;
+}
+
+.sub-name { text-align: left !important; padding-left: 15px !important; }
+.max-marks { color: red; } /* Maximum Marks लाल रंग में */
+
+.grand-total-row {
+    font-weight: bold;
+    background-color: #f9f9f9;
+}
+.grand-total-lbl { color: green; font-size: 18px; }
     </style>
 </head>
 <body>
@@ -187,15 +225,19 @@
             </div>
         </div>
 
+         <!-- QR CONTENT (Hidden initially for demo purposes, based on screenshot showing Manual open) -->
         <div id="qr-tab" class="tab-content">
             <div class="form-area" style="text-align: center;">
                 <h3 style="color:#555;">Scan QR Code</h3>
-                <p>Use your camera to scan the QR code.</p>
-                <button class="verify-btn active-btn" style="background:#455a64;" onclick="alert('Camera requires HTTPS context.')">
-                    <i class="fas fa-camera"></i> Open Scanner
-                </button>
+                <p>Use your camera to scan the QR code on the certificate.</p>
+                <button class="verify-btn active-btn" style="background:#455a64;"
+        onclick="openQRVerify()">
+    <i class="fas fa-camera"></i> Open Scanner
+</button>
+
             </div>
         </div>
+
 
         <div id="manual-tab" class="tab-content active">
             <div class="form-area">
@@ -214,12 +256,12 @@
                         <div class="row">
                             <div class="col input-group">
                                 <label>Student Name</label>
-                                <input type="text" id="v-name" placeholder="Full Name" onkeyup="validateField(this, 'Name')" disabled>
+                                <input type="text" id="v-name" placeholder="Full Name" onkeyup="validateField(this, 'name')" disabled>
                                 <small id="msg-name" class="field-msg"></small>
                             </div>
                             <div class="col input-group">
                                 <label>Father's Name</label>
-                                <input type="text" id="v-father" placeholder="Father Name" onkeyup="validateField(this, 'Father')" disabled>
+                                <input type="text" id="v-father" placeholder="Father Name" onkeyup="validateField(this, 'father')" disabled>
                                 <small id="msg-father" class="field-msg"></small>
                             </div>
                         </div>
@@ -227,12 +269,12 @@
                         <div class="row">
                             <div class="col input-group">
                                 <label>Mother's Name</label>
-                                <input type="text" id="v-mother" placeholder="Mother Name" onkeyup="validateField(this, 'Mother')" disabled>
+                                <input type="text" id="v-mother" placeholder="Mother Name" onkeyup="validateField(this, 'mother')" disabled>
                                 <small id="msg-mother" class="field-msg"></small>
                             </div>
                             <div class="col input-group">
                                 <label>Course Name</label>
-                                <input type="text" id="v-course" placeholder="Applied Course" onkeyup="validateField(this, 'Course')" disabled>
+                                <input type="text" id="v-course" placeholder="Applied Course" onkeyup="validateField(this, 'course')" disabled>
                                 <small id="msg-course" class="field-msg"></small>
                             </div>
                         </div>
@@ -261,7 +303,30 @@
                             <tr><td class="data-lbl">Course:</td><td class="data-val" id="res-course"></td></tr>
                             <tr><td class="data-lbl">Status:</td><td class="data-val" style="color:green;">PASS</td></tr>
                         </table>
-                    </div>
+
+<h3 style="color: #6a1b9a; margin-top: 30px; text-decoration: underline; text-align:center;">Academic Record</h3>
+
+<table class="academic-table" style="width: 100%; border-collapse: collapse; border: 2px solid #6a1b9a;">
+    <thead>
+        <tr style="background-color: white;">
+            <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Subject</th>
+            <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Maximum Marks</th>
+            <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Marks Obtained</th>
+            <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Grade</th>
+        </tr>
+    </thead>
+    <tbody id="marks-body-final">
+        </tbody>
+    <tfoot>
+        <tr style="font-weight: bold; background-color: white;">
+            <td style="border: 1px solid #6a1b9a; padding: 10px; color: green; text-align: left;">Grand Total</td>
+            <td style="border: 1px solid #6a1b9a; padding: 10px; color: red; text-align: center;">800</td>
+            <td id="res-total-final" style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a; text-align: center;"></td>
+            <td id="res-grade-final" style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a; text-align: center;"></td>
+        </tr>
+    </tfoot>
+</table>
+</div>
                     
                     <button onclick="location.reload()" style="margin-top:20px; background:transparent; border:none; color: #6a1b9a; text-decoration: underline; cursor:pointer;">
                         Verify Another Student
@@ -273,147 +338,209 @@
 
     </div>
 
-    <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxLn6arjcKUdhyGWy9jA77-ZvYRhLBjpjVAGqkA7J84u20x7Gzl24RD_6w2dQ-wDr2Q/exec"; 
-        
-        let fetchedData = null; // To store data temporarily
+   <script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlUjEgOJhqnHm9b8oiXMf4fS4qf_rd7rCs6s_wdIx6RQL5iGclqVROtqnm6Ot7-zlh/exec"; 
+let fetchedData = null;
 
+  // Tabs Logic
         function switchTab(mode) {
             const tabs = document.querySelectorAll('.tab');
             const contents = document.querySelectorAll('.tab-content');
-            tabs[0].className = 'tab ' + (mode === 'qr' ? 'tab-active' : 'tab-inactive');
-            tabs[1].className = 'tab ' + (mode === 'manual' ? 'tab-active' : 'tab-inactive');
-            contents[0].className = mode === 'qr' ? 'tab-content active' : 'tab-content';
-            contents[1].className = mode === 'manual' ? 'tab-content active' : 'tab-content';
-        }
-
-        // --- STEP 1: Fetch Data by Roll No ---
-        async function fetchRollData() {
-            const rollInput = document.getElementById('v-roll');
-            const msgBox = document.getElementById('msg-roll');
-            const roll = rollInput.value.trim();
-
-            if(!roll) return;
-
-            // UI Updates
-            msgBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking Database...';
-            msgBox.className = "field-msg checking";
-            rollInput.disabled = true;
-
-            try {
-                // Requesting data specifically by Roll No
-                // IMPORTANT: Apps Script must handle Action: "FETCH_BY_ROLL"
-                const response = await fetch(SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ Action: "FETCH_BY_ROLL", RollNo: roll }) 
-                });
-                
-                const data = await response.json();
-
-                if(data.Success) {
-                    fetchedData = data.Data; // Store correct data locally
-                    
-                    // Success UI
-                    msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found. Please verify details below.';
-                    msgBox.className = "field-msg msg-success";
-                    rollInput.classList.add('valid');
-                    rollInput.classList.remove('invalid');
-
-                    // Enable other fields
-                    const detailsDiv = document.getElementById('details-section');
-                    detailsDiv.style.opacity = "1";
-                    detailsDiv.style.pointerEvents = "all";
-                    
-                    // Enable inputs
-                    document.getElementById('v-name').disabled = false;
-                    document.getElementById('v-father').disabled = false;
-                    document.getElementById('v-mother').disabled = false;
-                    document.getElementById('v-course').disabled = false;
-
-                } else {
-                    throw new Error("Record Not Found");
-                }
-            } catch (error) {
-                fetchedData = null;
-                msgBox.innerHTML = '<i class="fas fa-times"></i> Invalid Roll No / Record Not Found.';
-                msgBox.className = "field-msg msg-error";
-                rollInput.classList.add('invalid');
-                rollInput.classList.remove('valid');
-                rollInput.disabled = false;
-                rollInput.focus();
-            }
-        }
-
-        // --- STEP 2: Validate Fields Real-time ---
-        function validateField(input, fieldKey) {
-            if(!fetchedData) return;
-
-            const userVal = input.value.trim().toLowerCase();
-            // Assuming API returns keys: Name, Father, Mother, Course
-            // If your API returns 'FName' instead of 'Father', map it here:
-            let dbKey = fieldKey;
-            if(fieldKey === 'Father') dbKey = 'FName'; // Adjust based on your script keys
-            if(fieldKey === 'Mother') dbKey = 'MName'; // Adjust based on your script keys
             
-            const correctVal = (fetchedData[dbKey] || fetchedData[fieldKey] || "").trim().toLowerCase();
-            const msgBox = document.getElementById('msg-' + fieldKey.toLowerCase());
+            // Remove active classes
+            tabs[0].classList.remove('tab-active'); tabs[0].classList.add('tab-inactive');
+            tabs[1].classList.remove('tab-active'); tabs[1].classList.add('tab-inactive');
+            contents[0].classList.remove('active');
+            contents[1].classList.remove('active');
 
-            if(userVal === correctVal) {
-                input.classList.add('valid');
-                input.classList.remove('invalid');
-                msgBox.innerHTML = '<i class="fas fa-check"></i> Match';
-                msgBox.className = "field-msg msg-success";
+            if(mode === 'qr') {
+                tabs[0].classList.add('tab-active'); tabs[0].classList.remove('tab-inactive');
+                contents[0].classList.add('active');
             } else {
-                input.classList.add('invalid');
-                input.classList.remove('valid');
-                if(userVal.length > 0) {
-                    msgBox.innerHTML = '<i class="fas fa-times"></i> Incorrect';
-                    msgBox.className = "field-msg msg-error";
-                } else {
-                    msgBox.innerHTML = '';
-                }
+                tabs[1].classList.add('tab-active'); tabs[1].classList.remove('tab-inactive');
+                contents[1].classList.add('active');
             }
+        }
+
+
+// ---------------- FETCH DATA ----------------
+async function fetchRollData() {
+    const rollInput = document.getElementById('v-roll');
+    const msgBox = document.getElementById('msg-roll');
+    const roll = rollInput.value.trim();
+
+    if(!roll) return;
+
+    msgBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking Database...';
+    msgBox.className = "field-msg checking";
+    rollInput.disabled = true;
+
+    try {
+        const finalUrl = SCRIPT_URL + "?roll=" + encodeURIComponent(roll);
+        const response = await fetch(finalUrl);
+        const data = await response.json();
+
+        if(data.Success) {
+            fetchedData = data.Data;
+            msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found';
+            msgBox.className = "field-msg msg-success";
+            rollInput.classList.add('valid');
+
+            document.getElementById('details-section').style.opacity = "1";
+            document.getElementById('details-section').style.pointerEvents = "all";
+            document.getElementById('v-name').disabled = false;
+            document.getElementById('v-father').disabled = false;
+            document.getElementById('v-mother').disabled = false;
+            document.getElementById('v-course').disabled = false;
+
             
-            checkAllFields();
+        } else {
+            throw "Not Found";
         }
+    } catch (e) {
+        msgBox.innerHTML = '<i class="fas fa-times"></i> Record Not Found / Script Error';
+        msgBox.className = "field-msg msg-error";
+        rollInput.disabled = false;
+        rollInput.classList.add('invalid');
+    }
+}
 
-        // --- STEP 3: Enable Button if All Correct ---
-        function checkAllFields() {
-            const inputs = document.querySelectorAll('#details-section input');
-            let allValid = true;
-            inputs.forEach(inp => {
-                if(!inp.classList.contains('valid')) allValid = false;
-            });
+// ---------------- SHOW RESULT ----------------
+function showFinalResult() {
+    if (!fetchedData) return;
 
-            const btn = document.getElementById('main-btn');
-            if(allValid) {
-                btn.classList.add('active-btn');
-                btn.innerHTML = 'VIEW FULL RESULT <i class="fas fa-check-double"></i>';
-            } else {
-                btn.classList.remove('active-btn');
-                btn.innerHTML = 'VERIFY RECORD <i class="fas fa-arrow-right"></i>';
-            }
+    document.getElementById('input-section').style.display = "none";
+    document.getElementById('result-display').style.display = "block";
+
+    // ऊपरी जानकारी
+    document.getElementById('res-roll').innerText = fetchedData.Roll || "";
+    document.getElementById('res-name').innerText = fetchedData.Name || "";
+    document.getElementById('res-father').innerText = fetchedData.Father || "";
+    document.getElementById('res-mother').innerText = fetchedData.Mother || "";
+    document.getElementById('res-course').innerText = fetchedData.Course || "";
+
+    // नई टेबल में डेटा भरने का लॉजिक
+    let marksHtml = "";
+    for(let i = 1; i <= 8; i++) {
+        let subName = fetchedData["Sub" + i];
+        let subMark = fetchedData["Mark" + i];
+        
+        if(subName && subName.trim() !== "") {
+            marksHtml += `
+                <tr>
+                    <td style="text-align: left; padding-left: 15px; border: 1px solid #6a1b9a; color: #6a1b9a; font-weight: 600;">${subName}</td>
+                    <td style="color: red; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">100</td>
+                    <td style="color: #6a1b9a; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">${subMark}</td>
+                    <td style="color: #6a1b9a; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">${fetchedData.Grade || ""}</td>
+                </tr>`;
         }
+    }
+    
+    // डेटा को टेबल में सेट करना
+    document.getElementById('marks-body-final').innerHTML = marksHtml;
+    document.getElementById('res-total-final').innerText = fetchedData.Total || "0";
+    document.getElementById('res-grade-final').innerText = fetchedData.Grade || "";
 
-        // --- STEP 4: Show Result ---
-        function showFinalResult() {
-            if(!fetchedData) return;
+    // फोटो सेट करना
+    if (fetchedData.Photo) {
+        const img = document.getElementById('res-photo');
+        img.src = fetchedData.Photo.includes("id=") ? 
+                  "https://drive.google.com/thumbnail?id=" + fetchedData.Photo.split("id=")[1].split("&")[0] : 
+                  fetchedData.Photo;
+    }
+}
+// ---------------- QR & AUTO VERIFY LOGIC ----------------
 
-            document.getElementById('input-section').style.display = 'none';
-            document.getElementById('result-display').style.display = 'block';
+window.onload = function () {
+    const params = new URLSearchParams(window.location.search);
+    const action = params.get("Action");
+    const studentID = params.get("StudentID") || params.get("id");
 
-            document.getElementById('res-roll').innerText = fetchedData.RollNo;
-            document.getElementById('res-name').innerText = fetchedData.Name;
-            document.getElementById('res-father').innerText = fetchedData.FName || fetchedData.Father;
-            document.getElementById('res-mother').innerText = fetchedData.MName || fetchedData.Mother;
-            document.getElementById('res-course').innerText = fetchedData.Course;
-            
-            if(fetchedData.Photo) {
-                document.getElementById('res-photo').src = fetchedData.Photo;
-            } else {
-                document.getElementById('res-photo').src = "https://via.placeholder.com/150?text=No+Img";
-            }
+    if (studentID) {
+        // इनपुट बॉक्स में ID भर दें
+        document.getElementById("v-roll").value = studentID;
+        
+        // अगर QR से आया है (Action=VERIFY), तो सीधा रिजल्ट दिखाएं
+        if (action === "VERIFY") {
+            autoFetchQRResult(studentID);
+        } else {
+            // वरना नॉर्मल तरीके से डेटा लोड करें (User को नाम/पिता का नाम मैच करना होगा)
+            fetchRollData();
         }
-    </script>
+    }
+};
+
+// QR स्कैन के लिए स्पेशल फंक्शन (Direct Result)
+async function autoFetchQRResult(sid) {
+    showLoading(true);
+    try {
+        const response = await fetch(`${SCRIPT_URL}?Action=VERIFY&StudentID=${sid}`);
+        const result = await response.json();
+        
+        if (result.Success) {
+            fetchedData = result.Data;
+            // सीधे मार्कशीट (Professional Table) दिखाएं
+            showFinalResult(); 
+        } else {
+            alert("QR Record not found!");
+        }
+    } catch (e) {
+        alert("Verification Error!");
+    } finally {
+        showLoading(false);
+    }
+}
+
+// बाकी के पुराने फंक्शन्स (मैचिंग के लिए)
+function validateField(input, fieldKey) {
+    if (!fetchedData) return;
+    const userVal = input.value.trim().toLowerCase();
+    const key = fieldKey.toLowerCase();
+    let dbVal = "";
+    if (key === "name") dbVal = fetchedData.Name;
+    if (key === "father") dbVal = fetchedData.Father;
+    if (key === "mother") dbVal = fetchedData.Mother;
+    if (key === "course") dbVal = fetchedData.Course;
+
+    const correctVal = (dbVal || "").toString().trim().toLowerCase();
+    const msgBox = document.getElementById("msg-" + key);
+
+    if (userVal === "") {
+        input.classList.remove("valid", "invalid");
+        msgBox.innerHTML = "";
+        return;
+    }
+    if (userVal === correctVal) {
+        input.classList.add("valid");
+        input.classList.remove("invalid");
+        msgBox.innerHTML = "✔ Match";
+        msgBox.className = "field-msg msg-success";
+    } else {
+        input.classList.add("invalid");
+        input.classList.remove("valid");
+        msgBox.innerHTML = "✖ Incorrect";
+        msgBox.className = "field-msg msg-error";
+    }
+    checkAllFields();
+}
+
+function checkAllFields() {
+    const nameOk   = document.getElementById('v-name').classList.contains('valid');
+    const fatherOk = document.getElementById('v-father').classList.contains('valid');
+    const motherOk = document.getElementById('v-mother').classList.contains('valid');
+    const courseOk = document.getElementById('v-course').classList.contains('valid');
+    const btn = document.getElementById('main-btn');
+
+    if (nameOk && fatherOk && motherOk && courseOk) {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.pointerEvents = "auto";
+    } else {
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+        btn.style.pointerEvents = "none";
+    }
+}
+</script>
 </body>
 </html>
