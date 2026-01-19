@@ -584,16 +584,20 @@ function startQRScanner() {
 
     const config = { fps: 15, qrbox: { width: 250, height: 250 } };
 
-    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
-    .catch((err) => {
-        // अगर कैमरा नहीं खुलता, तो बटन को वापस 'Enable' करें
-        alert("कैमरा एक्सेस नहीं मिला!");
-        readerDiv.style.display = 'none';
-        if(scanBtn) {
-            scanBtn.style.opacity = "1";
-            scanBtn.style.pointerEvents = "auto";
-        }
-    });
+    html5QrCode.start(
+    { facingMode: "environment" }, // यह पीछे का कैमरा मांगेगा
+    { fps: 15, qrbox: { width: 250, height: 250 } }, 
+    qrCodeSuccessCallback
+)
+.catch((err) => {
+    console.error(err);
+    alert("कैमरा परमिशन नहीं मिली! कृपया ब्राउज़र सेटिंग में जाकर 'Allow' करें।");
+    readerDiv.style.display = 'none';
+    if(scanBtn) {
+        scanBtn.style.opacity = "1";
+        scanBtn.style.pointerEvents = "auto";
+    }
+});
 }
 
 // 2. स्कैन होने के बाद डेटा लोड करने वाला फंक्शन
