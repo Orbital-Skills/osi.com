@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification Portal | OSD</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -227,16 +228,17 @@
 
          <!-- QR CONTENT (Hidden initially for demo purposes, based on screenshot showing Manual open) -->
         <div id="qr-tab" class="tab-content">
-            <div class="form-area" style="text-align: center;">
-                <h3 style="color:#555;">Scan QR Code</h3>
-                <p>Use your camera to scan the QR code on the certificate.</p>
-                <button class="verify-btn active-btn" style="background:#455a64;"
-        onclick="openQRVerify()">
-    <i class="fas fa-camera"></i> Open Scanner
-</button>
+    <div class="form-area" style="text-align: center;">
+        <h3 style="color:#555;">Scan QR Code</h3>
+        <p>Use your camera to scan the QR code on the certificate.</p>
+        
+        <div id="reader" style="width: 100%; max-width: 400px; margin: 10px auto; display: none; border: 2px solid #6a1b9a; border-radius: 10px;"></div>
 
-            </div>
-        </div>
+        <button id="open-scanner-btn" onclick="startQRScanner()" class="verify-btn active-btn" style="background:#455a64;">
+            <i class="fas fa-camera"></i> OPEN SCANNER
+        </button>
+    </div>
+</div>
 
 
         <div id="manual-tab" class="tab-content active">
@@ -539,6 +541,64 @@ function checkAllFields() {
         btn.disabled = true;
         btn.style.opacity = "0.5";
         btn.style.pointerEvents = "none";
+    }
+}
+// 1. कैमरा शुरू करने का फंक्शन
+function startQRScanner() {
+    const readerDiv = document.getElementById('reader');
+    readerDiv.style.display = 'block';
+
+    const html5QrCode = new Html5Qrcode("reader");
+
+    const config = { 
+        fps: 10, 
+        qrbox: { width: 250, height: 250 },
+        aspectRatio: 1.0 
+    };
+
+    // 'environment' का मतलब है पीछे का कैमरा
+    html5QrCode.start(
+        { facingMode: "environment" }, 
+        config, 
+        (decodedText) => {
+            html5QrCode.stop().then(() => {
+                readerDiv.style.display = 'none';
+                handleScanResult(decodedText); // डेटा लाने के लिए
+            });
+        }
+    ).catch((err) => {
+        console.error("Camera Error:", err);
+        alert("कैमरा शुरू नहीं हो सका। कृपया सुनिश्चित करें कि आपने परमिशन दी है और कोई दूसरा ऐप कैमरा इस्तेमाल नहीं कर रहा है।");
+        readerDiv.style.display = 'none';
+    });
+}
+    const config = { fps: 15, qrbox: { width: 250, height: 250 } };
+
+    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
+    .catch((err) => {
+        alert("कैमरा एक्सेस नहीं मिला! कृपया परमिशन दें।");
+        readerDiv.style.display = 'none';
+    });
+}
+
+// 2. स्कैन होने के बाद डेटा लोड करने वाला फंक्शन
+async function autoFetchQRResult(sid) {
+    if (typeof showLoading === "function") showLoading(true);
+    try {
+        const response = await fetch(`${SCRIPT_URL}?Action=VERIFY&StudentID=${sid}`);
+        const result = await response.json();
+        
+        if (result.Success) {
+            fetchedData = result.Data;
+            // यह आपके द्वारा मांगी गई तीसरी फोटो (Verified Record) दिखाएगा
+            showFinalResult(); 
+        } else {
+            alert("डेटाबेस में कोई रिकॉर्ड नहीं मिला!");
+        }
+    } catch (e) {
+        alert("सर्वर से संपर्क नहीं हो पाया!");
+    } finally {
+        if (typeof showLoading === "function") showLoading(false);
     }
 }
 </script>
