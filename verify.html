@@ -493,21 +493,24 @@ function startQRScanner(){
         (txt)=>{
             qr.stop();
 
-            // RESULT TAB पर शिफ्ट करो
-            switchTab("manual");
-
             try{
                 const u = new URL(txt);
                 const sid = u.searchParams.get("StudentID") || 
                             u.searchParams.get("RollNo") || 
                             u.searchParams.get("roll");
+
+                // QR hai isliye manual tab par result dikhao
+                switchTab("manual");
                 autoFetchQRResult(sid || txt);
+
             }catch{
+                switchTab("manual");
                 autoFetchQRResult(txt);
             }
         }
     );
 }
+
 
 function enableManualFields() {
     // पूरा ब्लॉक activate करो
