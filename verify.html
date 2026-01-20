@@ -341,14 +341,16 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlUjEgOJhqnHm9b8oiXMf4fS4qf_rd7rCs6s_wdIx6RQL5iGclqVROtqnm6Ot7-zlh/exec"; 
 let fetchedData = null;
 
-// 1. मास्टर फेच फंक्शन
+// 1. मास्टर फेच फंक्शन (QR और Manual दोनों के लिए)
 async function autoFetchQRResult(sid, isAuto = false) {
     if (!sid) return;
     
+    // लोडिंग दिखाएँ
     if(typeof showLoading === "function") showLoading(true);
 
     const msgBox = document.getElementById('msg-roll');
     try {
+        // Apps Script को कॉल करें
         const finalUrl = `${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(sid)}`;
         const response = await fetch(finalUrl);
         const data = await response.json();
@@ -357,15 +359,15 @@ async function autoFetchQRResult(sid, isAuto = false) {
             fetchedData = data.Data;
             
             if(msgBox) {
-                msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found! Please fill details below.';
+                msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found! Please verify details.';
                 msgBox.className = "field-msg msg-success";
             }
 
-            // अगर QR/Link से है तो डायरेक्ट रिजल्ट दिखाओ
+            // QR/Direct Link के लिए सीधा रिजल्ट दिखाएँ
             if (isAuto) {
                 showFinalResult(); 
             } else {
-                // मैन्युअल सर्च के लिए: इनपुट फील्ड्स को 'Unblock' करें
+                // मैन्युअल के लिए इनपुट बॉक्स अनलॉक करें
                 unlockManualFields();
             }
         } else {
@@ -375,93 +377,106 @@ async function autoFetchQRResult(sid, isAuto = false) {
             }
         }
     } catch (e) {
-        console.error(e);
-        alert("Server Error!");
+        console.error("Fetch Error:", e);
+        alert("Server Error! Please check your internet.");
     } finally {
         if(typeof showLoading === "function") showLoading(false);
     }
 }
 
-// 2. फील्ड्स को अनलॉक करने का फंक्शन
+// 2. फील्ड्स अनलॉक करने का फंक्शन
 function unlockManualFields() {
-    // उन सेक्शन्स की ID डालें जिन्हें आप दिखाना चाहते हैं
+    // सेक्शन्स को दिखाएँ
     const sections = ['details-section', 'input-name-section', 'input-father-section'];
-    
     sections.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            el.style.display = "block"; // छुपा हुआ है तो दिखाएँ
-            el.style.opacity = "1";     // धुंधला है तो साफ़ करें
-            el.style.pointerEvents = "all"; // क्लिक इनेबल करें
+            el.style.display = "block"; 
+            el.style.opacity = "1";
+            el.style.pointerEvents = "all";
         }
     });
 
-    // अगर आपने input fields को 'disabled' किया है तो उन्हें इनेबल करें
+    // इनपुट इनेबल करें
     const inputs = ['v-name', 'v-father'];
     inputs.forEach(id => {
         const inputEl = document.getElementById(id);
-        if (inputEl) inputEl.disabled = false;
+        if (inputEl) {
+            inputEl.disabled = false;
+            inputEl.style.backgroundColor = "#fff";
+        }
     });
+    
+    // 'Verify' बटन को 'View Result' बटन में बदलें या दिखाएँ
+    const viewBtn = document.getElementById('view-result-btn');
+    if(viewBtn) viewBtn.style.display = "block";
 }
 
-// 2. मैन्युअल इनपुट (onblur) - यहाँ isAuto = false है
+// 3. मैन्युअल इनपुट (onblur)
 function fetchRollData() {
     const val = document.getElementById('v-roll').value.trim();
-    if(val) autoFetchQRResult(val, false);
+    if(val) autoFetchQRResult(val, false); // Manual is false
 }
 
-// 3. मैन्युअल "View Result" बटन के लिए नया फंक्शन
+// 4. मैन्युअल "View Result" बटन क्लिक
 function handleManualSubmit() {
-    const uName = document.getElementById('v-name').value.trim();
-    const uFather = document.getElementById('v-father').value.trim();
+    const uName = document.getElementById('v-name').value.trim().toLowerCase();
+    const uFather = document.getElementById('v-father').value.trim().toLowerCase();
 
     if (!fetchedData) {
-        alert("पहले रोल नंबर भरकर रिकॉर्ड चेक करें!");
+        alert("Please enter Roll No first!");
         return;
     }
 
     if (uName === "" || uFather === "") {
-        alert("कृपया अपना नाम और पिता का नाम भरें!");
+        alert("Please enter both Name and Father's Name!");
         return;
     }
 
-    // अगर नाम भर दिए गए हैं, तब फाइनल पेज खोलें
+    // सिक्योरिटी चेक (Optional: आप चाहें तो नाम मैच भी कर सकते हैं)
+    // if(uName === fetchedData.Name.toLowerCase()) { ... }
+
     showFinalResult();
 }
 
-// 4. पेज लोड (Direct Link) - इसे हम isAuto = true रखेंगे
+// 5. पेज लोड होते ही ऑटो-चेक
 window.onload = function () {
     const params = new URLSearchParams(window.location.search);
     const sid = params.get("StudentID") || params.get("RollNo") || params.get("roll");
     if (sid) {
-        autoFetchQRResult(sid, true);
+        autoFetchQRResult(sid, true); // URL link is auto
     }
 };
-    
-// 4. रिजल्ट दिखाने वाला फंक्शन
+
+// 6. फाइनल रिजल्ट डिस्प्ले (मदर नेम और फोटो फिक्स)
 function showFinalResult() {
     if (!fetchedData) return;
 
     const inputSec = document.getElementById('input-section');
     const resultDisp = document.getElementById('result-display');
-    const detailsSec = document.getElementById('details-section');
 
-    // सेक्शन्स को मैनेज करें
     if (inputSec) inputSec.style.display = "none";
     if (resultDisp) resultDisp.style.display = "block";
-    if (detailsSec) {
-        detailsSec.style.opacity = "1";
-        detailsSec.style.pointerEvents = "all";
+
+    // ऊपरी जानकारी भरना
+    document.getElementById('res-roll').innerText = fetchedData.Roll || "N/A";
+    document.getElementById('res-name').innerText = fetchedData.Name || "N/A";
+    document.getElementById('res-father').innerText = fetchedData.Father || "N/A";
+    document.getElementById('res-mother').innerText = fetchedData.Mother || "N/A"; // Fixed
+    document.getElementById('res-course').innerText = fetchedData.Course || "N/A"; // Fixed
+
+    // फोटो लॉजिक
+    const imgEl = document.getElementById('res-photo');
+    if (imgEl && fetchedData.Photo) {
+        let photoUrl = fetchedData.Photo;
+        if (photoUrl.includes("id=")) {
+            const id = photoUrl.split("id=")[1].split("&")[0];
+            photoUrl = "https://drive.google.com/thumbnail?id=" + id + "&sz=w300";
+        }
+        imgEl.src = photoUrl;
     }
 
- // ऊपरी जानकारी
-    document.getElementById('res-roll').innerText = fetchedData.Roll || "";
-    document.getElementById('res-name').innerText = fetchedData.Name || "";
-    document.getElementById('res-father').innerText = fetchedData.Father || "";
-    document.getElementById('res-mother').innerText = fetchedData.Mother || "";
-    document.getElementById('res-course').innerText = fetchedData.Course || "";
-
-    // नई टेबल में डेटा भरने का लॉजिक
+    // मार्क्स टेबल
     let marksHtml = "";
     for(let i = 1; i <= 8; i++) {
         let subName = fetchedData["Sub" + i];
@@ -470,7 +485,7 @@ function showFinalResult() {
         if(subName && subName.trim() !== "") {
             marksHtml += `
                 <tr>
-                    <td style="text-align: left; padding-left: 15px; border: 1px solid #6a1b9a; color: #6a1b9a; font-weight: 600;">${subName}</td>
+                    <td style="text-align: left; padding: 10px; border: 1px solid #6a1b9a; color: #6a1b9a; font-weight: 600;">${subName}</td>
                     <td style="color: red; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">100</td>
                     <td style="color: #6a1b9a; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">${subMark}</td>
                     <td style="color: #6a1b9a; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">${fetchedData.Grade || ""}</td>
@@ -478,21 +493,12 @@ function showFinalResult() {
         }
     }
     
-    // डेटा को टेबल में सेट करना
     document.getElementById('marks-body-final').innerHTML = marksHtml;
     document.getElementById('res-total-final').innerText = fetchedData.Total || "0";
     document.getElementById('res-grade-final').innerText = fetchedData.Grade || "";
-
-    // फोटो सेट करना
-    if (fetchedData.Photo) {
-        const img = document.getElementById('res-photo');
-        img.src = fetchedData.Photo.includes("id=") ? 
-                  "https://drive.google.com/thumbnail?id=" + fetchedData.Photo.split("id=")[1].split("&")[0] : 
-                  fetchedData.Photo;
-    }
 }
 
-// 5. क्यूआर स्कैनर शुरू करें
+// 7. क्यूआर स्कैनर (Fixed autoFetch call)
 function startQRScanner() {
     const readerDiv = document.getElementById('reader');
     readerDiv.style.display = 'block';
@@ -505,17 +511,18 @@ function startQRScanner() {
             html5QrCode.stop().then(() => {
                 readerDiv.style.display = 'none';
                 try {
-                    // अगर QR एक पूरा URL है तो उससे ID निकालें
                     const url = new URL(decodedText);
                     const sid = url.searchParams.get("StudentID") || url.searchParams.get("RollNo") || url.searchParams.get("roll");
-                    autoFetchQRResult(sid || decodedText);
+                    autoFetchQRResult(sid || decodedText, true); // Added 'true' for auto open
                 } catch(e) {
-                    // अगर QR में सिर्फ टेक्स्ट है
-                    autoFetchQRResult(decodedText);
+                    autoFetchQRResult(decodedText, true); // Added 'true' for auto open
                 }
             });
         }
-    ).catch(err => alert("Camera Error: " + err));
+    ).catch(err => {
+        alert("Camera Error: " + err);
+        readerDiv.style.display = 'none';
+    });
 }
 </script>
 </body>
