@@ -482,23 +482,36 @@ function showFinalResult(){
 
 // ---------------- QR ----------------
 function startQRScanner(){
-    isQRMode=true;
+    isQRMode = true;   // QR Mode ON
     switchTab("qr");
-    document.getElementById("reader").style.display="block";
+
+    const readerDiv = document.getElementById("reader");
+    readerDiv.style.display = "block";
 
     const qr = new Html5Qrcode("reader");
-    qr.start({facingMode:"environment"},{fps:10,qrbox:250},
-        txt=>{
-            qr.stop();
-            try{
-                const u=new URL(txt);
-                autoFetchQRResult(u.searchParams.get("StudentID")||u.searchParams.get("RollNo")||txt);
-            }catch{
-                autoFetchQRResult(txt);
-            }
+
+    qr.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (decodedText) => {
+            qr.stop().then(() => {
+                readerDiv.style.display = "none";
+
+                try {
+                    const u = new URL(decodedText);
+                    const sid = u.searchParams.get("StudentID") || 
+                                u.searchParams.get("RollNo") || 
+                                u.searchParams.get("roll");
+
+                    autoFetchQRResult(sid || decodedText);
+                } catch (e) {
+                    autoFetchQRResult(decodedText);
+                }
+            });
         }
     );
 }
+
 function enableManualFields() {
     // पूरा ब्लॉक activate करो
     const section = document.getElementById("details-section");
