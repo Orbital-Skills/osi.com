@@ -454,21 +454,22 @@ if (fetchedData.Photo) {
 
 window.onload = function () {
   const params = new URLSearchParams(window.location.search);
-const action = params.get("Action");
-const rollNo = params.get("RollNo");
-const studentID = params.get("StudentID") || params.get("id");
+  const action = params.get("Action");
+  const rollNo = params.get("RollNo");
+  const studentID = params.get("StudentID") || params.get("id");
 
-if (rollNo) {
-  document.getElementById("v-roll").value = rollNo;
-  autoFetchQRResult(rollNo);
-} else if (studentID) {
-  document.getElementById("v-roll").value = studentID;
-  if (action === "VERIFY") {
-    autoFetchQRResult(studentID);
-  } else {
-    fetchRollData();
+  if (rollNo) {
+    document.getElementById("v-roll").value = rollNo;
+    autoFetchQRResult(rollNo);
+  } else if (studentID) {
+    document.getElementById("v-roll").value = studentID;
+    if (action === "VERIFY") {
+      autoFetchQRResult(studentID);
+    } else {
+      fetchRollData();
+    }
   }
-}
+};
 // QR स्कैन के लिए स्पेशल फंक्शन (Direct Result)
 async function autoFetchQRResult(sid) {
     showLoading(true);
