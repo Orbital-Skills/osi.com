@@ -251,7 +251,7 @@
                         <small id="msg-roll" class="field-msg"></small>
                     </div>
 
-                     <!-- Step 2: Other Details (Initially Disabled) -->
+                    <!-- Step 2: Other Details (Initially Disabled) -->
                     <div id="details-section" style="opacity: 0.5; pointer-events: none;">
                         <div class="row">
                             <div class="col input-group">
@@ -285,53 +285,6 @@
                         VERIFY RECORD <i class="fas fa-arrow-right" style="margin-left:5px;"></i>
                     </button>
                 </div>
-
-                <!-- RESULTS DISPLAY -->
-                <div id="result-display" class="result-box">
-                    <div class="success-badge">
-                        <i class="fas fa-check-circle"></i> VERIFIED STUDENT RECORD
-                    </div>
- <!-- Step 2: Other Details (Initially Disabled) -->
-                    <div id="details-section" style="opacity: 0.5; pointer-events: none;">
-                        <div class="row">
-                            <div class="col input-group">
-                                <label>Student Name</label>
-                                <input type="text" id="v-name" placeholder="Full Name" onkeyup="validateField(this, 'name')" disabled>
-                                <small id="msg-name" class="field-msg"></small>
-                            </div>
-                            <div class="col input-group">
-                                <label>Father's Name</label>
-                                <input type="text" id="v-father" placeholder="Father Name" onkeyup="validateField(this, 'father')" disabled>
-                                <small id="msg-father" class="field-msg"></small>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col input-group">
-                                <label>Mother's Name</label>
-                                <input type="text" id="v-mother" placeholder="Mother Name" onkeyup="validateField(this, 'mother')" disabled>
-                                <small id="msg-mother" class="field-msg"></small>
-                            </div>
-                            <div class="col input-group">
-                                <label>Course Name</label>
-                                <input type="text" id="v-course" placeholder="Applied Course" onkeyup="validateField(this, 'course')" disabled>
-                                <small id="msg-course" class="field-msg"></small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button (Enabled only when all fields match) -->
-                    <button id="main-btn" class="verify-btn" onclick="showFinalResult()">
-                        VERIFY RECORD <i class="fas fa-arrow-right" style="margin-left:5px;"></i>
-                    </button>
-                </div>
-
-                <!-- RESULTS DISPLAY -->
-                <div id="result-display" class="result-box">
-                    <div class="success-badge">
-                        <i class="fas fa-check-circle"></i> VERIFIED STUDENT RECORD
-                    </div>
-
 
                 <!-- RESULTS DISPLAY -->
                 <div id="result-display" class="result-box">
@@ -374,7 +327,8 @@
     </tfoot>
 </table>
 </div>
-        <button onclick="location.reload()" style="margin-top:20px; background:transparent; border:none; color: #6a1b9a; text-decoration: underline; cursor:pointer;">
+                    
+                    <button onclick="location.reload()" style="margin-top:20px; background:transparent; border:none; color: #6a1b9a; text-decoration: underline; cursor:pointer;">
                         Verify Another Student
                     </button>
                 </div>
@@ -387,143 +341,105 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlUjEgOJhqnHm9b8oiXMf4fS4qf_rd7rCs6s_wdIx6RQL5iGclqVROtqnm6Ot7-zlh/exec"; 
 let fetchedData = null;
 
-// 1. Error Fix: validateField is not defined
-// यह फंक्शन इनपुट भरते समय रेड/ग्रीन बॉर्डर हैंडल करेगा
-function validateField(el) {
-    if (el.value.trim().length > 2) {
-        el.style.borderColor = "#27ae60"; // Green if filled
-    } else {
-        el.style.borderColor = "#e74c3c"; // Red if empty
-    }
-}
-
-// 2. टैब स्विचिंग (Previous Error Fix)
-function switchTab(tabName) {
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.tab-content');
-    tabs.forEach(t => t.classList.remove('active'));
-    contents.forEach(c => c.style.display = 'none');
-    
-    const activeTab = document.querySelector(`[onclick="switchTab('${tabName}')"]`);
-    if(activeTab) activeTab.classList.add('active');
-    const activeContent = document.getElementById(tabName);
-    if(activeContent) activeContent.style.display = 'block';
-}
-
-// 3. मास्टर फेच फंक्शन
-async function autoFetchQRResult(sid, isAuto = false) {
+// 1. मास्टर फेच फंक्शन (Manual, QR और URL सबके लिए एक ही)
+async function autoFetchQRResult(sid) {
     if (!sid) return;
+    
+    // अगर लोडिंग फंक्शन है तो उसे चलाएं
     if(typeof showLoading === "function") showLoading(true);
+
     const msgBox = document.getElementById('msg-roll');
+    if(msgBox) {
+        msgBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Database में खोज रहे हैं...';
+        msgBox.className = "field-msg checking";
+    }
 
     try {
+        // Apps Script अब 'RollNo' पैरामीटर में ही ID और Roll दोनों को पहचान लेता है
         const finalUrl = `${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(sid)}`;
         const response = await fetch(finalUrl);
-        const data = await response.json();
+        const result = await response.json();
         
-        if (data.Success) {
-            fetchedData = data.Data;
-            if (isAuto) {
-                showFinalResult(); 
-            } else {
-                if(msgBox) {
-                    msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found! Please fill details.';
-                    msgBox.className = "field-msg msg-success";
-                }
-                unlockManualFields();
+        if (result.Success) {
+            fetchedData = result.Data;
+            if(msgBox) {
+                msgBox.innerHTML = '<i class="fas fa-check"></i> Record मिल गया!';
+                msgBox.className = "field-msg msg-success";
             }
+            showFinalResult(); 
         } else {
             if(msgBox) {
-                msgBox.innerHTML = `<i class="fas fa-times"></i> Not Found: ${sid}`;
+                msgBox.innerHTML = `<i class="fas fa-times"></i> नहीं मिला: ${sid}`;
                 msgBox.className = "field-msg msg-error";
+            } else {
+                alert("डेटाबेस में कोई रिकॉर्ड नहीं मिला! ID/Roll: " + sid);
             }
         }
     } catch (e) {
         console.error(e);
+        alert("सर्वर एरर! कृपया इंटरनेट चेक करें।");
     } finally {
         if(typeof showLoading === "function") showLoading(false);
     }
 }
 
-// 4. Manual Verification Trigger
+// 2. मैन्युअल इनपुट के लिए फंक्शन (onblur या button click)
 function fetchRollData() {
     const val = document.getElementById('v-roll').value.trim();
-    if(val) autoFetchQRResult(val, false);
+    if(val) autoFetchQRResult(val);
 }
 
-// 5. फील्ड्स अनलॉक करना
-function unlockManualFields() {
-    const detailsSec = document.getElementById('details-section');
-    if (detailsSec) {
-        detailsSec.style.display = "block"; 
-        detailsSec.style.opacity = "1";
-        detailsSec.style.pointerEvents = "all";
+// 3. पेज लोड होते ही ऑटो-चेक (Direct Link के लिए)
+window.onload = function () {
+    const params = new URLSearchParams(window.location.search);
+    // URL में StudentID हो या RollNo, दोनों को चेक करेगा
+    const sid = params.get("StudentID") || params.get("RollNo") || params.get("roll");
+    if (sid) {
+        autoFetchQRResult(sid);
     }
-    ['v-name', 'v-father'].forEach(id => {
-        const el = document.getElementById(id);
-        if(el) {
-            el.disabled = false;
-            el.style.backgroundColor = "#fff";
-        }
-    });
-}
+};
 
-// 6. "View Result" बटन क्लिक (Manual)
-function handleManualSubmit() {
-    const n = document.getElementById('v-name').value.trim();
-    const f = document.getElementById('v-father').value.trim();
-    if(n && f) {
-        showFinalResult();
-    } else {
-        alert("Please enter Name and Father's Name to continue.");
-    }
-}
-
-// 7. रिजल्ट डिस्प्ले (Mother & Course Fix)
+// 4. रिजल्ट दिखाने वाला फंक्शन
 function showFinalResult() {
     if (!fetchedData) return;
 
-    // रिजल्ट दिखाने के लिए सेक्शन्स स्विच करें
     const inputSec = document.getElementById('input-section');
     const resultDisp = document.getElementById('result-display');
+    const detailsSec = document.getElementById('details-section');
+
+    // सेक्शन्स को मैनेज करें
     if (inputSec) inputSec.style.display = "none";
     if (resultDisp) resultDisp.style.display = "block";
-
-    // डेटा मैपिंग (Mother & Course included)
-    document.getElementById('res-roll').innerText = fetchedData.Roll || "";
-    document.getElementById('res-name').innerText = fetchedData.Name || "";
-    document.getElementById('res-father').innerText = fetchedData.Father || "";
-    document.getElementById('res-mother').innerText = fetchedData.Mother || "N/A";
-    document.getElementById('res-course').innerText = fetchedData.Course || "N/A";
-
-    // फोटो सेट करना
-    const photoImg = document.getElementById('res-photo');
-    if (photoImg && fetchedData.Photo) {
-        let pUrl = fetchedData.Photo;
-        if(pUrl.includes("id=")) {
-            const id = pUrl.split("id=")[1].split("&")[0];
-            pUrl = "https://drive.google.com/thumbnail?id=" + id + "&sz=w300";
-        }
-        photoImg.src = pUrl;
+    if (detailsSec) {
+        detailsSec.style.opacity = "1";
+        detailsSec.style.pointerEvents = "all";
     }
 
-    // मार्क्स टेबल जनरेट करना
-    let html = "";
-    for(let i=1; i<=8; i++) {
-        let s = fetchedData["Sub"+i], m = fetchedData["Mark"+i];
-        if(s && s.trim() !== "") {
-            html += `<tr>
-                <td style="text-align: left; padding: 10px; border: 1px solid #6a1b9a;">${s}</td>
-                <td style="text-align: center; border: 1px solid #6a1b9a;">100</td>
-                <td style="text-align: center; border: 1px solid #6a1b9a;">${m}</td>
-                <td style="text-align: center; border: 1px solid #6a1b9a;">${fetchedData.Grade || ""}</td>
+    // डेटा भरें
+    document.getElementById('res-roll').innerText = fetchedData.Roll || "N/A";
+    document.getElementById('res-name').innerText = fetchedData.Name || "N/A";
+    document.getElementById('res-father').innerText = fetchedData.Father || "N/A";
+    document.getElementById('res-course').innerText = fetchedData.Course || "N/A";
+
+    // टेबल भरें
+    let marksHtml = "";
+    for(let i = 1; i <= 8; i++) {
+        let sub = fetchedData["Sub" + i];
+        let mark = fetchedData["Mark" + i];
+        if(sub && sub.trim() !== "") {
+            marksHtml += `<tr>
+                <td>${sub}</td>
+                <td>100</td>
+                <td>${mark}</td>
+                <td>${fetchedData.Grade || ""}</td>
             </tr>`;
         }
     }
-    document.getElementById('marks-body-final').innerHTML = html;
+    const tableBody = document.getElementById('marks-body-final');
+    if(tableBody) tableBody.innerHTML = marksHtml;
 }
 
-// 8. QR Scanner
+// 5. क्यूआर स्कैनर शुरू करें
 function startQRScanner() {
     const readerDiv = document.getElementById('reader');
     readerDiv.style.display = 'block';
@@ -535,22 +451,19 @@ function startQRScanner() {
         (decodedText) => {
             html5QrCode.stop().then(() => {
                 readerDiv.style.display = 'none';
-                let sid = decodedText;
                 try {
+                    // अगर QR एक पूरा URL है तो उससे ID निकालें
                     const url = new URL(decodedText);
-                    sid = url.searchParams.get("StudentID") || url.searchParams.get("RollNo") || decodedText;
-                } catch(e) {}
-                autoFetchQRResult(sid, true); 
+                    const sid = url.searchParams.get("StudentID") || url.searchParams.get("RollNo") || url.searchParams.get("roll");
+                    autoFetchQRResult(sid || decodedText);
+                } catch(e) {
+                    // अगर QR में सिर्फ टेक्स्ट है
+                    autoFetchQRResult(decodedText);
+                }
             });
         }
-    ).catch(err => alert("Camera Error"));
+    ).catch(err => alert("Camera Error: " + err));
 }
-
-window.onload = function() {
-    const p = new URLSearchParams(window.location.search);
-    const s = p.get("StudentID") || p.get("RollNo");
-    if(s) autoFetchQRResult(s, true);
-};
 </script>
 </body>
 </html>
