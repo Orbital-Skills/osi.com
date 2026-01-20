@@ -480,34 +480,31 @@ function showFinalResult(){
     }
 }
 
+    // ---------------- QR ----------------
 function startQRScanner(){
     isQRMode = true;
     switchTab("qr");
-
-    const readerDiv = document.getElementById("reader");
-    readerDiv.style.display = "block";
+    document.getElementById("reader").style.display="block";
 
     const qr = new Html5Qrcode("reader");
-
     qr.start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: 250 },
-        (decodedText) => {
-            alert("QR मिला: " + decodedText); // <-- टेस्ट अलर्ट
+        {facingMode:"environment"},
+        {fps:10,qrbox:250},
+        (txt)=>{
             qr.stop();
 
-            try {
-                const u = new URL(decodedText);
+            // RESULT TAB पर शिफ्ट करो
+            switchTab("manual");
+
+            try{
+                const u = new URL(txt);
                 const sid = u.searchParams.get("StudentID") || 
                             u.searchParams.get("RollNo") || 
                             u.searchParams.get("roll");
-                autoFetchQRResult(sid || decodedText);
-            } catch (e) {
-                autoFetchQRResult(decodedText);
+                autoFetchQRResult(sid || txt);
+            }catch{
+                autoFetchQRResult(txt);
             }
-        },
-        (err) => {
-            // scan errors ignore
         }
     );
 }
