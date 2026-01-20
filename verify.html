@@ -342,53 +342,66 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlUjEgOJhqnHm9b8oiX
 let fetchedData = null;
 
 // 1. मास्टर फेच फंक्शन
-// isAuto का मतलब है QR या Direct Link, जिससे रिजल्ट तुरंत खुलना चाहिए
 async function autoFetchQRResult(sid, isAuto = false) {
     if (!sid) return;
     
     if(typeof showLoading === "function") showLoading(true);
 
     const msgBox = document.getElementById('msg-roll');
-    if(msgBox) {
-        msgBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Database में खोज रहे हैं...';
-        msgBox.className = "field-msg checking";
-    }
-
     try {
         const finalUrl = `${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(sid)}`;
         const response = await fetch(finalUrl);
-        const result = await response.json();
+        const data = await response.json();
         
-        if (result.Success) {
-            fetchedData = result.Data; // इसमें अब Photo और Mother name भी आएगा
+        if (data.Success) {
+            fetchedData = data.Data;
+            
             if(msgBox) {
-                msgBox.innerHTML = '<i class="fas fa-check"></i> Record मिल गया! अब बाकी जानकारी भरें।';
+                msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found! Please fill details below.';
                 msgBox.className = "field-msg msg-success";
             }
 
-            // अगर QR से आया है, तो बिना कुछ पूछे रिजल्ट दिखाओ
+            // अगर QR/Link से है तो डायरेक्ट रिजल्ट दिखाओ
             if (isAuto) {
                 showFinalResult(); 
             } else {
-                // मैन्युअल में सिर्फ डिटेल्स सेक्शन को 'Unlock' करो
-                const detailsSec = document.getElementById('details-section');
-                if(detailsSec) {
-                    detailsSec.style.opacity = "1";
-                    detailsSec.style.pointerEvents = "all";
-                }
+                // मैन्युअल सर्च के लिए: इनपुट फील्ड्स को 'Unblock' करें
+                unlockManualFields();
             }
         } else {
             if(msgBox) {
-                msgBox.innerHTML = `<i class="fas fa-times"></i> नहीं मिला: ${sid}`;
+                msgBox.innerHTML = `<i class="fas fa-times"></i> Not Found: ${sid}`;
                 msgBox.className = "field-msg msg-error";
             }
         }
     } catch (e) {
         console.error(e);
-        alert("सर्वर एरर!");
+        alert("Server Error!");
     } finally {
         if(typeof showLoading === "function") showLoading(false);
     }
+}
+
+// 2. फील्ड्स को अनलॉक करने का फंक्शन
+function unlockManualFields() {
+    // उन सेक्शन्स की ID डालें जिन्हें आप दिखाना चाहते हैं
+    const sections = ['details-section', 'input-name-section', 'input-father-section'];
+    
+    sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.display = "block"; // छुपा हुआ है तो दिखाएँ
+            el.style.opacity = "1";     // धुंधला है तो साफ़ करें
+            el.style.pointerEvents = "all"; // क्लिक इनेबल करें
+        }
+    });
+
+    // अगर आपने input fields को 'disabled' किया है तो उन्हें इनेबल करें
+    const inputs = ['v-name', 'v-father'];
+    inputs.forEach(id => {
+        const inputEl = document.getElementById(id);
+        if (inputEl) inputEl.disabled = false;
+    });
 }
 
 // 2. मैन्युअल इनपुट (onblur) - यहाँ isAuto = false है
