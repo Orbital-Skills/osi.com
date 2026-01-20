@@ -481,40 +481,49 @@ function showFinalResult(){
 }
 
     // ---------------- QR ----------------
-function startQRScanner(){
+let html5Qr = null;
+
+function startQRScanner() {
     isQRMode = true;
     switchTab("qr");
 
     const readerDiv = document.getElementById("reader");
     readerDiv.style.display = "block";
 
-    const qr = new Html5Qrcode("reader");
+    if (!html5Qr) {
+        html5Qr = new Html5Qrcode("reader");
+    }
 
-    qr.start(
+    html5Qr.start(
         { facingMode: "environment" },
         { fps: 10, qrbox: 250 },
-        (decodedText) => {
-            qr.stop().then(() => {
+        function onScanSuccess(decodedText) {
+
+            html5Qr.stop().then(() => {
                 readerDiv.style.display = "none";
 
-                // Result दिखाने के लिए manual tab पर आओ
+                // Result manual tab में दिखाओ
                 switchTab("manual");
 
                 try {
-                    const u = new URL(decodedText);
-                    const sid = u.searchParams.get("StudentID") || 
-                                u.searchParams.get("RollNo") || 
-                                u.searchParams.get("roll");
+                    const url = new URL(decodedText);
+                    const sid = url.searchParams.get("StudentID") ||
+                                url.searchParams.get("RollNo") ||
+                                url.searchParams.get("roll");
+
                     autoFetchQRResult(sid || decodedText);
                 } catch (e) {
                     autoFetchQRResult(decodedText);
                 }
             });
+
+        },
+        function onScanError(errorMessage) {
+            // ignore
         }
     );
 }
-
-
+// Enable manual block
 function enableManualFields() {
     // पूरा ब्लॉक activate करो
     const section = document.getElementById("details-section");
