@@ -399,44 +399,49 @@ window.onload = function () {
     }
 };
 
-// 4. रिजल्ट दिखाने वाला फंक्शन
+// ---------------- SHOW RESULT ----------------
 function showFinalResult() {
     if (!fetchedData) return;
 
-    const inputSec = document.getElementById('input-section');
-    const resultDisp = document.getElementById('result-display');
-    const detailsSec = document.getElementById('details-section');
+    document.getElementById('input-section').style.display = "none";
+    document.getElementById('result-display').style.display = "block";
 
-    // सेक्शन्स को मैनेज करें
-    if (inputSec) inputSec.style.display = "none";
-    if (resultDisp) resultDisp.style.display = "block";
-    if (detailsSec) {
-        detailsSec.style.opacity = "1";
-        detailsSec.style.pointerEvents = "all";
-    }
+    // ऊपरी जानकारी
+    document.getElementById('res-roll').innerText = fetchedData.Roll || "";
+    document.getElementById('res-name').innerText = fetchedData.Name || "";
+    document.getElementById('res-father').innerText = fetchedData.Father || "";
+    document.getElementById('res-mother').innerText = fetchedData.Mother || "";
+    document.getElementById('res-course').innerText = fetchedData.Course || "";
 
-    // डेटा भरें
-    document.getElementById('res-roll').innerText = fetchedData.Roll || "N/A";
-    document.getElementById('res-name').innerText = fetchedData.Name || "N/A";
-    document.getElementById('res-father').innerText = fetchedData.Father || "N/A";
-    document.getElementById('res-course').innerText = fetchedData.Course || "N/A";
-
-    // टेबल भरें
+    // नई टेबल में डेटा भरने का लॉजिक
     let marksHtml = "";
     for(let i = 1; i <= 8; i++) {
-        let sub = fetchedData["Sub" + i];
-        let mark = fetchedData["Mark" + i];
-        if(sub && sub.trim() !== "") {
-            marksHtml += `<tr>
-                <td>${sub}</td>
-                <td>100</td>
-                <td>${mark}</td>
-                <td>${fetchedData.Grade || ""}</td>
-            </tr>`;
+        let subName = fetchedData["Sub" + i];
+        let subMark = fetchedData["Mark" + i];
+        
+        if(subName && subName.trim() !== "") {
+            marksHtml += `
+                <tr>
+                    <td style="text-align: left; padding-left: 15px; border: 1px solid #6a1b9a; color: #6a1b9a; font-weight: 600;">${subName}</td>
+                    <td style="color: red; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">100</td>
+                    <td style="color: #6a1b9a; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">${subMark}</td>
+                    <td style="color: #6a1b9a; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">${fetchedData.Grade || ""}</td>
+                </tr>`;
         }
     }
-    const tableBody = document.getElementById('marks-body-final');
-    if(tableBody) tableBody.innerHTML = marksHtml;
+    
+    // डेटा को टेबल में सेट करना
+    document.getElementById('marks-body-final').innerHTML = marksHtml;
+    document.getElementById('res-total-final').innerText = fetchedData.Total || "0";
+    document.getElementById('res-grade-final').innerText = fetchedData.Grade || "";
+
+    // फोटो सेट करना
+    if (fetchedData.Photo) {
+        const img = document.getElementById('res-photo');
+        img.src = fetchedData.Photo.includes("id=") ? 
+                  "https://drive.google.com/thumbnail?id=" + fetchedData.Photo.split("id=")[1].split("&")[0] : 
+                  fetchedData.Photo;
+    }
 }
 
 // 5. क्यूआर स्कैनर शुरू करें
@@ -464,6 +469,7 @@ function startQRScanner() {
         }
     ).catch(err => alert("Camera Error: " + err));
 }
+
 </script>
 </body>
 </html>
