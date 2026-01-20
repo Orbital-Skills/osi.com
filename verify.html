@@ -442,36 +442,33 @@ function showFinalResult() {
     document.getElementById('marks-body-final').innerHTML = marksHtml;
     document.getElementById('res-total-final').innerText = fetchedData.Total || "0";
     document.getElementById('res-grade-final').innerText = fetchedData.Grade || "";
-
+ा
     // फोटो सेट करना
-    if (fetchedData.Photo) {
-        const img = document.getElementById('res-photo');
-        img.src = fetchedData.Photo.includes("id=") ? 
-                  "https://drive.google.com/thumbnail?id=" + fetchedData.Photo.split("id=")[1].split("&")[0] : 
-                  fetchedData.Photo;
-    }
+if (fetchedData.Photo) {
+  const img = document.getElementById('res-photo');
+  img.src = fetchedData.Photo.includes("id=") ? 
+            "https://drive.google.com/thumbnail?id=" + fetchedData.Photo.split("id=")[1].split("&")[0] : 
+            fetchedData.Photo;
 }
 // ---------------- QR & AUTO VERIFY LOGIC ----------------
 
 window.onload = function () {
-    const params = new URLSearchParams(window.location.search);
-    const action = params.get("Action");
-    const studentID = params.get("StudentID") || params.get("id");
+  const params = new URLSearchParams(window.location.search);
+const action = params.get("Action");
+const rollNo = params.get("RollNo");
+const studentID = params.get("StudentID") || params.get("id");
 
-    if (studentID) {
-        // इनपुट बॉक्स में ID भर दें
-        document.getElementById("v-roll").value = studentID;
-        
-        // अगर QR से आया है (Action=VERIFY), तो सीधा रिजल्ट दिखाएं
-        if (action === "VERIFY") {
-            autoFetchQRResult(studentID);
-        } else {
-            // वरना नॉर्मल तरीके से डेटा लोड करें (User को नाम/पिता का नाम मैच करना होगा)
-            fetchRollData();
-        }
-    }
-};
-
+if (rollNo) {
+  document.getElementById("v-roll").value = rollNo;
+  autoFetchQRResult(rollNo);
+} else if (studentID) {
+  document.getElementById("v-roll").value = studentID;
+  if (action === "VERIFY") {
+    autoFetchQRResult(studentID);
+  } else {
+    fetchRollData();
+  }
+}
 // QR स्कैन के लिए स्पेशल फंक्शन (Direct Result)
 async function autoFetchQRResult(sid) {
     showLoading(true);
