@@ -341,112 +341,85 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlUjEgOJhqnHm9b8oiXMf4fS4qf_rd7rCs6s_wdIx6RQL5iGclqVROtqnm6Ot7-zlh/exec"; 
 let fetchedData = null;
 
-// 2. मैन्युअल रोल नंबर फेच (onblur event के लिए)
-async function fetchRollData() {
-    const rollInput = document.getElementById('v-roll');
+// 1. मास्टर फेच फंक्शन (Manual, QR और URL सबके लिए एक ही)
+async function autoFetchQRResult(sid) {
+    if (!sid) return;
+    
+    // अगर लोडिंग फंक्शन है तो उसे चलाएं
+    if(typeof showLoading === "function") showLoading(true);
+
     const msgBox = document.getElementById('msg-roll');
-    const roll = rollInput.value.trim();
-
-    if(!roll) return;
-
-    msgBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking Database...';
-    msgBox.className = "field-msg checking";
+    if(msgBox) {
+        msgBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Database में खोज रहे हैं...';
+        msgBox.className = "field-msg checking";
+    }
 
     try {
-        // Apps Script 'RollNo' पैरामीटर ढूंढ रही है
-        const finalUrl = SCRIPT_URL + "?roll=" + encodeURIComponent(roll);
+        // Apps Script अब 'RollNo' पैरामीटर में ही ID और Roll दोनों को पहचान लेता है
+        const finalUrl = `${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(sid)}`;
         const response = await fetch(finalUrl);
-        const data = await response.json();
-
-        if(data.Success) {
-            fetchedData = data.Data;
-            msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found';
-            msgBox.className = "field-msg msg-success";
-            
-            // इनपुट फील्ड्स को अनलॉक करें
-            const detailsSec = document.getElementById('details-section');
-            if(detailsSec) {
-                detailsSec.style.opacity = "1";
-                detailsSec.style.pointerEvents = "all";
+        const result = await response.json();
+        
+        if (result.Success) {
+            fetchedData = result.Data;
+            if(msgBox) {
+                msgBox.innerHTML = '<i class="fas fa-check"></i> Record मिल गया!';
+                msgBox.className = "field-msg msg-success";
             }
-        } else {
-            msgBox.innerHTML = `<i class="fas fa-times"></i> Not Found: ${roll}`;
-            msgBox.className = "field-msg msg-error";
-        }
-    } catch (e) {
-        msgBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Server Error';
-        console.error("Fetch Error:", e);
-    }
-}
-
-// 3. QR/Auto-Verify लॉजिक (ID mismatch को रोकने के लिए)
-async function autoFetchQRResult(sid) {
-    if (!sid) return;
-    showLoading(true);
-    try {
-        // StudentID पैरामीटर का उपयोग
-        const response = await fetch(`${SCRIPT_URL}?Action=VERIFY&StudentID=${encodeURIComponent(sid)}`);
-        const result = await response.json();
-        
-        if (result.Success) {
-            fetchedData = result.Data;
             showFinalResult(); 
         } else {
-            alert("डेटाबेस में रिकॉर्ड नहीं मिला! ID: " + sid);
-        }
-    } catch (e) {
-        alert("सर्वर से संपर्क नहीं हो पाया!");
-    } finally {
-        showLoading(false);
-    }
-}
-
-// 4. ऑटो-वेरिफाई लॉजिक (स्कैन या यूआरएल से)
-async function autoFetchQRResult(sid) {
-    if (!sid) return;
-    showLoading(true);
-    try {
-        const response = await fetch(`${SCRIPT_URL}?Action=VERIFY&StudentID=${sid}`);
-        const result = await response.json();
-        
-        if (result.Success) {
-            fetchedData = result.Data;
-            showFinalResult(); 
-        } else {
-            alert("डेटाबेस में कोई रिकॉर्ड नहीं मिला! ID: " + sid);
+            if(msgBox) {
+                msgBox.innerHTML = `<i class="fas fa-times"></i> नहीं मिला: ${sid}`;
+                msgBox.className = "field-msg msg-error";
+            } else {
+                alert("डेटाबेस में कोई रिकॉर्ड नहीं मिला! ID/Roll: " + sid);
+            }
         }
     } catch (e) {
         console.error(e);
         alert("सर्वर एरर! कृपया इंटरनेट चेक करें।");
     } finally {
-        showLoading(false);
+        if(typeof showLoading === "function") showLoading(false);
     }
 }
 
-// 5. पेज लोड होते ही चेक करें
+// 2. मैन्युअल इनपुट के लिए फंक्शन (onblur या button click)
+function fetchRollData() {
+    const val = document.getElementById('v-roll').value.trim();
+    if(val) autoFetchQRResult(val);
+}
+
+// 3. पेज लोड होते ही ऑटो-चेक (Direct Link के लिए)
 window.onload = function () {
     const params = new URLSearchParams(window.location.search);
-    const sid = params.get("StudentID") || params.get("RollNo");
+    // URL में StudentID हो या RollNo, दोनों को चेक करेगा
+    const sid = params.get("StudentID") || params.get("RollNo") || params.get("roll");
     if (sid) {
         autoFetchQRResult(sid);
     }
 };
 
-// 6. रिजल्ट दिखाने वाला फंक्शन
+// 4. रिजल्ट दिखाने वाला फंक्शन
 function showFinalResult() {
     if (!fetchedData) return;
 
-    // इनपुट सेक्शन छुपाएं और रिजल्ट सेक्शन दिखाएं
     const inputSec = document.getElementById('input-section');
     const resultDisp = document.getElementById('result-display');
+    const detailsSec = document.getElementById('details-section');
+
+    // सेक्शन्स को मैनेज करें
     if (inputSec) inputSec.style.display = "none";
     if (resultDisp) resultDisp.style.display = "block";
+    if (detailsSec) {
+        detailsSec.style.opacity = "1";
+        detailsSec.style.pointerEvents = "all";
+    }
 
     // डेटा भरें
-    document.getElementById('res-roll').innerText = fetchedData.Roll || "";
-    document.getElementById('res-name').innerText = fetchedData.Name || "";
-    document.getElementById('res-father').innerText = fetchedData.Father || "";
-    document.getElementById('res-course').innerText = fetchedData.Course || "";
+    document.getElementById('res-roll').innerText = fetchedData.Roll || "N/A";
+    document.getElementById('res-name').innerText = fetchedData.Name || "N/A";
+    document.getElementById('res-father').innerText = fetchedData.Father || "N/A";
+    document.getElementById('res-course').innerText = fetchedData.Course || "N/A";
 
     // टेबल भरें
     let marksHtml = "";
@@ -454,13 +427,19 @@ function showFinalResult() {
         let sub = fetchedData["Sub" + i];
         let mark = fetchedData["Mark" + i];
         if(sub && sub.trim() !== "") {
-            marksHtml += `<tr><td>${sub}</td><td>100</td><td>${mark}</td><td>${fetchedData.Grade || ""}</td></tr>`;
+            marksHtml += `<tr>
+                <td>${sub}</td>
+                <td>100</td>
+                <td>${mark}</td>
+                <td>${fetchedData.Grade || ""}</td>
+            </tr>`;
         }
     }
-    document.getElementById('marks-body-final').innerHTML = marksHtml;
+    const tableBody = document.getElementById('marks-body-final');
+    if(tableBody) tableBody.innerHTML = marksHtml;
 }
 
-// 7. क्यूआर स्कैनर शुरू करें
+// 5. क्यूआर स्कैनर शुरू करें
 function startQRScanner() {
     const readerDiv = document.getElementById('reader');
     readerDiv.style.display = 'block';
@@ -473,10 +452,12 @@ function startQRScanner() {
             html5QrCode.stop().then(() => {
                 readerDiv.style.display = 'none';
                 try {
+                    // अगर QR एक पूरा URL है तो उससे ID निकालें
                     const url = new URL(decodedText);
-                    const sid = url.searchParams.get("StudentID") || url.searchParams.get("RollNo");
+                    const sid = url.searchParams.get("StudentID") || url.searchParams.get("RollNo") || url.searchParams.get("roll");
                     autoFetchQRResult(sid || decodedText);
                 } catch(e) {
+                    // अगर QR में सिर्फ टेक्स्ट है
                     autoFetchQRResult(decodedText);
                 }
             });
