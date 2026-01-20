@@ -480,9 +480,8 @@ function showFinalResult(){
     }
 }
 
-// ---------------- QR ----------------
 function startQRScanner(){
-    isQRMode = true;   // QR Mode ON
+    isQRMode = true;
     switchTab("qr");
 
     const readerDiv = document.getElementById("reader");
@@ -494,20 +493,21 @@ function startQRScanner(){
         { facingMode: "environment" },
         { fps: 10, qrbox: 250 },
         (decodedText) => {
-            qr.stop().then(() => {
-                readerDiv.style.display = "none";
+            alert("QR मिला: " + decodedText); // <-- टेस्ट अलर्ट
+            qr.stop();
 
-                try {
-                    const u = new URL(decodedText);
-                    const sid = u.searchParams.get("StudentID") || 
-                                u.searchParams.get("RollNo") || 
-                                u.searchParams.get("roll");
-
-                    autoFetchQRResult(sid || decodedText);
-                } catch (e) {
-                    autoFetchQRResult(decodedText);
-                }
-            });
+            try {
+                const u = new URL(decodedText);
+                const sid = u.searchParams.get("StudentID") || 
+                            u.searchParams.get("RollNo") || 
+                            u.searchParams.get("roll");
+                autoFetchQRResult(sid || decodedText);
+            } catch (e) {
+                autoFetchQRResult(decodedText);
+            }
+        },
+        (err) => {
+            // scan errors ignore
         }
     );
 }
