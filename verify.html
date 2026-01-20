@@ -239,6 +239,8 @@
         </button>
     </div>
 </div>
+
+
         <div id="manual-tab" class="tab-content active">
             <div class="form-area">
                 
@@ -337,139 +339,181 @@
         </div>
 
     </div>
+
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlUjEgOJhqnHm9b8oiXMf4fS4qf_rd7rCs6s_wdIx6RQL5iGclqVROtqnm6Ot7-zlh/exec"; 
+
 let fetchedData = null;
+let isQRMode = false;
+let matched = { name:false, father:false, mother:false, course:false };
 
-// 1. मास्टर फेच फंक्शन (Manual, QR और URL सबके लिए एक ही)
-async function autoFetchQRResult(sid) {
-    if (!sid) return;
-    
-    // अगर लोडिंग फंक्शन है तो उसे चलाएं
-    if(typeof showLoading === "function") showLoading(true);
 
-    const msgBox = document.getElementById('msg-roll');
-    if(msgBox) {
-        msgBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Database में खोज रहे हैं...';
-        msgBox.className = "field-msg checking";
+// ---------------- TAB SWITCH ----------------
+function switchTab(type){
+    document.getElementById("qr-tab").classList.remove("active");
+    document.getElementById("manual-tab").classList.remove("active");
+
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("tab-active"));
+    document.querySelectorAll(".tab").forEach(t=>t.classList.add("tab-inactive"));
+
+    if(type==="qr"){
+        document.getElementById("qr-tab").classList.add("active");
+        document.querySelectorAll(".tab")[0].classList.add("tab-active");
+    }else{
+        document.getElementById("manual-tab").classList.add("active");
+        document.querySelectorAll(".tab")[1].classList.add("tab-active");
     }
+}
 
-    try {
-        // Apps Script अब 'RollNo' पैरामीटर में ही ID और Roll दोनों को पहचान लेता है
-        const finalUrl = `${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(sid)}`;
-        const response = await fetch(finalUrl);
-        const result = await response.json();
-        
-        if (result.Success) {
-            fetchedData = result.Data;
-            if(msgBox) {
-                msgBox.innerHTML = '<i class="fas fa-check"></i> Record मिल गया!';
-                msgBox.className = "field-msg msg-success";
+// ---------------- FETCH ----------------
+async function autoFetchQRResult(sid){
+    if(!sid) return;
+
+    document.getElementById("msg-roll").innerHTML = "Checking database...";
+    document.getElementById("msg-roll").className = "field-msg checking";
+
+    try{
+        const res = await fetch(`${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(sid)}`);
+        const json = await res.json();
+
+        if(json.Success){
+            fetchedData = json.Data;
+            document.getElementById("msg-roll").innerHTML = "Record Found";
+            document.getElementById("msg-roll").className = "field-msg msg-success";
+
+            if(isQRMode){
+                showFinalResult();   // QR = direct
+            }else{
+                // पूरा सेक्शन enable
+                const section = document.getElementById("details-section");
+                section.style.opacity = "1";
+                section.style.pointerEvents = "all";
+
+                // चारों input enable
+                document.getElementById("v-name").removeAttribute("disabled");
+                document.getElementById("v-father").removeAttribute("disabled");
+                document.getElementById("v-mother").removeAttribute("disabled");
+                document.getElementById("v-course").removeAttribute("disabled");
             }
-            showFinalResult(); 
-        } else {
-            if(msgBox) {
-                msgBox.innerHTML = `<i class="fas fa-times"></i> नहीं मिला: ${sid}`;
-                msgBox.className = "field-msg msg-error";
-            } else {
-                alert("डेटाबेस में कोई रिकॉर्ड नहीं मिला! ID/Roll: " + sid);
+
+        }else{
+            document.getElementById("msg-roll").innerHTML = "Record Not Found";
+            document.getElementById("msg-roll").className = "field-msg msg-error";
+        }
+
+    }catch(e){
+        alert("Server Error");
+    }
+}
+
+
+// ---------------- MANUAL ----------------
+function fetchRollData(){
+    isQRMode = false;
+    autoFetchQRResult(document.getElementById("v-roll").value.trim());
+}
+function enableManualFields() {
+    const section = document.getElementById("details-section");
+    section.style.opacity = "1";
+    section.style.pointerEvents = "all";
+
+    document.getElementById("v-name").disabled = false;
+    document.getElementById("v-father").disabled = false;
+    document.getElementById("v-mother").disabled = false;
+    document.getElementById("v-course").disabled = false;
+}
+// ---------------- FIELD VALIDATION ----------------
+function validateField(input, type){
+    if(!fetchedData) return;
+
+    let real = fetchedData[type.charAt(0).toUpperCase()+type.slice(1)];
+
+    if(input.value.trim().toLowerCase() === real.toLowerCase()){
+        input.classList.add("valid");
+        input.classList.remove("invalid");
+        matched[type] = true;
+    } else {
+        input.classList.add("invalid");
+        input.classList.remove("valid");
+        matched[type] = false;
+    }
+
+    if(matched.name && matched.father && matched.mother && matched.course){
+        document.getElementById("main-btn").classList.add("active-btn");
+    } else {
+        document.getElementById("main-btn").classList.remove("active-btn");
+    }
+}
+
+
+// ---------------- RESULT ----------------
+function showFinalResult(){
+    document.getElementById("input-section").style.display="none";
+    document.getElementById("result-display").style.display="block";
+
+    document.getElementById("res-roll").innerText = fetchedData.Roll;
+    document.getElementById("res-name").innerText = fetchedData.Name;
+    document.getElementById("res-father").innerText = fetchedData.Father;
+    document.getElementById("res-mother").innerText = fetchedData.Mother;
+    document.getElementById("res-course").innerText = fetchedData.Course;
+
+    let html="";
+    for(let i=1;i<=8;i++){
+        if(fetchedData["Sub"+i]){
+            html+=`<tr>
+            <td class="sub-name">${fetchedData["Sub"+i]}</td>
+            <td class="max-marks">100</td>
+            <td>${fetchedData["Mark"+i]}</td>
+            <td>${fetchedData.Grade}</td>
+            </tr>`;
+        }
+    }
+    document.getElementById("marks-body-final").innerHTML=html;
+    document.getElementById("res-total-final").innerText=fetchedData.Total;
+    document.getElementById("res-grade-final").innerText=fetchedData.Grade;
+
+    if(fetchedData.Photo){
+        document.getElementById("res-photo").src =
+        fetchedData.Photo.includes("id=")
+        ? "https://drive.google.com/thumbnail?id="+fetchedData.Photo.split("id=")[1]
+        : fetchedData.Photo;
+    }
+}
+
+// ---------------- QR ----------------
+function startQRScanner(){
+    isQRMode=true;
+    switchTab("qr");
+    document.getElementById("reader").style.display="block";
+
+    const qr = new Html5Qrcode("reader");
+    qr.start({facingMode:"environment"},{fps:10,qrbox:250},
+        txt=>{
+            qr.stop();
+            try{
+                const u=new URL(txt);
+                autoFetchQRResult(u.searchParams.get("StudentID")||u.searchParams.get("RollNo")||txt);
+            }catch{
+                autoFetchQRResult(txt);
             }
         }
-    } catch (e) {
-        console.error(e);
-        alert("सर्वर एरर! कृपया इंटरनेट चेक करें।");
-    } finally {
-        if(typeof showLoading === "function") showLoading(false);
-    }
+    );
 }
+function enableManualFields() {
+    // पूरा ब्लॉक activate करो
+    const section = document.getElementById("details-section");
+    section.style.opacity = "1";
+    section.style.pointerEvents = "auto";
 
-// 2. मैन्युअल इनपुट के लिए फंक्शन (onblur या button click)
-function fetchRollData() {
-    const val = document.getElementById('v-roll').value.trim();
-    if(val) autoFetchQRResult(val);
-}
-
-// 3. पेज लोड होते ही ऑटो-चेक (Direct Link के लिए)
-window.onload = function () {
-    const params = new URLSearchParams(window.location.search);
-    // URL में StudentID हो या RollNo, दोनों को चेक करेगा
-    const sid = params.get("StudentID") || params.get("RollNo") || params.get("roll");
-    if (sid) {
-        autoFetchQRResult(sid);
-    }
-};
-
-// ---------------- SHOW RESULT ----------------
-function showFinalResult() {
-    if (!fetchedData) return;
-
-    document.getElementById('input-section').style.display = "none";
-    document.getElementById('result-display').style.display = "block";
-
-    // ऊपरी जानकारी
-    document.getElementById('res-roll').innerText = fetchedData.Roll || "";
-    document.getElementById('res-name').innerText = fetchedData.Name || "";
-    document.getElementById('res-father').innerText = fetchedData.Father || "";
-    document.getElementById('res-mother').innerText = fetchedData.Mother || "";
-    document.getElementById('res-course').innerText = fetchedData.Course || "";
-
-    // नई टेबल में डेटा भरने का लॉजिक
-    let marksHtml = "";
-    for(let i = 1; i <= 8; i++) {
-        let subName = fetchedData["Sub" + i];
-        let subMark = fetchedData["Mark" + i];
-        
-        if(subName && subName.trim() !== "") {
-            marksHtml += `
-                <tr>
-                    <td style="text-align: left; padding-left: 15px; border: 1px solid #6a1b9a; color: #6a1b9a; font-weight: 600;">${subName}</td>
-                    <td style="color: red; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">100</td>
-                    <td style="color: #6a1b9a; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">${subMark}</td>
-                    <td style="color: #6a1b9a; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">${fetchedData.Grade || ""}</td>
-                </tr>`;
-        }
-    }
-    
-    // डेटा को टेबल में सेट करना
-    document.getElementById('marks-body-final').innerHTML = marksHtml;
-    document.getElementById('res-total-final').innerText = fetchedData.Total || "0";
-    document.getElementById('res-grade-final').innerText = fetchedData.Grade || "";
-
-    // फोटो सेट करना
-    if (fetchedData.Photo) {
-        const img = document.getElementById('res-photo');
-        img.src = fetchedData.Photo.includes("id=") ? 
-                  "https://drive.google.com/thumbnail?id=" + fetchedData.Photo.split("id=")[1].split("&")[0] : 
-                  fetchedData.Photo;
-    }
-}
-
-// 5. क्यूआर स्कैनर शुरू करें
-function startQRScanner() {
-    const readerDiv = document.getElementById('reader');
-    readerDiv.style.display = 'block';
-    const html5QrCode = new Html5Qrcode("reader");
-
-    html5QrCode.start(
-        { facingMode: "environment" }, 
-        { fps: 10, qrbox: 250 },
-        (decodedText) => {
-            html5QrCode.stop().then(() => {
-                readerDiv.style.display = 'none';
-                try {
-                    // अगर QR एक पूरा URL है तो उससे ID निकालें
-                    const url = new URL(decodedText);
-                    const sid = url.searchParams.get("StudentID") || url.searchParams.get("RollNo") || url.searchParams.get("roll");
-                    autoFetchQRResult(sid || decodedText);
-                } catch(e) {
-                    // अगर QR में सिर्फ टेक्स्ट है
-                    autoFetchQRResult(decodedText);
-                }
-            });
-        }
-    ).catch(err => alert("Camera Error: " + err));
+    // चारों inputs से disabled हटाओ
+    const inputs = ["v-name", "v-father", "v-mother", "v-course"];
+    inputs.forEach(id => {
+        const el = document.getElementById(id);
+        el.removeAttribute("disabled");
+    });
 }
 
 </script>
+
 </body>
 </html>
