@@ -341,33 +341,32 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlUjEgOJhqnHm9b8oiXMf4fS4qf_rd7rCs6s_wdIx6RQL5iGclqVROtqnm6Ot7-zlh/exec"; 
 let fetchedData = null;
 
-// 1. मास्टर फेच फंक्शन (QR और Manual दोनों के लिए)
+// 1. Master Fetch Function (Fixed for QR & Data)
 async function autoFetchQRResult(sid, isAuto = false) {
     if (!sid) return;
+    console.log("Fetching for:", sid, "Auto-Open:", isAuto);
     
-    // लोडिंग दिखाएँ
     if(typeof showLoading === "function") showLoading(true);
 
     const msgBox = document.getElementById('msg-roll');
     try {
-        // Apps Script को कॉल करें
         const finalUrl = `${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(sid)}`;
         const response = await fetch(finalUrl);
         const data = await response.json();
         
         if (data.Success) {
             fetchedData = data.Data;
-            
-            if(msgBox) {
-                msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found! Please verify details.';
-                msgBox.className = "field-msg msg-success";
-            }
+            console.log("Data Received:", fetchedData);
 
-            // QR/Direct Link के लिए सीधा रिजल्ट दिखाएँ
             if (isAuto) {
+                // QR scan ya Link hai toh direct result dikhao
                 showFinalResult(); 
             } else {
-                // मैन्युअल के लिए इनपुट बॉक्स अनलॉक करें
+                // Manual hai toh details unlock karo
+                if(msgBox) {
+                    msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found! Please enter Student & Father Name.';
+                    msgBox.className = "field-msg msg-success";
+                }
                 unlockManualFields();
             }
         } else {
@@ -377,128 +376,78 @@ async function autoFetchQRResult(sid, isAuto = false) {
             }
         }
     } catch (e) {
-        console.error("Fetch Error:", e);
-        alert("Server Error! Please check your internet.");
+        console.error("Error:", e);
+        alert("Server Error! Check Internet.");
     } finally {
         if(typeof showLoading === "function") showLoading(false);
     }
 }
 
-// 2. फील्ड्स अनलॉक करने का फंक्शन
+// 2. Unlock Fields Logic
 function unlockManualFields() {
-    // सेक्शन्स को दिखाएँ
-    const sections = ['details-section', 'input-name-section', 'input-father-section'];
-    sections.forEach(id => {
+    const detailsSec = document.getElementById('details-section');
+    if (detailsSec) {
+        detailsSec.style.display = "block"; 
+        detailsSec.style.opacity = "1";
+        detailsSec.style.pointerEvents = "all";
+    }
+    // Inputs enable karein
+    ['v-name', 'v-father'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) {
-            el.style.display = "block"; 
-            el.style.opacity = "1";
-            el.style.pointerEvents = "all";
-        }
+        if(el) el.disabled = false;
     });
-
-    // इनपुट इनेबल करें
-    const inputs = ['v-name', 'v-father'];
-    inputs.forEach(id => {
-        const inputEl = document.getElementById(id);
-        if (inputEl) {
-            inputEl.disabled = false;
-            inputEl.style.backgroundColor = "#fff";
-        }
-    });
-    
-    // 'Verify' बटन को 'View Result' बटन में बदलें या दिखाएँ
-    const viewBtn = document.getElementById('view-result-btn');
-    if(viewBtn) viewBtn.style.display = "block";
 }
 
-// 3. मैन्युअल इनपुट (onblur)
-function fetchRollData() {
-    const val = document.getElementById('v-roll').value.trim();
-    if(val) autoFetchQRResult(val, false); // Manual is false
-}
-
-// 4. मैन्युअल "View Result" बटन क्लिक
+// 3. Manual View Button
 function handleManualSubmit() {
-    const uName = document.getElementById('v-name').value.trim().toLowerCase();
-    const uFather = document.getElementById('v-father').value.trim().toLowerCase();
-
-    if (!fetchedData) {
-        alert("Please enter Roll No first!");
-        return;
+    const n = document.getElementById('v-name').value.trim();
+    const f = document.getElementById('v-father').value.trim();
+    if(n && f) {
+        showFinalResult();
+    } else {
+        alert("Please enter Name and Father Name");
     }
-
-    if (uName === "" || uFather === "") {
-        alert("Please enter both Name and Father's Name!");
-        return;
-    }
-
-    // सिक्योरिटी चेक (Optional: आप चाहें तो नाम मैच भी कर सकते हैं)
-    // if(uName === fetchedData.Name.toLowerCase()) { ... }
-
-    showFinalResult();
 }
 
-// 5. पेज लोड होते ही ऑटो-चेक
-window.onload = function () {
-    const params = new URLSearchParams(window.location.search);
-    const sid = params.get("StudentID") || params.get("RollNo") || params.get("roll");
-    if (sid) {
-        autoFetchQRResult(sid, true); // URL link is auto
-    }
-};
-
-// 6. फाइनल रिजल्ट डिस्प्ले (मदर नेम और फोटो फिक्स)
+// 4. Show Result (Mother's Name aur Course Fix)
 function showFinalResult() {
     if (!fetchedData) return;
 
-    const inputSec = document.getElementById('input-section');
-    const resultDisp = document.getElementById('result-display');
+    // Sections toggle
+    document.getElementById('input-section').style.display = "none";
+    document.getElementById('result-display').style.display = "block";
 
-    if (inputSec) inputSec.style.display = "none";
-    if (resultDisp) resultDisp.style.display = "block";
-
-    // ऊपरी जानकारी भरना
-    document.getElementById('res-roll').innerText = fetchedData.Roll || "N/A";
-    document.getElementById('res-name').innerText = fetchedData.Name || "N/A";
-    document.getElementById('res-father').innerText = fetchedData.Father || "N/A";
-    document.getElementById('res-mother').innerText = fetchedData.Mother || "N/A"; // Fixed
-    document.getElementById('res-course').innerText = fetchedData.Course || "N/A"; // Fixed
-
-    // फोटो लॉजिक
-    const imgEl = document.getElementById('res-photo');
-    if (imgEl && fetchedData.Photo) {
-        let photoUrl = fetchedData.Photo;
-        if (photoUrl.includes("id=")) {
-            const id = photoUrl.split("id=")[1].split("&")[0];
-            photoUrl = "https://drive.google.com/thumbnail?id=" + id + "&sz=w300";
-        }
-        imgEl.src = photoUrl;
-    }
-
-    // मार्क्स टेबल
-    let marksHtml = "";
-    for(let i = 1; i <= 8; i++) {
-        let subName = fetchedData["Sub" + i];
-        let subMark = fetchedData["Mark" + i];
-        
-        if(subName && subName.trim() !== "") {
-            marksHtml += `
-                <tr>
-                    <td style="text-align: left; padding: 10px; border: 1px solid #6a1b9a; color: #6a1b9a; font-weight: 600;">${subName}</td>
-                    <td style="color: red; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">100</td>
-                    <td style="color: #6a1b9a; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">${subMark}</td>
-                    <td style="color: #6a1b9a; text-align: center; border: 1px solid #6a1b9a; font-weight: 600;">${fetchedData.Grade || ""}</td>
-                </tr>`;
-        }
-    }
+    // Data Mapping (Backup keys ke saath)
+    document.getElementById('res-roll').innerText = fetchedData.Roll || fetchedData.RollNo || "";
+    document.getElementById('res-name').innerText = fetchedData.Name || "";
+    document.getElementById('res-father').innerText = fetchedData.Father || fetchedData.FatherName || "";
     
-    document.getElementById('marks-body-final').innerHTML = marksHtml;
-    document.getElementById('res-total-final').innerText = fetchedData.Total || "0";
-    document.getElementById('res-grade-final').innerText = fetchedData.Grade || "";
+    // Mother's Name aur Course Name - Check karein ki Sheet mein column heading yahi hai
+    document.getElementById('res-mother').innerText = fetchedData.Mother || fetchedData.MotherName || "N/A";
+    document.getElementById('res-course').innerText = fetchedData.Course || fetchedData.CourseName || "N/A";
+
+    // Photo Fix
+    const photoImg = document.getElementById('res-photo');
+    if (photoImg && fetchedData.Photo) {
+        let pUrl = fetchedData.Photo;
+        if(pUrl.includes("id=")) {
+            pUrl = "https://drive.google.com/thumbnail?id=" + pUrl.split("id=")[1].split("&")[0] + "&sz=w300";
+        }
+        photoImg.src = pUrl;
+    }
+
+    // Table Marks
+    let html = "";
+    for(let i=1; i<=8; i++) {
+        let s = fetchedData["Sub"+i], m = fetchedData["Mark"+i];
+        if(s && s.trim() !== "") {
+            html += `<tr><td>${s}</td><td>100</td><td>${m}</td><td>${fetchedData.Grade || ""}</td></tr>`;
+        }
+    }
+    document.getElementById('marks-body-final').innerHTML = html;
 }
 
-// 7. क्यूआर स्कैनर (Fixed autoFetch call)
+// 5. QR Scanner (Isme direct result khulega)
 function startQRScanner() {
     const readerDiv = document.getElementById('reader');
     readerDiv.style.display = 'block';
@@ -510,20 +459,28 @@ function startQRScanner() {
         (decodedText) => {
             html5QrCode.stop().then(() => {
                 readerDiv.style.display = 'none';
+                console.log("Scanned Text:", decodedText);
+                
+                let sid = decodedText;
                 try {
                     const url = new URL(decodedText);
-                    const sid = url.searchParams.get("StudentID") || url.searchParams.get("RollNo") || url.searchParams.get("roll");
-                    autoFetchQRResult(sid || decodedText, true); // Added 'true' for auto open
-                } catch(e) {
-                    autoFetchQRResult(decodedText, true); // Added 'true' for auto open
-                }
+                    sid = url.searchParams.get("StudentID") || url.searchParams.get("RollNo") || url.searchParams.get("roll") || decodedText;
+                } catch(e) {}
+                
+                // TRUE matlab QR se direct result khulega
+                autoFetchQRResult(sid, true); 
             });
         }
-    ).catch(err => {
-        alert("Camera Error: " + err);
-        readerDiv.style.display = 'none';
-    });
+    ).catch(err => alert("Camera Error: " + err));
 }
+
+// URL Auto-check
+window.onload = function() {
+    const p = new URLSearchParams(window.location.search);
+    const s = p.get("StudentID") || p.get("RollNo") || p.get("roll");
+    if(s) autoFetchQRResult(s, true);
+};
+</script>
 </script>
 </body>
 </html>
