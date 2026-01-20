@@ -338,33 +338,66 @@
 
     </div>
 <script>
-// 1. कॉन्फ़िगरेशन
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlUjEgOJhqnHm9b8oiXMf4fS4qf_rd7rCs6s_wdIx6RQL5iGclqVROtqnm6Ot7-zlh/exec"; 
 let fetchedData = null;
 
-// 2. लोडिंग कंट्रोल (इसे सबसे ऊपर रखें ताकि एरर न आए)
-function showLoading(status) {
+// 2. मैन्युअल रोल नंबर फेच (onblur event के लिए)
+async function fetchRollData() {
+    const rollInput = document.getElementById('v-roll');
     const msgBox = document.getElementById('msg-roll');
-    if (msgBox) {
-        msgBox.innerHTML = status ? '<i class="fas fa-spinner fa-spin"></i> Loading...' : '';
+    const roll = rollInput.value.trim();
+
+    if(!roll) return;
+
+    msgBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking Database...';
+    msgBox.className = "field-msg checking";
+
+    try {
+        // Apps Script 'RollNo' पैरामीटर ढूंढ रही है
+        const finalUrl = `${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(roll)}`;
+        const response = await fetch(finalUrl);
+        const data = await response.json();
+
+        if(data.Success) {
+            fetchedData = data.Data;
+            msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found';
+            msgBox.className = "field-msg msg-success";
+            
+            // इनपुट फील्ड्स को अनलॉक करें
+            const detailsSec = document.getElementById('details-section');
+            if(detailsSec) {
+                detailsSec.style.opacity = "1";
+                detailsSec.style.pointerEvents = "all";
+            }
+        } else {
+            msgBox.innerHTML = `<i class="fas fa-times"></i> Not Found: ${roll}`;
+            msgBox.className = "field-msg msg-error";
+        }
+    } catch (e) {
+        msgBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Server Error';
+        console.error("Fetch Error:", e);
     }
 }
 
-// 3. टैब स्विचिंग लॉजिक (ReferenceError: switchTab is not defined को ठीक करने के लिए)
-function switchTab(mode) {
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.tab-content');
-    if (!tabs.length || !contents.length) return;
-
-    tabs.forEach(t => { t.classList.remove('tab-active'); t.classList.add('tab-inactive'); });
-    contents.forEach(c => c.classList.remove('active'));
-
-    if (mode === 'qr') {
-        tabs[0].classList.add('tab-active'); tabs[0].classList.remove('tab-inactive');
-        contents[0].classList.add('active');
-    } else {
-        tabs[1].classList.add('tab-active'); tabs[1].classList.remove('tab-inactive');
-        contents[1].classList.add('active');
+// 3. QR/Auto-Verify लॉजिक (ID mismatch को रोकने के लिए)
+async function autoFetchQRResult(sid) {
+    if (!sid) return;
+    showLoading(true);
+    try {
+        // StudentID पैरामीटर का उपयोग
+        const response = await fetch(`${SCRIPT_URL}?Action=VERIFY&StudentID=${encodeURIComponent(sid)}`);
+        const result = await response.json();
+        
+        if (result.Success) {
+            fetchedData = result.Data;
+            showFinalResult(); 
+        } else {
+            alert("डेटाबेस में रिकॉर्ड नहीं मिला! ID: " + sid);
+        }
+    } catch (e) {
+        alert("सर्वर से संपर्क नहीं हो पाया!");
+    } finally {
+        showLoading(false);
     }
 }
 
