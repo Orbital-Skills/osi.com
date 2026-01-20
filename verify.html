@@ -354,7 +354,7 @@ async function fetchRollData() {
 
     try {
         // Apps Script 'RollNo' पैरामीटर ढूंढ रही है
-        const finalUrl = `${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(roll)}`;
+        const finalUrl = SCRIPT_URL + "?roll=" + encodeURIComponent(roll);
         const response = await fetch(finalUrl);
         const data = await response.json();
 
