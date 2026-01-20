@@ -327,8 +327,7 @@
     </tfoot>
 </table>
 </div>
-                    
-                    <button onclick="location.reload()" style="margin-top:20px; background:transparent; border:none; color: #6a1b9a; text-decoration: underline; cursor:pointer;">
+        <button onclick="location.reload()" style="margin-top:20px; background:transparent; border:none; color: #6a1b9a; text-decoration: underline; cursor:pointer;">
                         Verify Another Student
                     </button>
                 </div>
@@ -341,14 +340,25 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlUjEgOJhqnHm9b8oiXMf4fS4qf_rd7rCs6s_wdIx6RQL5iGclqVROtqnm6Ot7-zlh/exec"; 
 let fetchedData = null;
 
-// 1. Master Fetch Function (Fixed for QR & Data)
+// 1. टैब स्विच करने वाला फंक्शन (Error Fix: switchTab is not defined)
+function switchTab(tabName) {
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+    
+    tabs.forEach(t => t.classList.remove('active'));
+    contents.forEach(c => c.style.display = 'none');
+    
+    document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+    document.getElementById(tabName).style.display = 'block';
+}
+
+// 2. मास्टर फेच फंक्शन (QR और Manual के लिए)
 async function autoFetchQRResult(sid, isAuto = false) {
     if (!sid) return;
-    console.log("Fetching for:", sid, "Auto-Open:", isAuto);
     
     if(typeof showLoading === "function") showLoading(true);
-
     const msgBox = document.getElementById('msg-roll');
+
     try {
         const finalUrl = `${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(sid)}`;
         const response = await fetch(finalUrl);
@@ -356,15 +366,12 @@ async function autoFetchQRResult(sid, isAuto = false) {
         
         if (data.Success) {
             fetchedData = data.Data;
-            console.log("Data Received:", fetchedData);
-
+            
             if (isAuto) {
-                // QR scan ya Link hai toh direct result dikhao
                 showFinalResult(); 
             } else {
-                // Manual hai toh details unlock karo
                 if(msgBox) {
-                    msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found! Please enter Student & Father Name.';
+                    msgBox.innerHTML = '<i class="fas fa-check"></i> Record Found! Please fill details.';
                     msgBox.className = "field-msg msg-success";
                 }
                 unlockManualFields();
@@ -376,14 +383,20 @@ async function autoFetchQRResult(sid, isAuto = false) {
             }
         }
     } catch (e) {
-        console.error("Error:", e);
-        alert("Server Error! Check Internet.");
+        console.error(e);
+        alert("Server Error!");
     } finally {
         if(typeof showLoading === "function") showLoading(false);
     }
 }
 
-// 2. Unlock Fields Logic
+// 3. Error Fix: fetchRollData is not defined
+function fetchRollData() {
+    const val = document.getElementById('v-roll').value.trim();
+    if(val) autoFetchQRResult(val, false);
+}
+
+// 4. फील्ड्स अनलॉक करने का लॉजिक
 function unlockManualFields() {
     const detailsSec = document.getElementById('details-section');
     if (detailsSec) {
@@ -391,42 +404,39 @@ function unlockManualFields() {
         detailsSec.style.opacity = "1";
         detailsSec.style.pointerEvents = "all";
     }
-    // Inputs enable karein
-    ['v-name', 'v-father'].forEach(id => {
-        const el = document.getElementById(id);
-        if(el) el.disabled = false;
-    });
+    // नाम और पिता का नाम इनेबल करें
+    const n = document.getElementById('v-name');
+    const f = document.getElementById('v-father');
+    if(n) n.disabled = false;
+    if(f) f.disabled = false;
 }
 
-// 3. Manual View Button
+// 5. मैन्युअल बटन क्लिक
 function handleManualSubmit() {
     const n = document.getElementById('v-name').value.trim();
     const f = document.getElementById('v-father').value.trim();
     if(n && f) {
         showFinalResult();
     } else {
-        alert("Please enter Name and Father Name");
+        alert("Please enter Name and Father's Name");
     }
 }
 
-// 4. Show Result (Mother's Name aur Course Fix)
+// 6. रिजल्ट डिस्प्ले (Mother & Course Fix)
 function showFinalResult() {
     if (!fetchedData) return;
 
-    // Sections toggle
     document.getElementById('input-section').style.display = "none";
     document.getElementById('result-display').style.display = "block";
 
-    // Data Mapping (Backup keys ke saath)
-    document.getElementById('res-roll').innerText = fetchedData.Roll || fetchedData.RollNo || "";
+    // डेटा मैपिंग
+    document.getElementById('res-roll').innerText = fetchedData.Roll || "";
     document.getElementById('res-name').innerText = fetchedData.Name || "";
-    document.getElementById('res-father').innerText = fetchedData.Father || fetchedData.FatherName || "";
-    
-    // Mother's Name aur Course Name - Check karein ki Sheet mein column heading yahi hai
-    document.getElementById('res-mother').innerText = fetchedData.Mother || fetchedData.MotherName || "N/A";
-    document.getElementById('res-course').innerText = fetchedData.Course || fetchedData.CourseName || "N/A";
+    document.getElementById('res-father').innerText = fetchedData.Father || "";
+    document.getElementById('res-mother').innerText = fetchedData.Mother || "N/A";
+    document.getElementById('res-course').innerText = fetchedData.Course || "N/A";
 
-    // Photo Fix
+    // फोटो
     const photoImg = document.getElementById('res-photo');
     if (photoImg && fetchedData.Photo) {
         let pUrl = fetchedData.Photo;
@@ -436,7 +446,7 @@ function showFinalResult() {
         photoImg.src = pUrl;
     }
 
-    // Table Marks
+    // मार्क्स टेबल
     let html = "";
     for(let i=1; i<=8; i++) {
         let s = fetchedData["Sub"+i], m = fetchedData["Mark"+i];
@@ -447,7 +457,7 @@ function showFinalResult() {
     document.getElementById('marks-body-final').innerHTML = html;
 }
 
-// 5. QR Scanner (Isme direct result khulega)
+// 7. QR Scanner (Direct Result)
 function startQRScanner() {
     const readerDiv = document.getElementById('reader');
     readerDiv.style.display = 'block';
@@ -459,28 +469,22 @@ function startQRScanner() {
         (decodedText) => {
             html5QrCode.stop().then(() => {
                 readerDiv.style.display = 'none';
-                console.log("Scanned Text:", decodedText);
-                
                 let sid = decodedText;
                 try {
                     const url = new URL(decodedText);
-                    sid = url.searchParams.get("StudentID") || url.searchParams.get("RollNo") || url.searchParams.get("roll") || decodedText;
+                    sid = url.searchParams.get("StudentID") || url.searchParams.get("RollNo") || decodedText;
                 } catch(e) {}
-                
-                // TRUE matlab QR se direct result khulega
-                autoFetchQRResult(sid, true); 
+                autoFetchQRResult(sid, true); // QR से डायरेक्ट खुलेगा
             });
         }
-    ).catch(err => alert("Camera Error: " + err));
+    ).catch(err => alert("Camera Error"));
 }
 
-// URL Auto-check
 window.onload = function() {
     const p = new URLSearchParams(window.location.search);
-    const s = p.get("StudentID") || p.get("RollNo") || p.get("roll");
+    const s = p.get("StudentID") || p.get("RollNo");
     if(s) autoFetchQRResult(s, true);
 };
-</script>
 </script>
 </body>
 </html>
