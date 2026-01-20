@@ -340,32 +340,38 @@
 
     </div>
 
-   <script>
+ <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlUjEgOJhqnHm9b8oiXMf4fS4qf_rd7rCs6s_wdIx6RQL5iGclqVROtqnm6Ot7-zlh/exec"; 
 let fetchedData = null;
 
-  // Tabs Logic
-        function switchTab(mode) {
-            const tabs = document.querySelectorAll('.tab');
-            const contents = document.querySelectorAll('.tab-content');
-            
-            // Remove active classes
-            tabs[0].classList.remove('tab-active'); tabs[0].classList.add('tab-inactive');
-            tabs[1].classList.remove('tab-active'); tabs[1].classList.add('tab-inactive');
-            contents[0].classList.remove('active');
-            contents[1].classList.remove('active');
+// लोडिंग दिखाने के लिए फंक्शन (अगर पहले से नहीं है)
+function showLoading(status) {
+    const msgBox = document.getElementById('msg-roll');
+    if (status) {
+        if(msgBox) msgBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    }
+}
 
-            if(mode === 'qr') {
-                tabs[0].classList.add('tab-active'); tabs[0].classList.remove('tab-inactive');
-                contents[0].classList.add('active');
-            } else {
-                tabs[1].classList.add('tab-active'); tabs[1].classList.remove('tab-inactive');
-                contents[1].classList.add('active');
-            }
-        }
+// Tabs Logic
+function switchTab(mode) {
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+    
+    tabs[0].classList.remove('tab-active'); tabs[0].classList.add('tab-inactive');
+    tabs[1].classList.remove('tab-active'); tabs[1].classList.add('tab-inactive');
+    contents[0].classList.remove('active');
+    contents[1].classList.remove('active');
 
+    if(mode === 'qr') {
+        tabs[0].classList.add('tab-active'); tabs[0].classList.remove('tab-inactive');
+        contents[0].classList.add('active');
+    } else {
+        tabs[1].classList.add('tab-active'); tabs[1].classList.remove('tab-inactive');
+        contents[1].classList.add('active');
+    }
+}
 
-// ---------------- FETCH DATA ----------------
+// ---------------- FETCH DATA (Manual Roll No) ----------------
 async function fetchRollData() {
     const rollInput = document.getElementById('v-roll');
     const msgBox = document.getElementById('msg-roll');
@@ -394,13 +400,11 @@ async function fetchRollData() {
             document.getElementById('v-father').disabled = false;
             document.getElementById('v-mother').disabled = false;
             document.getElementById('v-course').disabled = false;
-
-            
         } else {
             throw "Not Found";
         }
     } catch (e) {
-        msgBox.innerHTML = '<i class="fas fa-times"></i> Record Not Found / Script Error';
+        msgBox.innerHTML = '<i class="fas fa-times"></i> Record Not Found';
         msgBox.className = "field-msg msg-error";
         rollInput.disabled = false;
         rollInput.classList.add('invalid');
@@ -414,14 +418,12 @@ function showFinalResult() {
     document.getElementById('input-section').style.display = "none";
     document.getElementById('result-display').style.display = "block";
 
-    // ऊपरी जानकारी
     document.getElementById('res-roll').innerText = fetchedData.Roll || "";
     document.getElementById('res-name').innerText = fetchedData.Name || "";
     document.getElementById('res-father').innerText = fetchedData.Father || "";
     document.getElementById('res-mother').innerText = fetchedData.Mother || "";
     document.getElementById('res-course').innerText = fetchedData.Course || "";
 
-    // नई टेबल में डेटा भरने का लॉजिक
     let marksHtml = "";
     for(let i = 1; i <= 8; i++) {
         let subName = fetchedData["Sub" + i];
@@ -438,38 +440,32 @@ function showFinalResult() {
         }
     }
     
-    // डेटा को टेबल में सेट करना
     document.getElementById('marks-body-final').innerHTML = marksHtml;
     document.getElementById('res-total-final').innerText = fetchedData.Total || "0";
     document.getElementById('res-grade-final').innerText = fetchedData.Grade || "";
-    // फोटो सेट करना
-if (fetchedData.Photo) {
-  const img = document.getElementById('res-photo');
-  img.src = fetchedData.Photo.includes("id=") ? 
-            "https://drive.google.com/thumbnail?id=" + fetchedData.Photo.split("id=")[1].split("&")[0] : 
-            fetchedData.Photo;
-}
-// ---------------- QR & AUTO VERIFY LOGIC ----------------
 
-window.onload = function () {
-  const params = new URLSearchParams(window.location.search);
-  const action = params.get("Action");
-  const rollNo = params.get("RollNo");
-  const studentID = params.get("StudentID") || params.get("id");
-
-  if (rollNo) {
-    document.getElementById("v-roll").value = rollNo;
-    autoFetchQRResult(rollNo);
-  } else if (studentID) {
-    document.getElementById("v-roll").value = studentID;
-    if (action === "VERIFY") {
-      autoFetchQRResult(studentID);
-    } else {
-      fetchRollData();
+    if (fetchedData.Photo) {
+        const img = document.getElementById('res-photo');
+        img.src = fetchedData.Photo.includes("id=") ? 
+                  "https://drive.google.com/thumbnail?id=" + fetchedData.Photo.split("id=")[1].split("&")[0] : 
+                  fetchedData.Photo;
     }
-  }
+}
+
+// ---------------- QR & AUTO VERIFY LOGIC ----------------
+window.onload = function () {
+    const params = new URLSearchParams(window.location.search);
+    const action = params.get("Action");
+    const rollNo = params.get("RollNo");
+    const studentID = params.get("StudentID") || params.get("id");
+
+    if (rollNo) {
+        autoFetchQRResult(rollNo);
+    } else if (studentID) {
+        autoFetchQRResult(studentID);
+    }
 };
-// QR स्कैन के लिए स्पेशल फंक्शन (Direct Result)
+
 async function autoFetchQRResult(sid) {
     showLoading(true);
     try {
@@ -478,7 +474,6 @@ async function autoFetchQRResult(sid) {
         
         if (result.Success) {
             fetchedData = result.Data;
-            // सीधे मार्कशीट (Professional Table) दिखाएं
             showFinalResult(); 
         } else {
             alert("QR Record not found!");
@@ -490,62 +485,11 @@ async function autoFetchQRResult(sid) {
     }
 }
 
-// बाकी के पुराने फंक्शन्स (मैचिंग के लिए)
-function validateField(input, fieldKey) {
-    if (!fetchedData) return;
-    const userVal = input.value.trim().toLowerCase();
-    const key = fieldKey.toLowerCase();
-    let dbVal = "";
-    if (key === "name") dbVal = fetchedData.Name;
-    if (key === "father") dbVal = fetchedData.Father;
-    if (key === "mother") dbVal = fetchedData.Mother;
-    if (key === "course") dbVal = fetchedData.Course;
-
-    const correctVal = (dbVal || "").toString().trim().toLowerCase();
-    const msgBox = document.getElementById("msg-" + key);
-
-    if (userVal === "") {
-        input.classList.remove("valid", "invalid");
-        msgBox.innerHTML = "";
-        return;
-    }
-    if (userVal === correctVal) {
-        input.classList.add("valid");
-        input.classList.remove("invalid");
-        msgBox.innerHTML = "✔ Match";
-        msgBox.className = "field-msg msg-success";
-    } else {
-        input.classList.add("invalid");
-        input.classList.remove("valid");
-        msgBox.innerHTML = "✖ Incorrect";
-        msgBox.className = "field-msg msg-error";
-    }
-    checkAllFields();
-}
-
-function checkAllFields() {
-    const nameOk   = document.getElementById('v-name').classList.contains('valid');
-    const fatherOk = document.getElementById('v-father').classList.contains('valid');
-    const motherOk = document.getElementById('v-mother').classList.contains('valid');
-    const courseOk = document.getElementById('v-course').classList.contains('valid');
-    const btn = document.getElementById('main-btn');
-
-    if (nameOk && fatherOk && motherOk && courseOk) {
-        btn.disabled = false;
-        btn.style.opacity = "1";
-        btn.style.pointerEvents = "auto";
-    } else {
-        btn.disabled = true;
-        btn.style.opacity = "0.5";
-        btn.style.pointerEvents = "none";
-    }
-}
-// 1. कैमरा शुरू करने का फंक्शन
+// QR Scanner Logic
 function startQRScanner() {
     const readerDiv = document.getElementById('reader');
-    const scanBtn = document.getElementById('open-scanner-btn'); // बटन की ID
+    const scanBtn = document.getElementById('open-scanner-btn');
 
-    // बटन को थोड़ा धुंधला करें ताकि पता चले कि प्रोसेस शुरू हो गया है
     if(scanBtn) {
         scanBtn.style.opacity = "0.5";
         scanBtn.style.pointerEvents = "none";
@@ -557,8 +501,6 @@ function startQRScanner() {
     const qrCodeSuccessCallback = (decodedText) => {
         html5QrCode.stop().then(() => {
             readerDiv.style.display = 'none';
-            
-            // बटन को वापस चालू (Enable) करें
             if(scanBtn) {
                 scanBtn.style.opacity = "1";
                 scanBtn.style.pointerEvents = "auto";
@@ -566,56 +508,27 @@ function startQRScanner() {
             
             try {
                 const url = new URL(decodedText);
-                const studentID = url.searchParams.get("StudentID");
-                
+                const studentID = url.searchParams.get("StudentID") || url.searchParams.get("RollNo");
                 if (studentID) {
-                    autoFetchQRResult(studentID); // डेटा लाकर टेबल दिखाएगा
+                    autoFetchQRResult(studentID);
                 } else {
-                    alert("इस QR में Student ID नहीं मिली!");
+                    alert("ID not found in QR!");
                 }
             } catch (e) {
-                alert("यह सही वेरिफिकेशन QR नहीं है।");
+                // अगर QR टेक्स्ट है, URL नहीं
+                autoFetchQRResult(decodedText);
             }
         });
     };
 
-    const config = { fps: 15, qrbox: { width: 250, height: 250 } };
-
     html5QrCode.start(
-    { facingMode: "environment" }, // यह पीछे का कैमरा मांगेगा
-    { fps: 15, qrbox: { width: 250, height: 250 } }, 
-    qrCodeSuccessCallback
-)
-.catch((err) => {
-    console.error(err);
-    alert("कैमरा परमिशन नहीं मिली! कृपया ब्राउज़र सेटिंग में जाकर 'Allow' करें।");
-    readerDiv.style.display = 'none';
-    if(scanBtn) {
-        scanBtn.style.opacity = "1";
-        scanBtn.style.pointerEvents = "auto";
-    }
-});
-}
-
-// 2. स्कैन होने के बाद डेटा लोड करने वाला फंक्शन
-async function autoFetchQRResult(sid) {
-    if (typeof showLoading === "function") showLoading(true);
-    try {
-        const response = await fetch(`${SCRIPT_URL}?Action=VERIFY&StudentID=${sid}`);
-        const result = await response.json();
-        
-        if (result.Success) {
-            fetchedData = result.Data;
-            // यह आपके द्वारा मांगी गई तीसरी फोटो (Verified Record) दिखाएगा
-            showFinalResult(); 
-        } else {
-            alert("डेटाबेस में कोई रिकॉर्ड नहीं मिला!");
-        }
-    } catch (e) {
-        alert("सर्वर से संपर्क नहीं हो पाया!");
-    } finally {
-        if (typeof showLoading === "function") showLoading(false);
-    }
+        { facingMode: "environment" }, 
+        { fps: 15, qrbox: { width: 250, height: 250 } }, 
+        qrCodeSuccessCallback
+    ).catch((err) => {
+        alert("Camera Error!");
+        readerDiv.style.display = 'none';
+    });
 }
 </script>
 </body>
