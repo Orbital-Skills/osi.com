@@ -251,7 +251,7 @@
                         <small id="msg-roll" class="field-msg"></small>
                     </div>
 
-                    <!-- Step 2: Other Details (Initially Disabled) -->
+                     <!-- Step 2: Other Details (Initially Disabled) -->
                     <div id="details-section" style="opacity: 0.5; pointer-events: none;">
                         <div class="row">
                             <div class="col input-group">
@@ -285,6 +285,53 @@
                         VERIFY RECORD <i class="fas fa-arrow-right" style="margin-left:5px;"></i>
                     </button>
                 </div>
+
+                <!-- RESULTS DISPLAY -->
+                <div id="result-display" class="result-box">
+                    <div class="success-badge">
+                        <i class="fas fa-check-circle"></i> VERIFIED STUDENT RECORD
+                    </div>
+ <!-- Step 2: Other Details (Initially Disabled) -->
+                    <div id="details-section" style="opacity: 0.5; pointer-events: none;">
+                        <div class="row">
+                            <div class="col input-group">
+                                <label>Student Name</label>
+                                <input type="text" id="v-name" placeholder="Full Name" onkeyup="validateField(this, 'name')" disabled>
+                                <small id="msg-name" class="field-msg"></small>
+                            </div>
+                            <div class="col input-group">
+                                <label>Father's Name</label>
+                                <input type="text" id="v-father" placeholder="Father Name" onkeyup="validateField(this, 'father')" disabled>
+                                <small id="msg-father" class="field-msg"></small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col input-group">
+                                <label>Mother's Name</label>
+                                <input type="text" id="v-mother" placeholder="Mother Name" onkeyup="validateField(this, 'mother')" disabled>
+                                <small id="msg-mother" class="field-msg"></small>
+                            </div>
+                            <div class="col input-group">
+                                <label>Course Name</label>
+                                <input type="text" id="v-course" placeholder="Applied Course" onkeyup="validateField(this, 'course')" disabled>
+                                <small id="msg-course" class="field-msg"></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button (Enabled only when all fields match) -->
+                    <button id="main-btn" class="verify-btn" onclick="showFinalResult()">
+                        VERIFY RECORD <i class="fas fa-arrow-right" style="margin-left:5px;"></i>
+                    </button>
+                </div>
+
+                <!-- RESULTS DISPLAY -->
+                <div id="result-display" class="result-box">
+                    <div class="success-badge">
+                        <i class="fas fa-check-circle"></i> VERIFIED STUDENT RECORD
+                    </div>
+
 
                 <!-- RESULTS DISPLAY -->
                 <div id="result-display" class="result-box">
