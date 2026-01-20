@@ -484,29 +484,32 @@ function showFinalResult(){
 function startQRScanner(){
     isQRMode = true;
     switchTab("qr");
-    document.getElementById("reader").style.display="block";
+
+    const readerDiv = document.getElementById("reader");
+    readerDiv.style.display = "block";
 
     const qr = new Html5Qrcode("reader");
+
     qr.start(
-        {facingMode:"environment"},
-        {fps:10,qrbox:250},
-        (txt)=>{
-            qr.stop();
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (decodedText) => {
+            qr.stop().then(() => {
+                readerDiv.style.display = "none";
 
-            try{
-                const u = new URL(txt);
-                const sid = u.searchParams.get("StudentID") || 
-                            u.searchParams.get("RollNo") || 
-                            u.searchParams.get("roll");
-
-                // QR hai isliye manual tab par result dikhao
+                // Result दिखाने के लिए manual tab पर आओ
                 switchTab("manual");
-                autoFetchQRResult(sid || txt);
 
-            }catch{
-                switchTab("manual");
-                autoFetchQRResult(txt);
-            }
+                try {
+                    const u = new URL(decodedText);
+                    const sid = u.searchParams.get("StudentID") || 
+                                u.searchParams.get("RollNo") || 
+                                u.searchParams.get("roll");
+                    autoFetchQRResult(sid || decodedText);
+                } catch (e) {
+                    autoFetchQRResult(decodedText);
+                }
+            });
         }
     );
 }
