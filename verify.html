@@ -535,6 +535,15 @@ function enableManualFields() {
         el.removeAttribute("disabled");
     });
 }
+window.onload = function () {
+    const params = new URLSearchParams(window.location.search);
+    const sid = params.get("StudentID") || params.get("RollNo") || params.get("roll");
+
+    if (sid) {
+        isQRMode = true;          // Direct mode
+        autoFetchQRResult(sid);  // अपने आप verify
+    }
+};
 
 </script>
 
