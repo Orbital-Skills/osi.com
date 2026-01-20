@@ -232,7 +232,7 @@
         <h3 style="color:#555;">Scan QR Code</h3>
         <p>Use your camera to scan the QR code on the certificate.</p>
         
-        <div id="reader" style="width: 100%; max-width: 400px; margin: 10px auto; display: none; border: 2px solid #6a1b9a; border-radius: 10px;"></div>
+        <div id="reader" style="width: 100%; max-width: 400px; margin: 10px auto; height: 0; overflow: hidden; border: 2px solid #6a1b9a; border-radius: 10px;"></div>
 
         <button id="open-scanner-btn" onclick="startQRScanner()" class="verify-btn active-btn" style="background:#455a64;">
             <i class="fas fa-camera"></i> OPEN SCANNER
@@ -485,14 +485,11 @@ let html5QrCode = null;
 
 function startQRScanner() {
     isQRMode = true;
-
-    // पहले manual tab से बाहर, QR tab खोलो
     switchTab("qr");
 
     const readerDiv = document.getElementById("reader");
-    readerDiv.style.display = "block";
+    readerDiv.style.height = "300px";   // scanner दिखाओ
 
-    // अगर पहले से instance है तो stop करो
     if (html5QrCode) {
         html5QrCode.stop().catch(()=>{});
     }
@@ -500,34 +497,29 @@ function startQRScanner() {
     html5QrCode = new Html5Qrcode("reader");
 
     html5QrCode.start(
-        { facingMode: "environment" }, // back camera
+        { facingMode: { exact: "environment" } },
         { fps: 10, qrbox: 250 },
         (decodedText) => {
-            // Scan होते ही कैमरा बंद
             html5QrCode.stop().then(() => {
-                readerDiv.style.display = "none";
+                readerDiv.style.height = "0px"; // scanner बंद
 
-                // Result दिखाने के लिए manual tab पर ले आओ
-                switchTab("manual");
+                switchTab("manual"); // result manual tab में दिखाओ
 
                 try {
                     const url = new URL(decodedText);
-                    const sid =
-                        url.searchParams.get("StudentID") ||
-                        url.searchParams.get("RollNo") ||
-                        url.searchParams.get("roll");
+                    const sid = url.searchParams.get("StudentID") ||
+                                url.searchParams.get("RollNo") ||
+                                url.searchParams.get("roll");
 
                     autoFetchQRResult(sid || decodedText);
-                } catch (e) {
+                } catch {
                     autoFetchQRResult(decodedText);
                 }
             });
-        },
-        (err) => {
-            // mobile में continuous errors आते हैं, ignore
         }
     );
 }
+
 
 // Enable manual block
 function enableManualFields() {
