@@ -407,13 +407,12 @@
 
             </div>
         </div>
-    </div>
-
+   
   <script>
     // --- CONFIGURATION ---
     const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzW1S5oEFLE4Tyt0ys5LZ5w91yIZjMIeSBLFYOpOfd7u7hw8jaPmayzDt25kItJ-hYB/exec";
-			        
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkXyKeFjH1tyHeg2v60RtLbM0lYHWr5E8C18UdwN3tD2SyzC5Cmw8TkGa7wtTWNDBh/exec";
+			
     // --- INITIALIZATION ---
     try { firebase.initializeApp(firebaseConfig); } catch(e) { console.error(e); }
     const auth = firebase.auth();
@@ -624,70 +623,76 @@
     // --- 2. DATA SAVING FUNCTION (Updated) ---
     async function submitToGoogleSheet() {
         const btn = document.getElementById('btn-proceed');
-        btn.innerText = "Saving New Record..."; 
+        btn.innerText = "Saving Data & Uploading Photo...";
         btn.disabled = true;
 
-        // Step 1: Nayi Unique ID Le Aao
-        const sId = getOrCreateStudentID();
+        let sId = localStorage.getItem("StudentID");
+        if (!sId) sId = getOrCreateStudentID();
+
+        const val = (id) => document.getElementById(id) ? document.getElementById(id).value : "";
+
+        const formData = {
+            Action: "FULL_SAVE",
+            StudentID: sId,
+            
+            // Personal & Address Details
+            FullName: val('dash-name'),
+            FatherName: val('dash-father'),
+            MotherName: val('dash-mother'),
+            SpouseName: val('dash-spouse'),
+            DOB: val('dash-dob'),
+            Gender: val('dash-gender'),
+            MaritalStatus: val('dash-marital'),
+            Caste: val('dash-caste'),
+            Religion: val('dash-religion'),
+            Aadhaar: val('dash-aadhaar'),
+            VoterID: val('dash-voter'),
+            Mobile: val('dash-mobile'),
+            Email: val('dash-email'),
+            Address: val('addr-full'),
+            State: val('addr-state'),
+            District: val('addr-district'),
+            Tehsil: val('addr-tehsil'),
+            City: val('addr-city'),
+            Block: val('addr-block'),
+            Pincode: val('addr-pin'),
+            PermanentAddress: val('perm-full'),
+            PermanentState: val('perm-state'),
+            PermanentDistrict: val('perm-district'),
+            PermanentTehsil: val('perm-tehsil'),
+            PermanentCity: val('perm-city'),
+            PermanentBlock: val('perm-block'),
+            PermanentPincode: val('perm-pin'),
+
+            // Exam Details
+            ExamState: val('exam-state'),
+            ExamMode: val('exam-mode'),
+            DomicileNo: val('exam-domicile'),
+            ExamCenterChoice: val('exam-center'),
+            DomicileDate: val('exam-domicile-date'),
+            ExamType: val('exam-type'),
+            Qualification: val('qual-class'),
+
+            Course: "Pending Selection",
+            
+            // PHOTO DATA (Important for Drive Upload)
+            // currentPhotos object se data le rahe hain
+            PhotoBase64: currentPhotos.photoBase64 || "", 
+            
+            // Initial Status
+            status: "Pending"
+        };
 
         try {
-            const formData = {
-                Action: "FULL_SAVE",
-                StudentID: sId,
-                FullName: document.getElementById('dash-name').value,
-                FatherName: document.getElementById('dash-father').value,
-                MotherName: document.getElementById('dash-mother').value,
-                SpouseName: document.getElementById('dash-spouse').value,
-                DOB: document.getElementById('dash-dob').value,
-                Gender: document.getElementById('dash-gender').value,
-                MaritalStatus: document.getElementById('dash-marital').value,
-                Caste: document.getElementById('dash-caste').value,
-                Religion: document.getElementById('dash-religion').value,
-                Aadhaar: document.getElementById('dash-aadhaar').value,
-                VoterID: document.getElementById('dash-voter').value,
-                Mobile: document.getElementById('dash-mobile').value,
-                Email: document.getElementById('dash-email').value,
-                
-                Address: document.getElementById('addr-full').value,
-                State: document.getElementById('addr-state').value,
-                District: document.getElementById('addr-district').value,
-                Tehsil: document.getElementById('addr-tehsil').value,
-                City: document.getElementById('addr-city').value,
-                Block: document.getElementById('addr-block').value,
-                Pincode: document.getElementById('addr-pin').value,
-
-                PermanentAddress: document.getElementById('perm-full').value,
-                PermanentState: document.getElementById('perm-state').value,
-                PermanentDistrict: document.getElementById('perm-district').value,
-                PermanentTehsil: document.getElementById('perm-tehsil').value,
-                PermanentCity: document.getElementById('perm-city').value,
-                PermanentBlock: document.getElementById('perm-block').value,
-                PermanentPincode: document.getElementById('perm-pin').value,
-
-                ExamState: document.getElementById('exam-state').value,
-                ExamMode: document.getElementById('exam-mode').value,
-                DomicileNo: document.getElementById('exam-domicile').value,
-                ExamCenterChoice: document.getElementById('exam-center').value,
-                DomicileDate: document.getElementById('exam-domicile-date').value,
-                ExamType: document.getElementById('exam-type').value,
-
-                // Fix: Empty Course Problem
-                Course: "Pending Selection", 
-                Qualification: document.getElementById('qual-class').value,
-                PhotoBase64: currentPhotos.photoBase64 || "",
-                PhotoMime: "image/jpeg",
-                PhotoFilename: "photo.jpg"
-            };
-
             await fetch(SCRIPT_URL, { 
                 method: "POST", 
-                mode: "no-cors", 
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData) 
             });
-
-            alert("New Record Added! ID: " + sId);
+            
+            alert("Data Saved & Photo Uploaded! Now Select a Course.");
             showPage('courses');
-
         } catch(e) {
             alert("Error: " + e.message);
         } finally {
@@ -712,7 +717,6 @@
 
         fetch(SCRIPT_URL, {
             method: "POST",
-            mode: "no-cors",
             body: JSON.stringify({
                 Action: "UPDATE_COURSE",
                 StudentID: sId,
@@ -738,6 +742,7 @@
 
         auth.createUserWithEmailAndPassword(email, pass).then(c => {
             db.collection("students").doc(c.user.uid).set({
+		studentID: getOrCreateStudentID(),
                 name: document.getElementById('reg-name').value,
                 father: document.getElementById('reg-father').value,
                 mother: document.getElementById('reg-mother').value,
@@ -775,7 +780,9 @@
                 console.log("Checking status for ID:", idToCheck);
                 fetchStatus(idToCheck); 
             }
-    
+   
+ // --- 1. PERSONAL DETAILS FILLING ---
+
                 document.getElementById('dash-name').value = data.name || '';
                 document.getElementById('dash-father').value = data.father || '';
                 document.getElementById('dash-mother').value = data.mother || '';
@@ -790,6 +797,8 @@
                 if(data.area) document.getElementById('dash-area').value = data.area;
                 if(data.aadhaar) {
                     document.getElementById('dash-aadhaar').value = data.aadhaar;
+// Aadhaar Validate function agar hai to call karein, nahi to skip
+                if(typeof checkAadharValid === "function") 
                     checkAadharValid(); // Re-validate visual on load
                 }
                 if(data.voterId) document.getElementById('dash-voter').value = data.voterId;
@@ -803,6 +812,7 @@
                 if(data.addrBlock) document.getElementById('addr-block').value = data.addrBlock;
                 if(data.pincode) document.getElementById('addr-pin').value = data.pincode;
                 
+  	// --- 3. PERMANENT ADDRESS ---
                 if(data.permAddress) document.getElementById('perm-full').value = data.permAddress;
                 if(data.permState) document.getElementById('perm-state').value = data.permState;
                 if(data.permDistrict) document.getElementById('perm-district').value = data.permDistrict;
@@ -811,6 +821,7 @@
                 if(data.permBlock) document.getElementById('perm-block').value = data.permBlock;
                 if(data.permPin) document.getElementById('perm-pin').value = data.permPin;
 
+	// --- 4. EXAMINATION DETAILS ---
                 if(data.examState) document.getElementById('exam-state').value = data.examState;
                 if(data.examMode) document.getElementById('exam-mode').value = data.examMode;
                 if(data.examCenter) document.getElementById('exam-center').value = data.examCenter;
@@ -818,6 +829,7 @@
                 if(data.domicile) document.getElementById('exam-domicile').value = data.domicile;
                 if(data.domicileDate) document.getElementById('exam-domicile-date').value = data.domicileDate;
 
+	 // --- 5. QUALIFICATION DETAILS ---
                 if(data.qualClass) document.getElementById('qual-class').value = data.qualClass;
                 if(data.qualBoard) document.getElementById('qual-board').value = data.qualBoard;
                 if(data.qualYear) document.getElementById('qual-year').value = data.qualYear;
@@ -828,6 +840,7 @@
                     document.getElementById('qual-doc-status').style.display = 'block';
                 }
 
+	// --- 6. PHOTOS ---
                 if(data.photoData) {
                     currentPhotos = data.photoData;
                     if(currentPhotos.photoBase64) document.getElementById('preview-photo').innerHTML = '<img src="'+currentPhotos.photoBase64+'" class="photo-img">';
@@ -836,13 +849,24 @@
             }
         }).catch(err => {
             console.error(err);
-            // Even on error, show dashboard for now
+     // Even on error, show dashboard for now
             document.getElementById('login-page').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
         });
     }
 
-    function logout() { auth.signOut().then(() => window.location.reload()); }
+	// --- 7. LogOut ---
+function logout() { 
+        // Purani ID delete karein taaki naye student ke liye nayi Row bane
+        localStorage.removeItem("StudentID");
+        localStorage.clear(); // Sab kuch saaf karein
+        
+        auth.signOut().then(() => {
+            alert("Logged Out! Now you can register a New Student.");
+            window.location.reload();
+        });
+    }
+    // --- 8. PageShow ---
     function showPage(pid) {
         ['personal','exam','preview','courses'].forEach(id => {
             const el = document.getElementById('page-'+id);
@@ -855,8 +879,11 @@
         const target = document.getElementById('page-'+pid);
         if(target) target.classList.remove('hidden');
     }
+
+	// --- 9. Preview ---
     function showPreview() { populatePreview(); showPage('preview'); }
     
+	// --- 10. Co Address ---
     function copyAddress() {
         if(document.getElementById('chk-same').checked) {
             document.getElementById('perm-full').value = document.getElementById('addr-full').value;
@@ -875,7 +902,7 @@
             document.getElementById('perm-pin').value = ""; 
         }
     }
-    
+   // --- 11. Row Add --- 
     function addRow() { 
         const t = document.getElementById('qualifying-table').getElementsByTagName('tbody')[0]; 
         const r = t.rows[0].cloneNode(true); 
@@ -883,7 +910,7 @@
         t.appendChild(r); 
     }
 
-    // --- AADHAAR VERIFICATION ---
+    // --- 12. Check AADHAAR VERIFICATION ---
     const d_table = [
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
         [2, 3, 4, 0, 1, 7, 8, 9, 5, 6], [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
@@ -930,7 +957,7 @@
         }
     }
 
-    // --- WINDOW LOAD & LISTENERS ---
+    // --- 13. WINDOW LOAD & LISTENERS ---
     window.onload = function() {
         generateCaptcha();
         
@@ -957,7 +984,7 @@
             }
         });
     }
-// --- GLOBAL STATUS VARIABLE ---
+	// --- 14. GLOBAL STATUS VARIABLE ---
 let studentStatus = { 
     loaded: false, 
     admit: "", admitDate: null,
@@ -965,8 +992,8 @@ let studentStatus = {
     cert: "", certDate: null
 };
 
-// --- 1. FETCH STATUS ON LOGIN ---
-// Is function ko 'loadData' ke andar call karna hai (jahan login success hota hai)
+		// --- A. FETCH STATUS ON LOGIN ---
+	// Is function ko 'loadData' ke andar call karna hai (jahan login success hota hai)
 async function fetchStatus(studentID) {
     console.log("Fetching status...");
     try {
@@ -988,14 +1015,14 @@ async function fetchStatus(studentID) {
     } catch(e) { console.error("Status fetch fail", e); }
 }
 
-// --- 2. HANDLE NAV CLICKS ---
+		// --- B. HANDLE NAV CLICKS ---
 function handleNavClick(type) {
     if (!studentStatus.loaded) { alert("Data Loading... Please wait."); return; }
 
     const today = new Date();
     const TWO_MONTHS = 60 * 24 * 60 * 60 * 1000; // ~60 Days in ms
 
-    // --- ADMIT CARD LOGIC ---
+    		// --- C. ADMIT CARD LOGIC ---
     if (type === 'ADMIT') {
         if (!studentStatus.admit || studentStatus.admit === "") {
             alert("🚫 Admit Card अभी जनरेट नहीं हुआ है।\nकृपया परीक्षा तिथि के पास चेक करें।");
@@ -1009,7 +1036,7 @@ function handleNavClick(type) {
         window.open(studentStatus.admit, '_blank');
     }
 
-    // --- RESULT LOGIC ---
+    		// --- D. RESULT LOGIC ---
     if (type === 'RESULT') {
         if (studentStatus.resultMarks === 0) {
             alert("🚫 परिणाम अभी घोषित नहीं हुआ है (Not Declared Yet)।");
@@ -1024,7 +1051,7 @@ function handleNavClick(type) {
         alert(`✅ CONGRATULATIONS!\n\nYour Result is Declared.\nTotal Marks: ${studentStatus.resultMarks}\nStatus: PASS`);
     }
 
-    // --- CERTIFICATE LOGIC (Forever Valid) ---
+    		// --- E. CERTIFICATE LOGIC (Forever Valid) ---
     if (type === 'CERT') {
         if (!studentStatus.cert || studentStatus.cert === "") {
             alert("🚫 सर्टिफिकेट अभी जनरेट नहीं हुआ है।");
