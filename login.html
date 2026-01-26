@@ -370,7 +370,7 @@
     // --- CONFIGURATION ---
     const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
     // --- ENTER YOUR DEPLOYED SCRIPT URL HERE ---
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxj9BcCkDVLE9-Xtb-7UmkpZ7cQCSzhGd7RcC2t-LlUGgvrIgxFRKX2_8EYT7Ya4Lon/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw5NB2x7XBj6sQKW_SHpaxZgELAu-sJRx5f-z61sm1L9C-Etb3Ti-Al8jNxHgUvoytt/exec";
 			
     try { firebase.initializeApp(firebaseConfig); } catch(e) { console.error(e); }
     const auth = firebase.auth();
@@ -708,7 +708,7 @@
             exam_date: "15/02/2026",      // Matches 'exam_date'
             exam_shift: "Morning",        // Matches 'exam_shift'
             exam_time: "10:00 AM",        // Matches 'exam_time'
-            centre_code: "OSD-C01",       // Matches 'centre_code'
+            centre_code: "TC37802",       // Matches 'centre_code'
             centre_address: "Orbital Center, Fatehabad", // Matches 'centre_address'
             
             PhotoStatus: "Uploaded",      // Matches 'PhotoStatus'
@@ -876,14 +876,7 @@
 
 // yahan se form ko dobara enable krne ke lye htaye//
 
- isCourseLocked = true;
-                    populatePreview(); 
-                    document.getElementById('link-personal').classList.add('locked-link'); document.getElementById('link-personal').classList.remove('active', 'clickable');
-                    document.getElementById('link-exam').classList.add('locked-link'); document.getElementById('link-exam').classList.remove('clickable');
-                    document.getElementById('link-courses').classList.add('locked-link'); document.getElementById('link-courses').classList.remove('clickable');
-                    
-                    document.getElementById('btn-edit-preview').classList.add('hidden');
-                    document.getElementById('btn-proceed').classList.add('hidden');
+ 
 
 
 // yahn tk hatana h //
