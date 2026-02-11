@@ -324,9 +324,15 @@
                 <div id="page-preview" class="hidden">
                     <div id="course-fee-status-box" class="fee-status-box">
                         <h4 style="margin:0 0 10px 0; color:#337ab7; text-align:center;">COURSE & FEE DETAILS</h4>
-                        <div class="fee-row"><span class="fee-label">SELECTED COURSE:</span><span id="disp-course-name" style="font-weight:bold;"></span></div>
-                        <div class="fee-row"><span class="fee-label">COURSE FEE:</span><span id="disp-course-fee" style="font-weight:bold;"></span></div>
-                        <div class="fee-row"><span class="fee-label">PAYMENT STATUS:</span><span id="disp-payment-status"></span></div>
+
+<div class="fee-row"><span class="fee-label">Student ID: <span id="preview-student-id" style="color:#b30000;"></span>
+</div>
+
+<div class="fee-row"><span class="fee-label">SELECTED COURSE:</span><span id="disp-course-name" style="font-weight:bold;"></span></div>
+
+<div class="fee-row"><span class="fee-label">COURSE FEE:</span><span id="disp-course-fee" style="font-weight:bold;"></span></div>
+
+<div class="fee-row"><span class="fee-label">PAYMENT STATUS:</span><span id="disp-payment-status"></span></div>
                     </div>
                     <div class="status-container">
                         <div class="status-header">
@@ -584,6 +590,8 @@
 
     function populatePreview() {
         // Safe helper to avoid null errors
+document.getElementById("preview-student-id").innerText = getOrCreateStudentID();
+
         const safeSet = (tid, sid) => {
             const t = document.getElementById(tid);
             const s = document.getElementById(sid);
