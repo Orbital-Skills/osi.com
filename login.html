@@ -376,7 +376,7 @@
     // --- CONFIGURATION ---
     const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
     // --- ENTER YOUR DEPLOYED SCRIPT URL HERE ---
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlbPix4HA0LnOyNq3bPmSKtTcRlEiJOfyrIhJdwfKwbV_2fWc83G2iZbI3gTjW_GLVpw/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUr7i1M9CsjRfzdncI9oGwp03a3iKw1RV-EChgSfxb81hNp8va-7Ax8bAYSjFLw3djbg/exec";
 			
     try { firebase.initializeApp(firebaseConfig); } catch(e) { console.error(e); }
     const auth = firebase.auth();
@@ -973,33 +973,86 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
         auth.onAuthStateChanged(user => { if(user) loadData(user.uid); else { document.getElementById('login-page').classList.remove('hidden'); document.getElementById('dashboard-view').classList.add('hidden'); } });
     }
 
-    let studentStatus = { loaded: false, admit: "", resultMarks: 0, cert: "" };
+    // --- 1. GLOBAL VARIABLE (इसे सबसे ऊपर रखें) ---
+    // यह वेरिएबल डेटा स्टोर करेगा
+    var studentStatus = { 
+        loaded: false, 
+        admit: "", 
+        resultMarks: 0, 
+        cert: "" 
+    };
+
+    // --- 2. FETCH STATUS FUNCTION (Data lana) ---
     async function fetchStatus(studentID) {
+        if (!studentID) return;
+        console.log("Fetching status for:", studentID);
+
+        // Apps Script URL (सुनिश्चित करें कि यह सही है)
+        const requestUrl = `${SCRIPT_URL}?Action=FETCH_STATUS&StudentID=${encodeURIComponent(studentID)}`;
+        
         try {
-            const res = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ Action: "FETCH_STATUS", StudentID: studentID }) });
+            const res = await fetch(requestUrl);
             const d = await res.json();
+            
+            console.log("Server Response:", d); // कंसोल में डेटा चेक करें
+
             if (d.Found) {
-                studentStatus.loaded = true; studentStatus.admit = d.AdmitLink; studentStatus.admitDate = new Date(d.AdmitDate);
-                studentStatus.resultMarks = d.Marks; studentStatus.resultDate = new Date(d.ResultDate); studentStatus.cert = d.CertLink; studentStatus.certDate = new Date(d.CertDate);
+                // --- DATA MAPPING (सबसे जरूरी हिस्सा) ---
+                // Server से आए नाम (d.Marks) को हमारे वेरिएबल (studentStatus) में डालना
+                studentStatus.loaded = true;
+                studentStatus.admit = d.AdmitLink;       // Admit Card Link
+                studentStatus.resultMarks = d.Marks;     // Marks (567)
+                studentStatus.cert = d.CertLink;         // Certificate Link
+                
+                console.log("Status Updated Successfully:", studentStatus);
+            } else {
+                console.warn("Data Not Found for ID:", studentID);
             }
-        } catch(e) { console.error("Status fetch fail", e); }
+        } catch(e) { 
+            console.error("Fetch Error:", e); 
+        }
     }
+
+    // --- 3. HANDLE NAV CLICK (Button dabane par) ---
     function handleNavClick(type) {
-        if (!studentStatus.loaded) { alert("Data Loading... Please wait."); return; }
-        const today = new Date(); const TWO_MONTHS = 60 * 24 * 60 * 60 * 1000; 
+        // अगर डेटा लोड नहीं है, तो चेक करें
+        if (!studentStatus.loaded) {
+            // अगर अभी लोड नहीं हुआ, तो यूजर को बताएं और बैकग्राउंड में ट्राई करें
+             alert("⏳ Data Loading... Please wait 2 seconds and try again.");
+             let currentID = document.getElementById('preview-student-id').innerText || localStorage.getItem("StudentID");
+             if(currentID) fetchStatus(currentID);
+             return;
+        }
+
+        console.log("Button Clicked:", type, "Current Data:", studentStatus);
+
+        // --- A. ADMIT CARD ---
         if (type === 'ADMIT') {
-            if (!studentStatus.admit) return alert("🚫 Admit Card अभी जनरेट नहीं हुआ है।");
-            if ((today - studentStatus.admitDate) > TWO_MONTHS) return alert("⏳ LINK EXPIRED!");
-            window.open(studentStatus.admit, '_blank');
+            if (studentStatus.admit && studentStatus.admit.length > 5) {
+                window.open(studentStatus.admit, '_blank');
+            } else {
+                alert("🚫 Admit Card अभी जनरेट नहीं हुआ है।");
+            }
         }
+        
+        // --- B. RESULT ---
         if (type === 'RESULT') {
-            if (!studentStatus.resultMarks) return alert("🚫 परिणाम अभी घोषित नहीं हुआ है।");
-            if (studentStatus.resultDate && (today - studentStatus.resultDate) > TWO_MONTHS) return alert("⏳ RESULT LINK EXPIRED!");
-            alert(`✅ CONGRATULATIONS!\n\nYour Result is Declared.\nTotal Marks: ${studentStatus.resultMarks}\nStatus: PASS`);
+            // Marks check karein (Number ya String ho sakta hai isliye loose check)
+            if (studentStatus.resultMarks && studentStatus.resultMarks > 0) {
+                alert(`✅ CONGRATULATIONS!\n\nYour Result is Declared.\nTotal Marks: ${studentStatus.resultMarks} / 800\nStatus: PASS`);
+            } else {
+                alert("🚫 परिणाम अभी घोषित नहीं हुआ है (Marks Not Found).");
+            }
         }
+        
+        // --- C. CERTIFICATE ---
         if (type === 'CERT') {
-            if (!studentStatus.cert) return alert("🚫 सर्टिफिकेट अभी जनरेट नहीं हुआ है।");
-            window.open(studentStatus.cert, '_blank');
+            // Link check karein
+            if (studentStatus.cert && studentStatus.cert.length > 5) {
+                window.open(studentStatus.cert, '_blank');
+            } else {
+                alert("🚫 सर्टिफिकेट अभी जनरेट नहीं हुआ है।\n(Result Sheet में Link चेक करें)");
+            }
         }
     }
   </script>
