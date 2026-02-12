@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -195,7 +195,65 @@
             display: block;
             animation: slideDown 0.5s ease;
         }
-        
+         /* Footer */
+    .site-footer {
+      background: #0c1b32; color: #eaf2ff; border-top: 1px solid #15223b;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto; padding: 40px 16px 20px; display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 20px;
+    }
+    .footer-col h4 { margin: 0 0 8px; color: #fff; font-size: 1.1rem; }
+    .footer-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+    .footer-col a { color: #cfe2ff; transition: color .2s ease; }
+    .footer-col a:hover { color: #fff; }
+    .social-links { display: flex; gap: 10px; margin-top: 8px; }
+    .social-links a {
+      width: 38px; height: 38px; display: grid; place-items: center; border-radius: 8px; background: #162a4a; border: 1px solid #213a63;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .social-links a:hover { transform: translateY(-2px); background: #1b3459; }
+    .copyright {
+      border-top: 1px solid #15223b; margin-top: 14px; padding-top: 14px; text-align: center; color: #88a5d0; font-size: 0.9rem;
+    }
+
+    /* Modal (Contact CTA) */
+    .modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 60;
+    }
+    .modal[open] { display: flex; }
+    .modal-card {
+      background: #fff; border-radius: 14px; width: 100%; max-width: 560px; padding: 22px; box-shadow: var(--shadow-lg); position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 8px; right: 8px; border: none; background: transparent; color: var(--muted); font-size: 20px; padding: 6px; cursor: pointer; border-radius: 6px;
+    }
+    .modal-close:hover { background: #f2f4f7; color: var(--accent); }
+    .form-grid { display: grid; gap: 10px; margin-top: 8px; }
+    .form-grid input, .form-grid select, .form-grid textarea {
+      padding: 12px; border: 1px solid var(--border); border-radius: 10px; font: inherit; width: 100%; background: #fff;
+    }
+    .form-grid textarea { min-height: 100px; resize: vertical; }
+    .form-status { margin-top: 8px; font-weight: 600; display: none; }
+    .form-status.show { display: block; }
+    .form-status.error { color: #b00020; }
+    .form-status.success { color: #0a7b39; }
+     /* Utilities */
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-32 { margin-top: 32px; }
+    .text-center { text-align: center; }
+    .text-muted { color: var(--muted); }
+ /* Focus visible */
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    
+    @keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+.whatsapp-float {
+  animation: pulse 2s infinite;
+}
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -258,9 +316,9 @@
                     <a href="#home" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Home</a>
                     <a href="Courses.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Courses</a>
                     <a href="https://orbital-skills.github.io/osi.com/login.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Admissions</a>
-                    <a href="#registration" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Register</a>
+                    <a href="#registration" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Enquire Now</a>
                     <a href="#results" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Results</a>
-                    <a href="#certificates" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Certificates</a>
+                    <a href="#verify" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Verification</a>
                     <a href="#about" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">About</a>
                     <a href="#contact" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Contact</a>
                 </div>
@@ -275,10 +333,10 @@
                 <div class="flex flex-col gap-4">
                     <a href="#home" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Home</a>
                     <a href="Courses.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Courses</a>
+                    <a href="#registration" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Enquire Now</a>
                     <a href="https://orbital-skills.github.io/osi.com/login.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Admissions</a>
-                    <a href="#registration" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Register</a>
-                    <a href="#results" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Results</a>
-                    <a href="#certificates" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Certificates</a>
+                    <a href="Result.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Results</a>
+                    <a href="verify.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Verification</a>
                     <a href="#about" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">About</a>
                     <a href="#contact" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Contact</a>
                 </div>
@@ -1231,8 +1289,8 @@ try {
                             <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-3">
                                 <i class="fas fa-file-alt text-2xl text-[#4F0A5A]"></i>
                             </div>
-                            <h4 class="font-bold text-[#4F0A5A]">Google Docs Template</h4>
-                            <p class="text-sm text-gray-600 mt-2">Automated certificate generation from secure template</p>
+                            <h4 class="font-bold text-[#4F0A5A]">Certificate</h4>
+                            <p class="text-sm text-gray-600 mt-2">Automated certificate generation</p>
                         </div>
                         
                         <div class="text-center">
@@ -1259,7 +1317,7 @@ try {
                                 <i class="fas fa-id-card text-[#4F0A5A]"></i>
                                 <div>
                                     <p class="font-semibold">Serial Number</p>
-                                    <p class="text-sm text-gray-600">Unique ID: OSD_YYMMDD####</p>
+                                    <p class="text-sm text-gray-600">Unique ID: OSD_XXXXXX####</p>
                                 </div>
                             </div>
                             
@@ -1283,7 +1341,7 @@ try {
                                 <i class="fas fa-star text-[#4F0A5A]"></i>
                                 <div>
                                     <p class="font-semibold">Marks Obtained</p>
-                                    <p class="text-sm text-gray-600">Score: 75-96% (randomized)</p>
+                                    <p class="text-sm text-gray-600">Score: -- % with Grading</p>
                                 </div>
                             </div>
                             
@@ -1291,7 +1349,7 @@ try {
                                 <i class="fas fa-calendar text-[#4F0A5A]"></i>
                                 <div>
                                     <p class="font-semibold">Date of Issue</p>
-                                    <p class="text-sm text-gray-600">2 days after submission</p>
+                                    <p class="text-sm text-gray-600">7-15 days after submission</p>
                                 </div>
                             </div>
                             
@@ -1307,108 +1365,177 @@ try {
                     
                     <div class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 rounded">
                         <p class="font-semibold text-green-800">📌 Note | नोट:</p>
-                        <p class="text-sm text-gray-700 mt-1">Certificates are issued 2 days after successful course completion and final assessment. | प्रमाणपत्र सफल पाठ्यक्रम समापन और अंतिम मूल्यांकन के 2 दिन बाद जारी किए जाते हैं।</p>
+                        <p class="text-sm text-gray-700 mt-1">Certificates are issued 7-15 days after successful course completion and final assessment. | प्रमाणपत्र सफल पाठ्यक्रम समापन और अंतिम मूल्यांकन के 2 दिन बाद जारी किए जाते हैं।</p>
                     </div>
                 </div>
                 
-                <div class="text-center">
-                    <p class="text-gray-600 mb-4">Sample Certificate Layout</p>
-                    <div class="bg-gradient-to-br from-[#F2CFEE] to-white border-4 border-[#4F0A5A] rounded-2xl p-8 max-w-2xl mx-auto">
-                        <div class="border-2 border-[#4F0A5A] rounded-xl p-6">
-                            <h3 class="text-3xl font-bold text-[#4F0A5A] mb-2">Orbital Skill Development</h3>
-                            <p class="text-lg hindi-text text-gray-600 mb-6">ऑर्बिटल स्किल डेवलपमेंट</p>
-                            
-                            <div class="my-6 h-1 bg-[#4F0A5A]"></div>
-                            
-                            <p class="text-xl mb-2">This is to certify that</p>
-                            <h4 class="text-2xl font-bold text-[#4F0A5A] mb-4">STUDENT NAME</h4>
-                            
-                            <p class="text-lg mb-2">has successfully completed</p>
-                            <h4 class="text-xl font-bold text-[#4F0A5A] mb-4">COURSE NAME</h4>
-                            
-                            <p class="text-lg">with <span class="font-bold text-[#4F0A5A]">XX%</span> marks</p>
-                            
-                            <div class="flex justify-between items-end mt-8">
-                                <div>
-                                    <p class="text-sm text-gray-600">Certificate ID: OSD_XXXXXXXXXX</p>
-                                    <p class="text-sm text-gray-600">Date: DD/MM/YYYY</p>
-                                </div>
-                                <div class="w-20 h-20 border-2 border-[#4F0A5A] rounded flex items-center justify-center">
-                                    <i class="fas fa-qrcode text-3xl text-[#4F0A5A]"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="text-center">
+    <p class="text-gray-600 mb-4">Sample Certificate Layout</p>
+
+    <div class="max-w-6xl mx-auto rounded-2xl overflow-hidden shadow-2xl border-4 border-[#4F0A5A]">
+        <img 
+          src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/certificate-sample.jpg"
+          alt="Certificate Sample"
+          class="w-full h-auto object-contain">
+    </div>
+</div>
+
+ <!-- About Section -->
+<section id="about" class="section-padding bg-white">
+    <div class="container mx-auto px-4">
+
+        <!-- Section Heading -->
+        <div class="text-center mb-12">
+            <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">
+                About Us
+            </h2>
+            <p class="text-2xl hindi-text text-gray-600 mb-4">
+                हमारे बारे में
+            </p>
         </div>
-    </section>
 
-    <!-- About Section -->
-    <section id="about" class="section-padding bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">About Us</h2>
-                <p class="text-2xl hindi-text text-gray-600 mb-4">हमारे बारे में</p>
-            </div>
-            
-            <div class="max-w-5xl mx-auto">
-                <div class="grid md:grid-cols-2 gap-8 mb-12">
-                    <div class="bg-[#F2CFEE] rounded-2xl p-8">
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4">
-                            <i class="fas fa-bullseye text-3xl text-[#4F0A5A]"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-[#4F0A5A] mb-3">Our Mission</h3>
-                        <p class="text-lg hindi-text text-gray-700 mb-3">हमारा मिशन</p>
-                        <p class="text-gray-700 mb-2">
-                            To empower youth with employable skills and industry-linked training that transforms lives and builds sustainable careers.
-                        </p>
-                        <p class="text-gray-600 hindi-text text-sm">
-                            युवाओं को रोजगार योग्य कौशल और उद्योग-संबद्ध प्रशिक्षण के साथ सशक्त बनाना जो जीवन को बदलता है और टिकाऊ करियर बनाता है।
-                        </p>
-                    </div>
-                    
-                    <div class="bg-[#F2CFEE] rounded-2xl p-8">
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4">
-                            <i class="fas fa-eye text-3xl text-[#4F0A5A]"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-[#4F0A5A] mb-3">Our Vision</h3>
-                        <p class="text-lg hindi-text text-gray-700 mb-3">हमारा विजन</p>
-                        <p class="text-gray-700 mb-2">
-                            To create an accessible, affordable, and outcome-driven skill education ecosystem that bridges the gap between education and employment.
-                        </p>
-                        <p class="text-gray-600 hindi-text text-sm">
-                            एक सुलभ, किफायती और परिणाम-संचालित कौशल शिक्षा पारिस्थितिकी तंत्र बनाना जो शिक्षा और रोजगार के बीच की खाई को पाटता है।
-                        </p>
-                    </div>
-                </div>
+        <div class="max-w-6xl mx-auto">
+
+            <!-- Mission & Vision -->
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
                 
-                <div>
-                    <h3 class="text-3xl font-bold text-[#4F0A5A] mb-6 text-center">Why Choose Us | हमें क्यों चुनें</h3>
-                    <div class="grid md:grid-cols-3 gap-6">
-                        <div class="text-center p-6 bg-gray-50 rounded-xl">
-                            <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-laptop-code text-2xl text-[#4F0A5A]"></i>
-                            </div>
-                            <h4 class="font-bold text-[#4F0A5A] mb-2">Real Projects</h4>
-                            <p class="text-sm hindi-text text-gray-600 mb-2">वास्तविक परियोजनाएं</p>
-                            <p class="text-sm text-gray-600">Hands-on training with real industry projects and practical applications</p>
+                <!-- Mission -->
+                <div class="bg-[#F2CFEE] rounded-2xl p-8 shadow-md">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-bullseye text-3xl text-[#4F0A5A]"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-3">Our Mission</h3>
+                    <p class="text-lg hindi-text text-gray-700 mb-3">हमारा मिशन</p>
+                    <p class="text-gray-700 mb-2">
+                        To empower youth with employable skills and industry-linked training that transforms lives and builds sustainable careers.
+                    </p>
+                    <p class="text-gray-600 hindi-text text-sm">
+                        युवाओं को रोजगार योग्य कौशल और उद्योग-संबद्ध प्रशिक्षण के साथ सशक्त बनाना।
+                    </p>
+                </div>
+
+                <!-- Vision -->
+                <div class="bg-[#F2CFEE] rounded-2xl p-8 shadow-md">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-eye text-3xl text-[#4F0A5A]"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-3">Our Vision</h3>
+                    <p class="text-lg hindi-text text-gray-700 mb-3">हमारा विजन</p>
+                    <p class="text-gray-700 mb-2">
+                        To create an accessible, affordable, and outcome-driven skill education ecosystem.
+                    </p>
+                    <p class="text-gray-600 hindi-text text-sm">
+                        सुलभ और परिणाम-संचालित कौशल शिक्षा प्रणाली बनाना।
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Why Choose Us (Merged Section) -->
+            <div>
+                <h3 class="text-3xl font-bold text-[#4F0A5A] mb-10 text-center">
+                    Why Choose Us | हमें क्यों चुनें
+                </h3>
+
+                <div class="grid md:grid-cols-3 gap-8">
+
+                    <!-- Card 1 -->
+                    <div class="text-center p-8 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+                        <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-laptop-code text-2xl text-[#4F0A5A]"></i>
                         </div>
-                        
-                        <div class="text-center p-6 bg-gray-50 rounded-xl">
-                            <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-briefcase text-2xl text-[#4F0A5A]"></i>
-                            </div>
-                            <h4 class="font-bold text-[#4F0A5A]
+                        <h4 class="font-bold text-[#4F0A5A] mb-2">Real Projects</h4>
+                        <p class="text-sm hindi-text text-gray-600 mb-2">वास्तविक परियोजनाएं</p>
+                        <p class="text-sm text-gray-600">
+                            Hands-on training with real industry projects and practical applications.
+                        </p>
+                    </div>
 
+                    <!-- Card 2 -->
+                    <div class="text-center p-8 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+                        <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-briefcase text-2xl text-[#4F0A5A]"></i>
+                        </div>
+                        <h4 class="font-bold text-[#4F0A5A] mb-2">Placement Support</h4>
+                        <p class="text-sm hindi-text text-gray-600 mb-2">प्लेसमेंट सहायता</p>
+                        <p class="text-sm text-gray-600">
+                            Dedicated career support and industry networking opportunities.
+                        </p>
+                    </div>
 
-                                    </section>
+                    <!-- Card 3 -->
+                    <div class="text-center p-8 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+                        <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-certificate text-2xl text-[#4F0A5A]"></i>
+                        </div>
+                        <h4 class="font-bold text-[#4F0A5A] mb-2">Recognized Certification</h4>
+                        <p class="text-sm hindi-text text-gray-600 mb-2">मान्यता प्राप्त प्रमाणपत्र</p>
+                        <p class="text-sm text-gray-600">
+                            Government & industry recognized certificates for better career growth.
+                        </p>
+                    </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-6 text-center">
-        <p class="text-sm">&copy; 2026 Orbital Skill Development Center</p>
-    </footer
+                </div>
+            </div>
 
+        </div>
+    </div>
+</section>
+
+ <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Orbital Studies & Immigration Pvt. Ltd.</h4>
+        <p class="text-muted">Empowering students and professionals to achieve global success with trusted guidance.</p>
+        <div class="social-links" aria-label="Social media links">
+          <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
+              <path d="M22 12.06C22 6.54 17.52 2 12 2S2 6.54 2 12.06C2 17.08 5.66 21.2 10.44 22v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.44h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 3.01h-2.33V22C18.34 21.2 22 17.08 22 12.06z"></path>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
+              <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm11 1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"></path>
+            </svg>
+          </a>
+         <a href="https://www.threads.net/" aria-label="Threads" target="_blank" rel="noopener">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
+    <path d="M12 2C7 2 4 5 4 10c0 3.5 2 5.5 5 6.3v2.2c0 .3.2.5.5.5h2c.3 0 .5-.2.5-.5v-2c3.5-.3 6-2.4 6-6 0-5-3-8-6-8zm0 2c2.8 0 4 2.2 4 5 0 2.4-1.3 4-4 4s-4-1.6-4-4c0-2.8 1.2-5 4-5z"/>
+  </svg>
+</a>
+
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact & Apply</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><span>115/13 R. K. Colony, Bighar Road,</span></li>
+          <li>Bighar Road,Fatehabad,</li>
+          <li>Haryana 125050</li>
+          <li><a href="mailto:osi@ftbh.onmicrosoft.com">osi@ftbh.onmicrosoft.com</a></li>
+         
+
+</li>
+        </ul>
+        
+      </div>
+    </div>
+  <span><div class="copyright text-white text-xs">
+  © 2026 Orbital Studies & Immigration Pvt. Ltd. All rights reserved.
+</div></span>
+  </footer>
+    
     <!-- Firebase -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -1465,6 +1592,16 @@ try {
       });
   };
 </script>
+<a href="https://wa.me/919416711671"
+   target="_blank"
+   class="whatsapp-float fixed bottom-6 right-6 
+          bg-green-500 hover:bg-green-600 
+          text-white w-16 h-16 rounded-full 
+          flex items-center justify-center 
+          shadow-2xl z-50 transition">
+
+    <i class="fab fa-whatsapp text-3xl"></i>
+</a>
 
 </body>
 </html>
