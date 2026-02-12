@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Result - Orbital Skill Development Centre</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        
+        /* HEADER */
+        .header { background-color: #003366; color: white; padding: 15px 0; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header h1 { margin: 0; font-size: 24px; text-transform: uppercase; }
+        .header p { margin: 5px 0 0; font-size: 12px; opacity: 0.8; }
+
+        /* CONTAINER */
+        .container { max-width: 600px; margin: 30px auto; padding: 0 15px; }
+
+        /* SEARCH BOX */
+        .search-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); text-align: center; }
+        .search-icon { font-size: 50px; color: #ff9800; margin-bottom: 15px; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #555; }
+        input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; box-sizing: border-box; }
+        
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-primary { background-color: #003366; color: white; }
+        .btn-primary:hover { background-color: #002244; }
+        .btn-download { background-color: #28a745; color: white; margin-top: 15px; }
+        .btn-download:hover { background-color: #218838; }
+
+        /* RESULT CARD */
+        .result-card { background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; margin-top: 20px; display: none; }
+        .result-header { background: #e3f2fd; padding: 15px; text-align: center; border-bottom: 1px solid #bbdefb; }
+        .course-name { color: #003366; font-size: 18px; font-weight: 900; text-transform: uppercase; margin: 0; }
+        
+        .result-body { padding: 20px; }
+        .info-row { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 5px; font-size: 14px; }
+        .info-label { font-weight: bold; color: #666; }
+        .info-value { font-weight: bold; color: #000; text-align: right; }
+
+        /* MARKS TABLE */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        th { background-color: #f8f9fa; color: #333; font-weight: bold; padding: 10px; border: 1px solid #ddd; text-align: left; }
+        td { padding: 8px 10px; border: 1px solid #ddd; }
+        .td-marks { text-align: center; font-weight: bold; }
+
+        /* TOTAL SECTION */
+        .total-box { background-color: #f1f8e9; border: 1px solid #c5e1a5; padding: 15px; margin-top: 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .grade-badge { background: #2e7d32; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; }
+
+        /* UTILS */
+        .error-msg { color: red; background: #ffebee; padding: 10px; border-radius: 5px; margin-top: 10px; display: none; text-align: center; font-size: 14px; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 25px; height: 25px; animation: spin 1s linear infinite; margin: 0 auto; display: none; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 500px) {
+            .info-row { flex-direction: column; }
+            .info-value { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Orbital Skill Development Centre</h1>
+        <p>Online Result Portal</p>
+    </div>
+
+    <div class="container">
+        
+        <!-- SEARCH SECTION -->
+        <div class="search-card">
+            <i class="fa fa-graduation-cap search-icon"></i>
+            <div class="input-group">
+                <label>Enter Roll No or Student ID:</label>
+                <input type="text" id="searchInput" placeholder="Ex: 260300001">
+            </div>
+            <button class="btn btn-primary" onclick="fetchResult()" id="searchBtn">
+                <span id="btnText">SEARCH RESULT</span>
+                <div class="loader" id="btnLoader"></div>
+            </button>
+            <div class="error-msg" id="errorMsg">Record not found. Please check Roll Number.</div>
+        </div>
+
+        <!-- RESULT DISPLAY SECTION -->
+        <div class="result-card" id="resultCard">
+            <div class="result-header">
+                <h2 class="course-name" id="dispCourse">COURSE NAME</h2>
+            </div>
+            <div class="result-body">
+                <!-- Personal Info -->
+                <div class="info-row"><span class="info-label">Student Name:</span> <span class="info-value" id="dispName">-</span></div>
+                <div class="info-row"><span class="info-label">Father's Name:</span> <span class="info-value" id="dispFather">-</span></div>
+                <div class="info-row"><span class="info-label">Roll Number:</span> <span class="info-value" id="dispRoll">-</span></div>
+                <div class="info-row"><span class="info-label">Student ID:</span> <span class="info-value" id="dispID">-</span></div>
+
+                <!-- Marks Table -->
+                <table id="marksTable">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th style="width: 80px; text-align: center;">Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Rows will be added by JS -->
+                    </tbody>
+                </table>
+
+                <!-- Total & Grade -->
+                <div class="total-box">
+                    <div>
+                        <div style="font-size: 12px; color: #555; font-weight: bold;">TOTAL MARKS</div>
+                        <div style="font-size: 20px; font-weight: 900; color: #333;"><span id="dispTotal">0</span> / <span id="dispOutOf">800</span></div>
+                    </div>
+                    <div class="grade-badge">Grade: <span id="dispGrade">-</span></div>
+                </div>
+
+                <!-- Download Button -->
+                <button class="btn btn-download" id="downloadBtn" onclick="downloadCert()">
+                    <i class="fa fa-download"></i> DOWNLOAD CERTIFICATE
+                </button>
+                <div id="noCertMsg" style="text-align: center; color: #777; font-size: 12px; margin-top: 10px; display: none;">
+                    * Certificate not generated yet.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        // ⚠️ यहाँ अपना नया GOOGLE SCRIPT URL पेस्ट करें
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUr7i1M9CsjRfzdncI9oGwp03a3iKw1RV-EChgSfxb81hNp8va-7Ax8bAYSjFLw3djbg/exec";
+
+        let currentCertLink = "";
+
+        async function fetchResult() {
+            const query = document.getElementById('searchInput').value.trim();
+            const errorEl = document.getElementById('errorMsg');
+            const resultCard = document.getElementById('resultCard');
+            const btnText = document.getElementById('btnText');
+            const loader = document.getElementById('btnLoader');
+            const searchBtn = document.getElementById('searchBtn');
+
+            // Reset UI
+            errorEl.style.display = 'none';
+            resultCard.style.display = 'none';
+            
+            if(!query) {
+                alert("Please enter Roll Number or ID");
+                return;
+            }
+
+            // Loading State
+            btnText.style.display = 'none';
+            loader.style.display = 'block';
+            searchBtn.disabled = true;
+
+            try {
+                // Fetch Data
+                const response = await fetch(`${SCRIPT_URL}?Action=GET_RESULT&Query=${encodeURIComponent(query)}`);
+                const data = await response.json();
+
+                if (data.result === 'success') {
+                    const info = data.data;
+                    
+                    // Fill Data
+                    document.getElementById('dispCourse').innerText = info.course;
+                    document.getElementById('dispName').innerText = info.name;
+                    document.getElementById('dispFather').innerText = info.father;
+                    document.getElementById('dispRoll').innerText = info.rollNo;
+                    document.getElementById('dispID').innerText = info.studentID;
+                    document.getElementById('dispTotal').innerText = info.totalMarks;
+                    document.getElementById('dispOutOf').innerText = info.outOf;
+                    document.getElementById('dispGrade').innerText = info.grade;
+
+                    // Fill Table
+                    const tbody = document.getElementById('tableBody');
+                    tbody.innerHTML = ""; // Clear old
+                    
+                    if(info.subjects && info.subjects.length > 0) {
+                        info.subjects.forEach(sub => {
+                            const row = `<tr>
+                                <td>${sub.subject}</td>
+                                <td class="td-marks">${sub.marks}</td>
+                            </tr>`;
+                            tbody.innerHTML += row;
+                        });
+                    } else {
+                        tbody.innerHTML = "<tr><td colspan='2' style='text-align:center'>No subjects details found.</td></tr>";
+                    }
+
+                    // Handle Certificate Button
+                    currentCertLink = info.pdfLink;
+                    const dlBtn = document.getElementById('downloadBtn');
+                    const noCert = document.getElementById('noCertMsg');
+
+                    if(currentCertLink && currentCertLink.length > 5) {
+                        dlBtn.style.display = 'block';
+                        noCert.style.display = 'none';
+                    } else {
+                        dlBtn.style.display = 'none';
+                        noCert.style.display = 'block';
+                    }
+
+                    // Show Card
+                    resultCard.style.display = 'block';
+
+                } else {
+                    // Show Error
+                    errorEl.innerText = data.message || "Record not found.";
+                    errorEl.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error(error);
+                errorEl.innerText = "Network Error. Please try again.";
+                errorEl.style.display = 'block';
+            } finally {
+                // Restore Button
+                btnText.style.display = 'inline';
+                loader.style.display = 'none';
+                searchBtn.disabled = false;
+            }
+        }
+
+        function downloadCert() {
+            if(currentCertLink) {
+                window.open(currentCertLink, '_blank');
+            } else {
+                alert("Certificate link not available.");
+            }
+        }
+    </script>
+
+</body>
+</html>
