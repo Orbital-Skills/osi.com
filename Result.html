@@ -3,103 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check Result - Orbital Skill Development Centre</title>
+    <title>Result Verification | Orbital Skill Development Centre</title>
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
-        
+        :root {
+            --primary-color: #003366; /* Deep Blue */
+            --secondary-color: #f4f7f6;
+            --accent-color: #ff9800; /* Orange/Gold */
+            --text-color: #333;
+            --border-color: #ddd;
+        }
+
+        body { font-family: 'Roboto', sans-serif; background-color: var(--secondary-color); margin: 0; padding: 0; color: var(--text-color); }
+
         /* HEADER */
-        .header { background-color: #003366; color: white; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .header h1 { margin: 0; font-size: 20px; text-transform: uppercase; }
-        
-        /* BACK BUTTON */
-        .btn-back { background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 8px 15px; border-radius: 4px; font-size: 14px; font-weight: bold; border: 1px solid rgba(255,255,255,0.4); }
-        .btn-back:hover { background: rgba(255,255,255,0.4); }
+        header { background: linear-gradient(90deg, #003366 0%, #004080 100%); color: white; padding: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header-content { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-area img { height: 60px; background: white; border-radius: 5px; padding: 2px; }
+        .logo-text h1 { font-size: 20px; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .logo-text p { font-size: 12px; margin: 2px 0 0; opacity: 0.9; }
+        .home-btn { color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 8px 15px; border-radius: 4px; font-size: 13px; transition: 0.3s; }
+        .home-btn:hover { background: rgba(255,255,255,0.1); }
 
-        .container { max-width: 600px; margin: 30px auto; padding: 0 15px; }
+        /* MAIN CONTAINER */
+        .container { max-width: 800px; margin: 40px auto; padding: 0 15px; min-height: 80vh; }
 
-        /* SEARCH CARD */
-        .search-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); text-align: center; }
-        .search-icon { font-size: 50px; color: #ff9800; margin-bottom: 15px; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; box-sizing: border-box; }
+        /* SEARCH BOX */
+        .search-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center; border-top: 5px solid var(--accent-color); }
+        .search-title { font-size: 22px; color: var(--primary-color); font-weight: 700; margin-bottom: 25px; }
+        .input-group { position: relative; max-width: 400px; margin: 0 auto 20px; }
+        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888; }
+        input[type="text"] { width: 100%; padding: 15px 15px 15px 45px; border: 2px solid #eee; border-radius: 30px; font-size: 16px; outline: none; transition: 0.3s; box-sizing: border-box;}
+        input[type="text"]:focus { border-color: var(--primary-color); box-shadow: 0 0 8px rgba(0,51,102,0.1); }
         
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-primary { background-color: #003366; color: white; }
-        .btn-primary:hover { background-color: #002244; }
-        .btn-download { background-color: #28a745; color: white; margin-top: 15px; }
+        .btn-search { background-color: var(--primary-color); color: white; border: none; padding: 12px 30px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-search:hover { background-color: #002244; transform: translateY(-2px); }
+        .btn-search:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
 
         /* RESULT CARD */
-        .result-card { background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; margin-top: 20px; display: none; }
-        .result-header { background: #e3f2fd; padding: 15px; text-align: center; border-bottom: 1px solid #bbdefb; }
-        .course-name { color: #003366; font-size: 18px; font-weight: 900; margin: 0; }
-        .result-body { padding: 20px; }
-        .info-row { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 5px; font-size: 14px; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-        th { background: #f8f9fa; padding: 10px; border: 1px solid #ddd; text-align: left; }
-        td { padding: 8px 10px; border: 1px solid #ddd; }
-        .total-box { background: #f1f8e9; border: 1px solid #c5e1a5; padding: 15px; margin-top: 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
-        .error-msg { color: white; background: #e53935; padding: 10px; border-radius: 5px; margin-top: 10px; display: none; text-align: center; font-size: 14px; }
-        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 25px; height: 25px; animation: spin 1s linear infinite; margin: 0 auto; display: none; }
+        .result-card { background: white; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); overflow: hidden; margin-top: 30px; display: none; position: relative; }
+        .result-header { background: #eef4fb; padding: 20px; text-align: center; border-bottom: 1px solid #dae1e7; }
+        .course-badge { background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .course-name { color: #333; font-size: 24px; font-weight: 800; margin: 10px 0 0; }
+
+        .result-body { padding: 30px; }
+        .student-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+        .info-box { background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary-color); }
+        .info-label { font-size: 11px; color: #777; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 5px; }
+        .info-value { font-size: 16px; font-weight: 600; color: #333; }
+
+        /* TABLE */
+        .marks-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
+        .marks-table th { background: #003366; color: white; padding: 12px; text-align: left; font-weight: 500; }
+        .marks-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        .marks-table tr:last-child td { border-bottom: none; }
+        .marks-col { text-align: center; font-weight: bold; width: 100px; }
+
+        /* FOOTER SUMMARY */
+        .summary-box { background: #f0f7ff; border: 1px dashed #003366; padding: 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .total-score { font-size: 18px; color: #003366; font-weight: bold; }
+        .grade-badge { background: #28a745; color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 16px; box-shadow: 0 3px 6px rgba(40,167,69,0.2); }
+
+        /* ACTIONS */
+        .action-area { display: flex; gap: 15px; justify-content: center; }
+        .btn-action { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-download { background-color: var(--accent-color); color: white; }
+        .btn-download:hover { background-color: #e68900; }
+        .btn-print { background-color: #607d8b; color: white; }
+        .btn-print:hover { background-color: #546e7a; }
+
+        /* MESSAGES */
+        .loader { width: 30px; height: 30px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; margin: 10px auto; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .msg-box { padding: 15px; border-radius: 8px; margin-top: 20px; display: none; font-size: 14px; }
+        .error-msg { background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+        .no-cert-msg { background-color: #fff3e0; color: #e65100; text-align: center; font-size: 12px; margin-top: 10px; padding: 10px; border-radius: 4px; display: none; }
+
+        /* FOOTER */
+        .site-footer { text-align: center; padding: 20px; font-size: 12px; color: #999; margin-top: 40px; border-top: 1px solid #eee; }
+
+        /* PRINT MEDIA */
+        @media print {
+            header, .search-card, .action-area, .site-footer { display: none !important; }
+            .container { margin: 0; max-width: 100%; }
+            .result-card { box-shadow: none; border: 1px solid #ccc; margin-top: 0; }
+        }
+        @media (max-width: 600px) {
+            .student-grid { grid-template-columns: 1fr; }
+            .header-content { flex-direction: column; gap: 10px; }
+            .summary-box { flex-direction: column; gap: 10px; text-align: center; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>OSD Result Portal</h1>
-        <!-- BACK BUTTON HERE -->
-        <a href="index.html" class="btn-back"><i class="fa fa-home"></i> Home</a>
-    </div>
+    <header>
+        <div class="header-content">
+            <div class="logo-area">
+                <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" alt="OSD Logo">
+                <div class="logo-text">
+                    <h1>Orbital Skill Development Centre</h1>
+                    <p>ISO 9001:2015 Certified | Govt. Regd.</p>
+                </div>
+            </div>
+            <a href="index.html" class="home-btn"><i class="fa fa-home"></i> Home</a>
+        </div>
+    </header>
 
     <div class="container">
+        <!-- SEARCH SECTION -->
         <div class="search-card">
-            <i class="fa fa-graduation-cap search-icon"></i>
+            <div class="search-title">Verify Your Result</div>
             <div class="input-group">
-                <input type="text" id="searchInput" placeholder="Enter Roll Number (e.g. 260300001)">
+                <i class="fa fa-id-card"></i>
+                <input type="text" id="searchInput" placeholder="Enter Roll Number or Registration ID">
             </div>
-            <button class="btn btn-primary" onclick="fetchResult()" id="searchBtn">
+            <button class="btn-search" onclick="fetchResult()" id="searchBtn">
                 <span id="btnText">SEARCH RESULT</span>
-                <div class="loader" id="btnLoader"></div>
             </button>
-            <div class="error-msg" id="errorMsg">Record not found.</div>
+            <div class="loader" id="loader"></div>
+            
+            <!-- Professional Error Message (No Alert) -->
+            <div class="msg-box error-msg" id="errorMsg">
+                <i class="fa fa-exclamation-circle"></i> <b>Record Not Found:</b> Please check your Roll Number/ID or contact administration.
+            </div>
         </div>
 
+        <!-- RESULT SECTION -->
         <div class="result-card" id="resultCard">
             <div class="result-header">
+                <span class="course-badge">VOCATIONAL COURSE</span>
                 <h2 class="course-name" id="dispCourse">COURSE NAME</h2>
             </div>
-            <div class="result-body">
-                <div class="info-row"><span>Name:</span> <b id="dispName">-</b></div>
-                <div class="info-row"><span>Father Name:</span> <b id="dispFather">-</b></div>
-                <div class="info-row"><span>Roll No:</span> <b id="dispRoll">-</b></div>
-                <div class="info-row"><span>Student ID:</span> <b id="dispID">-</b></div>
 
-                <table id="marksTable">
-                    <thead><tr><th>Subject</th><th style="width:80px;text-align:center;">Marks</th></tr></thead>
-                    <tbody id="tableBody"></tbody>
+            <div class="result-body">
+                <div class="student-grid">
+                    <div class="info-box">
+                        <span class="info-label">Student Name</span>
+                        <div class="info-value" id="dispName">-</div>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-label">Father's Name</span>
+                        <div class="info-value" id="dispFather">-</div>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-label">Roll Number</span>
+                        <div class="info-value" id="dispRoll">-</div>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-label">Student ID</span>
+                        <div class="info-value" id="dispID">-</div>
+                    </div>
+                </div>
+
+                <table class="marks-table">
+                    <thead>
+                        <tr>
+                            <th>Subject Name</th>
+                            <th class="marks-col">Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- JS fills this -->
+                    </tbody>
                 </table>
 
-                <div class="total-box">
-                    <div><b>TOTAL:</b> <span id="dispTotal">0</span> / <span id="dispOutOf">800</span></div>
-                    <div><b>Grade:</b> <span id="dispGrade">-</span></div>
+                <div class="summary-box">
+                    <div class="total-score">
+                        GRAND TOTAL: <span id="dispTotal" style="color:#000;">0</span> / <span id="dispOutOf">800</span>
+                    </div>
+                    <div class="grade-badge">GRADE: <span id="dispGrade">-</span></div>
                 </div>
 
-                <button class="btn btn-download" id="downloadBtn" onclick="downloadCert()" style="display:none;">
-                    <i class="fa fa-download"></i> DOWNLOAD CERTIFICATE
-                </button>
-                <div id="noCertMsg" style="text-align:center; color:#777; font-size:12px; margin-top:10px; display:none;">
-                    Certificate generating soon...
+                <div class="action-area">
+                    <button class="btn-action btn-print" onclick="window.print()">
+                        <i class="fa fa-print"></i> Print
+                    </button>
+                    <button class="btn-action btn-download" id="downloadBtn" onclick="downloadCert()">
+                        <i class="fa fa-download"></i> Download Certificate
+                    </button>
                 </div>
+                
+                <div class="no-cert-msg" id="noCertMsg">
+                    <i class="fa fa-clock"></i> Certificate is under processing. Please check back later.
+                </div>
+
             </div>
         </div>
+    </div>
+
+    <div class="site-footer">
+        &copy; 2026 Orbital Skill Development Centre. All Rights Reserved. <br>
+        Result powered by OSD Exam Engine.
     </div>
 
     <script>
-        // ⚠️ NEW DEPLOYMENT URL HERE
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNZgD1IP1BUB7R8XyHTDZP1faQfr-ETJj6n005_ze9pT1D1BofuFBanQWEcmf_G2Dn/exec";
+        // ⚠️ UPDATED SCRIPT URL
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUr7i1M9CsjRfzdncI9oGwp03a3iKw1RV-EChgSfxb81hNp8va-7Ax8bAYSjFLw3djbg/exec";
         
         let currentCertLink = "";
 
@@ -108,23 +214,33 @@
             const errorEl = document.getElementById('errorMsg');
             const resultCard = document.getElementById('resultCard');
             const btnText = document.getElementById('btnText');
-            const loader = document.getElementById('btnLoader');
-            
+            const loader = document.getElementById('loader');
+            const searchBtn = document.getElementById('searchBtn');
+
+            // Reset UI
             errorEl.style.display = 'none';
             resultCard.style.display = 'none';
+            
+            if(!query) {
+                // Focus input instead of alert
+                document.getElementById('searchInput').focus();
+                return;
+            }
 
-            if(!query) return alert("Please enter Roll Number");
-
+            // UI Loading State
             btnText.style.display = 'none';
             loader.style.display = 'block';
+            searchBtn.disabled = true;
 
             try {
-                // Fetch Call
+                // API CALL
                 const response = await fetch(`${SCRIPT_URL}?Action=GET_RESULT&Query=${encodeURIComponent(query)}`);
                 const data = await response.json();
 
                 if (data.result === 'success') {
                     const info = data.data;
+
+                    // Fill Info
                     document.getElementById('dispCourse').innerText = info.course;
                     document.getElementById('dispName').innerText = info.name;
                     document.getElementById('dispFather').innerText = info.father;
@@ -134,45 +250,71 @@
                     document.getElementById('dispOutOf').innerText = info.outOf;
                     document.getElementById('dispGrade').innerText = info.grade;
 
+                    // Fill Table
                     const tbody = document.getElementById('tableBody');
                     tbody.innerHTML = "";
                     
                     if(info.subjects && info.subjects.length > 0) {
                         info.subjects.forEach(sub => {
-                            tbody.innerHTML += `<tr><td>${sub.subject}</td><td style='text-align:center'><b>${sub.marks}</b></td></tr>`;
+                            const row = `<tr>
+                                <td>${sub.subject}</td>
+                                <td class="marks-col">${sub.marks}</td>
+                            </tr>`;
+                            tbody.innerHTML += row;
                         });
                     } else {
-                        tbody.innerHTML = "<tr><td colspan='2'>Subjects not updated yet.</td></tr>";
+                        tbody.innerHTML = "<tr><td colspan='2' style='text-align:center; color:#999;'>Detailed subject marks not available.</td></tr>";
                     }
 
+                    // Certificate Logic
                     currentCertLink = info.pdfLink;
                     const dlBtn = document.getElementById('downloadBtn');
                     const noCert = document.getElementById('noCertMsg');
-                    
-                    if(currentCertLink && currentCertLink.length > 5) {
-                        dlBtn.style.display = 'block'; noCert.style.display = 'none';
+
+                    if(currentCertLink && currentCertLink.length > 10) {
+                        dlBtn.style.display = 'flex'; // Show button
+                        noCert.style.display = 'none';
                     } else {
-                        dlBtn.style.display = 'none'; noCert.style.display = 'block';
+                        dlBtn.style.display = 'none'; // Hide button
+                        noCert.style.display = 'block'; // Show nice message
                     }
 
+                    // Reveal Result
                     resultCard.style.display = 'block';
+                    // Scroll to result on mobile
+                    resultCard.scrollIntoView({ behavior: 'smooth' });
+
                 } else {
-                    errorEl.innerText = data.message || "Result not found.";
+                    // Show Professional Error Box
                     errorEl.style.display = 'block';
+                    errorEl.innerHTML = `<i class="fa fa-exclamation-circle"></i> <b>Record Not Found:</b> No result found for Roll No: ${query}. Try checking the number.`;
                 }
+
             } catch (error) {
                 console.error(error);
-                errorEl.innerText = "Connection Error. Try again.";
                 errorEl.style.display = 'block';
+                errorEl.innerHTML = `<i class="fa fa-wifi"></i> <b>Connection Error:</b> Unable to connect to server. Please try again.`;
             } finally {
+                // Restore Button
                 btnText.style.display = 'inline';
                 loader.style.display = 'none';
+                searchBtn.disabled = false;
             }
         }
 
         function downloadCert() {
-            if(currentCertLink) window.open(currentCertLink, '_blank');
+            if(currentCertLink) {
+                window.open(currentCertLink, '_blank');
+            }
         }
+
+        // Allow Enter Key to Search
+        document.getElementById("searchInput").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                fetchResult();
+            }
+        });
     </script>
+
 </body>
 </html>
