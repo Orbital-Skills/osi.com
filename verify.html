@@ -204,6 +204,16 @@
     background-color: #f9f9f9;
 }
 .grand-total-lbl { color: green; font-size: 18px; }
+    
+    #reader {
+    width: 100%;
+    max-width: 500px;
+    height: 70vh;
+    margin: 15px auto;
+    border: 2px solid #6a1b9a;
+    border-radius: 10px;
+}
+
     </style>
 </head>
 <body>
@@ -232,7 +242,7 @@
         <h3 style="color:#555;">Scan QR Code</h3>
         <p>Use your camera to scan the QR code on the certificate.</p>
         
-        <div id="reader" style="width: 100%; max-width: 400px; margin: 10px auto; height: 0; overflow: hidden; border: 2px solid #6a1b9a; border-radius: 10px;"></div>
+       <div id="reader"></div>
 
         <button id="open-scanner-btn" onclick="startQRScanner()" class="verify-btn active-btn" style="background:#455a64;">
             <i class="fas fa-camera"></i> OPEN SCANNER
@@ -552,41 +562,93 @@ function showFinalResult(){
     // ---------------- QR ----------------
 let html5QrCode = null;
 
-function startQRScanner() {
+async function startQRScanner() {
+
     isQRMode = true;
     switchTab("qr");
 
-    const readerDiv = document.getElementById("reader");
-    readerDiv.style.height = "300px";   // scanner दिखाओ
+    const reader = document.getElementById("reader");
 
+    // Stop previous scanner
     if (html5QrCode) {
-        html5QrCode.stop().catch(()=>{});
+        await html5QrCode.stop().catch(()=>{});
     }
 
     html5QrCode = new Html5Qrcode("reader");
 
-    html5QrCode.start(
-        { facingMode: { exact: "environment" } },
-        { fps: 10, qrbox: 250 },
-        (decodedText) => {
-            html5QrCode.stop().then(() => {
-                readerDiv.style.height = "0px"; // scanner बंद
+    try {
 
-                switchTab("manual"); // result manual tab में दिखाओ
+        // Try opening camera first
+        const cameras = await Html5Qrcode.getCameras();
 
-                try {
-                    const url = new URL(decodedText);
-                    const sid = url.searchParams.get("StudentID") ||
-                                url.searchParams.get("RollNo") ||
-                                url.searchParams.get("roll");
+        if (cameras && cameras.length) {
 
-                    autoFetchQRResult(sid || decodedText);
-                } catch {
-                    autoFetchQRResult(decodedText);
+            // Prefer back camera if available
+            const backCam = cameras.find(cam =>
+                cam.label.toLowerCase().includes("back")
+            );
+
+            const camId = backCam ? backCam.id : cameras[0].id;
+
+            html5QrCode.start(
+                camId,
+                {
+                    fps: 10,
+                    qrbox: { width: 250, height: 250 }
+                },
+                (decodedText) => {
+                    html5QrCode.stop();
+                    handleQR(decodedText);
                 }
-            });
+            );
+
+        } else {
+            throw "No camera found";
         }
-    );
+
+    } catch (err) {
+
+        // If camera not available → use file upload mode
+        reader.innerHTML = `
+            <p style="text-align:center; margin-top:20px;">
+                Camera not found. Upload QR Image:
+            </p>
+            <input type="file" id="qr-file" accept="image/*" 
+                style="display:block; margin:20px auto;">
+        `;
+
+        document.getElementById("qr-file")
+            .addEventListener("change", function (e) {
+
+                const file = e.target.files[0];
+                if (!file) return;
+
+                html5QrCode.scanFile(file, true)
+                    .then(decodedText => {
+                        handleQR(decodedText);
+                    })
+                    .catch(err => {
+                        alert("Invalid QR Image");
+                    });
+            });
+    }
+}
+function handleQR(decodedText) {
+
+    switchTab("manual");
+
+    try {
+        const url = new URL(decodedText);
+        const sid =
+            url.searchParams.get("StudentID") ||
+            url.searchParams.get("RollNo") ||
+            url.searchParams.get("roll");
+
+        autoFetchQRResult(sid || decodedText);
+
+    } catch {
+        autoFetchQRResult(decodedText);
+    }
 }
 
 
