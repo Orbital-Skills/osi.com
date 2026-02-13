@@ -205,14 +205,16 @@
 }
 .grand-total-lbl { color: green; font-size: 18px; }
     
-    #reader {
-    width: 100%;
-    max-width: 500px;
-    height: 70vh;
-    margin: 15px auto;
-    border: 2px solid #6a1b9a;
-    border-radius: 10px;
+   #reader {
+    width: 90vw;
+    max-width: 400px;
+    aspect-ratio: 1 / 1;   /* 🔥 Perfect Square */
+    margin: 20px auto;
+    border: 3px solid #6a1b9a;
+    border-radius: 15px;
+    overflow: hidden;
 }
+
 
     </style>
 </head>
@@ -594,7 +596,12 @@ function startQRScanner() {
         cameraId,
         {
           fps: 10,
-          qrbox: { width: 250, height: 250 }
+          qrbox: function(viewfinderWidth, viewfinderHeight) {
+  let minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+  let qrSize = Math.floor(minEdge * 0.7); // 70% square
+  return { width: qrSize, height: qrSize };
+}
+
         },
         decodedText => {
           html5QrCode.stop().then(() => {
