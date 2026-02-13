@@ -208,13 +208,13 @@
    #reader {
     width: 90vw;
     max-width: 400px;
-    aspect-ratio: 1 / 1;   /* 🔥 Perfect Square */
+    aspect-ratio: 1 / 1;   /* perfect square */
     margin: 20px auto;
     border: 3px solid #6a1b9a;
     border-radius: 15px;
     overflow: hidden;
+    position: relative;
 }
-
 
     </style>
 </head>
@@ -597,11 +597,13 @@ function startQRScanner() {
         {
           fps: 10,
           qrbox: function(viewfinderWidth, viewfinderHeight) {
-  let minEdge = Math.min(viewfinderWidth, viewfinderHeight);
-  let qrSize = Math.floor(minEdge * 0.7); // 70% square
-  return { width: qrSize, height: qrSize };
+    let minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+    return {
+        width: minEdge - 10,
+        height: minEdge - 10
+    };
 }
-
+ 
         },
         decodedText => {
           html5QrCode.stop().then(() => {
