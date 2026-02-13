@@ -373,10 +373,11 @@ async function autoFetchQRResult(sid){
     document.getElementById("msg-roll").className = "field-msg checking";
 
     try{
-        const res = await fetch(`${SCRIPT_URL}?Action=VERIFY&RollNo=${encodeURIComponent(sid)}`);
+        const res = await fetch(`${SCRIPT_URL}?Action=GET_RESULT&Query=${encodeURIComponent(sid)}`);
+
         const json = await res.json();
 
-        if(json.Success){
+        if(json.result === "success"){
             fetchedData = json.Data;
             document.getElementById("msg-roll").innerHTML = "Record Found";
             document.getElementById("msg-roll").className = "field-msg msg-success";
