@@ -378,7 +378,9 @@ async function autoFetchQRResult(sid){
         const json = await res.json();
 
         if(json.result === "success"){
-            fetchedData = json.Data;
+            fetchedData = json.data;
+matched = { name:false, father:false, mother:false, course:false };
+
             document.getElementById("msg-roll").innerHTML = "Record Found";
             document.getElementById("msg-roll").className = "field-msg msg-success";
 
@@ -427,9 +429,13 @@ function enableManualFields() {
 function validateField(input, type){
     if(!fetchedData) return;
 
-    let real = fetchedData[type.charAt(0).toUpperCase()+type.slice(1)];
+    let real = fetchedData[type];
+    if(!real) return;
 
-    if(input.value.trim().toLowerCase() === real.toLowerCase()){
+    let userVal = input.value.trim().replace(/\s+/g,' ').toLowerCase();
+    let realVal = real.trim().replace(/\s+/g,' ').toLowerCase();
+
+    if(userVal === realVal){
         input.classList.add("valid");
         input.classList.remove("invalid");
         matched[type] = true;
@@ -447,38 +453,100 @@ function validateField(input, type){
 }
 
 
+
 // ---------------- RESULT ----------------
 function showFinalResult(){
     document.getElementById("input-section").style.display="none";
     document.getElementById("result-display").style.display="block";
 
-    document.getElementById("res-roll").innerText = fetchedData.Roll;
-    document.getElementById("res-name").innerText = fetchedData.Name;
-    document.getElementById("res-father").innerText = fetchedData.Father;
-    document.getElementById("res-mother").innerText = fetchedData.Mother;
-    document.getElementById("res-course").innerText = fetchedData.Course;
+    // lowercase properties (backend जो भेजता है)
+    const data = fetchedData || {};
 
-    let html="";
-    for(let i=1;i<=8;i++){
-        if(fetchedData["Sub"+i]){
-            html+=`<tr>
-            <td class="sub-name">${fetchedData["Sub"+i]}</td>
-            <td class="max-marks">100</td>
-            <td>${fetchedData["Mark"+i]}</td>
-            <td>${fetchedData.Grade}</td>
+    // Basic fields
+    document.getElementById("res-roll").innerText = data.rollNo || data.studentID || "";
+    document.getElementById("res-name").innerText = data.name || "";
+    document.getElementById("res-father").innerText = data.father || "";
+    document.getElementById("res-mother").innerText = data.mother || "";
+    document.getElementById("res-course").innerText = data.course || "";
+
+    // Build subjects table from data.subjects (preferred) OR fallback to Sub1/Mark1 keys
+    let subjectsHtml = "";
+    let computedTotal = 0;
+    if (Array.isArray(data.subjects) && data.subjects.length > 0) {
+        data.subjects.forEach(s => {
+            const subj = s.subject || s.name || "";
+            const marks = Number(s.marks || s.mark || s.score || 0);
+            subjectsHtml += `<tr>
+                <td class="sub-name">${subj}</td>
+                <td class="max-marks">100</td>
+                <td>${marks}</td>
+                <td>${data.grade || ""}</td>
             </tr>`;
+            computedTotal += marks;
+        });
+    } else {
+        // fallback for older format: Sub1..Sub8, Mark1..Mark8
+        for (let i = 1; i <= 8; i++) {
+            const subKey = "Sub" + i;
+            const markKey = "Mark" + i;
+            if (data[subKey] || data[markKey]) {
+                const subj = data[subKey] || "";
+                const marks = Number(data[markKey] || 0);
+                subjectsHtml += `<tr>
+                    <td class="sub-name">${subj}</td>
+                    <td class="max-marks">100</td>
+                    <td>${marks}</td>
+                    <td>${data.grade || ""}</td>
+                </tr>`;
+                computedTotal += marks;
+            }
         }
     }
-    document.getElementById("marks-body-final").innerHTML=html;
-    document.getElementById("res-total-final").innerText=fetchedData.Total;
-    document.getElementById("res-grade-final").innerText=fetchedData.Grade;
 
-    if(fetchedData.Photo){
-        document.getElementById("res-photo").src =
-        fetchedData.Photo.includes("id=")
-        ? "https://drive.google.com/thumbnail?id="+fetchedData.Photo.split("id=")[1]
-        : fetchedData.Photo;
+    // Insert subject rows (if none, show a message)
+    if (subjectsHtml === "") {
+        subjectsHtml = `<tr><td colspan="4" style="text-align:center; color:#999;">Subject details not available.</td></tr>`;
     }
+    document.getElementById("marks-body-final").innerHTML = subjectsHtml;
+
+    // Total: prefer backend totalMarks, otherwise computedTotal
+    const total = (typeof data.totalMarks === "number" ? data.totalMarks : (computedTotal || ""));
+    document.getElementById("res-total-final").innerText = total;
+    document.getElementById("res-grade-final").innerText = data.grade || "";
+
+    // Photo: try multiple property names, and convert Drive file link -> thumbnail if needed
+    const photoCandidates = [
+        data.photo, data.photoURL, data.photoUrl, data.photoLink,
+        data.photourl, data.image, data.imageUrl, data.imageURL
+    ];
+
+    let photoUrl = photoCandidates.find(p => p && String(p).trim().length > 5);
+
+    // If no photo but Registrations sheet put file link in some other field (e.g. profile), try pdfLink? (not ideal)
+    if (!photoUrl && data.pdfLink) {
+        // certificate PDF is not a photo — do not try to use it as photo. Keep placeholder.
+        photoUrl = null;
+    }
+
+    // Convert Drive share link to thumbnail URL if possible
+    if (photoUrl && photoUrl.includes("/d/")) {
+        try {
+            const id = photoUrl.split("/d/")[1].split("/")[0];
+            photoUrl = "https://drive.google.com/thumbnail?id=" + id;
+        } catch(e){ /* ignore */ }
+    } else if (photoUrl && photoUrl.includes("id=") && photoUrl.indexOf("drive.google.com") !== -1) {
+        try {
+            const id = photoUrl.split("id=")[1].split("&")[0];
+            photoUrl = "https://drive.google.com/thumbnail?id=" + id;
+        } catch(e){ /* ignore */ }
+    }
+
+    // final fallback placeholder
+    if (!photoUrl) {
+        photoUrl = "https://via.placeholder.com/100x120?text=No+Photo";
+    }
+
+    document.getElementById("res-photo").src = photoUrl;
 }
 
     // ---------------- QR ----------------
