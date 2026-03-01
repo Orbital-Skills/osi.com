@@ -55,10 +55,10 @@
         }
 
         .floating-logo-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
 
         .tabs-header {
             display: flex;
@@ -172,50 +172,50 @@
             background: rgba(0,0,0,0.6); z-index: 100;
             color: white; text-align: center; padding-top: 40vh; font-size: 20px;
         }
-/* Academic Record Table - New Design */
-.academic-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    border: 2px solid #6a1b9a; /* गहरा पर्पल बॉर्डर */
-}
+        /* Academic Record Table - New Design */
+        .academic-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 2px solid #6a1b9a; /* गहरा पर्पल बॉर्डर */
+        }
 
-.academic-table th {
-    background-color: white;
-    color: #6a1b9a;
-    padding: 12px;
-    border: 1px solid #6a1b9a;
-    text-align: center;
-    font-size: 15px;
-}
+        .academic-table th {
+            background-color: white;
+            color: #6a1b9a;
+            padding: 12px;
+            border: 1px solid #6a1b9a;
+            text-align: center;
+            font-size: 15px;
+        }
 
-.academic-table td {
-    padding: 10px;
-    border: 1px solid #6a1b9a;
-    text-align: center;
-    color: #6a1b9a; /* टेक्स्ट का रंग पर्पल */
-    font-weight: 500;
-}
+        .academic-table td {
+            padding: 10px;
+            border: 1px solid #6a1b9a;
+            text-align: center;
+            color: #6a1b9a; /* टेक्स्ट का रंग पर्पल */
+            font-weight: 500;
+        }
 
-.sub-name { text-align: left !important; padding-left: 15px !important; }
-.max-marks { color: red; } /* Maximum Marks लाल रंग में */
+        .sub-name { text-align: left !important; padding-left: 15px !important; }
+        .max-marks { color: red; } /* Maximum Marks लाल रंग में */
 
-.grand-total-row {
-    font-weight: bold;
-    background-color: #f9f9f9;
-}
-.grand-total-lbl { color: green; font-size: 18px; }
-    
-   #reader {
-    width: 90vw;
-    max-width: 400px;
-    aspect-ratio: 1 / 1;   /* perfect square */
-    margin: 20px auto;
-    border: 3px solid #6a1b9a;
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-}
+        .grand-total-row {
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+        .grand-total-lbl { color: green; font-size: 18px; }
+            
+        #reader {
+            width: 90vw;
+            max-width: 400px;
+            aspect-ratio: 1 / 1;   /* perfect square */
+            margin: 20px auto;
+            border: 3px solid #6a1b9a;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
 
     </style>
 </head>
@@ -250,19 +250,19 @@
             </div>
         </div>
 
-         <!-- QR CONTENT (Hidden initially for demo purposes, based on screenshot showing Manual open) -->
+         <!-- QR CONTENT -->
         <div id="qr-tab" class="tab-content">
-    <div class="form-area" style="text-align: center;">
-        <h3 style="color:#555;">Scan QR Code</h3>
-        <p>Use your camera to scan the QR code on the certificate.</p>
-        
-       <div id="reader"></div>
+            <div class="form-area" style="text-align: center;">
+                <h3 style="color:#555;">Scan QR Code</h3>
+                <p>Use your camera to scan the QR code on the certificate.</p>
+                
+            <div id="reader"></div>
 
-        <button id="open-scanner-btn" onclick="startQRScanner()" class="verify-btn active-btn" style="background:#771E6E;">
-            <i class="fas fa-camera"></i> OPEN SCANNER
-        </button>
-    </div>
-</div>
+                <button id="open-scanner-btn" onclick="startQRScanner()" class="verify-btn active-btn" style="background:#771E6E;">
+                    <i class="fas fa-camera"></i> OPEN SCANNER
+                </button>
+            </div>
+        </div>
 
 
         <div id="manual-tab" class="tab-content active">
@@ -319,6 +319,7 @@
                     </div>
                    
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                        <!-- Photo Element -->
                         <img id="res-photo" src="" style="width: 100px; height: 120px; object-fit: cover; border: 3px solid #ddd; padding: 2px;">
                         
                         <table class="data-table">
@@ -330,29 +331,29 @@
                             <tr><td class="data-lbl">Status:</td><td class="data-val" style="color:green;">PASS</td></tr>
                         </table>
 
-<h3 style="color: #6a1b9a; margin-top: 30px; text-decoration: underline; text-align:center;">Academic Record</h3>
+                        <h3 style="color: #6a1b9a; margin-top: 30px; text-decoration: underline; text-align:center;">Academic Record</h3>
 
-<table class="academic-table" style="width: 100%; border-collapse: collapse; border: 2px solid #6a1b9a;">
-    <thead>
-        <tr style="background-color: white;">
-            <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Subject</th>
-            <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Maximum Marks</th>
-            <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Marks Obtained</th>
-            <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Grade</th>
-        </tr>
-    </thead>
-    <tbody id="marks-body-final">
-        </tbody>
-    <tfoot>
-        <tr style="font-weight: bold; background-color: white;">
-            <td style="border: 1px solid #6a1b9a; padding: 10px; color: green; text-align: left;">Grand Total</td>
-            <td style="border: 1px solid #6a1b9a; padding: 10px; color: red; text-align: center;">800</td>
-            <td id="res-total-final" style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a; text-align: center;"></td>
-            <td id="res-grade-final" style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a; text-align: center;"></td>
-        </tr>
-    </tfoot>
-</table>
-</div>
+                        <table class="academic-table" style="width: 100%; border-collapse: collapse; border: 2px solid #6a1b9a;">
+                            <thead>
+                                <tr style="background-color: white;">
+                                    <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Subject</th>
+                                    <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Maximum Marks</th>
+                                    <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Marks Obtained</th>
+                                    <th style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a;">Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="marks-body-final">
+                                </tbody>
+                            <tfoot>
+                                <tr style="font-weight: bold; background-color: white;">
+                                    <td style="border: 1px solid #6a1b9a; padding: 10px; color: green; text-align: left;">Grand Total</td>
+                                    <td style="border: 1px solid #6a1b9a; padding: 10px; color: red; text-align: center;">800</td>
+                                    <td id="res-total-final" style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a; text-align: center;"></td>
+                                    <td id="res-grade-final" style="border: 1px solid #6a1b9a; padding: 10px; color: #6a1b9a; text-align: center;"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                     
                     <button onclick="location.reload()" style="margin-top:20px; background:transparent; border:none; color: #6a1b9a; text-decoration: underline; cursor:pointer;">
                         Verify Another Student
@@ -406,7 +407,7 @@ async function autoFetchQRResult(sid){
 
         if(json.result === "success"){
             fetchedData = json.data;
-matched = { name:false, father:false, mother:false, course:false };
+            matched = { name:false, father:false, mother:false, course:false };
 
             document.getElementById("msg-roll").innerHTML = "Record Found";
             document.getElementById("msg-roll").className = "field-msg msg-success";
@@ -541,39 +542,61 @@ function showFinalResult(){
     document.getElementById("res-total-final").innerText = total;
     document.getElementById("res-grade-final").innerText = data.grade || "";
 
-    // Photo: try multiple property names, and convert Drive file link -> thumbnail if needed
+    // ============================================
+    // NEW PHOTO LOGIC (UPDATED FOR GOOGLE DRIVE)
+    // ============================================
+
+    // 1. Check all possible key names from Google Sheet
     const photoCandidates = [
-        data.photo, data.photoURL, data.photoUrl, data.photoLink,
-        data.photourl, data.image, data.imageUrl, data.imageURL
+        data.photo, data.Photo, data.photoURL, data.PhotoUrl, data.photoLink,
+        data.photourl, data.image, data.Image, data.imageUrl, data.imageURL,
+        data["Student Photo"], data.student_photo, data.passport_photo
     ];
 
-    let photoUrl = photoCandidates.find(p => p && String(p).trim().length > 5);
+    // Find the first valid link
+    let rawUrl = photoCandidates.find(p => p && String(p).trim().length > 5);
+    let finalPhotoUrl = "https://via.placeholder.com/100x120?text=No+Photo"; // Default fallback
 
-    // If no photo but Registrations sheet put file link in some other field (e.g. profile), try pdfLink? (not ideal)
-    if (!photoUrl && data.pdfLink) {
-        // certificate PDF is not a photo — do not try to use it as photo. Keep placeholder.
-        photoUrl = null;
+    if (rawUrl) {
+        // Case 1: If it is a Google Drive Link
+        if (rawUrl.includes("drive.google.com") || rawUrl.includes("docs.google.com")) {
+            let fileId = "";
+
+            try {
+                // Pattern A: .../d/FILE_ID/...
+                if (rawUrl.includes("/d/")) {
+                    fileId = rawUrl.split("/d/")[1].split("/")[0];
+                } 
+                // Pattern B: ...id=FILE_ID...
+                else if (rawUrl.includes("id=")) {
+                    fileId = rawUrl.split("id=")[1].split("&")[0];
+                }
+
+                if (fileId) {
+                    // Use 'uc?export=view' which is more reliable than 'thumbnail'
+                    finalPhotoUrl = "https://drive.google.com/uc?export=view&id=" + fileId;
+                }
+            } catch(e) {
+                console.log("Photo parsing error", e);
+            }
+        } 
+        // Case 2: If it is a direct link (Imgur, AWS, etc.)
+        else {
+            finalPhotoUrl = rawUrl;
+        }
     }
 
-    // Convert Drive share link to thumbnail URL if possible
-    if (photoUrl && photoUrl.includes("/d/")) {
-        try {
-            const id = photoUrl.split("/d/")[1].split("/")[0];
-            photoUrl = "https://drive.google.com/thumbnail?id=" + id;
-        } catch(e){ /* ignore */ }
-    } else if (photoUrl && photoUrl.includes("id=") && photoUrl.indexOf("drive.google.com") !== -1) {
-        try {
-            const id = photoUrl.split("id=")[1].split("&")[0];
-            photoUrl = "https://drive.google.com/thumbnail?id=" + id;
-        } catch(e){ /* ignore */ }
-    }
+    // Set the image source
+    document.getElementById("res-photo").src = finalPhotoUrl;
+    
+    // Error handling: If image fails to load, show placeholder
+    document.getElementById("res-photo").onerror = function() {
+        this.src = "https://via.placeholder.com/100x120?text=Error";
+    };
 
-    // final fallback placeholder
-    if (!photoUrl) {
-        photoUrl = "https://via.placeholder.com/100x120?text=No+Photo";
-    }
-
-    document.getElementById("res-photo").src = photoUrl;
+    // ============================================
+    // NEW PHOTO LOGIC END
+    // ============================================
 }
 
     // ---------------- QR ----------------
@@ -687,21 +710,6 @@ function handleQR(decodedText) {
   }
 }
 
-
-// Enable manual block
-function enableManualFields() {
-    // पूरा ब्लॉक activate करो
-    const section = document.getElementById("details-section");
-    section.style.opacity = "1";
-    section.style.pointerEvents = "auto";
-
-    // चारों inputs से disabled हटाओ
-    const inputs = ["v-name", "v-father", "v-mother", "v-course"];
-    inputs.forEach(id => {
-        const el = document.getElementById(id);
-        el.removeAttribute("disabled");
-    });
-}
 window.onload = function () {
     const params = new URLSearchParams(window.location.search);
     const sid = params.get("StudentID") || params.get("RollNo") || params.get("roll");
