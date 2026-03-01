@@ -543,7 +543,7 @@ function showFinalResult(){
     document.getElementById("res-grade-final").innerText = data.grade || "";
 
     // ============================================
-    // NEW PHOTO LOGIC (UPDATED FOR GOOGLE DRIVE)
+    // NEW PHOTO LOGIC (UPDATED WITH VALID PLACEHOLDER)
     // ============================================
 
     // 1. Check all possible key names from Google Sheet
@@ -555,7 +555,9 @@ function showFinalResult(){
 
     // Find the first valid link
     let rawUrl = photoCandidates.find(p => p && String(p).trim().length > 5);
-    let finalPhotoUrl = "https://via.placeholder.com/100x120?text=No+Photo"; // Default fallback
+    
+    // 🔥 UPDATED FALLBACK URL (Replaced 'via.placeholder.com' with 'placehold.co')
+    let finalPhotoUrl = "https://placehold.co/100x120?text=No+Photo"; 
 
     if (rawUrl) {
         // Case 1: If it is a Google Drive Link
@@ -589,9 +591,9 @@ function showFinalResult(){
     // Set the image source
     document.getElementById("res-photo").src = finalPhotoUrl;
     
-    // Error handling: If image fails to load, show placeholder
+    // Error handling: If image fails to load, show new placeholder
     document.getElementById("res-photo").onerror = function() {
-        this.src = "https://via.placeholder.com/100x120?text=Error";
+        this.src = "https://placehold.co/100x120?text=Error"; // 🔥 UPDATED HERE TOO
     };
 
     // ============================================
