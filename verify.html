@@ -547,11 +547,12 @@ function showFinalResult(){
     // ============================================
 
     // 1. Check all possible key names from Google Sheet
-    const photoCandidates = [
-        data.photo, data.Photo, data.photoURL, data.PhotoUrl, data.photoLink,
-        data.photourl, data.image, data.Image, data.imageUrl, data.imageURL,
-        data["Student Photo"], data.student_photo, data.passport_photo
-    ];
+    // लाइन नंबर 502 के आसपास
+const photoCandidates = [
+    data.photo, data.Photo, data.photoURL, 
+    data["Student Photo"], data.student_photo, 
+    data["Registrations"] // 
+];
 
     // Find the first valid link
     let rawUrl = photoCandidates.find(p => p && String(p).trim().length > 5);
