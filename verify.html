@@ -542,17 +542,13 @@ function showFinalResult(){
     document.getElementById("res-total-final").innerText = total;
     document.getElementById("res-grade-final").innerText = data.grade || "";
 
-    // ============================================
-    // NEW PHOTO LOGIC (UPDATED WITH VALID PLACEHOLDER)
-    // ============================================
-
-  // ============================================
-    // NEW PHOTO LOGIC (UPDATED)
+   // ============================================
+    // NEW PHOTO LOGIC (FIXED FOR "ERROR" ISSUE)
     // ============================================
 
-    // 1. Check all possible key names from Google Sheet
+    // 1. Check all possible key names from Google Sheet (Case Sensitive!)
     const photoCandidates = [
-        data.PhotoURL,          // <--- यह सबसे जरूरी है (आपके डेटा में यही आ रहा है)
+        data.PhotoURL,          // <--- आपका मुख्य कॉलम
         data.photo, 
         data.Photo, 
         data.photoURL, 
@@ -579,14 +575,15 @@ function showFinalResult(){
                 if (rawUrl.includes("/d/")) {
                     fileId = rawUrl.split("/d/")[1].split("/")[0];
                 } 
-                // Pattern B: ...id=FILE_ID... (आपके लिंक में यह पैटर्न है)
+                // Pattern B: ...id=FILE_ID... (आपका वाला लिंक पैटर्न)
                 else if (rawUrl.includes("id=")) {
                     fileId = rawUrl.split("id=")[1].split("&")[0];
                 }
 
                 if (fileId) {
-                    // Use 'uc?export=view' to force display instead of download
-                    finalPhotoUrl = "https://drive.google.com/uc?export=view&id=" + fileId;
+                    // 🔥 SOLUTION: Use Thumbnail API with Large Size (w1000)
+                    // यह 'uc?export=view' से ज्यादा बेहतर काम करता है और Error नहीं देता
+                    finalPhotoUrl = "https://drive.google.com/thumbnail?id=" + fileId + "&sz=w1000";
                 }
             } catch(e) {
                 console.log("Photo parsing error", e);
@@ -603,15 +600,13 @@ function showFinalResult(){
     
     // Error handling
     document.getElementById("res-photo").onerror = function() {
+        console.log("Failed to load image:", finalPhotoUrl);
         this.src = "https://placehold.co/100x120?text=Error";
     };
-
     // ============================================
     // NEW PHOTO LOGIC END
     // ============================================
 }
-
-    // ---------------- QR ----------------
 // ---------------- QR ----------------
 let html5QrCode = null;
 
