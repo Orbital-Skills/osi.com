@@ -546,18 +546,27 @@ function showFinalResult(){
     // NEW PHOTO LOGIC (UPDATED WITH VALID PLACEHOLDER)
     // ============================================
 
+  // ============================================
+    // NEW PHOTO LOGIC (UPDATED)
+    // ============================================
+
     // 1. Check all possible key names from Google Sheet
-    // लाइन नंबर 502 के आसपास
-const photoCandidates = [
-    data.photo, data.Photo, data.photoURL, 
-    data["Student Photo"], data.student_photo, 
-    data["Registrations"] // 
-];
+    const photoCandidates = [
+        data.PhotoURL,          // <--- यह सबसे जरूरी है (आपके डेटा में यही आ रहा है)
+        data.photo, 
+        data.Photo, 
+        data.photoURL, 
+        data.photoLink,
+        data.photourl, 
+        data.image, 
+        data["Student Photo"], 
+        data.student_photo
+    ];
 
     // Find the first valid link
     let rawUrl = photoCandidates.find(p => p && String(p).trim().length > 5);
     
-    // 🔥 UPDATED FALLBACK URL (Replaced 'via.placeholder.com' with 'placehold.co')
+    // Default fallback
     let finalPhotoUrl = "https://placehold.co/100x120?text=No+Photo"; 
 
     if (rawUrl) {
@@ -570,20 +579,20 @@ const photoCandidates = [
                 if (rawUrl.includes("/d/")) {
                     fileId = rawUrl.split("/d/")[1].split("/")[0];
                 } 
-                // Pattern B: ...id=FILE_ID...
+                // Pattern B: ...id=FILE_ID... (आपके लिंक में यह पैटर्न है)
                 else if (rawUrl.includes("id=")) {
                     fileId = rawUrl.split("id=")[1].split("&")[0];
                 }
 
                 if (fileId) {
-                    // Use 'uc?export=view' which is more reliable than 'thumbnail'
+                    // Use 'uc?export=view' to force display instead of download
                     finalPhotoUrl = "https://drive.google.com/uc?export=view&id=" + fileId;
                 }
             } catch(e) {
                 console.log("Photo parsing error", e);
             }
         } 
-        // Case 2: If it is a direct link (Imgur, AWS, etc.)
+        // Case 2: Direct link
         else {
             finalPhotoUrl = rawUrl;
         }
@@ -592,9 +601,9 @@ const photoCandidates = [
     // Set the image source
     document.getElementById("res-photo").src = finalPhotoUrl;
     
-    // Error handling: If image fails to load, show new placeholder
+    // Error handling
     document.getElementById("res-photo").onerror = function() {
-        this.src = "https://placehold.co/100x120?text=Error"; // 🔥 UPDATED HERE TOO
+        this.src = "https://placehold.co/100x120?text=Error";
     };
 
     // ============================================
