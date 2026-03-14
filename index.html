@@ -1,1607 +1,836 @@
-
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orbital Skill Development | करियर बनाने वाला स्किल डेवलपमेंट | Industry-Ready Courses & Certification</title>
-    <meta name="description" content="Orbital Skill Development offers industry-ready vocational courses with certification, placement guidance, and practical training. Courses in Electrician, Fireman, Plumber, Beautician, Computer, Welder & more. | औद्योगिक प्रशिक्षण और प्रमाणन के साथ कौशल विकास पाठ्यक्रम।">
-    <meta property="og:title" content="Orbital Skill Development - Skill Development that builds careers">
-    <meta property="og:description" content="Industry-ready courses with certification, placement guidance, and practical training in various vocational skills.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://orbitalskill.com">
-    <link rel="canonical" href="https://orbitalskill.com">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
-            overflow-x: hidden;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #4F0A5A 0%, #7B1E7A 50%, #F2CFEE 100%);
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #4F0A5A 0%, #7B1E7A 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(79, 10, 90, 0.2);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #4F0A5A 0%, #7B1E7A 100%);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(79, 10, 90, 0.3);
-        }
-        
-        .btn-outline {
-            border: 2px solid #4F0A5A;
-            color: #4F0A5A;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-outline:hover {
-            background: #4F0A5A;
-            color: white;
-        }
-        
-        .logo-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid #4F0A5A;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: white;
-            box-shadow: 0 10px 30px rgba(79, 10, 90, 0.2);
-        }
-        
-        .logo-text {
-            position: absolute;
-            width: 140px;
-            height: 140px;
-        }
-        
-        .phone-highlight {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .section-padding {
-            padding: 80px 20px;
-        }
-        
-        .nav-sticky {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .hero-illustration {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            color: #4F0A5A;
-        }
-        
-        .form-input {
-            border: 2px solid #e5e7eb;
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus {
-            border-color: #4F0A5A;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(79, 10, 90, 0.1);
-        }
-        
-        .bilingual-text {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        
-        .hindi-text {
-            font-family: 'Noto Sans Devanagari', sans-serif;
-        }
-        
-        .qr-sample {
-            width: 200px;
-            height: 200px;
-            background: white;
-            border: 2px solid #4F0A5A;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-        }
-        
-        .mobile-menu {
-            display: none;
-        }
-        
-        @media (max-width: 768px) {
-            .mobile-menu.active {
-                display: block;
-            }
-            
-            .section-padding {
-                padding: 40px 20px;
-            }
-            
-            .stat-number {
-                font-size: 2rem;
-            }
-        }
-        
-        .course-badge {
-            background: #F2CFEE;
-            color: #4F0A5A;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-        
-        .success-message {
-            background: #10B981;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            display: none;
-        }
-        
-        .success-message.show {
-            display: block;
-            animation: slideDown 0.5s ease;
-        }
-         /* Footer */
-    .site-footer {
-      background: #0c1b32; color: #eaf2ff; border-top: 1px solid #15223b;
-    }
-    .footer-inner {
-      max-width: 1200px; margin: 0 auto; padding: 40px 16px 20px; display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 20px;
-    }
-    .footer-col h4 { margin: 0 0 8px; color: #fff; font-size: 1.1rem; }
-    .footer-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-    .footer-col a { color: #cfe2ff; transition: color .2s ease; }
-    .footer-col a:hover { color: #fff; }
-    .social-links { display: flex; gap: 10px; margin-top: 8px; }
-    .social-links a {
-      width: 38px; height: 38px; display: grid; place-items: center; border-radius: 8px; background: #162a4a; border: 1px solid #213a63;
-      transition: transform .2s ease, background .2s ease;
-    }
-    .social-links a:hover { transform: translateY(-2px); background: #1b3459; }
-    .copyright {
-      border-top: 1px solid #15223b; margin-top: 14px; padding-top: 14px; text-align: center; color: #88a5d0; font-size: 0.9rem;
-    }
-
-    /* Modal (Contact CTA) */
-    .modal {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 60;
-    }
-    .modal[open] { display: flex; }
-    .modal-card {
-      background: #fff; border-radius: 14px; width: 100%; max-width: 560px; padding: 22px; box-shadow: var(--shadow-lg); position: relative;
-    }
-    .modal-close {
-      position: absolute; top: 8px; right: 8px; border: none; background: transparent; color: var(--muted); font-size: 20px; padding: 6px; cursor: pointer; border-radius: 6px;
-    }
-    .modal-close:hover { background: #f2f4f7; color: var(--accent); }
-    .form-grid { display: grid; gap: 10px; margin-top: 8px; }
-    .form-grid input, .form-grid select, .form-grid textarea {
-      padding: 12px; border: 1px solid var(--border); border-radius: 10px; font: inherit; width: 100%; background: #fff;
-    }
-    .form-grid textarea { min-height: 100px; resize: vertical; }
-    .form-status { margin-top: 8px; font-weight: 600; display: none; }
-    .form-status.show { display: block; }
-    .form-status.error { color: #b00020; }
-    .form-status.success { color: #0a7b39; }
-     /* Utilities */
-    .mt-8 { margin-top: 8px; }
-    .mt-16 { margin-top: 16px; }
-    .mt-32 { margin-top: 32px; }
-    .text-center { text-align: center; }
-    .text-muted { color: var(--muted); }
- /* Focus visible */
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
-    @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-  70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-}
-.whatsapp-float {
-  animation: pulse 2s infinite;
-}
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+    <title>Orbital Skill Development | करियर बनाने वाला स्किल डेवलपमेंट | Industry-Ready Courses</title>
+    <meta name="description" content="Orbital Skill Development offers industry-ready vocational courses with certification, placement guidance, and practical training.">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Swiper CSS (For Sliders) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F0A5A',
+                        primaryLight: '#7B1E7A',
+                        secondary: '#F2CFEE',
+                        accent: '#F59E0B',
+                        darkBg: '#0c1b32',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans Devanagari', 'sans-serif'],
+                    }
+                }
             }
         }
-    </style>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Orbital Skill Development",
-        "url": "https://orbitalskill.com",
-        "logo": "https://orbitalskill.com/logo.png",
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+91-9416711671",
-            "contactType": "Customer Service",
-            "areaServed": "IN",
-            "availableLanguage": ["Hindi", "English"]
-        },
-        "sameAs": [
-            "https://facebook.com/orbitalskill",
-            "https://twitter.com/orbitalskill",
-            "https://linkedin.com/company/orbitalskill"
-        ]
-    }
     </script>
+
+    <!-- Custom CSS -->
+    <style>
+        body { font-family: 'Inter', 'Noto Sans Devanagari', sans-serif; overflow-x: hidden; background-color: #f8fafc; }
+        .text-gradient { background: linear-gradient(135deg, #4F0A5A 0%, #7B1E7A 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        
+        /* Buttons & Hover Effects */
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -5px rgba(79, 10, 90, 0.15); }
+        .btn-primary { background: linear-gradient(135deg, #4F0A5A 0%, #7B1E7A 100%); color: white; transition: all 0.3s ease; }
+        .btn-primary:hover { box-shadow: 0 10px 20px rgba(79, 10, 90, 0.3); transform: scale(1.02); }
+        .btn-outline { border: 2px solid #4F0A5A; color: #4F0A5A; transition: all 0.3s ease; }
+        .btn-outline:hover { background: #4F0A5A; color: white; }
+        .form-input { border: 1px solid #cbd5e1; transition: all 0.3s ease; background-color: #f8fafc; }
+        .form-input:focus { border-color: #4F0A5A; outline: none; box-shadow: 0 0 0 4px rgba(79, 10, 90, 0.1); background-color: #ffffff; }
+        .hindi-text { font-family: 'Noto Sans Devanagari', sans-serif; font-size: 0.95em; line-height: 1.5; }
+        
+        /* Hero Swiper Fixes */
+        .hero-swiper { width: 100%; height: 100vh; }
+        .swiper-slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+        .swiper-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(12,27,50,0.9) 0%, rgba(79,10,90,0.6) 50%, rgba(0,0,0,0.3) 100%); z-index: 1; }
+        .swiper-content { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; height: 100%; padding-top: 60px; }
+        .swiper-button-next, .swiper-button-prev { color: white !important; background: rgba(255,255,255,0.1); backdrop-filter: blur(5px); width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s; }
+        .swiper-button-next:hover, .swiper-button-prev:hover { background: #4F0A5A; transform: scale(1.1); }
+        .swiper-button-next::after, .swiper-button-prev::after { font-size: 20px !important; font-weight: bold; }
+        .swiper-pagination-bullet { background: rgba(255,255,255,0.6) !important; width: 12px !important; height: 12px !important; transition: all 0.2s !important; }
+        .swiper-pagination-bullet-active { background: #F59E0B !important; transform: scale(1.3); }
+
+        /* Story Swiper Fixes */
+        .story-swiper { padding: 20px 10px 50px 10px !important; }
+        .story-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 100%; }
+        
+        /* Scroll Animations (Fade Up) */
+        .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        
+        /* WhatsApp Pulse */
+        .pulse-ring { animation: pulse-ring 2s infinite; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+
+        /* Course specific styling */
+        .course-badge { background: #F2CFEE; color: #4F0A5A; padding: 4px 12px; border-radius: 20px; font-size: 0.80rem; font-weight: 700; display: inline-block; margin-bottom: 5px; }
+        .course-desc-box { max-height: 180px; overflow-y: auto; padding-right: 5px; margin-bottom: 15px; }
+        .course-desc-box::-webkit-scrollbar { width: 4px; }
+        .course-desc-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    </style>
 </head>
-<body>
+<body class="text-gray-800 antialiased">
+
     <!-- Navigation -->
-    <nav class="nav-sticky">
-        <div class="container mx-auto px-4 py-4">
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-nav" id="navbar">
+        <div class="container mx-auto px-4 lg:px-8 py-3">
             <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="logo-circle">
-                        <svg class="w-16 h-16 text-[#4F0A5A]" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                        <svg class="logo-text" viewBox="0 0 140 140">
-                            <path id="curve" d="M 70, 70 m -60, 0 a 60,60 0 1,1 120,0 a 60,60 0 1,1 -120,0" fill="transparent"/>
-                            <text font-size="15" font-weight="600" fill="#4F0A5A">
-                                <textPath href="#curve" startOffset="50%" text-anchor="middle">
-                                    ORBITAL SKILL DEVELOPMENT
-                                </textPath>
-                            </text>
-                        </svg>
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-14 h-14 bg-white rounded-full border-2 border-primary shadow-md flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
+                        <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" alt="OSD Logo" class="w-10 h-10 object-contain" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%234F0A5A\'><path d=\'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\'/></svg>'">
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold gradient-text">Orbital Skill Development</h1>
-                        
+                        <h1 class="text-xl lg:text-2xl font-extrabold text-gradient uppercase tracking-tight">Orbital Skill</h1>
+                        <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest hidden sm:block">Development Center</p>
                     </div>
-                </div>
+                </a>
                 
+                <!-- Desktop Menu -->
                 <div class="hidden lg:flex items-center gap-6">
-                    <a href="#home" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Home</a>
-                    <a href="Courses.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Courses</a>
-                    <a href="#registration" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Enquiry</a>
-                    <a href="login.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Admissions</a>
-                    <a href="https://orbital-skills.github.io/osi.com/Result.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Results</a>
-                    <a href="https://orbital-skills.github.io/osi.com/verify.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Verification</a>
-                    <a href="#about" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">About</a>
-                    <a href="#contact" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Contact</a>
+                    <a href="#home" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Home</a>
+                    <a href="Courses.html" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Courses</a>
+                    <a href="#registration" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Enquiry</a>
+                    <a href="login.html" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Admissions</a>
+                    <a href="https://orbital-skills.github.io/osi.com/Result.html" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Results</a>
+                    <a href="https://orbital-skills.github.io/osi.com/verify.html" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Verification</a>
+                    <a href="#about" class="text-sm font-semibold text-gray-700 hover:text-primary transition">About</a>
                 </div>
                 
-                <button id="mobile-menu-btn" class="lg:hidden text-[#4F0A5A] text-2xl">
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden text-primary text-2xl focus:outline-none">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
-            
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="mobile-menu mt-4 pb-4 lg:hidden">
-                <div class="flex flex-col gap-4">
-                    <a href="#home" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Home</a>
-                    <a href="Courses.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Courses</a>
-                    <a href="#registration" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Enquire Now</a>
-                    <a href="login.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Admissions</a>
-                    <a href="https://orbital-skills.github.io/osi.com/Result.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Results</a>
-                    <a href="https://orbital-skills.github.io/osi.com/verify.html" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Verification</a>
-                    <a href="#about" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">About</a>
-                    <a href="#contact" class="text-gray-700 hover:text-[#4F0A5A] font-medium transition">Contact</a>
-                </div>
-            </div>
+        </div>
+        
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 flex flex-col py-4 px-6 gap-4 lg:hidden">
+            <a href="#home" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Home</a>
+            <a href="Courses.html" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Courses</a>
+            <a href="#registration" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Enquire Now</a>
+            <a href="login.html" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Admissions</a>
+            <a href="https://orbital-skills.github.io/osi.com/Result.html" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Results</a>
+            <a href="https://orbital-skills.github.io/osi.com/verify.html" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Verification</a>
+            <a href="#about" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">About Us</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="gradient-bg section-padding min-h-screen flex items-center">
-        <div class="container mx-auto px-4">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="text-white">
-                    <div class="phone-highlight inline-block px-6 py-3 rounded-full mb-6">
-                        <div class="flex items-center gap-3">
-                            <i class="fas fa-phone-alt text-[#4F0A5A]"></i>
-                            <div class="bilingual-text">
-                                <span class="font-bold text-[#4F0A5A] text-lg"> 9416711671</span>
+    <main>
+        <!-- Hero Section (Swiper Auto + Manual) -->
+        <div class="swiper hero-swiper" id="home">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide">
+                    <div class="swiper-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+                    <div class="swiper-overlay"></div>
+                    <div class="swiper-content container mx-auto px-4 lg:px-12 text-white">
+                        <div class="max-w-3xl">
+                            <div class="inline-block px-4 py-2 rounded-full bg-accent/20 border border-accent/50 text-accent font-bold text-sm mb-4 tracking-wider uppercase"><i class="fas fa-phone-alt mr-2"></i>Helpline: 9416711671</div>
+                            <h2 class="text-4xl lg:text-7xl font-extrabold mb-4 leading-tight drop-shadow-lg">Skill Development <br><span class="text-accent">That Builds Careers</span></h2>
+                            <p class="text-lg lg:text-xl mb-3 text-white/90 font-medium">Industry-ready courses with certification, placement guidance, and practical training.</p>
+                            <p class="text-md lg:text-xl mb-8 hindi-text text-white/80 border-l-4 border-accent pl-4">प्रमाणन, प्लेसमेंट मार्गदर्शन और व्यावहारिक प्रशिक्षण के साथ उद्योग-तैयार पाठ्यक्रम।</p>
+                            <div class="flex flex-wrap gap-4">
+                                <a href="#registration" class="bg-accent hover:bg-yellow-500 text-gray-900 px-8 py-4 rounded-full font-bold shadow-lg transition flex items-center gap-2">Apply Now <span class="font-normal">| अभी आवेदन करें</span> <i class="fas fa-arrow-right ml-2"></i></a>
                             </div>
                         </div>
                     </div>
-                    
-                    <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                        Skill Development that builds careers
-                    </h1>
-                  
-                    <p class="text-xl mb-4 opacity-90">
-                        Industry-ready courses with certification, placement guidance, and practical training.
-                    </p>
-                    <p class="text-lg mb-8 hindi-text opacity-80">
-                        प्रमाणन, प्लेसमेंट मार्गदर्शन और व्यावहारिक प्रशिक्षण के साथ उद्योग-तैयार पाठ्यक्रम।
-                    </p>
-                    
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#registration" class="btn-primary text-white px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2">
-                            <span>Apply Now</span>
-                            <span class="hindi-text">| अभी आवेदन करें</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="tel:941671171" class="bg-white text-[#4F0A5A] px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition inline-flex items-center gap-2">
-                            <i class="fas fa-phone"></i>
-                            <span>Call: 9416711671</span>
-                        </a>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="swiper-slide">
+                    <div class="swiper-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+                    <div class="swiper-overlay"></div>
+                    <div class="swiper-content container mx-auto px-4 lg:px-12 text-white">
+                        <div class="max-w-3xl">
+                            <span class="inline-block px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/50 text-blue-300 font-bold text-sm mb-4 tracking-wider uppercase">Practical Knowledge</span>
+                            <h2 class="text-4xl lg:text-7xl font-extrabold mb-4 leading-tight drop-shadow-lg">Learn By Doing <br><span class="text-blue-400">Not Just Reading</span></h2>
+                            <p class="text-lg lg:text-xl mb-3 text-white/90 font-medium">Get hands-on experience with real-world projects. Turn your passion into a high-paying profession.</p>
+                            <p class="text-md lg:text-xl mb-8 hindi-text text-white/80 border-l-4 border-blue-400 pl-4">किताबी ज्ञान से आगे बढ़ें। आधुनिक उपकरणों और वास्तविक प्रोजेक्ट्स के साथ प्रैक्टिकल ट्रेनिंग प्राप्त करें।</p>
+                            <div class="flex flex-wrap gap-4">
+                                <a href="Courses.html" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-full font-bold shadow-lg transition flex items-center gap-2"><i class="fas fa-book-open"></i> Explore Courses</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="hero-illustration">
-                    <svg viewBox="0 0 500 500" class="w-full max-w-lg mx-auto">
-                        <!-- Education illustration -->
-                        <circle cx="250" cy="250" r="200" fill="#F2CFEE" opacity="0.3"/>
-                        <circle cx="250" cy="250" r="150" fill="#F2CFEE" opacity="0.5"/>
-                        
-                        <!-- Book -->
-                        <rect x="180" y="200" width="140" height="100" rx="5" fill="white" stroke="#4F0A5A" stroke-width="3"/>
-                        <line x1="250" y1="200" x2="250" y2="300" stroke="#4F0A5A" stroke-width="2"/>
-                        <line x1="190" y1="220" x2="240" y2="220" stroke="#F2CFEE" stroke-width="3"/>
-                        <line x1="190" y1="240" x2="240" y2="240" stroke="#F2CFEE" stroke-width="3"/>
-                        <line x1="260" y1="220" x2="310" y2="220" stroke="#F2CFEE" stroke-width="3"/>
-                        <line x1="260" y1="240" x2="310" y2="240" stroke="#F2CFEE" stroke-width="3"/>
-                        
-                        <!-- Graduation cap -->
-                        <polygon points="250,150 200,170 200,175 300,175 300,170" fill="#4F0A5A"/>
-                        <rect x="245" y="175" width="10" height="30" fill="#4F0A5A"/>
-                        <circle cx="250" cy="205" r="8" fill="#FFD700"/>
-                        
-                        <!-- Tools around -->
-                        <circle cx="150" cy="150" r="25" fill="white" stroke="#4F0A5A" stroke-width="2"/>
-                        <text x="150" y="160" text-anchor="middle" font-size="24">🔧</text>
-                        
-                        <circle cx="350" cy="150" r="25" fill="white" stroke="#4F0A5A" stroke-width="2"/>
-                        <text x="350" y="160" text-anchor="middle" font-size="24">💻</text>
-                        
-                        <circle cx="150" cy="350" r="25" fill="white" stroke="#4F0A5A" stroke-width="2"/>
-                        <text x="150" y="360" text-anchor="middle" font-size="24">✂️</text>
-                        
-                        <circle cx="350" cy="350" r="25" fill="white" stroke="#4F0A5A" stroke-width="2"/>
-                        <text x="350" y="360" text-anchor="middle" font-size="24">💄</text>
-                    </svg>
+
+                <!-- Slide 3 -->
+                <div class="swiper-slide">
+                    <div class="swiper-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+                    <div class="swiper-overlay"></div>
+                    <div class="swiper-content container mx-auto px-4 lg:px-12 text-white">
+                        <div class="max-w-3xl">
+                            <span class="inline-block px-4 py-1.5 rounded-full bg-green-500/20 border border-green-400/50 text-green-400 font-bold text-sm mb-4 tracking-wider uppercase">Govt. Recognized</span>
+                            <h2 class="text-4xl lg:text-7xl font-extrabold mb-4 leading-tight drop-shadow-lg">Get Certified <br><span class="text-green-400">Get Hired Fast</span></h2>
+                            <p class="text-lg lg:text-xl mb-3 text-white/90 font-medium">Earn industry-recognized certificates that companies trust. Your gateway to top jobs.</p>
+                            <p class="text-md lg:text-xl mb-8 hindi-text text-white/80 border-l-4 border-green-400 pl-4">मान्यता प्राप्त प्रमाणपत्र हासिल करें जो कंपनियों का भरोसा जीतें। आपके सफल भविष्य की गारंटी।</p>
+                            <div class="flex flex-wrap gap-4">
+                                <a href="login.html" class="bg-white hover:bg-gray-100 text-primary px-8 py-4 rounded-full font-bold shadow-lg transition flex items-center gap-2"><i class="fas fa-user-graduate"></i> Student Login</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Stats -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
-                <div class="text-center text-white">
-                    <div class="stat-number text-yellow-300">8+</div>
-                    <p class="text-lg">Courses | पाठ्यक्रम</p>
-                </div>
-                <div class="text-center text-white">
-                    <div class="stat-number text-yellow-300">100%</div>
-                    <p class="text-lg">Certification | प्रमाणन</p>
-                </div>
-                <div class="text-center text-white">
-                    <div class="stat-number text-yellow-300">3-6</div>
-                    <p class="text-lg">Months | महीने</p>
-                </div>
-                <div class="text-center text-white">
-                    <div class="stat-number text-yellow-300">24/7</div>
-                    <p class="text-lg">Support | सहायता</p>
-                </div>
-            </div>
+            <!-- Swiper Controls -->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
-    </section>
 
-    <!-- Courses Section -->
-    <section id="courses" class="section-padding bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">Our Courses</h2>
-                <p class="text-2xl hindi-text text-gray-600 mb-4">हमारे पाठ्यक्रम</p>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    Industry-relevant skill development programs designed for practical learning and career success
-                </p>
+        <!-- Stats Section -->
+        <section class="relative z-20 -mt-10 mb-16 px-4 fade-up">
+            <div class="container mx-auto max-w-5xl bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x divide-gray-100">
+                    <div class="px-4"><div class="text-4xl font-extrabold text-primary mb-1 text-accent">8+</div><p class="text-sm font-semibold text-gray-500">Courses | पाठ्यक्रम</p></div>
+                    <div class="px-4"><div class="text-4xl font-extrabold text-primary mb-1 text-accent">100%</div><p class="text-sm font-semibold text-gray-500">Certification | प्रमाणन</p></div>
+                    <div class="px-4"><div class="text-4xl font-extrabold text-primary mb-1 text-accent">3-12</div><p class="text-sm font-semibold text-gray-500">Months | महीने</p></div>
+                    <div class="px-4"><div class="text-4xl font-extrabold text-primary mb-1 text-accent">24/7</div><p class="text-sm font-semibold text-gray-500">Support | सहायता</p></div>
+                </div>
             </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Electrician -->
-                <div class="bg-white rounded-2xl p-6 card-hover shadow-lg">
-                    <div class="text-5xl mb-4">⚡</div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-2">Electrician</h3>
-                    <p class="text-lg hindi-text text-gray-600 mb-4">इलेक्ट्रीशियन</p>
-                    <div class="flex gap-2 mb-4">
-                        <span class="course-badge">6/12 Months</span>
-                        <span class="course-badge">Class 10th / 10 +2</span>
-                    </div>
-                    <p class="text-gray-700 mb-2">
-                        Master electrical installation, wiring, maintenance, and safety protocols. Learn residential and commercial electrical systems with hands-on training and industry-standard practices.
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                        विद्युत स्थापना, वायरिंग, रखरखाव और सुरक्षा प्रोटोकॉल में महारत हासिल करें। व्यावहारिक प्रशिक्षण के साथ आवासीय और वाणिज्यिक विद्युत प्रणाली सीखें।
-                    </p>
-                    <div class="flex gap-2">
-                        <a href="electrician.html" 
-   class="btn-outline px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">
-   View Details | विवरण
-</a>
+        </section>
 
-                        <a href="#registration" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">Apply | आवेदन</a>
-                    </div>
+        <!-- Courses Section (Restoring ALL your original text) -->
+        <section id="courses" class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Our <span class="text-gradient">Courses</span></h2>
+                    <p class="text-2xl hindi-text text-gray-600 mb-4">हमारे पाठ्यक्रम</p>
+                    <p class="text-lg text-gray-600">Industry-relevant skill development programs designed for practical learning and career success</p>
                 </div>
                 
-                <!-- Fireman -->
-                <div class="bg-white rounded-2xl p-6 card-hover shadow-lg">
-                    <div class="text-5xl mb-4">🚒</div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-2">Fireman</h3>
-                    <p class="text-lg hindi-text text-gray-600 mb-4">फायरमैन</p>
-                    <div class="flex gap-2 mb-4">
-                        <span class="course-badge">6/12 Months</span>
-                        <span class="course-badge">Class 10th / 10 +2</span>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    
+                    <!-- 1. Electrician -->
+                    <div class="bg-white rounded-2xl p-6 hover-lift border border-gray-100 shadow-md flex flex-col fade-up">
+                        <div class="text-5xl mb-4">⚡</div>
+                        <h3 class="text-2xl font-bold text-primary mb-1">Electrician</h3>
+                        <p class="text-lg hindi-text text-gray-600 mb-3">इलेक्ट्रीशियन</p>
+                        <div><span class="course-badge">6/12 Months</span> <span class="course-badge">Class 10th / 10 +2</span></div>
+                        <div class="course-desc-box mt-3 text-sm text-gray-700 space-y-2">
+                            <p>Master electrical installation, wiring, maintenance, and safety protocols. Learn residential and commercial electrical systems with hands-on training and industry-standard practices.</p>
+                            <p class="hindi-text text-gray-600">विद्युत स्थापना, वायरिंग, रखरखाव और सुरक्षा प्रोटोकॉल में महारत हासिल करें। व्यावहारिक प्रशिक्षण के साथ आवासीय और वाणिज्यिक विद्युत प्रणाली सीखें।</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto">
+                            <a href="electrician.html" class="btn-outline py-2 rounded-lg text-sm font-bold text-center">View Details</a>
+                            <a href="#registration" class="btn-primary py-2 rounded-lg text-sm font-bold text-center text-white">Apply | आवेदन</a>
+                        </div>
                     </div>
-                    <p class="text-gray-700 mb-2">
-                        Comprehensive fire safety training including firefighting techniques, rescue operations, emergency response, and fire prevention strategies. Build physical fitness and crisis management skills.
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                        अग्निशमन तकनीक, बचाव अभियान, आपातकालीन प्रतिक्रिया और अग्नि रोकथाम रणनीतियों सहित व्यापक अग्नि सुरक्षा प्रशिक्षण। शारीरिक फिटनेस और संकट प्रबंधन कौशल विकसित करें।
-                    </p>
-                    <div class="flex gap-2">
-                        <a href="fire-safety.html" 
-   class="btn-outline px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">
-   View Details | विवरण
-</a>
-                        <a href="#registration" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">Apply | आवेदन</a>
-                    </div>
-                </div>
-                
-                <!-- Plumber -->
-                <div class="bg-white rounded-2xl p-6 card-hover shadow-lg">
-                    <div class="text-5xl mb-4">🔧</div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-2">Plumber</h3>
-                    <p class="text-lg hindi-text text-gray-600 mb-4">प्लंबर</p>
-                    <div class="flex gap-2 mb-4">
-                        <span class="course-badge">3/6/12 Months</span>
-                        <span class="course-badge">Class 10th / 10 +2</span>
-                    </div>
-                    <p class="text-gray-700 mb-2">
-                        Learn plumbing installation, pipe fitting, drainage systems, and water supply management. Gain expertise in modern plumbing techniques, tools, and troubleshooting methods for residential and commercial projects.
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                        प्लंबिंग इंस्टॉलेशन, पाइप फिटिंग, ड्रेनेज सिस्टम और जल आपूर्ति प्रबंधन सीखें। आवासीय और वाणिज्यिक परियोजनाओं के लिए आधुनिक प्लंबिंग तकनीकों में विशेषज्ञता प्राप्त करें।
-                    </p>
-                    <div class="flex gap-2">
-                        <a href="plumber.html"
-   class="btn-outline px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">
-   View Details | विवरण
 
+                    <!-- 2. Fireman -->
+                    <div class="bg-white rounded-2xl p-6 hover-lift border border-gray-100 shadow-md flex flex-col fade-up">
+                        <div class="text-5xl mb-4">🚒</div>
+                        <h3 class="text-2xl font-bold text-primary mb-1">Fireman</h3>
+                        <p class="text-lg hindi-text text-gray-600 mb-3">फायरमैन</p>
+                        <div><span class="course-badge">6/12 Months</span> <span class="course-badge">Class 10th / 10 +2</span></div>
+                        <div class="course-desc-box mt-3 text-sm text-gray-700 space-y-2">
+                            <p>Comprehensive fire safety training including firefighting techniques, rescue operations, emergency response, and fire prevention strategies. Build physical fitness and crisis management skills.</p>
+                            <p class="hindi-text text-gray-600">अग्निशमन तकनीक, बचाव अभियान, आपातकालीन प्रतिक्रिया और अग्नि रोकथाम रणनीतियों सहित व्यापक अग्नि सुरक्षा प्रशिक्षण। शारीरिक फिटनेस और संकट प्रबंधन कौशल विकसित करें।</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto">
+                            <a href="fire-safety.html" class="btn-outline py-2 rounded-lg text-sm font-bold text-center">View Details</a>
+                            <a href="#registration" class="btn-primary py-2 rounded-lg text-sm font-bold text-center text-white">Apply | आवेदन</a>
+                        </div>
+                    </div>
 
-                        <a href="#registration" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">Apply | आवेदन</a>
+                    <!-- 3. Plumber -->
+                    <div class="bg-white rounded-2xl p-6 hover-lift border border-gray-100 shadow-md flex flex-col fade-up">
+                        <div class="text-5xl mb-4">🔧</div>
+                        <h3 class="text-2xl font-bold text-primary mb-1">Plumber</h3>
+                        <p class="text-lg hindi-text text-gray-600 mb-3">प्लंबर</p>
+                        <div><span class="course-badge">3/6/12 Months</span> <span class="course-badge">Class 10th / 10 +2</span></div>
+                        <div class="course-desc-box mt-3 text-sm text-gray-700 space-y-2">
+                            <p>Learn plumbing installation, pipe fitting, drainage systems, and water supply management. Gain expertise in modern plumbing techniques, tools, and troubleshooting methods for residential and commercial projects.</p>
+                            <p class="hindi-text text-gray-600">प्लंबिंग इंस्टॉलेशन, पाइप फिटिंग, ड्रेनेज सिस्टम और जल आपूर्ति प्रबंधन सीखें। आवासीय और वाणिज्यिक परियोजनाओं के लिए आधुनिक प्लंबिंग तकनीकों में विशेषज्ञता प्राप्त करें।</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto">
+                            <a href="plumber.html" class="btn-outline py-2 rounded-lg text-sm font-bold text-center">View Details</a>
+                            <a href="#registration" class="btn-primary py-2 rounded-lg text-sm font-bold text-center text-white">Apply | आवेदन</a>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- Beautician -->
-                <div class="bg-white rounded-2xl p-6 card-hover shadow-lg">
-                    <div class="text-5xl mb-4">💄</div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-2">Beautician</h3>
-                    <p class="text-lg hindi-text text-gray-600 mb-4">ब्यूटीशियन</p>
-                    <div class="flex gap-2 mb-4">
-                        <span class="course-badge">3/6/12 Months</span>
-                        <span class="course-badge">Class 10th / 10 +2</span>
-                    </div>
-                    <p class="text-gray-700 mb-2">
-                        Complete beauty training covering skincare, makeup, hair styling, nail art, and spa therapies. Master professional beauty techniques, client consultation, and salon management to start your own beauty business.
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                        त्वचा देखभाल, मेकअप, हेयर स्टाइलिंग, नेल आर्ट और स्पा थेरेपी को कवर करने वाला संपूर्ण सौंदर्य प्रशिक्षण। अपना खुद का ब्यूटी बिजनेस शुरू करने के लिए पेशेवर तकनीक सीखें।
-                    </p>
-                    <div class="flex gap-2">
-                        <a href="beautician.html"
-   class="btn-outline px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">
-   View Details | विवरण
 
-                        <a href="#registration" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">Apply | आवेदन</a>
+                    <!-- 4. Beautician -->
+                    <div class="bg-white rounded-2xl p-6 hover-lift border border-gray-100 shadow-md flex flex-col fade-up">
+                        <div class="text-5xl mb-4">💄</div>
+                        <h3 class="text-2xl font-bold text-primary mb-1">Beautician</h3>
+                        <p class="text-lg hindi-text text-gray-600 mb-3">ब्यूटीशियन</p>
+                        <div><span class="course-badge">3/6/12 Months</span> <span class="course-badge">Class 10th / 10 +2</span></div>
+                        <div class="course-desc-box mt-3 text-sm text-gray-700 space-y-2">
+                            <p>Complete beauty training covering skincare, makeup, hair styling, nail art, and spa therapies. Master professional beauty techniques, client consultation, and salon management to start your own beauty business.</p>
+                            <p class="hindi-text text-gray-600">त्वचा देखभाल, मेकअप, हेयर स्टाइलिंग, नेल आर्ट और स्पा थेरेपी को कवर करने वाला संपूर्ण सौंदर्य प्रशिक्षण। अपना खुद का ब्यूटी बिजनेस शुरू करने के लिए पेशेवर तकनीक सीखें।</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto">
+                            <a href="beautician.html" class="btn-outline py-2 rounded-lg text-sm font-bold text-center">View Details</a>
+                            <a href="#registration" class="btn-primary py-2 rounded-lg text-sm font-bold text-center text-white">Apply | आवेदन</a>
+                        </div>
                     </div>
-                </div>
-                
-              
-                  <!-- Banking -->
-                <div class="bg-white rounded-2xl p-6 card-hover shadow-lg">
-                    <div class="text-5xl mb-4">💻</div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-2">Banking-Finance Skills</h3>
-                    <p class="text-lg hindi-text text-gray-600 mb-4">बैंक फाइनेंस</p>
-                    <div class="flex gap-2 mb-4">
-                        <span class="course-badge">3/6/12 Months</span>
-                        <span class="course-badge">Class 10th / 10 +2</span>
-                    </div>
-                    <p class="text-gray-700 mb-2">
-                       "Junior Finance Associate (MES)",  "MES – Business Correspondent", "Mutual Fund Associate (MES)", Small office/ Home office Coordinator (MES), "Accounts Assistant using Tally", Insurance Agent, "Microfinance Executive", "Mutual Fund Distributor", Accounts Executive, "Insurance Sales Associate (MES)", "Marketing Associate (MES)", MIS Data Analyst - Financial Services, Mutual Fund Agent, Customer Service Associate - Financial Services, GST Assistant, Accounts Assistant, "Banking  ssociate (MES)", Business Correspondent/Facilitator, Credit Processing Officer, "Debt Recovery Agent", Consultant (Chartered Tax Practitioner), "Loan Processing Officer", Insolvency & Bankruptcy Associate.                  
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                         करें।
-                    </p>
-                    <div class="flex gap-2">
-                        <a href="banking-finance.html"
-   class="btn-outline px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">
-   View Details | विवरण
-</a>
 
-                        <a href="#registration" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">Apply | आवेदन</a>
+                    <!-- 5. Banking-Finance -->
+                    <div class="bg-white rounded-2xl p-6 hover-lift border border-gray-100 shadow-md flex flex-col fade-up">
+                        <div class="text-5xl mb-4">🏦</div>
+                        <h3 class="text-2xl font-bold text-primary mb-1">Banking-Finance Skills</h3>
+                        <p class="text-lg hindi-text text-gray-600 mb-3">बैंक फाइनेंस</p>
+                        <div><span class="course-badge">3/6/12 Months</span> <span class="course-badge">Class 10th / 10 +2</span></div>
+                        <div class="course-desc-box mt-3 text-sm text-gray-700 space-y-2">
+                            <p>"Junior Finance Associate (MES)", "MES – Business Correspondent", "Mutual Fund Associate (MES)", Small office/ Home office Coordinator (MES), "Accounts Assistant using Tally", Insurance Agent, "Microfinance Executive", "Mutual Fund Distributor", Accounts Executive, "Insurance Sales Associate (MES)", "Marketing Associate (MES)", MIS Data Analyst - Financial Services, Mutual Fund Agent, Customer Service Associate - Financial Services, GST Assistant, Accounts Assistant, "Banking associate (MES)", Business Correspondent/Facilitator, Credit Processing Officer, "Debt Recovery Agent", Consultant (Chartered Tax Practitioner), "Loan Processing Officer", Insolvency & Bankruptcy Associate.</p>
+                            <p class="hindi-text text-gray-600">अपना करियर फाइनेंस में सुरक्षित करें।</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto">
+                            <a href="banking-finance.html" class="btn-outline py-2 rounded-lg text-sm font-bold text-center">View Details</a>
+                            <a href="#registration" class="btn-primary py-2 rounded-lg text-sm font-bold text-center text-white">Apply | आवेदन</a>
+                        </div>
                     </div>
-                </div>  
-  <!-- Health Care -->
-                <div class="bg-white rounded-2xl p-6 card-hover shadow-lg">
-                    <div class="text-5xl mb-4">💻</div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-2">Health Care Skills</h3>
-                    <p class="text-lg hindi-text text-gray-600 mb-4">स्वास्थ्य देखभाल</p>
-                    <div class="flex gap-2 mb-4">
-                        <span class="course-badge">3/6/12 Months</span>
-                        <span class="course-badge">Class 10th / 10 +2</span>
-                    </div>
-                    <p class="text-gray-700 mb-2">
-                      Assistant Yoga Instructor, Ayurveda Masseur, Dietetic Aide, "HOME HEALTH AIDE"
-Garbhini Rakshaka. Panchakarma Assistant, Medical Equipment Assistant (Basic Clinical Equipment)
-Geriatric Caregiver (Institutional & Home Care), "Ayurveda Ahara & Poshana Sahayak", "Cupping Therapy Assistant"
-Diabetes Assistant, Emergency Care Assistant, Emergency Medical Technician (EMT) - Basic "GENERAL DUTY ASSISTANT"
-PHLEBOTOMIST GERIATRIC CARE ASSISTANT, HOSPITAL FRONT DESK COORDINATOR, Yoga Therapy Assistant
-Transplant Coordinator, Telehealth Services Coordinator, "Kshara Karma Technician"
-   </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                         करें।
-                    </p>
-                    <div class="flex gap-2">
-                        <a href="health-care.html"
-   class="btn-outline px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">
-   View Details | विवरण
-</a>
 
-                        <a href="#registration" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">Apply | आवेदन</a>
+                    <!-- 6. Health Care -->
+                    <div class="bg-white rounded-2xl p-6 hover-lift border border-gray-100 shadow-md flex flex-col fade-up">
+                        <div class="text-5xl mb-4">⚕️</div>
+                        <h3 class="text-2xl font-bold text-primary mb-1">Health Care Skills</h3>
+                        <p class="text-lg hindi-text text-gray-600 mb-3">स्वास्थ्य देखभाल</p>
+                        <div><span class="course-badge">3/6/12 Months</span> <span class="course-badge">Class 10th / 10 +2</span></div>
+                        <div class="course-desc-box mt-3 text-sm text-gray-700 space-y-2">
+                            <p>Assistant Yoga Instructor, Ayurveda Masseur, Dietetic Aide, "HOME HEALTH AIDE", Garbhini Rakshaka, Panchakarma Assistant, Medical Equipment Assistant (Basic Clinical Equipment), Geriatric Caregiver (Institutional & Home Care), "Ayurveda Ahara & Poshana Sahayak", "Cupping Therapy Assistant", Diabetes Assistant, Emergency Care Assistant, Emergency Medical Technician (EMT) - Basic "GENERAL DUTY ASSISTANT", PHLEBOTOMIST, GERIATRIC CARE ASSISTANT, HOSPITAL FRONT DESK COORDINATOR, Yoga Therapy Assistant, Transplant Coordinator, Telehealth Services Coordinator, "Kshara Karma Technician".</p>
+                            <p class="hindi-text text-gray-600">मेडिकल और हेल्थ केयर में अपना भविष्य बनाएं।</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto">
+                            <a href="health-care.html" class="btn-outline py-2 rounded-lg text-sm font-bold text-center">View Details</a>
+                            <a href="#registration" class="btn-primary py-2 rounded-lg text-sm font-bold text-center text-white">Apply | आवेदन</a>
+                        </div>
                     </div>
-                </div>  
-               
-                <!-- ECCE/ NTT -->
-                <div class="bg-white rounded-2xl p-6 card-hover shadow-lg">
-                    <div class="text-5xl mb-4">👶</div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-2">ECCE/ NTT</h3>
-                    <p class="text-lg hindi-text text-gray-600 mb-4">Early Child Care Education / Nursery Teacher Traning</p>
-                    <div class="flex gap-2 mb-4">
-                        <span class="course-badge">6/12 Months</span>
-                        <span class="course-badge">Class 10th / 10 +2</span>
-                    </div>
-                    <p class="text-gray-700 mb-2">
-                        Early Child Care Educator training covering child psychology, teaching methodologies, activity planning, health and nutrition, and classroom management. Prepare for careers in preschools, daycare centers, and early childhood education.
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                        बाल मनोविज्ञान, शिक्षण विधियों, गतिविधि योजना, स्वास्थ्य और पोषण को कवर करने वाला प्रारंभिक बाल देखभाल शिक्षक प्रशिक्षण। प्री-स्कूल और बाल शिक्षा में करियर के लिए तैयार हों।
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                        NTT का फुल फॉर्म ‘नर्सरी टीचर ट्रेनिंग’ कोर्स होता है यह एक वर्ष का डिप्लोमा कोर्स है जिसमें सरकारी और प्राइवेट स्कूलों व इंस्टिट्यूट में नर्सरी के बच्चों को पढ़ाने के लिए यह कोर्स किया जाता है इस कोर्स में स्टूडेंट्स को चाइल्ड केयर एंड हेल्थ, बेसिक ऑफ द प्री-प्राइमरी एजुकेशन और टीचिंग मे थाडोलॉजी जैसे विषय पढ़ाये जाते हैं इसके साथ ही उन्हें प्रैक्टिकल ट्रेनिंग भी दी जाती हैं जिसके माध्यम से वह प्राइमरी क्लास के बच्चों को पढ़ाने में सक्षम होते हैं और आप एक अध्यापक के तौर पर 3 से लेकर 5 साल तक के बच्चों को पढ़ा सकते है जिसके लिए अच्छी खासी सैलरी प्रदान की जाती है.
-                    </p>
-                    <div class="flex gap-2">
-                        <button class="btn-outline px-4 py-2 rounded-lg text-sm font-semibold flex-1">View Details | विवरण</button>
-                        <a href="#registration" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">Apply | आवेदन</a>
-                    </div>
-                </div>             
-                <!-- IT-ITS Sector -->
-                <div class="bg-white rounded-2xl p-6 card-hover shadow-lg">
-                    <div class="text-5xl mb-4">💻</div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-2">IT-ITS Sector</h3>
-                    <p class="text-lg hindi-text text-gray-600 mb-4">कंप्यूटर कौशल</p>
-                    <div class="flex gap-2 mb-4">
-                        <span class="course-badge">3/6/12 Months</span>
-                        <span class="course-badge">Class 10th / 10 +2</span>
-                    </div>
-                    <p class="text-gray-700 mb-2">
-                        Master essential computer applications including MS Office, internet navigation, email management, typing, and basic troubleshooting. Gain digital literacy for modern workplace requirements and online communication skills.
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                        Customer Care Executive-, Biometric Data Operator, Accounting
-IT Helpdesk Attendant, Junior Software Developer, "Digital Marketing Assistant"
-Certificate Course in Computer Basics and Accounting "Certificate in Advanced Accounting with Tally ERP" Certificate in Financial Accounting with Tally ERP
-"Graphic Designing With Video Editing" WEB DESIGNING  
-C ,C++ CORE JAVA , ADVANCED JAVA, "PYTHON (BASIC+ADV)", C#.NET, ASP.NET
-MYSQL, SQL SERVER, PL/SQL
-MS OFFICE, BASIC to ADVANCE  EXCEL, TALLY PRIME With GST
-, इंटरनेट नेविगेशन, ईमेल प्रबंधन, टाइपिंग और बुनियादी समस्या निवारण सहित आवश्यक कंप्यूटर एप्लिकेशन में महारत हासिल करें। आधुनिक कार्यस्थल के लिए डिजिटल साक्षरता प्राप्त करें।
-                    </p>
-                    <div class="flex gap-2">
-                       <a href="IT-ITES-Sector.html" class="btn-outline px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">
-   View Details | विवरण
-</a>
 
-                        <a href="#registration" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">Apply | आवेदन</a>
+                    <!-- 7. ECCE/ NTT -->
+                    <div class="bg-white rounded-2xl p-6 hover-lift border border-gray-100 shadow-md flex flex-col fade-up">
+                        <div class="text-5xl mb-4">👶</div>
+                        <h3 class="text-2xl font-bold text-primary mb-1">ECCE/ NTT</h3>
+                        <p class="text-xs hindi-text text-gray-600 mb-3 font-bold">Early Child Care Education / Nursery Teacher Traning</p>
+                        <div><span class="course-badge">6/12 Months</span> <span class="course-badge">Class 10th / 10 +2</span></div>
+                        <div class="course-desc-box mt-3 text-sm text-gray-700 space-y-2">
+                            <p>Early Child Care Educator training covering child psychology, teaching methodologies, activity planning, health and nutrition, and classroom management. Prepare for careers in preschools, daycare centers, and early childhood education.</p>
+                            <p class="hindi-text text-gray-600">बाल मनोविज्ञान, शिक्षण विधियों, गतिविधि योजना, स्वास्थ्य और पोषण को कवर करने वाला प्रारंभिक बाल देखभाल शिक्षक प्रशिक्षण। प्री-स्कूल और बाल शिक्षा में करियर के लिए तैयार हों।</p>
+                            <p class="hindi-text text-gray-600 text-xs mt-2">NTT का फुल फॉर्म ‘नर्सरी टीचर ट्रेनिंग’ कोर्स होता है यह एक वर्ष का डिप्लोमा कोर्स है जिसमें सरकारी और प्राइवेट स्कूलों व इंस्टिट्यूट में नर्सरी के बच्चों को पढ़ाने के लिए यह कोर्स किया जाता है इस कोर्स में स्टूडेंट्स को चाइल्ड केयर एंड हेल्थ, बेसिक ऑफ द प्री-प्राइमरी एजुकेशन और टीचिंग मे थाडोलॉजी जैसे विषय पढ़ाये जाते हैं इसके साथ ही उन्हें प्रैक्टिकल ट्रेनिंग भी दी जाती हैं जिसके माध्यम से वह प्राइमरी क्लास के बच्चों को पढ़ाने में सक्षम होते हैं और आप एक अध्यापक के तौर पर 3 से लेकर 5 साल तक के बच्चों को पढ़ा सकते है जिसके लिए अच्छी खासी सैलरी प्रदान की जाती है.</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto">
+                            <button class="btn-outline py-2 rounded-lg text-sm font-bold text-center">View Details</button>
+                            <a href="#registration" class="btn-primary py-2 rounded-lg text-sm font-bold text-center text-white">Apply | आवेदन</a>
+                        </div>
                     </div>
+
+                    <!-- 8. IT-ITS Sector -->
+                    <div class="bg-white rounded-2xl p-6 hover-lift border border-gray-100 shadow-md flex flex-col fade-up">
+                        <div class="text-5xl mb-4">💻</div>
+                        <h3 class="text-2xl font-bold text-primary mb-1">IT-ITS Sector</h3>
+                        <p class="text-lg hindi-text text-gray-600 mb-3">कंप्यूटर कौशल</p>
+                        <div><span class="course-badge">3/6/12 Months</span> <span class="course-badge">Class 10th / 10 +2</span></div>
+                        <div class="course-desc-box mt-3 text-sm text-gray-700 space-y-2">
+                            <p>Master essential computer applications including MS Office, internet navigation, email management, typing, and basic troubleshooting. Gain digital literacy for modern workplace requirements and online communication skills.</p>
+                            <p>Customer Care Executive-, Biometric Data Operator, Accounting, IT Helpdesk Attendant, Junior Software Developer, "Digital Marketing Assistant", Certificate Course in Computer Basics and Accounting "Certificate in Advanced Accounting with Tally ERP" Certificate in Financial Accounting with Tally ERP "Graphic Designing With Video Editing" WEB DESIGNING, C, C++, CORE JAVA, ADVANCED JAVA, "PYTHON (BASIC+ADV)", C#.NET, ASP.NET MYSQL, SQL SERVER, PL/SQL, MS OFFICE, BASIC to ADVANCE EXCEL, TALLY PRIME With GST.</p>
+                            <p class="hindi-text text-gray-600">इंटरनेट नेविगेशन, ईमेल प्रबंधन, टाइपिंग और बुनियादी समस्या निवारण सहित आवश्यक कंप्यूटर एप्लिकेशन में महारत हासिल करें। आधुनिक कार्यस्थल के लिए डिजिटल साक्षरता प्राप्त करें।</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto">
+                            <a href="IT-ITES-Sector.html" class="btn-outline py-2 rounded-lg text-sm font-bold text-center">View Details</a>
+                            <a href="#registration" class="btn-primary py-2 rounded-lg text-sm font-bold text-center text-white">Apply | आवेदन</a>
+                        </div>
+                    </div>
+
+                    <!-- 9. Boutique Design -->
+                    <div class="bg-white rounded-2xl p-6 hover-lift border border-gray-100 shadow-md flex flex-col fade-up">
+                        <div class="text-5xl mb-4">✂️</div>
+                        <h3 class="text-2xl font-bold text-primary mb-1">Boutique Design</h3>
+                        <p class="text-lg hindi-text text-gray-600 mb-3">बुटीक डिजाइन</p>
+                        <div><span class="course-badge">3/6/12 Months</span> <span class="course-badge">Class 10th / 10 +2</span></div>
+                        <div class="course-desc-box mt-3 text-sm text-gray-700 space-y-2">
+                            <p>Learn fashion design, tailoring, embroidery, pattern making, and boutique management. Create custom garments, understand fabric selection, and develop skills to launch your own fashion boutique with entrepreneurship training.</p>
+                            <p class="hindi-text text-gray-600">फैशन डिजाइन, सिलाई, कढ़ाई, पैटर्न मेकिंग और बुटीक प्रबंधन सीखें। कस्टम परिधान बनाएं और उद्यमिता प्रशिक्षण के साथ अपनी खुद की फैशन बुटीक लॉन्च करें।</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto">
+                            <button class="btn-outline py-2 rounded-lg text-sm font-bold text-center">View Details</button>
+                            <a href="#registration" class="btn-primary py-2 rounded-lg text-sm font-bold text-center text-white">Apply | आवेदन</a>
+                        </div>
+                    </div>
+
+                    <!-- 10. Welder -->
+                    <div class="bg-white rounded-2xl p-6 hover-lift border border-gray-100 shadow-md flex flex-col fade-up">
+                        <div class="text-5xl mb-4">🔥</div>
+                        <h3 class="text-2xl font-bold text-primary mb-1">Welder</h3>
+                        <p class="text-lg hindi-text text-gray-600 mb-3">वेल्डर</p>
+                        <div><span class="course-badge">6/12 Months</span> <span class="course-badge">Class 10th / 10 +2</span></div>
+                        <div class="course-desc-box mt-3 text-sm text-gray-700 space-y-2">
+                            <p>Comprehensive welding training in arc welding, gas welding, MIG/TIG techniques, and metal fabrication. Learn safety protocols, blueprint reading, and quality control for construction and manufacturing industries.</p>
+                            <p class="hindi-text text-gray-600">आर्क वेल्डिंग, गैस वेल्डिंग, MIG/TIG तकनीकों और धातु निर्माण में व्यापक वेल्डिंग प्रशिक्षण। निर्माण और विनिर्माण उद्योगों के लिए सुरक्षा प्रोटोकॉल सीखें।</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-auto">
+                            <button class="btn-outline py-2 rounded-lg text-sm font-bold text-center">View Details</button>
+                            <a href="#registration" class="btn-primary py-2 rounded-lg text-sm font-bold text-center text-white">Apply | आवेदन</a>
+                        </div>
+                    </div>
+
                 </div>
-                 <!-- Boutique -->
-                <div class="bg-white rounded-2xl p-6 card-hover shadow-lg">
-                    <div class="text-5xl mb-4">✂️</div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-2">Boutique Design</h3>
-                    <p class="text-lg hindi-text text-gray-600 mb-4">बुटीक डिजाइन</p>
-                    <div class="flex gap-2 mb-4">
-                        <span class="course-badge">3/6/12 Months</span>
-                        <span class="course-badge">Class 10th / 10 +2</span>
-                    </div>
-                    <p class="text-gray-700 mb-2">
-                        Learn fashion design, tailoring, embroidery, pattern making, and boutique management. Create custom garments, understand fabric selection, and develop skills to launch your own fashion boutique with entrepreneurship training.
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                        फैशन डिजाइन, सिलाई, कढ़ाई, पैटर्न मेकिंग और बुटीक प्रबंधन सीखें। कस्टम परिधान बनाएं और उद्यमिता प्रशिक्षण के साथ अपनी खुद की फैशन बुटीक लॉन्च करें।
-                    </p>
-                    <div class="flex gap-2">
-                        <button class="btn-outline px-4 py-2 rounded-lg text-sm font-semibold flex-1">View Details | विवरण</button>
-                        <a href="#registration" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">Apply | आवेदन</a>
-                    </div>
-                </div>
- <!-- Welder -->
-                <div class="bg-white rounded-2xl p-6 card-hover shadow-lg">
-                    <div class="text-5xl mb-4">🔥</div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-2">Welder</h3>
-                    <p class="text-lg hindi-text text-gray-600 mb-4">वेल्डर</p>
-                    <div class="flex gap-2 mb-4">
-                        <span class="course-badge">6/12 Months</span>
-                        <span class="course-badge">Class 10th / 10 +2</span>
-                    </div>
-                    <p class="text-gray-700 mb-2">
-                        Comprehensive welding training in arc welding, gas welding, MIG/TIG techniques, and metal fabrication. Learn safety protocols, blueprint reading, and quality control for construction and manufacturing industries.
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm mb-4">
-                        आर्क वेल्डिंग, गैस वेल्डिंग, MIG/TIG तकनीकों और धातु निर्माण में व्यापक वेल्डिंग प्रशिक्षण। निर्माण और विनिर्माण उद्योगों के लिए सुरक्षा प्रोटोकॉल सीखें।
-                    </p>
-                    <div class="flex gap-2">
-                        <button class="btn-outline px-4 py-2 rounded-lg text-sm font-semibold flex-1">View Details | विवरण</button>
-                        <a href="#registration" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex-1 text-center">Apply | आवेदन</a>
-                    </div>
-                </div>
-                
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Admissions Section -->
-    <section id="admissions" class="section-padding bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">Admissions Process</h2>
-                <p class="text-2xl hindi-text text-gray-600 mb-4">प्रवेश प्रक्रिया</p>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    Simple and transparent admission process to start your skill development journey
-                </p>
+        <!-- Success Stories (Swiper Auto + Scrollable Carousel) -->
+        <section class="py-16 bg-white border-y border-gray-100 overflow-hidden">
+            <div class="container mx-auto px-4 lg:px-8 mb-10 text-center fade-up">
+                <h2 class="text-sm font-bold text-accent tracking-widest uppercase mb-2">Real Results</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold text-gray-900">Success <span class="text-gradient">Stories</span></h3>
+                <p class="text-lg hindi-text text-gray-500 mt-2">सफलता की कहानियाँ - हमारे छात्र, हमारा गर्व</p>
             </div>
-            
-            <div class="max-w-5xl mx-auto">
-                <div class="grid md:grid-cols-4 gap-6 mb-12">
-                    <div class="text-center">
-                        <div class="w-20 h-20 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-3xl font-bold text-[#4F0A5A]">1</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-[#4F0A5A] mb-2">Fill Form</h3>
-                        <p class="hindi-text text-gray-600">फॉर्म भरें</p>
-                        <p class="text-sm text-gray-600 mt-2">Complete online registration with personal and academic details</p>
+
+            <div class="container mx-auto px-4 fade-up">
+                <div class="swiper story-swiper">
+                    <div class="swiper-wrapper">
+                        <!-- Card 1 -->
+                        <div class="swiper-slide"><div class="story-card"><div class="flex items-center gap-4 border-b border-gray-100 pb-3"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rahul" class="w-14 h-14 rounded-full border-2 border-primary object-cover"><div><h4 class="font-bold text-gray-900">Rahul Sharma</h4><p class="text-xs text-primary font-bold bg-secondary/50 px-2 py-0.5 rounded-md mt-1 inline-block">IT-ITES Sector</p></div></div><div class="pt-3"><p class="text-sm text-gray-600 italic mb-3">"The practical computer training helped me crack the interview easily. Now working as a Trainee!"</p><p class="text-xs font-bold text-green-600"><i class="fas fa-briefcase mr-1"></i> Placed as: Software Trainee</p></div></div></div>
+                        <!-- Card 2 -->
+                        <div class="swiper-slide"><div class="story-card"><div class="flex items-center gap-4 border-b border-gray-100 pb-3"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya" class="w-14 h-14 rounded-full border-2 border-primary object-cover"><div><h4 class="font-bold text-gray-900">Priya Verma</h4><p class="text-xs text-primary font-bold bg-secondary/50 px-2 py-0.5 rounded-md mt-1 inline-block">Beautician Course</p></div></div><div class="pt-3"><p class="text-sm text-gray-600 italic mb-3">"I learned advanced salon management. I have now started my own boutique thanks to Orbital Skills."</p><p class="text-xs font-bold text-green-600"><i class="fas fa-briefcase mr-1"></i> Placed as: Salon Owner</p></div></div></div>
+                        <!-- Card 3 -->
+                        <div class="swiper-slide"><div class="story-card"><div class="flex items-center gap-4 border-b border-gray-100 pb-3"><img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Amit" class="w-14 h-14 rounded-full border-2 border-primary object-cover"><div><h4 class="font-bold text-gray-900">Amit Kumar</h4><p class="text-xs text-primary font-bold bg-secondary/50 px-2 py-0.5 rounded-md mt-1 inline-block">Electrician</p></div></div><div class="pt-3"><p class="text-sm text-gray-600 italic mb-3">"Got 100% placement support after my practical training. My life is secure now."</p><p class="text-xs font-bold text-green-600"><i class="fas fa-briefcase mr-1"></i> Placed as: Supervisor at L&T</p></div></div></div>
+                        <!-- Card 4 -->
+                        <div class="swiper-slide"><div class="story-card"><div class="flex items-center gap-4 border-b border-gray-100 pb-3"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sneha" class="w-14 h-14 rounded-full border-2 border-primary object-cover"><div><h4 class="font-bold text-gray-900">Sneha Das</h4><p class="text-xs text-primary font-bold bg-secondary/50 px-2 py-0.5 rounded-md mt-1 inline-block">Banking & Finance</p></div></div><div class="pt-3"><p class="text-sm text-gray-600 italic mb-3">"Tally, GST, and accounting training was exactly what corporate companies want."</p><p class="text-xs font-bold text-green-600"><i class="fas fa-briefcase mr-1"></i> Placed as: Accounts Exec</p></div></div></div>
+                        <!-- Card 5 -->
+                        <div class="swiper-slide"><div class="story-card"><div class="flex items-center gap-4 border-b border-gray-100 pb-3"><img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Vikas" class="w-14 h-14 rounded-full border-2 border-primary object-cover"><div><h4 class="font-bold text-gray-900">Vikas Singh</h4><p class="text-xs text-primary font-bold bg-secondary/50 px-2 py-0.5 rounded-md mt-1 inline-block">Fireman</p></div></div><div class="pt-3"><p class="text-sm text-gray-600 italic mb-3">"The mock drills and physical training were top class. Highly recommended!"</p><p class="text-xs font-bold text-green-600"><i class="fas fa-briefcase mr-1"></i> Placed as: Safety Officer</p></div></div></div>
                     </div>
-                    
-                    <div class="text-center">
-                        <div class="w-20 h-20 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-3xl font-bold text-[#4F0A5A]">2</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-[#4F0A5A] mb-2">Screening</h3>
-                        <p class="hindi-text text-gray-600">स्क्रीनिंग</p>
-                        <p class="text-sm text-gray-600 mt-2">Document verification and eligibility assessment by our team</p>
-                    </div>
-                    
-                    <div class="text-center">
-                        <div class="w-20 h-20 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-3xl font-bold text-[#4F0A5A]">3</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-[#4F0A5A] mb-2">Fee Submission</h3>
-                        <p class="hindi-text text-gray-600">शुल्क जमा</p>
-                        <p class="text-sm text-gray-600 mt-2">Pay course fees through secure online or offline methods</p>
-                    </div>
-                    
-                    <div class="text-center">
-                        <div class="w-20 h-20 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-3xl font-bold text-[#4F0A5A]">4</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-[#4F0A5A] mb-2">Batch Allocation</h3>
-                        <p class="hindi-text text-gray-600">बैच आवंटन</p>
-                        <p class="text-sm text-gray-600 mt-2">Get assigned to your course batch and start learning</p>
-                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination mt-4 relative"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admissions Process (Restored exactly as requested) -->
+        <section id="admissions" class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16 fade-up">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gradient mb-4">Admissions Process</h2>
+                    <p class="text-2xl hindi-text text-gray-600 mb-4">प्रवेश प्रक्रिया</p>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Simple and transparent admission process to start your skill development journey</p>
                 </div>
                 
-                <div class="bg-[#F2CFEE] rounded-2xl p-8">
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-4">Documents Required | आवश्यक दस्तावेज</h3>
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-[#4F0A5A] text-xl mt-1"></i>
-                            <div>
-                                <p class="font-semibold">ID Proof (Aadhar/PAN/Voter ID)</p>
-                                <p class="text-sm hindi-text text-gray-700">पहचान प्रमाण (आधार/पैन/वोटर आईडी)</p>
-                            </div>
+                <div class="max-w-5xl mx-auto fade-up">
+                    <div class="grid md:grid-cols-4 gap-6 mb-12">
+                        <div class="text-center">
+                            <div class="w-20 h-20 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-3xl font-bold text-[#4F0A5A]">1</span></div>
+                            <h3 class="text-xl font-bold text-[#4F0A5A] mb-2">Fill Form</h3><p class="hindi-text text-gray-600">फॉर्म भरें</p><p class="text-sm text-gray-600 mt-2">Complete online registration with personal and academic details</p>
                         </div>
-                        <div class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-[#4F0A5A] text-xl mt-1"></i>
-                            <div>
-                                <p class="font-semibold">Recent Passport Size Photo</p>
-                                <p class="text-sm hindi-text text-gray-700">हाल की पासपोर्ट साइज फोटो</p>
-                            </div>
+                        <div class="text-center">
+                            <div class="w-20 h-20 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-3xl font-bold text-[#4F0A5A]">2</span></div>
+                            <h3 class="text-xl font-bold text-[#4F0A5A] mb-2">Screening</h3><p class="hindi-text text-gray-600">स्क्रीनिंग</p><p class="text-sm text-gray-600 mt-2">Document verification and eligibility assessment by our team</p>
                         </div>
-                        <div class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-[#4F0A5A] text-xl mt-1"></i>
-                            <div>
-                                <p class="font-semibold">Last Qualification Marksheet</p>
-                                <p class="text-sm hindi-text text-gray-700">अंतिम योग्यता मार्कशीट</p>
-                            </div>
+                        <div class="text-center">
+                            <div class="w-20 h-20 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-3xl font-bold text-[#4F0A5A]">3</span></div>
+                            <h3 class="text-xl font-bold text-[#4F0A5A] mb-2">Fee Submission</h3><p class="hindi-text text-gray-600">शुल्क जमा</p><p class="text-sm text-gray-600 mt-2">Pay course fees through secure online or offline methods</p>
                         </div>
-                        <div class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-[#4F0A5A] text-xl mt-1"></i>
-                            <div>
-                                <p class="font-semibold">Address Proof</p>
-                                <p class="text-sm hindi-text text-gray-700">पता प्रमाण</p>
-                            </div>
+                        <div class="text-center">
+                            <div class="w-20 h-20 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-3xl font-bold text-[#4F0A5A]">4</span></div>
+                            <h3 class="text-xl font-bold text-[#4F0A5A] mb-2">Batch Allocation</h3><p class="hindi-text text-gray-600">बैच आवंटन</p><p class="text-sm text-gray-600 mt-2">Get assigned to your course batch and start learning</p>
                         </div>
                     </div>
                     
-                    <div class="mt-6 text-center">
-                        <a href="#registration" class="btn-primary text-white px-10 py-4 rounded-full font-semibold inline-flex items-center gap-2">
-                            <span>Apply Now</span>
-                            <span class="hindi-text">| अभी आवेदन करें</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
+                    <div class="bg-[#F2CFEE] rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold text-[#4F0A5A] mb-4">Documents Required | आवश्यक दस्तावेज</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="flex items-start gap-3"><i class="fas fa-check-circle text-[#4F0A5A] text-xl mt-1"></i><div><p class="font-semibold">ID Proof (Aadhar/PAN/Voter ID)</p><p class="text-sm hindi-text text-gray-700">पहचान प्रमाण (आधार/पैन/वोटर आईडी)</p></div></div>
+                            <div class="flex items-start gap-3"><i class="fas fa-check-circle text-[#4F0A5A] text-xl mt-1"></i><div><p class="font-semibold">Recent Passport Size Photo</p><p class="text-sm hindi-text text-gray-700">हाल की पासपोर्ट साइज फोटो</p></div></div>
+                            <div class="flex items-start gap-3"><i class="fas fa-check-circle text-[#4F0A5A] text-xl mt-1"></i><div><p class="font-semibold">Last Qualification Marksheet</p><p class="text-sm hindi-text text-gray-700">अंतिम योग्यता मार्कशीट</p></div></div>
+                            <div class="flex items-start gap-3"><i class="fas fa-check-circle text-[#4F0A5A] text-xl mt-1"></i><div><p class="font-semibold">Address Proof</p><p class="text-sm hindi-text text-gray-700">पता प्रमाण</p></div></div>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <a href="#registration" class="btn-primary text-white px-10 py-4 rounded-full font-semibold inline-flex items-center gap-2"><span>Apply Now</span><span class="hindi-text">| अभी आवेदन करें</span><i class="fas fa-arrow-right"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Registration Form Section -->
-    <section id="registration" class="section-padding bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">Student Registration</h2>
-                <p class="text-2xl hindi-text text-gray-600 mb-4">छात्र पंजीकरण</p>
-                <p class="text-lg text-gray-600">Fill out the form below to begin your journey with us</p>
-            </div>
-            
-            <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8">
-                <div id="success-message" class="success-message mb-6">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-check-circle text-3xl"></i>
-                        <div>
-                            <h3 class="text-xl font-bold">Registration Successful! | पंजीकरण सफल!</h3>
-                            <p id="student-id-display"></p>
-                        </div>
-                    </div>
+        <!-- Registration Form Section (Exact Form Logic Integrated) -->
+        <section id="registration" class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4 lg:px-8 fade-up">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gradient mb-4">Student Registration</h2>
+                    <p class="text-2xl hindi-text text-gray-600 mb-4">छात्र पंजीकरण</p>
+                    <p class="text-lg text-gray-600">Fill out the form below to begin your journey with us</p>
                 </div>
                 
-                <form id="registration-form" class="space-y-6" onsubmit="handleRegister(event)">
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Full Name | पूरा नाम <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="fullname" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter your full name">
+                <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100 overflow-hidden">
+                    <div class="p-8 md:p-10">
+                        <div id="success-message" class="hidden bg-green-50 border border-green-200 text-green-800 p-6 rounded-2xl mb-8 text-center">
+                            <i class="fas fa-check-circle text-5xl text-green-500 mb-4"></i>
+                            <h3 class="text-2xl font-bold mb-2">Registration Successful! | पंजीकरण सफल!</h3>
+                            <p id="student-id-display" class="font-medium text-gray-700"></p>
                         </div>
                         
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Father's/Mother's Name | पिता/माता का नाम <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="parentname" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter parent's name">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Date of Birth | जन्म तिथि <span class="text-red-500">*</span>
-                            </label>
-                            <input type="date" name="dob" required class="w-full px-4 py-3 rounded-lg form-input">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Gender | लिंग <span class="text-red-500">*</span>
-                            </label>
-                            <select name="gender" required class="w-full px-4 py-3 rounded-lg form-input">
-                                <option value="">Select Gender</option>
-                                <option value="Male">Male | पुरुष</option>
-                                <option value="Female">Female | महिला</option>
-                                <option value="Other">Other | अन्य</option>
-                            </select>
-                        </div>
-                        
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Address | पता <span class="text-red-500">*</span>
-                            </label>
-                            <textarea name="address" required rows="3" class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter your complete address"></textarea>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                District | जिला <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="district" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter district">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                State | राज्य <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="state" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="Enter state">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Email | ईमेल <span class="text-red-500">*</span>
-                            </label>
-                            <input type="email" name="email" required class="w-full px-4 py-3 rounded-lg form-input" placeholder="your.email@example.com">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Mobile Number | मोबाइल नंबर <span class="text-red-500">*</span>
-                            </label>
-                            <input type="tel" name="mobile" required pattern="[0-9]{10}" class="w-full px-4 py-3 rounded-lg form-input" placeholder="10-digit mobile number">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Course Choice | पाठ्यक्रम चयन <span class="text-red-500">*</span>
-                            </label>
-                            <select name="course" required class="w-full px-4 py-3 rounded-lg form-input">
-                                <option value="">Select Course</option>
-                                <option value="Electrician">Electrician | इलेक्ट्रीशियन</option>
-                                <option value="Fireman">Fireman | फायरमैन</option>
-                                <option value="Plumber">Plumber | प्लंबर</option>
-                                <option value="Beautician">Beautician | ब्यूटीशियन</option>
-                                <option value="Boutique">Boutique Design | बुटीक डिजाइन</option>
-                                <option value="Computer">Computer Skills | कंप्यूटर कौशल</option>
-                                <option value="Banking">Banking-Finance | /option>
-                                <option value="Welder">Welder | वेल्डर</option>
-                                <option value="ECCE/ NTT">ECCE/ NTT | </option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Previous Qualification | पिछली योग्यता <span class="text-red-500">*</span>
-                            </label>
-                            <select name="qualification" required class="w-full px-4 py-3 rounded-lg form-input">
-                                <option value="">Select Qualification</option>
-                                <option value="Class 8">Class 8 | कक्षा 8</option>
-                                <option value="Class 10th / 10 +2">Class 10th / 10 +2 | कक्षा 10</option>
-                                <option value="Class 10th / 10 +2">Class 10th / 10 +2 | कक्षा 12</option>
-                                <option value="Graduate">Graduate | स्नातक</option>
-                                <option value="Other">Other | अन्य</option>
-                            </select>
+                        <form id="registration-form" class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div><label class="block text-sm font-bold text-gray-700 mb-2">Full Name | पूरा नाम <span class="text-red-500">*</span></label><input type="text" name="fullname" required class="w-full px-4 py-3 rounded-xl form-input text-sm"></div>
+                                <div><label class="block text-sm font-bold text-gray-700 mb-2">Father's/Mother's Name | पिता/माता का नाम <span class="text-red-500">*</span></label><input type="text" name="parentname" required class="w-full px-4 py-3 rounded-xl form-input text-sm"></div>
+                                <div><label class="block text-sm font-bold text-gray-700 mb-2">Date of Birth | जन्म तिथि <span class="text-red-500">*</span></label><input type="date" name="dob" required class="w-full px-4 py-3 rounded-xl form-input text-sm text-gray-600"></div>
+                                <div><label class="block text-sm font-bold text-gray-700 mb-2">Gender | लिंग <span class="text-red-500">*</span></label><select name="gender" required class="w-full px-4 py-3 rounded-xl form-input text-sm text-gray-600"><option value="">Select Gender</option><option value="Male">Male | पुरुष</option><option value="Female">Female | महिला</option><option value="Other">Other | अन्य</option></select></div>
+                                <div class="md:col-span-2"><label class="block text-sm font-bold text-gray-700 mb-2">Address | पता <span class="text-red-500">*</span></label><textarea name="address" required rows="2" class="w-full px-4 py-3 rounded-xl form-input text-sm resize-none"></textarea></div>
+                                <div><label class="block text-sm font-bold text-gray-700 mb-2">District | जिला <span class="text-red-500">*</span></label><input type="text" name="district" required class="w-full px-4 py-3 rounded-xl form-input text-sm"></div>
+                                <div><label class="block text-sm font-bold text-gray-700 mb-2">State | राज्य <span class="text-red-500">*</span></label><input type="text" name="state" required class="w-full px-4 py-3 rounded-xl form-input text-sm"></div>
+                                <div><label class="block text-sm font-bold text-gray-700 mb-2">Email | ईमेल <span class="text-red-500">*</span></label><input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-xl form-input text-sm"></div>
+                                <div><label class="block text-sm font-bold text-gray-700 mb-2">Mobile Number | मोबाइल नंबर <span class="text-red-500">*</span></label><input type="tel" id="mobile" name="mobile" required pattern="[0-9]{10}" class="w-full px-4 py-3 rounded-xl form-input text-sm" placeholder="10-digit number" maxlength="10"></div>
+                                <div><label class="block text-sm font-bold text-gray-700 mb-2">Course Choice | पाठ्यक्रम चयन <span class="text-red-500">*</span></label><select name="course" required class="w-full px-4 py-3 rounded-xl form-input text-sm text-gray-600"><option value="">Select Course</option><option value="Electrician">Electrician | इलेक्ट्रीशियन</option><option value="Fireman">Fireman | फायरमैन</option><option value="Plumber">Plumber | प्लंबर</option><option value="Beautician">Beautician | ब्यूटीशियन</option><option value="Boutique">Boutique Design | बुटीक डिजाइन</option><option value="Computer">Computer Skills | कंप्यूटर कौशल</option><option value="Banking">Banking-Finance</option><option value="Health Care">Health Care Skills</option><option value="Welder">Welder | वेल्डर</option><option value="ECCE/ NTT">ECCE/ NTT</option></select></div>
+                                <div><label class="block text-sm font-bold text-gray-700 mb-2">Previous Qualification | पिछली योग्यता <span class="text-red-500">*</span></label><select id="qual-select" name="qualification" required class="w-full px-4 py-3 rounded-xl form-input text-sm text-gray-600"><option value="">Select Qualification</option><option value="Class 8">Class 8 | कक्षा 8</option><option value="Class 10th / 10 +2">Class 10th / 10 +2 | कक्षा 10 / 12</option><option value="Graduate">Graduate | स्नातक</option><option value="Other">Other | अन्य</option></select></div>
+                                <div id="qual-other-wrapper" class="hidden md:col-span-2 bg-gray-50 p-4 rounded-xl border border-gray-200"><label class="block text-sm font-bold text-gray-700 mb-2">Specify Qualification | योग्यता लिखें</label><input type="text" name="qualification_other" class="w-full px-4 py-3 rounded-xl form-input text-sm bg-white" placeholder="e.g., ITI / Polytechnic / Vocational"></div>
+                                <div class="md:col-span-2"><label class="block text-sm font-bold text-gray-700 mb-2">Upload Photo | फोटो अपलोड करें <span class="text-red-500">*</span></label><input name="photo" type="file" accept="image/*" required class="w-full px-4 py-3 rounded-xl form-input text-sm bg-white"><p class="text-sm text-gray-500 mt-1">Recent passport size photo (JPG/PNG, max 2MB)</p></div>
+                            </div>
                             
-<!-- "Other" चुने जाने पर विवरण इनपुट -->
-<div id="qual-other-wrapper" class="hidden">
-  <label class="block text-sm font-semibold text-gray-700 mb-2">
-    Specify Qualification | योग्यता लिखें
-  </label>
-  <input type="text" name="qualification_other"
-         class="w-full px-4 py-3 rounded-lg form-input"
-         placeholder="e.g., ITI / Polytechnic / Vocational">
-</div>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-start gap-3 mt-6">
+                                <input type="checkbox" id="terms" required class="mt-1 w-4 h-4 text-primary rounded border-gray-300">
+                                <label for="terms" class="text-xs sm:text-sm text-gray-700 font-medium">I agree to the terms and conditions and confirm that all information provided is accurate. | मैं नियमों और शर्तों से सहमत हूं और पुष्टि करता हूं कि प्रदान की गई सभी जानकारी सटीक है।</label>
+                            </div>
+                            
+                            <div id="form-status" class="text-center font-bold text-sm hidden"></div>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
-    authDomain: "orbital4u.firebaseapp.com",
-    projectId: "orbital4u",
-    storageBucket: "orbital4u.firebasestorage.app",
-    messagingSenderId: "88284726348",
-    appId: "1:88284726348:web:0d43de2919b592509b60e9"
-  };
+                            <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-100">
+                                <button type="submit" id="submit-btn" class="flex-1 btn-primary py-4 rounded-xl font-bold text-lg flex justify-center items-center gap-2 shadow-lg"><i class="fas fa-paper-plane"></i> Submit Registration | पंजीकरण जमा करें</button>
+                                <a href="Prospects.pdf" target="_blank" class="flex-1 btn-outline py-4 rounded-xl font-bold text-lg flex justify-center items-center gap-2"><i class="fas fa-file-pdf"></i> View Prospectus | प्रोस्पेक्टस देखें</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  window.auth = auth;
-</script>
-
-<script>
-  // "Other" चुनने पर इनपुट दिखाएँ/छुपाएँ
-  document.addEventListener('change', function(e){
-    const sel = e.target;
-    if (sel && sel.name === 'qualification') {
-      const wrap = document.getElementById('qual-other-wrapper');
-      if (!wrap) return;
-      if (sel.value === 'Other') {
-        wrap.classList.remove('hidden');
-      } else {
-        wrap.classList.add('hidden');
-      }
-    }
-  });
-</script>
-         </div>
-                        
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Upload Photo | फोटो अपलोड करें <span class="text-red-500">*</span>
-                            </label>
-                            <input type="file" name="photo" accept="image/*" required class="w-full px-4 py-3 rounded-lg form-input">
-                            <p class="text-sm text-gray-500 mt-1">Recent passport size photo (JPG/PNG, max 2MB)</p>
+        <!-- Results Verification (Restored) -->
+        <section id="results" class="section-padding bg-white fade-up">
+            <div class="container mx-auto px-4 py-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gradient mb-4">Results Verification</h2>
+                    <p class="text-2xl hindi-text text-gray-600 mb-4">परिणाम सत्यापन</p>
+                    <p class="text-lg text-gray-600">Verify your certificate authenticity using QR code</p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold text-[#4F0A5A] mb-4">How to Verify | कैसे सत्यापित करें</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-3"><div class="w-8 h-8 bg-[#F2CFEE] rounded-full flex items-center justify-center flex-shrink-0"><span class="font-bold text-[#4F0A5A]">1</span></div><div><p class="font-semibold">Scan QR Code on Certificate</p><p class="text-sm hindi-text text-gray-600">प्रमाणपत्र पर QR कोड स्कैन करें</p></div></div>
+                                <div class="flex items-start gap-3"><div class="w-8 h-8 bg-[#F2CFEE] rounded-full flex items-center justify-center flex-shrink-0"><span class="font-bold text-[#4F0A5A]">2</span></div><div><p class="font-semibold">Get Redirected to Verification Page</p><p class="text-sm hindi-text text-gray-600">सत्यापन पृष्ठ पर पुनर्निर्देशित हों</p></div></div>
+                                <div class="flex items-start gap-3"><div class="w-8 h-8 bg-[#F2CFEE] rounded-full flex items-center justify-center flex-shrink-0"><span class="font-bold text-[#4F0A5A]">3</span></div><div><p class="font-semibold">View Complete Certificate Details</p><p class="text-sm hindi-text text-gray-600">संपूर्ण प्रमाणपत्र विवरण देखें</p></div></div>
+                            </div>
+                            <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded"><p class="text-sm font-semibold text-yellow-800">Sample Verification URL Format:</p><p class="text-xs text-gray-700 mt-1 break-all">https://osifbd.github.io/Reslut/result.html?id=OSD_2510160001</p></div>
+                            <div class="mt-6"><a href="Result.html" class="btn-primary text-white px-8 py-3 rounded-full font-semibold inline-flex items-center gap-2"><i class="fas fa-qrcode"></i><span>Verify Your Result | अपना परिणाम सत्यापित करें</span></a></div>
+                        </div>
+                        <div class="flex justify-center">
+                            <div class="w-48 h-48 bg-white border-2 border-primary rounded-xl flex items-center justify-center p-4 shadow-lg">
+                                <svg viewBox="0 0 200 200" class="w-full h-full"><rect x="10" y="10" width="30" height="30" fill="#4F0A5A"/><rect x="160" y="10" width="30" height="30" fill="#4F0A5A"/><rect x="10" y="160" width="30" height="30" fill="#4F0A5A"/><rect x="50" y="20" width="10" height="10" fill="#4F0A5A"/><rect x="70" y="20" width="10" height="10" fill="#4F0A5A"/><rect x="110" y="80" width="10" height="10" fill="#4F0A5A"/><rect x="150" y="80" width="10" height="10" fill="#4F0A5A"/><text x="100" y="100" text-anchor="middle" font-size="16" fill="#4F0A5A" font-weight="bold">SCAN ME</text></svg>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="flex items-start gap-3">
-                        <input type="checkbox" id="terms" required class="mt-1">
-                        <label for="terms" class="text-sm text-gray-600">
-                            I agree to the terms and conditions and confirm that all information provided is accurate. | मैं नियमों और शर्तों से सहमत हूं और पुष्टि करता हूं कि प्रदान की गई सभी जानकारी सटीक है।
-                        </label>
-                    </div>
-                    
-                    <div class="flex flex-wrap gap-4">
-                        <button type="submit" class="btn-primary text-white px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2">
-                            <i class="fas fa-paper-plane"></i>
-                            <span>Submit Registration | पंजीकरण जमा करें</span>
-                        </button>
-                        <a href="Prospects.pdf"
-   target="_blank"
-   class="btn-outline px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2">
-    <i class="fas fa-file-pdf"></i>
-    <span>View Prospectus | प्रोस्पेक्टस देखें</span>
-</a>
+                </div>
+            </div>
+        </section>
 
-                    </div>
-                </form>
-<script>
-  // WEBHOOK_URL
-  const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwlbPix4HA0LnOyNq3bPmSKtTcRlEiJOfyrIhJdwfKwbV_2fWc83G2iZbI3gTjW_GLVpw/exec';
-
-  const form = document.getElementById('registration-form');
-  const successBox = document.getElementById('success-message');
-  const studentIdEl = document.getElementById('student-id-display');
-
-    // Image ko chota (compress) karne wala function
-async function compressImage(file) {
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (event) => {
-            const img = new Image();
-            img.src = event.target.result;
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
+        <!-- Certificates Section (Restored) -->
+        <section id="certificates" class="section-padding bg-gray-50 fade-up">
+            <div class="container mx-auto px-4 py-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gradient mb-4">Certificates</h2>
+                    <p class="text-2xl hindi-text text-gray-600 mb-4">प्रमाणपत्र</p>
+                    <p class="text-lg text-gray-600">Industry-recognized certification process</p>
+                </div>
                 
-                // Max width 800px rakhenge taaki quality bhi bani rahe aur size bhi kam ho jaye
-                const MAX_WIDTH = 800;
-                const scale = MAX_WIDTH / img.width;
-                canvas.width = MAX_WIDTH;
-                canvas.height = img.height * scale;
+                <div class="max-w-5xl mx-auto">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+                        <h3 class="text-2xl font-bold text-[#4F0A5A] mb-6">Certificate Generation Process | प्रमाणपत्र निर्माण प्रक्रिया</h3>
+                        <div class="grid md:grid-cols-3 gap-6 mb-8">
+                            <div class="text-center"><div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-3"><i class="fas fa-file-alt text-2xl text-[#4F0A5A]"></i></div><h4 class="font-bold text-[#4F0A5A]">Certificate</h4><p class="text-sm text-gray-600 mt-2">Automated certificate generation</p></div>
+                            <div class="text-center"><div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-3"><i class="fas fa-qrcode text-2xl text-[#4F0A5A]"></i></div><h4 class="font-bold text-[#4F0A5A]">QR Code Integration</h4><p class="text-sm text-gray-600 mt-2">Unique QR code for instant verification</p></div>
+                            <div class="text-center"><div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-3"><i class="fas fa-shield-alt text-2xl text-[#4F0A5A]"></i></div><h4 class="font-bold text-[#4F0A5A]">Secure & Verifiable</h4><p class="text-sm text-gray-600 mt-2">Tamper-proof certificates with blockchain-style verification</p></div>
+                        </div>
+                        
+                        <div class="border-2 border-[#4F0A5A] rounded-xl p-6">
+                            <h4 class="text-xl font-bold text-[#4F0A5A] mb-4 text-center">Certificate Information | प्रमाणपत्र जानकारी</h4>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="flex items-center gap-3"><i class="fas fa-id-card text-[#4F0A5A]"></i><div><p class="font-semibold">Serial Number</p><p class="text-sm text-gray-600">Unique ID: OSD_XXXXXX####</p></div></div>
+                                <div class="flex items-center gap-3"><i class="fas fa-user text-[#4F0A5A]"></i><div><p class="font-semibold">Student Name</p><p class="text-sm text-gray-600">As per registration</p></div></div>
+                                <div class="flex items-center gap-3"><i class="fas fa-book text-[#4F0A5A]"></i><div><p class="font-semibold">Course Name</p><p class="text-sm text-gray-600">Completed course title</p></div></div>
+                                <div class="flex items-center gap-3"><i class="fas fa-star text-[#4F0A5A]"></i><div><p class="font-semibold">Marks Obtained</p><p class="text-sm text-gray-600">Score: -- % with Grading</p></div></div>
+                                <div class="flex items-center gap-3"><i class="fas fa-calendar text-[#4F0A5A]"></i><div><p class="font-semibold">Date of Issue</p><p class="text-sm text-gray-600">7-15 days after submission</p></div></div>
+                                <div class="flex items-center gap-3"><i class="fas fa-check-circle text-[#4F0A5A]"></i><div><p class="font-semibold">QR Verification</p><p class="text-sm text-gray-600">Instant online verification</p></div></div>
+                            </div>
+                        </div>
+                        <div class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 rounded"><p class="font-semibold text-green-800">📌 Note | नोट:</p><p class="text-sm text-gray-700 mt-1">Certificates are issued 7-15 days after successful course completion and final assessment. | प्रमाणपत्र सफल पाठ्यक्रम समापन और अंतिम मूल्यांकन के 2 दिन बाद जारी किए जाते हैं।</p></div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-gray-600 mb-4 font-bold">Sample Certificate Layout</p>
+                        <div class="max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl border-4 border-[#4F0A5A]">
+                            <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/certificate-sample.jpg" alt="Certificate Sample" class="w-full h-auto object-contain">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        <!-- About Us (Restored) -->
+        <section id="about" class="section-padding bg-white fade-up">
+            <div class="container mx-auto px-4 py-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gradient mb-4">About Us</h2>
+                    <p class="text-2xl hindi-text text-gray-600 mb-4">हमारे बारे में</p>
+                </div>
 
-                // 0.7 ka matlab hai 70% quality (Best for Google Sheets)
-                const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                resolve({
-                    base64: dataUrl.split(',')[1],
-                    mime: 'image/jpeg'
-                });
-            };
-        };
-    });
-}
-  // "Other" योग्यता दिखाने/छुपाने का लॉजिक
-  document.getElementsByName('qualification')[0].addEventListener('change', function(e) {
-    const wrap = document.getElementById('qual-other-wrapper');
-    if (e.target.value === 'Other') {
-      wrap.classList.remove('hidden');
-    } else {
-      wrap.classList.add('hidden');
-    }
-  });
+                <div class="max-w-6xl mx-auto">
+                    <div class="grid md:grid-cols-2 gap-8 mb-16">
+                        <div class="bg-[#F2CFEE] rounded-2xl p-8 shadow-md">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4"><i class="fas fa-bullseye text-3xl text-[#4F0A5A]"></i></div>
+                            <h3 class="text-2xl font-bold text-[#4F0A5A] mb-3">Our Mission</h3>
+                            <p class="text-lg hindi-text text-gray-700 mb-3">हमारा मिशन</p>
+                            <p class="text-gray-700 mb-2">To empower youth with employable skills and industry-linked training that transforms lives and builds sustainable careers.</p>
+                            <p class="text-gray-600 hindi-text text-sm">युवाओं को रोजगार योग्य कौशल और उद्योग-संबद्ध प्रशिक्षण के साथ सशक्त बनाना।</p>
+                        </div>
+                        <div class="bg-[#F2CFEE] rounded-2xl p-8 shadow-md">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4"><i class="fas fa-eye text-3xl text-[#4F0A5A]"></i></div>
+                            <h3 class="text-2xl font-bold text-[#4F0A5A] mb-3">Our Vision</h3>
+                            <p class="text-lg hindi-text text-gray-700 mb-3">हमारा विजन</p>
+                            <p class="text-gray-700 mb-2">To create an accessible, affordable, and outcome-driven skill education ecosystem.</p>
+                            <p class="text-gray-600 hindi-text text-sm">सुलभ और परिणाम-संचालित कौशल शिक्षा प्रणाली बनाना।</p>
+                        </div>
+                    </div>
 
-  const setStatus = (m, t='info') => {
-    let statusEl = document.getElementById('form-status');
-    if(!statusEl) {
-       statusEl = document.createElement('div');
-       statusEl.id = 'form-status';
-       statusEl.className = 'mt-4 text-center font-bold';
-       form.appendChild(statusEl);
-    }
-    statusEl.textContent = m;
-    statusEl.style.color = t==='error' ? '#b00020' : (t==='success' ? '#006400' : '#4F0A5A');
-  };
+                    <div>
+                        <h3 class="text-3xl font-bold text-[#4F0A5A] mb-10 text-center">Why Choose Us | हमें क्यों चुनें</h3>
+                        <div class="grid md:grid-cols-3 gap-8">
+                            <div class="text-center p-8 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+                                <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-laptop-code text-2xl text-[#4F0A5A]"></i></div>
+                                <h4 class="font-bold text-[#4F0A5A] mb-2">Real Projects</h4><p class="text-sm hindi-text text-gray-600 mb-2">वास्तविक परियोजनाएं</p><p class="text-sm text-gray-600">Hands-on training with real industry projects and practical applications.</p>
+                            </div>
+                            <div class="text-center p-8 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+                                <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-briefcase text-2xl text-[#4F0A5A]"></i></div>
+                                <h4 class="font-bold text-[#4F0A5A] mb-2">Placement Support</h4><p class="text-sm hindi-text text-gray-600 mb-2">प्लेसमेंट सहायता</p><p class="text-sm text-gray-600">Dedicated career support and industry networking opportunities.</p>
+                            </div>
+                            <div class="text-center p-8 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+                                <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-certificate text-2xl text-[#4F0A5A]"></i></div>
+                                <h4 class="font-bold text-[#4F0A5A] mb-2">Recognized Certification</h4><p class="text-sm hindi-text text-gray-600 mb-2">मान्यता प्राप्त प्रमाणपत्र</p><p class="text-sm text-gray-600">Government & industry recognized certificates for better career growth.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  // इमेज को बेस64 में बदलना और कम्प्रेस करना
-  async function imageFileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (event) => {
-        const img = new Image();
-        img.src = event.target.result;
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const max_width = 800;
-          const scale = Math.min(max_width / img.width, 1);
-          canvas.width = img.width * scale;
-          canvas.height = img.height * scale;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          resolve({
-            base64: canvas.toDataURL('image/jpeg', 0.7),
-            mime: 'image/jpeg'
-          });
-        };
-      };
-      reader.onerror = error => reject(error);
-    });
-  }
+    </main>
 
- form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = form.querySelector('input[name="email"]').value;
-const password = "OSD@" + form.querySelector('input[name="mobile"]').value;
+    <!-- Original Footer Restored Exactly as Requested -->
+    <footer class="bg-[#0c1b32] text-[#eaf2ff] border-t border-[#15223b]" role="contentinfo">
+        <div class="max-w-[1200px] mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
+            <div class="footer-col">
+                <h4 class="text-white font-bold text-lg mb-2">Orbital Studies & Immigration Pvt. Ltd.</h4>
+                <p class="text-sm text-[#88a5d0] mb-4">Empowering students and professionals to achieve global success with trusted guidance.</p>
+                <div class="flex gap-3">
+                    <a href="https://www.facebook.com/" target="_blank" class="w-10 h-10 bg-[#162a4a] border border-[#213a63] rounded-lg flex items-center justify-center hover:bg-[#1b3459] transition"><svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M22 12.06C22 6.54 17.52 2 12 2S2 6.54 2 12.06C2 17.08 5.66 21.2 10.44 22v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.44h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 3.01h-2.33V22C18.34 21.2 22 17.08 22 12.06z"></path></svg></a>
+                    <a href="https://www.instagram.com/" target="_blank" class="w-10 h-10 bg-[#162a4a] border border-[#213a63] rounded-lg flex items-center justify-center hover:bg-[#1b3459] transition"><svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm11 1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"></path></svg></a>
+                    <a href="https://www.threads.net/" target="_blank" class="w-10 h-10 bg-[#162a4a] border border-[#213a63] rounded-lg flex items-center justify-center hover:bg-[#1b3459] transition"><svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 2C7 2 4 5 4 10c0 3.5 2 5.5 5 6.3v2.2c0 .3.2.5.5.5h2c.3 0 .5-.2.5-.5v-2c3.5-.3 6-2.4 6-6 0-5-3-8-6-8zm0 2c2.8 0 4 2.2 4 5 0 2.4-1.3 4-4 4s-4-1.6-4-4c0-2.8 1.2-5 4-5z"/></svg></a>
+                </div>
+            </div>
 
-try {
-  await createUserWithEmailAndPassword(auth, email, password);
-} catch (err) {
-  if (err.code !== "auth/email-already-in-use") {
-    alert(err.message);
-    return;
-  }
-}
+            <div class="footer-col">
+                <h4 class="text-white font-bold text-lg mb-2">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#home" class="hover:text-white transition">Home</a></li>
+                    <li><a href="#about" class="hover:text-white transition">About Us</a></li>
+                    <li><a href="#courses" class="hover:text-white transition">Services</a></li>
+                    <li><a href="#registration" class="hover:text-white transition">Contact & Apply</a></li>
+                </ul>
+            </div>
 
-    // Status update aur button disable
-    setStatus('Submitting details... कृपया प्रतीक्षा करें।', 'info');
-    const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
+            <div class="footer-col">
+                <h4 class="text-white font-bold text-lg mb-2">Contact</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><span>115/13 R. K. Colony, Bighar Road,</span></li>
+                    <li>Fatehabad, Haryana 125050</li>
+                    <li><a href="mailto:osi@ftbh.onmicrosoft.com" class="hover:text-white transition">osi@ftbh.onmicrosoft.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-[#15223b] mt-4 pt-4 text-center text-[#88a5d0] text-sm pb-4">
+            © 2026 Orbital Studies & Immigration Pvt. Ltd. All rights reserved.
+        </div>
+    </footer>
 
-    try {
-        const fd = new FormData(form);
-        const data = {
-            FullName: fd.get('fullname'),
-            FatherMotherName: fd.get('parentname'),
-            DOB: fd.get('dob'),
-            Gender: fd.get('gender'),
-            Address: fd.get('address'),
-            District: fd.get('district'),
-            State: fd.get('state'),
-            Email: fd.get('email'),
-            Mobile: fd.get('mobile'),
-            CourseSelected: fd.get('course'),
-            Qualification: fd.get('qualification') === 'Other' 
-                ? fd.get('qualification_other') 
-                : fd.get('qualification')
-        };
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/919416711671" target="_blank" class="fixed bottom-6 right-6 bg-[#25D366] text-white w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:bg-[#128C7E] transition z-50 pulse-ring">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-        const photoFile = form.querySelector('input[type="file"]').files[0];
-        if (photoFile) {
-            // ✅ YAHAN SUDHAAR HAI: 'imageFileToBase64' ki jagah 'compressImage' ka use kiya hai
-            const photoData = await compressImage(photoFile); 
-            data.PhotoBase64 = photoData.base64;
-            data.PhotoMime = photoData.mime;
-            data.PhotoFilename = photoFile.name;
-        }
-
-        // ✅ Data bhejte waqt 'text/plain' ka use karna zaroori hai Apps Script ke liye
-        const response = await fetch(WEBHOOK_URL, {
-            method: 'POST',
-            mode: 'no-cors', // Ye CORS error ko rokta hai
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(data)
+    <!-- Scripts for Sliders and UI (Swiper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+        // 1. Hero Swiper (Auto + Manual Scroll/Arrows)
+        const heroSwiper = new Swiper('.hero-swiper', {
+            loop: true,
+            effect: 'fade', // professional fade transition between slides
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
         });
 
-        // SUCCESS LOGIC: 
-        // Note: 'no-cors' mode mein response.json() nahi milta, isliye hum direct success maante hain
-        setStatus('✅ सफल! आपका पंजीकरण हो गया है।', 'success');
-        
-        if (successBox) {
-            successBox.style.display = 'block';
-            form.style.display = 'none'; // Form ko chhupa dein
-            
-            if (studentIdEl) {
-                studentIdEl.innerHTML = `पंजीकरण स्वीकार कर लिया गया है। <br> <span class="text-sm">हम जल्द ही आपसे संपर्क करेंगे।</span>`;
+        // 2. Success Stories Swiper (Scrollable Card Carousel)
+        const storySwiper = new Swiper('.story-swiper', {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 20,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.story-swiper .swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                768: { slidesPerView: 2, spaceBetween: 30 },
+                1024: { slidesPerView: 3, spaceBetween: 30 }
             }
-        }
-        
-        form.reset();
-        window.scrollTo({ top: document.getElementById('registration').offsetTop - 50, behavior: 'smooth' });
+        });
 
-    } catch (error) {
-        console.error('Submission Error:', error);
-        setStatus('❌ त्रुटि: ' + error.message, 'error');
-    } finally 
-    
-    {
-        submitBtn.disabled = false;
-    }
-});
-</script>     
-            </div>
-        </div>
-    </section>
+        // 3. Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-md', 'bg-white/95');
+                nav.classList.remove('bg-white/80');
+            } else {
+                nav.classList.remove('shadow-md', 'bg-white/95');
+                nav.classList.add('bg-white/80');
+            }
+        });
 
-    <!-- Results Verification Section -->
-    <section id="results" class="section-padding bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">Results Verification</h2>
-                <p class="text-2xl hindi-text text-gray-600 mb-4">परिणाम सत्यापन</p>
-                <p class="text-lg text-gray-600">Verify your certificate authenticity using QR code</p>
-            </div>
-            
-            <div class="max-w-4xl mx-auto">
-                <div class="grid md:grid-cols-2 gap-8 items-center">
-                    <div>
-                        <h3 class="text-2xl font-bold text-[#4F0A5A] mb-4">How to Verify | कैसे सत्यापित करें</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 bg-[#F2CFEE] rounded-full flex items-center justify-center flex-shrink-0">
-                                    <span class="font-bold text-[#4F0A5A]">1</span>
-                                </div>
-                                <div>
-                                    <p class="font-semibold">Scan QR Code on Certificate</p>
-                                    <p class="text-sm hindi-text text-gray-600">प्रमाणपत्र पर QR कोड स्कैन करें</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 bg-[#F2CFEE] rounded-full flex items-center justify-center flex-shrink-0">
-                                    <span class="font-bold text-[#4F0A5A]">2</span>
-                                </div>
-                                <div>
-                                    <p class="font-semibold">Get Redirected to Verification Page</p>
-                                    <p class="text-sm hindi-text text-gray-600">सत्यापन पृष्ठ पर पुनर्निर्देशित हों</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 bg-[#F2CFEE] rounded-full flex items-center justify-center flex-shrink-0">
-                                    <span class="font-bold text-[#4F0A5A]">3</span>
-                                </div>
-                                <div>
-                                    <p class="font-semibold">View Complete Certificate Details</p>
-                                    <p class="text-sm hindi-text text-gray-600">संपूर्ण प्रमाणपत्र विवरण देखें</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded">
-                            <p class="text-sm font-semibold text-yellow-800">Sample Verification URL Format:</p>
-                            <p class="text-xs text-gray-700 mt-1 break-all">https://osifbd.github.io/Reslut/result.html?id=OSD_2510160001</p>
-                        </div>
-                        
-                        <div class="mt-6">
-                            <a href="Result.html" class="btn-primary text-white px-8 py-3 rounded-full font-semibold inline-flex items-center gap-2">
-                                <i class="fas fa-qrcode"></i>
-                                <span>Verify Your Result | अपना परिणाम सत्यापित करें</span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-center">
-                        <div class="qr-sample">
-                            <svg viewBox="0 0 200 200" class="w-full h-full p-4">
-                                <!-- QR Code Pattern (simplified representation) -->
-                                <rect x="10" y="10" width="30" height="30" fill="#4F0A5A"/>
-                                <rect x="160" y="10" width="30" height="30" fill="#4F0A5A"/>
-                                <rect x="10" y="160" width="30" height="30" fill="#4F0A5A"/>
-                                
-                                <!-- Data squares -->
-                                <rect x="50" y="20" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="70" y="20" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="90" y="20" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="110" y="20" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="130" y="20" width="10" height="10" fill="#4F0A5A"/>
-                                
-                                <rect x="20" y="50" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="60" y="50" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="100" y="50" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="140" y="50" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="170" y="50" width="10" height="10" fill="#4F0A5A"/>
-                                
-                                <rect x="30" y="80" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="70" y="80" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="110" y="80" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="150" y="80" width="10" height="10" fill="#4F0A5A"/>
-                                
-                                <rect x="50" y="110" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="90" y="110" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="130" y="110" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="170" y="110" width="10" height="10" fill="#4F0A5A"/>
-                                
-                                <rect x="20" y="140" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="60" y="140" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="100" y="140" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="140" y="140" width="10" height="10" fill="#4F0A5A"/>
-                                
-                                <rect x="50" y="170" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="90" y="170" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="130" y="170" width="10" height="10" fill="#4F0A5A"/>
-                                <rect x="170" y="170" width="10" height="10" fill="#4F0A5A"/>
-                                
-                                <text x="100" y="100" text-anchor="middle" font-size="12" fill="#4F0A5A" font-weight="bold">SCAN ME</text>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        // 4. Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
 
-    <!-- Certificates Section -->
-    <section id="certificates" class="section-padding bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">Certificates</h2>
-                <p class="text-2xl hindi-text text-gray-600 mb-4">प्रमाणपत्र</p>
-                <p class="text-lg text-gray-600">Industry-recognized certification process</p>
-            </div>
-            
-            <div class="max-w-5xl mx-auto">
-                <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-6">Certificate Generation Process | प्रमाणपत्र निर्माण प्रक्रिया</h3>
-                    
-                    <div class="grid md:grid-cols-3 gap-6 mb-8">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-3">
-                                <i class="fas fa-file-alt text-2xl text-[#4F0A5A]"></i>
-                            </div>
-                            <h4 class="font-bold text-[#4F0A5A]">Certificate</h4>
-                            <p class="text-sm text-gray-600 mt-2">Automated certificate generation</p>
-                        </div>
-                        
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-3">
-                                <i class="fas fa-qrcode text-2xl text-[#4F0A5A]"></i>
-                            </div>
-                            <h4 class="font-bold text-[#4F0A5A]">QR Code Integration</h4>
-                            <p class="text-sm text-gray-600 mt-2">Unique QR code for instant verification</p>
-                        </div>
-                        
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-3">
-                                <i class="fas fa-shield-alt text-2xl text-[#4F0A5A]"></i>
-                            </div>
-                            <h4 class="font-bold text-[#4F0A5A]">Secure & Verifiable</h4>
-                            <p class="text-sm text-gray-600 mt-2">Tamper-proof certificates with blockchain-style verification</p>
-                        </div>
-                    </div>
-                    
-                    <div class="border-2 border-[#4F0A5A] rounded-xl p-6">
-                        <h4 class="text-xl font-bold text-[#4F0A5A] mb-4 text-center">Certificate Information | प्रमाणपत्र जानकारी</h4>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-id-card text-[#4F0A5A]"></i>
-                                <div>
-                                    <p class="font-semibold">Serial Number</p>
-                                    <p class="text-sm text-gray-600">Unique ID: OSD_XXXXXX####</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-user text-[#4F0A5A]"></i>
-                                <div>
-                                    <p class="font-semibold">Student Name</p>
-                                    <p class="text-sm text-gray-600">As per registration</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-book text-[#4F0A5A]"></i>
-                                <div>
-                                    <p class="font-semibold">Course Name</p>
-                                    <p class="text-sm text-gray-600">Completed course title</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-star text-[#4F0A5A]"></i>
-                                <div>
-                                    <p class="font-semibold">Marks Obtained</p>
-                                    <p class="text-sm text-gray-600">Score: -- % with Grading</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-calendar text-[#4F0A5A]"></i>
-                                <div>
-                                    <p class="font-semibold">Date of Issue</p>
-                                    <p class="text-sm text-gray-600">7-15 days after submission</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-check-circle text-[#4F0A5A]"></i>
-                                <div>
-                                    <p class="font-semibold">QR Verification</p>
-                                    <p class="text-sm text-gray-600">Instant online verification</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 rounded">
-                        <p class="font-semibold text-green-800">📌 Note | नोट:</p>
-                        <p class="text-sm text-gray-700 mt-1">Certificates are issued 7-15 days after successful course completion and final assessment. | प्रमाणपत्र सफल पाठ्यक्रम समापन और अंतिम मूल्यांकन के 2 दिन बाद जारी किए जाते हैं।</p>
-                    </div>
-                </div>
-                
-            <div class="text-center">
-    <p class="text-gray-600 mb-4">Sample Certificate Layout</p>
+        // 5. Qualification Toggle
+        document.getElementById('qual-select').addEventListener('change', function(e) {
+            const wrap = document.getElementById('qual-other-wrapper');
+            const input = wrap.querySelector('input');
+            if (e.target.value === 'Other') { wrap.classList.remove('hidden'); input.required = true; } 
+            else { wrap.classList.add('hidden'); input.required = false; input.value = ''; }
+        });
 
-    <div class="max-w-6xl mx-auto rounded-2xl overflow-hidden shadow-2xl border-4 border-[#4F0A5A]">
-        <img 
-          src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/certificate-sample.jpg"
-          alt="Certificate Sample"
-          class="w-full h-auto object-contain">
-    </div>
-</div>
-
- <!-- About Section -->
-<section id="about" class="section-padding bg-white">
-    <div class="container mx-auto px-4">
-
-        <!-- Section Heading -->
-        <div class="text-center mb-12">
-            <h2 class="text-4xl lg:text-5xl font-bold gradient-text mb-4">
-                About Us
-            </h2>
-            <p class="text-2xl hindi-text text-gray-600 mb-4">
-                हमारे बारे में
-            </p>
-        </div>
-
-        <div class="max-w-6xl mx-auto">
-
-            <!-- Mission & Vision -->
-            <div class="grid md:grid-cols-2 gap-8 mb-16">
-                
-                <!-- Mission -->
-                <div class="bg-[#F2CFEE] rounded-2xl p-8 shadow-md">
-                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-bullseye text-3xl text-[#4F0A5A]"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-3">Our Mission</h3>
-                    <p class="text-lg hindi-text text-gray-700 mb-3">हमारा मिशन</p>
-                    <p class="text-gray-700 mb-2">
-                        To empower youth with employable skills and industry-linked training that transforms lives and builds sustainable careers.
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm">
-                        युवाओं को रोजगार योग्य कौशल और उद्योग-संबद्ध प्रशिक्षण के साथ सशक्त बनाना।
-                    </p>
-                </div>
-
-                <!-- Vision -->
-                <div class="bg-[#F2CFEE] rounded-2xl p-8 shadow-md">
-                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-eye text-3xl text-[#4F0A5A]"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-[#4F0A5A] mb-3">Our Vision</h3>
-                    <p class="text-lg hindi-text text-gray-700 mb-3">हमारा विजन</p>
-                    <p class="text-gray-700 mb-2">
-                        To create an accessible, affordable, and outcome-driven skill education ecosystem.
-                    </p>
-                    <p class="text-gray-600 hindi-text text-sm">
-                        सुलभ और परिणाम-संचालित कौशल शिक्षा प्रणाली बनाना।
-                    </p>
-                </div>
-
-            </div>
-
-            <!-- Why Choose Us (Merged Section) -->
-            <div>
-                <h3 class="text-3xl font-bold text-[#4F0A5A] mb-10 text-center">
-                    Why Choose Us | हमें क्यों चुनें
-                </h3>
-
-                <div class="grid md:grid-cols-3 gap-8">
-
-                    <!-- Card 1 -->
-                    <div class="text-center p-8 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
-                        <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-laptop-code text-2xl text-[#4F0A5A]"></i>
-                        </div>
-                        <h4 class="font-bold text-[#4F0A5A] mb-2">Real Projects</h4>
-                        <p class="text-sm hindi-text text-gray-600 mb-2">वास्तविक परियोजनाएं</p>
-                        <p class="text-sm text-gray-600">
-                            Hands-on training with real industry projects and practical applications.
-                        </p>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="text-center p-8 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
-                        <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-briefcase text-2xl text-[#4F0A5A]"></i>
-                        </div>
-                        <h4 class="font-bold text-[#4F0A5A] mb-2">Placement Support</h4>
-                        <p class="text-sm hindi-text text-gray-600 mb-2">प्लेसमेंट सहायता</p>
-                        <p class="text-sm text-gray-600">
-                            Dedicated career support and industry networking opportunities.
-                        </p>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="text-center p-8 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
-                        <div class="w-16 h-16 bg-[#F2CFEE] rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-certificate text-2xl text-[#4F0A5A]"></i>
-                        </div>
-                        <h4 class="font-bold text-[#4F0A5A] mb-2">Recognized Certification</h4>
-                        <p class="text-sm hindi-text text-gray-600 mb-2">मान्यता प्राप्त प्रमाणपत्र</p>
-                        <p class="text-sm text-gray-600">
-                            Government & industry recognized certificates for better career growth.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
- <footer class="site-footer" role="contentinfo">
-    <div class="footer-inner">
-      <div class="footer-col">
-        <h4>Orbital Studies & Immigration Pvt. Ltd.</h4>
-        <p class="text-muted">Empowering students and professionals to achieve global success with trusted guidance.</p>
-        <div class="social-links" aria-label="Social media links">
-          <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank" rel="noopener">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
-              <path d="M22 12.06C22 6.54 17.52 2 12 2S2 6.54 2 12.06C2 17.08 5.66 21.2 10.44 22v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.44h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 3.01h-2.33V22C18.34 21.2 22 17.08 22 12.06z"></path>
-            </svg>
-          </a>
-          <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
-              <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm11 1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"></path>
-            </svg>
-          </a>
-         <a href="https://www.threads.net/" aria-label="Threads" target="_blank" rel="noopener">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
-    <path d="M12 2C7 2 4 5 4 10c0 3.5 2 5.5 5 6.3v2.2c0 .3.2.5.5.5h2c.3 0 .5-.2.5-.5v-2c3.5-.3 6-2.4 6-6 0-5-3-8-6-8zm0 2c2.8 0 4 2.2 4 5 0 2.4-1.3 4-4 4s-4-1.6-4-4c0-2.8 1.2-5 4-5z"/>
-  </svg>
-</a>
-
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#contact">Contact & Apply</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><span>115/13 R. K. Colony, Bighar Road,</span></li>
-          <li>Bighar Road,Fatehabad,</li>
-          <li>Haryana 125050</li>
-          <li><a href="mailto:osi@ftbh.onmicrosoft.com">osi@ftbh.onmicrosoft.com</a></li>
-         
-
-</li>
-        </ul>
-        
-      </div>
-    </div>
-  <span><div class="copyright text-white text-xs">
-  © 2026 Orbital Studies & Immigration Pvt. Ltd. All rights reserved.
-</div></span>
-  </footer>
-    
-    <!-- Firebase -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-      import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
-        authDomain: "orbital4u.firebaseapp.com",
-        projectId: "orbital4u",
-        storageBucket: "orbital4u.firebasestorage.app",
-        messagingSenderId: "88284726348",
-        appId: "1:88284726348:web:0d43de2919b592509b60e9"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      window.auth = auth;
-         window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        // 6. Fade-Up Intersection Observer
+        const fadeElements = document.querySelectorAll('.fade-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        fadeElements.forEach(el => observer.observe(el));
     </script>
 
-    <!-- App JS -->
-   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    <!-- FIREBASE & FORM LOGIC (Your exact backend logic retained) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ",
-    authDomain: "orbital4u.firebaseapp.com",
-    projectId: "orbital4u",
-    storageBucket: "orbital4u.firebasestorage.app",
-    messagingSenderId: "88284726348",
-    appId: "1:88284726348:web:0d43de2919b592509b60e9"
-  };
+        const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9" };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwlbPix4HA0LnOyNq3bPmSKtTcRlEiJOfyrIhJdwfKwbV_2fWc83G2iZbI3gTjW_GLVpw/exec';
 
-  // 🔹 Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+        const form = document.getElementById('registration-form');
+        const statusEl = document.getElementById('form-status');
+        const submitBtn = document.getElementById('submit-btn');
 
-  // 🔹 Register function
-  window.handleRegister = function (event) {
-    event.preventDefault();
+        const setStatus = (msg, type = 'info') => {
+            statusEl.classList.remove('hidden');
+            statusEl.textContent = msg;
+            statusEl.className = type === 'error' ? 'text-center font-bold text-sm text-red-600 mt-4' : type === 'success' ? 'text-center font-bold text-sm text-green-600 mt-4' : 'text-center font-bold text-sm text-[#4F0A5A] mt-4';
+        };
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+        async function compressImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = Math.min(800, img.width);
+                        canvas.height = img.height * (canvas.width / img.width);
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve({ base64: canvas.toDataURL('image/jpeg', 0.7).split(',')[1], mime: 'image/jpeg' });
+                    };
+                };
+            });
+        }
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        alert("Registration Successful ✅");
-        console.log(userCredential.user);
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-</script>
-<a href="https://wa.me/919416711671"
-   target="_blank"
-   class="whatsapp-float fixed bottom-6 right-6 
-          bg-green-500 hover:bg-green-600 
-          text-white w-16 h-16 rounded-full 
-          flex items-center justify-center 
-          shadow-2xl z-50 transition">
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const mobile = document.getElementById("mobile").value;
+            const password = "OSD@" + mobile;
 
-    <i class="fab fa-whatsapp text-3xl"></i>
-</a>
+            setStatus('Submitting details... कृपया प्रतीक्षा करें।', 'info');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
 
+            try {
+                try { await createUserWithEmailAndPassword(auth, email, password); } 
+                catch (err) { if (err.code !== "auth/email-already-in-use") throw new Error("Auth Error: " + err.message); }
+
+                const fd = new FormData(form);
+                const data = {
+                    FullName: fd.get('fullname'), FatherMotherName: fd.get('parentname'), DOB: fd.get('dob'),
+                    Gender: fd.get('gender'), Address: fd.get('address'), District: fd.get('district'),
+                    State: fd.get('state'), Email: email, Mobile: mobile, CourseSelected: fd.get('course'),
+                    Qualification: fd.get('qualification') === 'Other' ? fd.get('qualification_other') : fd.get('qualification')
+                };
+
+                const photoFile = form.querySelector('input[type="file"]').files[0];
+                if (photoFile) {
+                    const photoData = await compressImage(photoFile); 
+                    data.PhotoBase64 = photoData.base64; data.PhotoMime = photoData.mime; data.PhotoFilename = photoFile.name;
+                }
+
+                await fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
+
+                setStatus('✅ सफल! आपका पंजीकरण हो गया है।', 'success');
+                document.getElementById('success-message').classList.remove('hidden');
+                form.style.display = 'none';
+                document.getElementById('student-id-display').innerHTML = `पंजीकरण स्वीकार कर लिया गया है। <br> <span class="text-sm">हम जल्द ही आपसे संपर्क करेंगे।</span>`;
+                window.scrollTo({ top: document.getElementById('registration').offsetTop - 80, behavior: 'smooth' });
+
+            } catch (error) {
+                setStatus('❌ त्रुटि: ' + error.message, 'error');
+                submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Registration | पंजीकरण जमा करें';
+            }
+        });
+    </script>
 </body>
 </html>
