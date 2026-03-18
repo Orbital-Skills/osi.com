@@ -721,8 +721,42 @@
         filterSelect.addEventListener('change', filterData);
         searchInput.addEventListener('input', filterData);
 
-        // Initial Load
-        render(allCourses);
+        // ==========================================
+        // NEW CODE: URL Parameters चेक करें और Initial Load करें
+        // ==========================================
+        
+        // URL से पैरामीटर पढ़ने का फ़ंक्शन
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+        // पेज लोड होने पर चलाने वाला कोड
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // URL में 'sector' नाम का पैरामीटर चेक करें
+            const sectorFromUrl = getUrlParameter('sector');
+
+            if (sectorFromUrl) {
+                // अगर URL में सेक्टर है, तो ड्रॉपडाउन की वैल्यू सेट करें
+                // पहले चेक करें कि क्या वो ऑप्शन ड्रॉपडाउन में मौजूद है
+                let optionExists = false;
+                for (let i = 0; i < filterSelect.options.length; i++) {
+                    if (filterSelect.options[i].value === sectorFromUrl) {
+                        optionExists = true;
+                        break;
+                    }
+                }
+
+                if(optionExists){
+                     filterSelect.value = sectorFromUrl;
+                }
+            }
+            
+            // डेटा को फ़िल्टर और रेंडर करें (ड्रॉपडाउन की वैल्यू के आधार पर)
+            filterData();
+        });
 
     </script>
 </body>
