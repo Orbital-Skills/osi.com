@@ -594,17 +594,25 @@
     let generatedOTP = null;
     let isEmailVerified = false;
 
-    const courseData =[
-        { name: "Health Care Skills", url: "health-care.html", icon: "fa-user-doctor", fee: "5000" },
-        { name: "Banking-Finance Skills", url: "banking-finance.html", icon: "fa-building-columns", fee: "4500" },
-        { name: "IT-ITS Sector", url: "IT-ITES Sector.html", icon: "fa-laptop-code", fee: "6000" },
-        { name: "Fireman", url: "fire-safety.html", icon: "fa-fire-extinguisher", fee: "5500" },
-        { name: "Electrician", url: "electrician.html", icon: "fa-bolt", fee: "4000" },
-        { name: "Plumber", url: "plumber.html", icon: "fa-faucet", fee: "3500" },
-        { name: "Boutique Design", url: "beautician.html", icon: "fa-scissors", fee: "4500" },
-        { name: "ECCE/ NTT", url: "ecce-ntt.html", icon: "fa-child-reaching", fee: "5000" },
-        { name: "Welder", url: "welder.html", icon: "fa-fire-burner", fee: "4000" },
-        { name: "Cyber Security", url: "cyber-security.html", icon: "fa-shield-halved", fee: "7000" }
+    const courseData = [
+        // url में ?sector=SectorName जोड़ें। ध्यान रहे SectorName बिल्कुल Courses.html वाले सेक्टर के नाम से मैच होना चाहिए।
+        { name: "Agriculture Sector", url: "Courses.html?sector=Agriculture", icon: "fa-seedling", fee: "5000" },
+        { name: "Apparel Sector", url: "Courses.html?sector=Apparel", icon: "fa-shirt", fee: "5000" },
+        { name: "Automotive Sector", url: "Courses.html?sector=Automotive", icon: "fa-car", fee: "5000" },
+        { name: "Banking & Finance", url: "Courses.html?sector=Banking", icon: "fa-building-columns", fee: "5000" },
+        { name: "Beauty & Wellness", url: "Courses.html?sector=Beauty%20%26%20Wellness", icon: "fa-spa", fee: "5000" }, // %20 = space, %26 = &
+        { name: "Construction Sector", url: "Courses.html?sector=Construction", icon: "fa-trowel-bricks", fee: "5000" },
+        { name: "Domestic Workers", url: "Courses.html?sector=Domestic", icon: "fa-house-user", fee: "5000" },
+        { name: "Electronics Sector", url: "Courses.html?sector=Electronics", icon: "fa-plug", fee: "5000" },
+        { name: "Fire & Safety", url: "Courses.html?sector=Fire%20%26%20Safety", icon: "fa-fire-extinguisher", fee: "10500" },
+        { name: "Healthcare Sector", url: "Courses.html?sector=Healthcare", icon: "fa-user-doctor", fee: "5500" },
+        { name: "IT & ITES Sector", url: "Courses.html?sector=IT-ITES", icon: "fa-laptop-code", fee: "5000" },
+        { name: "Logistics Sector", url: "Courses.html?sector=Logistics", icon: "fa-truck-fast", fee: "5000" },
+        { name: "Management Sector", url: "Courses.html?sector=Management", icon: "fa-users-gear", fee: "5000" },
+        { name: "Media & Entertainment", url: "Courses.html?sector=Media", icon: "fa-film", fee: "5000" },
+        { name: "Plumbing Sector", url: "Courses.html?sector=Plumbing", icon: "fa-faucet", fee: "5000" },
+        { name: "Telecom Sector", url: "Courses.html?sector=Telecom", icon: "fa-satellite-dish", fee: "5000" },
+        { name: "Tourism & Hospitality", url: "Courses.html?sector=Tourism", icon: "fa-plane-departure", fee: "10500" }
     ];
 
     // --- UTILITIES ---
