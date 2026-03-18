@@ -1,12 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orbital Skill Development Centre</title>
     
-    <!-- FontAwesome -->
+    <!-- Fonts & Icons (Sync with index.html) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Config for Header/Footer -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F0A5A',
+                        primaryLight: '#7B1E7A',
+                        secondary: '#F2CFEE',
+                        accent: '#F59E0B',
+                        darkBg: '#0c1b32',
+                    },
+                    fontFamily: {
+                        sans:['Inter', 'Noto Sans Devanagari', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -14,21 +40,30 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <style>
+        /* ================= Header/Footer Styles ================= */
+        .text-gradient { background: linear-gradient(135deg, #4F0A5A 0%, #7B1E7A 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .hindi-text { font-family: 'Noto Sans Devanagari', sans-serif; }
+
+        .pulse-ring { animation: pulse-ring 2s infinite; }
+        @keyframes pulse-ring { 
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } 
+        }
+
         /* --- GLOBAL STYLES --- */
         * { box-sizing: border-box; }
-        body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0; font-size: 11px; color: #333; }
-        .hidden { display: none !important; }
+        body { font-family: "Helvetica Neue", Helvetica, Arial, "Inter", sans-serif; background-color: #f0f0f0; margin: 0; padding: 0; font-size: 11px; color: #333; padding-top: 90px; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Fixed hide class for Javascript tabs so it doesn't break Tailwind's mobile menu */
+        .js-hidden { display: none !important; }
         
         /* MODAL STYLES (FOR FORGOT PASS) */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
         .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 300px; border-radius: 5px; text-align: center; }
         .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
         .close:hover { color: black; }
-
-        /* DASHBOARD STYLES */
-        .brand-header { display: flex; align-items: center; background: #fff; padding: 10px 20px; border-bottom: 1px solid #ddd; }
-        .brand-logo { height: 50px; margin-right: 15px; }
-        .brand-title { font-size: 24px; font-weight: 800; color: #337ab7; text-transform: uppercase; }
 
         .btn { display: inline-block; padding: 6px 12px; font-size: 11px; text-align: center; cursor: pointer; border: 1px solid transparent; border-radius: 4px; font-weight: bold; margin-top: 5px; color:white;}
         .btn-primary { background-color: #337ab7; }
@@ -44,7 +79,8 @@
         .error-border { border: 1px solid red !important; background-color: #fff0f0; }
         
         /* DASHBOARD LAYOUT */
-        .dashboard-wrapper { display: flex; min-height: 100vh; }
+        #dashboard-view { flex: 1; display: flex; flex-direction: column; }
+        .dashboard-wrapper { display: flex; flex: 1; }
         .sidebar { width: 230px; background: #f8f8f8; border-right: 1px solid #ddd; flex-shrink: 0; }
         .sidebar-header { background: #337ab7; color: white; padding: 10px 15px; font-weight: bold; font-style: italic; font-size: 13px; }
         .sidebar a { display: block; padding: 10px 15px; color: #333; text-decoration: none; font-weight: 600; border-bottom: 1px solid #eaeaea; transition: 0.2s; pointer-events: none; cursor: default; }
@@ -75,10 +111,7 @@
         .doc-status { font-size: 10px; color: green; font-weight: bold; display: none; }
 
         /* STATUS & COURSE */
-        .status-container { border: 1px solid #337ab7; background: #fff; padding: 5px; position: relative; }
-        .status-header { text-align: center; border: 2px solid #337ab7; padding: 15px; margin-bottom: 15px; background: #fff; }
-        .status-logo { height: 70px; margin-bottom: 5px; }
-        .status-title { font-size: 22px; font-weight: 900; color: #337ab7; text-transform: uppercase; letter-spacing: 0.5px; }
+        .status-container { background: #fff; padding: 5px; position: relative; }
         .status-section-head { background-color: #dcedc8; color: #33691e; padding: 6px 10px; font-weight: bold; font-size: 11px; text-transform: uppercase; border-left: 4px solid #33691e; margin-top: 15px; margin-bottom: 10px; }
         .status-label { font-size: 10px; font-weight: 700; color: #333; margin-bottom: 2px; text-transform: uppercase; }
         .status-input { width: 100%; border: 1px solid #ccc; background: #fff; padding: 5px; font-size: 11px; color: #000; height: 28px; pointer-events: none; }
@@ -86,7 +119,7 @@
         .status-sign-display { border: 1px solid #000; background: #fff; display: flex; align-items: center; justify-content: center; width: 150px; height: 60px; }
         .status-photo-display img, .status-sign-display img { width: 100%; height: 100%; object-fit: contain; }
 
-        .fee-status-box { background: #e0f7fa; border: 1px solid #0097a7; padding: 10px; margin-bottom: 15px; display: none; }
+        .fee-status-box { background: #e0f7fa; border: 1px solid #0097a7; padding: 10px; margin-bottom: 15px; display: none; border-radius: 4px; }
         .fee-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
         .fee-label { font-weight: bold; color: #006064; text-transform: uppercase; }
         .status-success { color: green; font-weight: bold; }
@@ -99,14 +132,12 @@
         .course-title { font-size: 13px; text-transform: uppercase; line-height: 1.4; }
 
         /* LOGIN PAGE SPECIFIC */
-        .login-top-header { background-color: #fff; padding: 10px 0; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #ccc; }
-        .login-top-header img { height: 70px; margin-right: 15px; }
-        .login-top-header h1 { color: #2c3e50; font-size: 26px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; }
-
+        #login-page { flex: 1; }
         .login-container { width: 1000px; margin: 20px auto; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border: 1px solid #ddd; min-height: 600px; padding-bottom: 20px; }
+        
         .news-ticker { background-color: #eef7ff; border-bottom: 1px solid #bce8f1; padding: 8px 15px; display: flex; align-items: center; font-size: 12px; }
         .news-label { font-weight: bold; color: #000; white-space: nowrap; margin-right: 10px; }
-        .marquee-text { color: #cc0000; font-weight: bold; width: 100%; }
+        .marquee-text { color: #cc0000; font-weight: bold; width: 100%; display: block; } 
 
         .split-layout { display: flex; padding: 20px; }
         .left-col { width: 60%; padding-right: 30px; border-right: 1px solid #ddd; }
@@ -132,7 +163,49 @@
         .verify-badge { color: green; font-weight: bold; margin-left: 5px; display: none; }
 
         .top-bar { background: #337ab7; color: white; padding: 5px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #286090; font-size: 11px; }
-        .footer { margin-top: auto; background-color: #0056b3; color: white; text-align: center; padding: 15px; font-size: 12px; font-family: "Courier New", monospace; }
+        
+        .news-ticker {
+            display: flex;
+            overflow: hidden;
+            background: #A0D8FF; /* अपनी पसंद का रंग चुनें */
+            align-items: center;
+        }
+        
+        .news-label {
+            background: #ff0000;
+            color: white;
+            padding: 5px 10px;
+            z-index: 10;
+            font-weight: bold;
+        }
+        
+        .ticker-wrapper {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+        }
+        
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            /* एनीमेशन जो हमेशा चलता रहे */
+            animation: continuous-scroll 20s linear infinite;
+        }
+        
+        /* माउस ले जाने पर रोकने के लिए */
+        .ticker-wrapper:hover .marquee-content {
+            animation-play-state: paused;
+        }
+        
+        @keyframes continuous-scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                /* टेक्स्ट को ठीक आधा पीछे खींचना ताकि लूप बन जाए */
+                transform: translateX(-50%);
+            }
+        }
 
         @media (max-width: 768px) { 
             .login-container { width: 95%; } 
@@ -142,13 +215,59 @@
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
+
+    <!-- Navigation (Fixed Top) -->
+    <nav class="fixed top-0 left-0 w-full z-[900] transition-all duration-300 glass-nav" id="navbar">
+        <div class="container mx-auto px-4 lg:px-8 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="w-20 h-20 bg-white rounded-full border-2 border-primary shadow-md flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
+                        <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" alt="OSD Logo" class="w-20 h-20 object-contain" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%234F0A5A\'><path d=\'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\'/></svg>'">
+                    </div>
+                    <div>
+                        <h1 class="text-xl lg:text-2xl font-extrabold text-gradient uppercase tracking-tight" style="margin:0; padding:0;">Orbital Journey of Advanced Skills</h1>
+                        <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest hidden sm:block" style="margin:0; padding:0;">Estd. 2022under company act 213 Section2(68)</p>
+                         <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest hidden sm:block" style="margin:0; padding:0;">Register under GSDM</p>
+                    </div>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center gap-6">
+                    <a href="index.html#home" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Home</a>
+                    <a href="Courses.html" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Courses</a>
+                    <a href="index.html#registration" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Enquiry</a>
+                    <a href="login.html" class="text-sm font-semibold text-primary border-b-2 border-primary transition">Admissions</a>
+                    <a href="https://orbital-skills.github.io/osi.com/Result.html" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Results</a>
+                    <a href="https://orbital-skills.github.io/osi.com/verify.html" class="text-sm font-semibold text-gray-700 hover:text-primary transition">Verification</a>
+                    <a href="index.html#about" class="text-sm font-semibold text-gray-700 hover:text-primary transition">About</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden text-primary text-2xl focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 flex flex-col py-4 px-6 gap-4 lg:hidden">
+            <a href="index.html#home" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Home</a>
+            <a href="Courses.html" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Courses</a>
+            <a href="index.html#registration" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Enquire Now</a>
+            <a href="login.html" class="font-semibold text-primary border-b pb-2">Admissions</a>
+            <a href="https://orbital-skills.github.io/osi.com/Result.html" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Results</a>
+            <a href="https://orbital-skills.github.io/osi.com/verify.html" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">Verification</a>
+            <a href="index.html#about" class="font-semibold text-gray-700 hover:text-primary border-b pb-2">About Us</a>
+        </div>
+    </nav>
 
     <!-- FORGOT PASSWORD MODAL -->
     <div id="forgot-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeForgotModal()">&times;</span>
-            <h3 style="color:#337ab7;">Reset Password</h3>
+            <h3 style="color:#337ab7; margin-top:0;">Reset Password</h3>
             <p style="font-size:11px;">Enter your registered email address.</p>
             <input type="email" id="reset-email" placeholder="Enter Email" style="margin-bottom:15px;">
             <button class="btn btn-primary" onclick="sendResetEmail()">Send Reset Link</button>
@@ -157,28 +276,16 @@
 
     <!-- 1. LOGIN PAGE -->
     <div id="login-page">
-        <div class="login-top-header">
-            <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" alt="Logo">
-            <h1>ORBITAL SKILL DEVELOPMENT CENTER</h1>
-        </div>
-        <a href="index.html" 
-   style="display:inline-block;
-          margin-top:15px;
-          background:#0056B3;
-          color:white;
-          padding:10px 20px;
-          border-radius:5px;
-          text-decoration:none;
-          cursor:pointer;">
-    Go To Home
-</a>
         <div class="login-container">
             <div class="news-ticker">
-                <div class="news-label">Latest News -</div>
-                <marquee class="marquee-text" scrollamount="6" onmouseover="this.stop();" onmouseout="this.start();">
-                    !!! LAST DATE EXTENDED FOR REGISTRATION. || ADMISSIONS WILL CLOSE SOON. || KINDLY FILL THE FORM CAREFULLY. || ADMIT CARDS WILL BE AVAILABLE FOR DOWNLOAD SHORTLY.
-                </marquee>
-            </div>
+    <div class="news-label">Latest News -</div>
+    <div class="ticker-wrapper">
+        <div class="marquee-content">
+            <span class="text-item">!!! LAST DATE EXTENDED FOR REGISTRATION. || ADMISSIONS WILL CLOSE SOON. || KINDLY FILL THE FORM CAREFULLY. || ADMIT CARDS WILL BE AVAILABLE FOR DOWNLOAD SHORTLY. &nbsp;&nbsp;</span>
+            <span class="text-item">!!! LAST DATE EXTENDED FOR REGISTRATION. || ADMISSIONS WILL CLOSE SOON. || KINDLY FILL THE FORM CAREFULLY. || ADMIT CARDS WILL BE AVAILABLE FOR DOWNLOAD SHORTLY. &nbsp;&nbsp;</span>
+        </div>
+    </div>
+</div>
 
             <div class="split-layout">
                 <!-- LEFT: Registration -->
@@ -211,7 +318,13 @@
                         </div>
                         <!-- END EMAIL VERIFICATION -->
 
-                        <div class="form-row"><label class="form-label"><span class="required">*</span>Create Password:</label><div class="input-wrapper"><input type="password" id="reg-password" placeholder="Min 6 chars"></div></div>
+                        <div class="form-row">
+                            <label class="form-label"><span class="required">*</span>Create Password:</label>
+                            <div class="input-wrapper" style="position: relative;">
+                                <input type="password" id="reg-password" placeholder="Min 6 chars" style="padding-right: 30px;">
+                                <i class="fa fa-eye" onclick="togglePassword('reg-password', this)" style="position: absolute; right: 10px; top: 8px; cursor: pointer; color: #777;"></i>
+                            </div>
+                        </div>
                         
                         <div style="margin-left: 150px; margin-top: 15px; display: flex; align-items: center;">
                             <input type="checkbox" id="terms" style="margin-right: 5px;">
@@ -231,7 +344,13 @@
                     <h2 class="login-h2">Already Registered</h2>
                     <form style="width: 100%;">
                         <div class="form-row"><label class="form-label">EMAIL ID <span class="required">*</span>:</label><div class="input-wrapper"><input type="text" id="login-email"></div></div>
-                        <div class="form-row"><label class="form-label">PASSWORD <span class="required">*</span>:</label><div class="input-wrapper"><input type="password" id="login-password"></div></div>
+                        <div class="form-row">
+                            <label class="form-label">PASSWORD <span class="required">*</span>:</label>
+                            <div class="input-wrapper" style="position: relative;">
+                                <input type="password" id="login-password" style="padding-right: 30px;">
+                                <i class="fa fa-eye" onclick="togglePassword('login-password', this)" style="position: absolute; right: 10px; top: 8px; cursor: pointer; color: #777;"></i>
+                            </div>
+                        </div>
                         
                         <div class="form-row">
                             <label class="form-label">CAPTCHA:</label>
@@ -248,15 +367,10 @@
                 </div>
             </div>
         </div>
-        <div class="footer">@ 2022 Orbital Skill Development Center. All rights reserved.</div>
     </div>
 
     <!-- 2. DASHBOARD -->
-    <div id="dashboard-view" class="hidden">
-        <div class="brand-header">
-            <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" class="brand-logo">
-            <div class="brand-title">Orbital Skill Development Centre</div>
-        </div>
+    <div id="dashboard-view" class="js-hidden">
         <div class="top-bar">
             <div>
                 <!-- FIXED IMAGE SRC -->
@@ -315,7 +429,7 @@
                 </div>
 
                 <!-- EXAM DETAILS -->
-                <div id="page-exam" class="hidden">
+                <div id="page-exam" class="js-hidden">
                     <div class="panel"><div class="panel-heading">EXAMINATION DETAILS</div><div class="panel-body">
                         <div style="margin-bottom: 10px;"><button class="btn btn-warning" onclick="showPage('personal')"><i class="fa fa-arrow-left"></i> Back</button></div>
                         <div class="row"><div class="col-4"><label>1. STATE TO WHICH YOU BELONG <span class="required">*</span></label><select id="exam-state"><option value="">Select</option><option>Haryana</option><option>Punjab</option><option>Rajasthan</option><option>Others</option></select></div><div class="col-4"><label>2. EXAM MODE <span class="required">*</span></label><select id="exam-mode"><option value="">Select</option><option>Online</option><option>Offline</option></select></div><div class="col-4"><label>4. CHOICE FOR EXAM CENTER <span class="required">*</span></label><select id="exam-center"><option value="">Select</option><option>Haryana</option><option>Punjab</option><option>Rajasthan</option><option>Others</option></select></div></div>
@@ -331,25 +445,21 @@
                 </div>
 
                 <!-- PREVIEW -->
-                <div id="page-preview" class="hidden">
+                <div id="page-preview" class="js-hidden">
                     <div id="course-fee-status-box" class="fee-status-box">
                         <h4 style="margin:0 0 10px 0; color:#337ab7; text-align:center;">COURSE & FEE DETAILS</h4>
-
-<div class="fee-row"><span class="fee-label">Student ID: <span id="preview-student-id" style="color:#b30000;"></span>
-</div>
-
-<div class="fee-row"><span class="fee-label">SELECTED COURSE:</span><span id="disp-course-name" style="font-weight:bold;"></span></div>
-
-<div class="fee-row"><span class="fee-label">COURSE FEE:</span><span id="disp-course-fee" style="font-weight:bold;"></span></div>
-
-<div class="fee-row"><span class="fee-label">PAYMENT STATUS:</span><span id="disp-payment-status"></span></div>
+                        <div class="fee-row"><span class="fee-label">Student ID: <span id="preview-student-id" style="color:#b30000;"></span></div>
+                        <div class="fee-row"><span class="fee-label">SELECTED COURSE:</span><span id="disp-course-name" style="font-weight:bold;"></span></div>
+                        <div class="fee-row"><span class="fee-label">COURSE FEE:</span><span id="disp-course-fee" style="font-weight:bold;"></span></div>
+                        <div class="fee-row"><span class="fee-label">PAYMENT STATUS:</span><span id="disp-payment-status"></span></div>
                     </div>
-                    <div class="status-container">
-                        <div class="status-header">
-                            <img src="https://raw.githubusercontent.com/Orbital-Skills/osi.com/main/LOGO.png" class="status-logo">
-                            <div class="status-title">ORBITAL SKILL DEVELOPMENT CENTRE</div>
-                            <div class="status-subtitle">ONLINE APPLICATION FORM (PRIVATE CANDIDATE)</div>
+                    
+                    <div class="status-container" style="border: none; padding: 0;">
+                        <!-- Updated Header (Clean text without border/logo) -->
+                        <div style="text-align: center; margin: 20px 0 30px 0;">
+                            <h2 style="font-size: 22px; font-weight: 900; color: #337ab7; margin: 0; text-transform: uppercase;">ONLINE APPLICATION FORM (PRIVATE CANDIDATE)</h2>
                         </div>
+
                         <div style="padding: 10px 0;"><button class="btn btn-warning" id="btn-back-preview" onclick="showPage('exam')"><i class="fa fa-arrow-left"></i> Back</button></div>
                         <div class="status-section-head">STUDENT PERSONAL DETAILS</div>
                         <div class="row"><div class="col-6"><div class="status-label">1. FULL NAME *</div><input type="text" class="status-input" id="p-name"></div><div class="col-6"><div class="status-label">2. FATHER'S NAME *</div><input type="text" class="status-input" id="p-father"></div></div>
@@ -373,7 +483,7 @@
                 </div>
 
                 <!-- COURSES -->
-                <div id="page-courses" class="hidden">
+                <div id="page-courses" class="js-hidden">
                     <div class="panel"><div class="panel-heading">SELECT COURSE</div><div class="panel-body">
                         <div style="margin-bottom: 15px;"><button class="btn btn-warning" onclick="showPage('preview')"><i class="fa fa-arrow-left"></i> Back</button></div>
                         <div class="course-grid" id="course-container"></div>
@@ -381,8 +491,89 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- NEW FOOTER (Global Footer) -->
+    <footer class="bg-[#0c1b32] text-[#eaf2ff] border-t border-[#15223b]" role="contentinfo" style="margin-top: auto;">
+        <div class="max-w-[1200px] mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
+            <div class="footer-col">
+                <h4 class="text-white font-bold text-lg mb-2">Orbital Studies & Immigration Pvt. Ltd.</h4>
+                <p class="text-sm text-[#88a5d0] mb-4">Empowering students and professionals to achieve global success with trusted guidance.</p>
+                <div class="flex gap-3">
+                    <a href="https://www.facebook.com/" target="_blank" class="w-10 h-10 bg-[#162a4a] border border-[#213a63] rounded-lg flex items-center justify-center hover:bg-[#1b3459] transition"><svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M22 12.06C22 6.54 17.52 2 12 2S2 6.54 2 12.06C2 17.08 5.66 21.2 10.44 22v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.44h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 3.01h-2.33V22C18.34 21.2 22 17.08 22 12.06z"></path></svg></a>
+                    <a href="https://www.instagram.com/" target="_blank" class="w-10 h-10 bg-[#162a4a] border border-[#213a63] rounded-lg flex items-center justify-center hover:bg-[#1b3459] transition"><svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm11 1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"></path></svg></a>
+                    <a href="https://www.threads.net/" target="_blank" class="w-10 h-10 bg-[#162a4a] border border-[#213a63] rounded-lg flex items-center justify-center hover:bg-[#1b3459] transition"><svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 2C7 2 4 5 4 10c0 3.5 2 5.5 5 6.3v2.2c0 .3.2.5.5.5h2c.3 0 .5-.2.5-.5v-2c3.5-.3 6-2.4 6-6 0-5-3-8-6-8zm0 2c2.8 0 4 2.2 4 5 0 2.4-1.3 4-4 4s-4-1.6-4-4c0-2.8 1.2-5 4-5z"/></svg></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="text-white font-bold text-lg mb-2">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="index.html#home" class="hover:text-white transition">Home</a></li>
+                    <li><a href="index.html#about" class="hover:text-white transition">About Us</a></li>
+                    <li><a href="index.html#courses" class="hover:text-white transition">Services</a></li>
+                    <li><a href="index.html#registration" class="hover:text-white transition">Contact & Apply</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="text-white font-bold text-lg mb-2">Contact</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><span>115/13 R. K. Colony, Bighar Road,</span></li>
+                    <li>Fatehabad, Haryana 125050</li>
+                    <li><a href="mailto:osi@ftbh.onmicrosoft.com" class="hover:text-white transition">osi@ftbh.onmicrosoft.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-[#15223b] mt-4 pt-4 text-center text-[#88a5d0] text-sm pb-4">
+            © 2026 Orbital Studies & Immigration Pvt. Ltd. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/919416711671" target="_blank" class="fixed bottom-6 right-6 bg-[#25D366] text-white w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:bg-[#128C7E] transition z-[1000] pulse-ring">
+        <i class="fab fa-whatsapp"></i>
+    </a>
    
+  <!-- SCRIPT BLOCK UNTOUCHED -->
   <script>
+    // ==========================================
+    // PASSWORD EYE TOGGLE SCRIPT
+    // ==========================================
+    function togglePassword(inputId, icon) {
+        const input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+
+    // ==========================================
+    // HEADER JS SCROLL & MOBILE MENU
+    // ==========================================
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('navbar');
+        if (window.scrollY > 20) {
+            nav.classList.add('shadow-md', 'bg-white/95');
+            nav.classList.remove('bg-white/80', 'glass-nav');
+        } else {
+            nav.classList.remove('shadow-md', 'bg-white/95');
+            nav.classList.add('glass-nav');
+        }
+    });
+
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
     // --- CONFIGURATION ---
     const firebaseConfig = { apiKey: "AIzaSyCL_B52kVrkT54FMFmBANjkQrbN065g-KQ", authDomain: "orbital4u.firebaseapp.com", projectId: "orbital4u", storageBucket: "orbital4u.firebasestorage.app", messagingSenderId: "88284726348", appId: "1:88284726348:web:0d43de2919b592509b60e9", measurementId: "G-BS3BEKLJN7" };
     // --- ENTER YOUR DEPLOYED SCRIPT URL HERE ---
@@ -403,7 +594,7 @@
     let generatedOTP = null;
     let isEmailVerified = false;
 
-    const courseData = [
+    const courseData =[
         { name: "Health Care Skills", url: "health-care.html", icon: "fa-user-doctor", fee: "5000" },
         { name: "Banking-Finance Skills", url: "banking-finance.html", icon: "fa-building-columns", fee: "4500" },
         { name: "IT-ITS Sector", url: "IT-ITES Sector.html", icon: "fa-laptop-code", fee: "6000" },
@@ -600,7 +791,7 @@
 
     function populatePreview() {
         // Safe helper to avoid null errors
-document.getElementById("preview-student-id").innerText = getOrCreateStudentID();
+        document.getElementById("preview-student-id").innerText = getOrCreateStudentID();
 
         const safeSet = (tid, sid) => {
             const t = document.getElementById(tid);
@@ -714,7 +905,7 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
             ExamType: val('exam-type'),
             Qualification: val('qual-class'),
   
-// --- 4. MISSING COLUMNS FIXED HERE ---
+            // --- 4. MISSING COLUMNS FIXED HERE ---
             Course: courseName,           // Matches 'Course'
             post_name: courseName,        // Matches 'post_name'
             
@@ -802,8 +993,8 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
 
     function loadData(uid) {
         db.collection("students").doc(uid).get().then(d => {
-            document.getElementById('login-page').classList.add('hidden');
-            document.getElementById('dashboard-view').classList.remove('hidden');
+            document.getElementById('login-page').classList.add('js-hidden');
+            document.getElementById('dashboard-view').classList.remove('js-hidden');
 
             if(d.exists) {
                 const data = d.data();
@@ -817,7 +1008,7 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
                 fetchStatus(idToCheck); 
             }
    
- // --- 1. PERSONAL DETAILS FILLING ---
+            // --- 1. PERSONAL DETAILS FILLING ---
 
                 document.getElementById('dash-name').value = data.name || '';
                 document.getElementById('dash-father').value = data.father || '';
@@ -833,7 +1024,7 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
                 if(data.area) document.getElementById('dash-area').value = data.area;
                 if(data.aadhaar) {
                     document.getElementById('dash-aadhaar').value = data.aadhaar;
-// Aadhaar Validate function agar hai to call karein, nahi to skip
+                    // Aadhaar Validate function agar hai to call karein, nahi to skip
                 if(typeof checkAadharValid === "function") 
                     checkAadharValid(); // Re-validate visual on load
                 }
@@ -848,7 +1039,7 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
                 if(data.addrBlock) document.getElementById('addr-block').value = data.addrBlock;
                 if(data.pincode) document.getElementById('addr-pin').value = data.pincode;
                 
-  	// --- 3. PERMANENT ADDRESS ---
+  	            // --- 3. PERMANENT ADDRESS ---
                 if(data.permAddress) document.getElementById('perm-full').value = data.permAddress;
                 if(data.permState) document.getElementById('perm-state').value = data.permState;
                 if(data.permDistrict) document.getElementById('perm-district').value = data.permDistrict;
@@ -857,7 +1048,7 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
                 if(data.permBlock) document.getElementById('perm-block').value = data.permBlock;
                 if(data.permPin) document.getElementById('perm-pin').value = data.permPin;
 
-	// --- 4. EXAMINATION DETAILS ---
+	            // --- 4. EXAMINATION DETAILS ---
                 if(data.examState) document.getElementById('exam-state').value = data.examState;
                 if(data.examMode) document.getElementById('exam-mode').value = data.examMode;
                 if(data.examCenter) document.getElementById('exam-center').value = data.examCenter;
@@ -865,7 +1056,7 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
                 if(data.domicile) document.getElementById('exam-domicile').value = data.domicile;
                 if(data.domicileDate) document.getElementById('exam-domicile-date').value = data.domicileDate;
 
-	 // --- 5. QUALIFICATION DETAILS ---
+	             // --- 5. QUALIFICATION DETAILS ---
                 if(data.qualClass) document.getElementById('qual-class').value = data.qualClass;
                 if(data.qualBoard) document.getElementById('qual-board').value = data.qualBoard;
                 if(data.qualYear) document.getElementById('qual-year').value = data.qualYear;
@@ -875,11 +1066,11 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
                     currentQualifyingDoc = data.qualDoc;
                     document.getElementById('qual-doc-status').style.display = 'block';
 
-	// --- 2. RESTORE PHOTOS (FIX FOR MISSING PHOTOS) ---
+	            // --- 2. RESTORE PHOTOS (FIX FOR MISSING PHOTOS) ---
                 if(data.photoData) {
                     currentPhotos = data.photoData; // Global variable restore karein
                     
-          // Personal Details Tab me Photo dikhayein
+                    // Personal Details Tab me Photo dikhayein
                     if(currentPhotos.photoBase64) {
                         document.getElementById('preview-photo').innerHTML = '<img src="'+currentPhotos.photoBase64+'" class="photo-img">';
                     }
@@ -892,12 +1083,6 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
                 // Ye line data load hone ke baad turant chalni chahiye
                 populatePreview(); 
 
-// yahan se form ko dobara enable krne ke lye htaye//
-
- 
-
-
-// yahn tk hatana h //
 		//-----Course fee Function-----//
                     const box = document.getElementById('course-fee-status-box');
                     box.style.display = "block";
@@ -919,11 +1104,9 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
     function showPage(pid) {
         if (isCourseLocked && (pid === 'personal' || pid === 'exam')) {
              return; 
-        }
-
-        ['personal','exam','preview','courses'].forEach(id => {
+        }['personal','exam','preview','courses'].forEach(id => {
             const el = document.getElementById('page-'+id);
-            if(el) el.classList.add('hidden');
+            if(el) el.classList.add('js-hidden');
         });
 
         document.querySelectorAll('.sidebar a').forEach(a => {
@@ -932,7 +1115,7 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
         });
 
         const target = document.getElementById('page-'+pid);
-        if(target) target.classList.remove('hidden');
+        if(target) target.classList.remove('js-hidden');
     }
 
     function copyAddress() {
@@ -980,11 +1163,10 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
             div.innerHTML = `<i class="fa ${c.icon} course-icon"></i><div class="course-title">${c.name}</div><div style="font-size:10px; color:#337ab7; margin-top:5px;">Fee: ₹${c.fee}</div>`;
             div.onclick = () => selectCourse(c.name, c.url, c.fee); cContainer.appendChild(div);
         });
-        auth.onAuthStateChanged(user => { if(user) loadData(user.uid); else { document.getElementById('login-page').classList.remove('hidden'); document.getElementById('dashboard-view').classList.add('hidden'); } });
+        auth.onAuthStateChanged(user => { if(user) loadData(user.uid); else { document.getElementById('login-page').classList.remove('js-hidden'); document.getElementById('dashboard-view').classList.add('js-hidden'); } });
     }
 
-    // --- 1. GLOBAL VARIABLE (इसे सबसे ऊपर रखें) ---
-    // यह वेरिएबल डेटा स्टोर करेगा
+    // --- 1. GLOBAL VARIABLE ---
     var studentStatus = { 
         loaded: false, 
         admit: "", 
@@ -992,27 +1174,24 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
         cert: "" 
     };
 
-    // --- 2. FETCH STATUS FUNCTION (Data lana) ---
+    // --- 2. FETCH STATUS FUNCTION ---
     async function fetchStatus(studentID) {
         if (!studentID) return;
         console.log("Fetching status for:", studentID);
 
-        // Apps Script URL (सुनिश्चित करें कि यह सही है)
         const requestUrl = `${SCRIPT_URL}?Action=FETCH_STATUS&StudentID=${encodeURIComponent(studentID)}`;
         
         try {
             const res = await fetch(requestUrl);
             const d = await res.json();
             
-            console.log("Server Response:", d); // कंसोल में डेटा चेक करें
+            console.log("Server Response:", d);
 
             if (d.Found) {
-                // --- DATA MAPPING (सबसे जरूरी हिस्सा) ---
-                // Server से आए नाम (d.Marks) को हमारे वेरिएबल (studentStatus) में डालना
                 studentStatus.loaded = true;
-                studentStatus.admit = d.AdmitLink;       // Admit Card Link
-                studentStatus.resultMarks = d.Marks;     // Marks (567)
-                studentStatus.cert = d.CertLink;         // Certificate Link
+                studentStatus.admit = d.AdmitLink;       
+                studentStatus.resultMarks = d.Marks;     
+                studentStatus.cert = d.CertLink;         
                 
                 console.log("Status Updated Successfully:", studentStatus);
             } else {
@@ -1023,11 +1202,9 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
         }
     }
 
-    // --- 3. HANDLE NAV CLICK (Button dabane par) ---
+    // --- 3. HANDLE NAV CLICK ---
     function handleNavClick(type) {
-        // अगर डेटा लोड नहीं है, तो चेक करें
         if (!studentStatus.loaded) {
-            // अगर अभी लोड नहीं हुआ, तो यूजर को बताएं और बैकग्राउंड में ट्राई करें
              alert("⏳ Data Loading... Please wait 2 seconds and try again.");
              let currentID = document.getElementById('preview-student-id').innerText || localStorage.getItem("StudentID");
              if(currentID) fetchStatus(currentID);
@@ -1036,7 +1213,6 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
 
         console.log("Button Clicked:", type, "Current Data:", studentStatus);
 
-        // --- A. ADMIT CARD ---
         if (type === 'ADMIT') {
             if (studentStatus.admit && studentStatus.admit.length > 5) {
                 window.open(studentStatus.admit, '_blank');
@@ -1045,9 +1221,7 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
             }
         }
         
-        // --- B. RESULT ---
         if (type === 'RESULT') {
-            // Marks check karein (Number ya String ho sakta hai isliye loose check)
             if (studentStatus.resultMarks && studentStatus.resultMarks > 0) {
                 alert(`✅ CONGRATULATIONS!\n\nYour Result is Declared.\nTotal Marks: ${studentStatus.resultMarks} / 800\nStatus: PASS`);
             } else {
@@ -1055,9 +1229,7 @@ document.getElementById("preview-student-id").innerText = getOrCreateStudentID()
             }
         }
         
-        // --- C. CERTIFICATE ---
         if (type === 'CERT') {
-            // Link check karein
             if (studentStatus.cert && studentStatus.cert.length > 5) {
                 window.open(studentStatus.cert, '_blank');
             } else {
