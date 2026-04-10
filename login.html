@@ -1006,6 +1006,22 @@
 
             if(d.exists) {
                 const data = d.data();
+// यह Firebase की सही ID (जैसे 2025) को ब्राउज़र में सेव कर देगा
+                if(data.studentID) {
+                    localStorage.setItem("StudentID", data.studentID);
+                }
+                // ------------------------------------
+
+                document.getElementById('display-name').innerText = data.name ? data.name.toUpperCase() : "STUDENT";
+                if(data.photoData && data.photoData.photoBase64) document.getElementById('top-profile-img').src = data.photoData.photoBase64;
+
+                // 2. STATUS CHECK (Admit/Result Links)
+                let idToCheck = data.studentID || localStorage.getItem("StudentID");
+                if(idToCheck) {
+                    console.log("Checking status for ID:", idToCheck);
+                    fetchStatus(idToCheck); 
+                }
+				
                 document.getElementById('display-name').innerText = data.name ? data.name.toUpperCase() : "STUDENT";
                 if(data.photoData && data.photoData.photoBase64) document.getElementById('top-profile-img').src = data.photoData.photoBase64;
 
