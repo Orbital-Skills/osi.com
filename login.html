@@ -999,18 +999,31 @@
             .catch(e => alert(e.message)); 
     }
 
-    function loadData(uid) {
+ function loadData(uid) {
         db.collection("students").doc(uid).get().then(d => {
             document.getElementById('login-page').classList.add('js-hidden');
             document.getElementById('dashboard-view').classList.remove('js-hidden');
 
             if(d.exists) {
                 const data = d.data();
-// यह Firebase की सही ID (जैसे 2025) को ब्राउज़र में सेव कर देगा
+                
+                // 🔥 1. Firebase की सही ID को ब्राउज़र में सेव करें
                 if(data.studentID) {
                     localStorage.setItem("StudentID", data.studentID);
                 }
-                // ------------------------------------
+
+                // 🔥 2. नाम और फोटो अपडेट करें
+                document.getElementById('display-name').innerText = data.name ? data.name.toUpperCase() : "STUDENT";
+                if(data.photoData && data.photoData.photoBase64) {
+                    document.getElementById('top-profile-img').src = data.photoData.photoBase64;
+                }
+
+                // 🔥 3. STATUS CHECK (Admit/Result Links)
+                let idToCheck = data.studentID || localStorage.getItem("StudentID");
+                if(idToCheck) {
+                    console.log("Checking status for ID:", idToCheck);
+                    fetchStatus(idToCheck); 
+                }
 
                 document.getElementById('display-name').innerText = data.name ? data.name.toUpperCase() : "STUDENT";
                 if(data.photoData && data.photoData.photoBase64) document.getElementById('top-profile-img').src = data.photoData.photoBase64;
