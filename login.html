@@ -999,7 +999,7 @@
             .catch(e => alert(e.message)); 
     }
 
- function loadData(uid) {
+function loadData(uid) {
         db.collection("students").doc(uid).get().then(d => {
             document.getElementById('login-page').classList.add('js-hidden');
             document.getElementById('dashboard-view').classList.remove('js-hidden');
@@ -1012,41 +1012,17 @@
                     localStorage.setItem("StudentID", data.studentID);
                 }
 
-                // 🔥 2. नाम और फोटो अपडेट करें
                 document.getElementById('display-name').innerText = data.name ? data.name.toUpperCase() : "STUDENT";
-                if(data.photoData && data.photoData.photoBase64) {
-                    document.getElementById('top-profile-img').src = data.photoData.photoBase64;
-                }
+                if(data.photoData && data.photoData.photoBase64) document.getElementById('top-profile-img').src = data.photoData.photoBase64;
 
-                // 🔥 3. STATUS CHECK (Admit/Result Links)
+                // 🔥 2. STATUS CHECK (Admit/Result Links)
                 let idToCheck = data.studentID || localStorage.getItem("StudentID");
                 if(idToCheck) {
                     console.log("Checking status for ID:", idToCheck);
                     fetchStatus(idToCheck); 
                 }
-
-                document.getElementById('display-name').innerText = data.name ? data.name.toUpperCase() : "STUDENT";
-                if(data.photoData && data.photoData.photoBase64) document.getElementById('top-profile-img').src = data.photoData.photoBase64;
-
-                // 2. STATUS CHECK (Admit/Result Links)
-                let idToCheck = data.studentID || localStorage.getItem("StudentID");
-                if(idToCheck) {
-                    console.log("Checking status for ID:", idToCheck);
-                    fetchStatus(idToCheck); 
-                }
-				
-                document.getElementById('display-name').innerText = data.name ? data.name.toUpperCase() : "STUDENT";
-                if(data.photoData && data.photoData.photoBase64) document.getElementById('top-profile-img').src = data.photoData.photoBase64;
-
-                // 2. STATUS CHECK (Admit/Result Links)
-            let idToCheck = data.studentID || localStorage.getItem("StudentID");
-            if(idToCheck) {
-                console.log("Checking status for ID:", idToCheck);
-                fetchStatus(idToCheck); 
-            }
    
-            // --- 1. PERSONAL DETAILS FILLING ---
-
+                // --- 1. PERSONAL DETAILS FILLING ---
                 document.getElementById('dash-name').value = data.name || '';
                 document.getElementById('dash-father').value = data.father || '';
                 document.getElementById('dash-mother').value = data.mother || '';
@@ -1061,9 +1037,7 @@
                 if(data.area) document.getElementById('dash-area').value = data.area;
                 if(data.aadhaar) {
                     document.getElementById('dash-aadhaar').value = data.aadhaar;
-                    // Aadhaar Validate function agar hai to call karein, nahi to skip
-                if(typeof checkAadharValid === "function") 
-                    checkAadharValid(); // Re-validate visual on load
+                    if(typeof checkAadharValid === "function") checkAadharValid(); 
                 }
                 if(data.voterId) document.getElementById('dash-voter').value = data.voterId;
                 if(data.religion) document.getElementById('dash-religion').value = data.religion;
@@ -1093,7 +1067,7 @@
                 if(data.domicile) document.getElementById('exam-domicile').value = data.domicile;
                 if(data.domicileDate) document.getElementById('exam-domicile-date').value = data.domicileDate;
 
-	             // --- 5. QUALIFICATION DETAILS ---
+	            // --- 5. QUALIFICATION DETAILS ---
                 if(data.qualClass) document.getElementById('qual-class').value = data.qualClass;
                 if(data.qualBoard) document.getElementById('qual-board').value = data.qualBoard;
                 if(data.qualYear) document.getElementById('qual-year').value = data.qualYear;
@@ -1102,12 +1076,11 @@
                 if(data.qualDoc) {
                     currentQualifyingDoc = data.qualDoc;
                     document.getElementById('qual-doc-status').style.display = 'block';
+                }
 
-	            // --- 2. RESTORE PHOTOS (FIX FOR MISSING PHOTOS) ---
+	            // --- 2. RESTORE PHOTOS ---
                 if(data.photoData) {
-                    currentPhotos = data.photoData; // Global variable restore karein
-                    
-                    // Personal Details Tab me Photo dikhayein
+                    currentPhotos = data.photoData; 
                     if(currentPhotos.photoBase64) {
                         document.getElementById('preview-photo').innerHTML = '<img src="'+currentPhotos.photoBase64+'" class="photo-img">';
                     }
@@ -1116,21 +1089,27 @@
                     }
                 }
 
-         // --- 3. REFRESH PREVIEW DATA (FIX FOR BLANK PREVIEW) ---
-                // Ye line data load hone ke baad turant chalni chahiye
+               // --- 3. REFRESH PREVIEW DATA ---
                 populatePreview(); 
+                
+                // 🔥 ZIDDI ID FIX: स्क्रीन पर ज़बरदस्ती Firebase वाली ID छापें 🔥
+                if(data.studentID) {
+                    document.getElementById('preview-student-id').innerText = data.studentID;
+                }
 
-		//-----Course fee Function-----//
-                    const box = document.getElementById('course-fee-status-box');
-                    box.style.display = "block";
-                    document.getElementById('disp-course-name').innerText = data.selectedCourse;
-                    document.getElementById('disp-course-fee').innerText = "₹" + (data.courseFee || "0");
-                    const payStatus = data.feeStatus || "Pending";
-                    const payEl = document.getElementById('disp-payment-status');
-                    payEl.innerText = payStatus.toUpperCase();
-                    payEl.className = (payStatus.toLowerCase() === 'success') ? 'status-success' : 'status-pending';
-                    showPage('preview');
-                } else { showPage('personal'); }
+		        //-----Course fee Function-----//
+                const box = document.getElementById('course-fee-status-box');
+                box.style.display = "block";
+                document.getElementById('disp-course-name').innerText = data.selectedCourse || "N/A";
+                document.getElementById('disp-course-fee').innerText = "₹" + (data.courseFee || "0");
+                const payStatus = data.feeStatus || "Pending";
+                const payEl = document.getElementById('disp-payment-status');
+                payEl.innerText = payStatus.toUpperCase();
+                payEl.className = (payStatus.toLowerCase() === 'success' || payStatus.toLowerCase() === 'verified') ? 'status-success' : 'status-pending';
+                
+                showPage('preview');
+            } else { 
+                showPage('personal'); 
             }
         }).catch(err => { console.error(err); });
     }
