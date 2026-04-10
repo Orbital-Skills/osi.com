@@ -1182,7 +1182,7 @@
         cert: "" 
     };
 
-    // --- 2. FETCH STATUS FUNCTION ---
+   // --- 2. FETCH STATUS FUNCTION (UPDATED) ---
     async function fetchStatus(studentID) {
         if (!studentID) return;
         console.log("Fetching status for:", studentID);
@@ -1200,6 +1200,15 @@
                 studentStatus.admit = d.AdmitLink;       
                 studentStatus.resultMarks = d.Marks;     
                 studentStatus.cert = d.CertLink;         
+                
+                // Google Sheet से लाइव पेमेंट स्टेटस अपडेट करें 
+                if (d.PaymentStatus) {
+                    const payEl = document.getElementById('disp-payment-status');
+                    if (payEl) {
+                        payEl.innerText = d.PaymentStatus.toUpperCase();
+                        payEl.className = (d.PaymentStatus.toLowerCase() === 'verified' || d.PaymentStatus.toLowerCase() === 'success') ? 'status-success' : 'status-pending';
+                    }
+                }
                 
                 console.log("Status Updated Successfully:", studentStatus);
             } else {
